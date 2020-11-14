@@ -2,7 +2,7 @@
 # This file is part of libcommute, a C++11/14/17 header-only library allowing
 # to manipulate polynomial expressions with quantum-mechanical operators.
 #
-# Copyright (C) 2016-2019 Igor Krivenko <igor.s.krivenko@gmail.com>
+# Copyright (C) 2016-2020 Igor Krivenko <igor.s.krivenko@gmail.com>
 #
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -53,23 +53,21 @@ def test_Indices():
 #      self.c = c
 
 #def test_Base():
-b = Base(4)
-b2 = b.clone()
+#b = Base(4)
+#b2 = b.clone()
 
-assert b.a == 4
-assert b2.a == 4
-assert id(b) != id(b2)
-assert b.virtual_method(3) == 12
-assert b2.virtual_method(3) == 12
-
-b3 = b2.clone()
-assert b3.a == 4
-assert id(b) != id(b3)
-assert b3.virtual_method(3) == 12
+#assert b.a == 4
+#assert b2.a == 4
+#assert id(b) != id(b2)
+#assert b.virtual_method(3) == 12
+#assert b2.virtual_method(3) == 12
+#
+#b3 = b2.clone()
+#assert b3.a == 4
+#assert id(b) != id(b3)
+#assert b3.virtual_method(3) == 12
 
 #assert b.a == []
 
 #d2 = Derived2(3, 4);
 #assert d2.a == []
-
-

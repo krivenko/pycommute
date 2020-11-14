@@ -3,7 +3,7 @@
  * This file is part of libcommute, a C++11/14/17 header-only library allowing
  * to manipulate polynomial expressions with quantum-mechanical operators.
  *
- * Copyright (C) 2016-2019 Igor Krivenko <igor.s.krivenko@gmail.com>
+ * Copyright (C) 2016-2020 Igor Krivenko <igor.s.krivenko@gmail.com>
  *
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
@@ -66,7 +66,7 @@ public:
 /// END OF FIXME!
 
 
-PYBIND11_MODULE(_expression, m) {
+PYBIND11_MODULE(expression, m) {
 
   m.doc() = "Polynomial expressions involving quantum-mechanical operators "
             "and manipulations with them";
@@ -117,9 +117,7 @@ PYBIND11_MODULE(_expression, m) {
   /*
   class generator_trampoline : public gen_type {
     public:
-
     using gen_type::gen_type;
-
     int algebra_id() const override {
       PYBIND11_OVERLOAD_PURE(int, gen_type, algebra_id, );
     }
@@ -129,7 +127,6 @@ PYBIND11_MODULE(_expression, m) {
     double commute(gen_type const& g2, linear_function_t & f) const override {
       PYBIND11_OVERLOAD_PURE(double, gen_type, commute, g2, f);
     }
-
     // TODO
   };*/
 
