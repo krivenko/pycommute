@@ -31,14 +31,14 @@ def test_Indices():
     assert all_ind[-1].indices == []
 
     for i in (0, 1, "xxx", "yyy"):
-        all_ind.append(Indices([i]))
+        all_ind.append(Indices(i))
         assert len(all_ind[-1]) == 1
         assert str(all_ind[-1]) == str(i)
         assert [n for n in all_ind[-1]] == [i]
         assert all_ind[-1].indices == [i]
 
     for i, j in product((0, 1, "xxx", "yyy"), (0, 1, "xxx", "yyy")):
-        all_ind.append(Indices([i, j]))
+        all_ind.append(Indices(i, j))
         assert len(all_ind[-1]) == 2
         assert str(all_ind[-1]) == "%s,%s" % (i,j)
         assert [n for n in all_ind[-1]] == [i, j]
@@ -47,27 +47,7 @@ def test_Indices():
     check_equality(all_ind)
     check_less_greater(all_ind)
 
-# FIXME
-#class Derived2(Base):
-#    def __init__(self, a, c):
-#      self.c = c
+def test_LinearFunctionGen():
+    lf0 = LinearFunctionGen(5.0)
+    #TODO: test the other constructor
 
-#def test_Base():
-#b = Base(4)
-#b2 = b.clone()
-
-#assert b.a == 4
-#assert b2.a == 4
-#assert id(b) != id(b2)
-#assert b.virtual_method(3) == 12
-#assert b2.virtual_method(3) == 12
-#
-#b3 = b2.clone()
-#assert b3.a == 4
-#assert id(b) != id(b3)
-#assert b3.virtual_method(3) == 12
-
-#assert b.a == []
-
-#d2 = Derived2(3, 4);
-#assert d2.a == []

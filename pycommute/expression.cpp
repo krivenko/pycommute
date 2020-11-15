@@ -11,6 +11,8 @@
  *
  ******************************************************************************/
 
+#include "pybind11_workarounds.hpp"
+
 #include <pybind11/pybind11.h>
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>
@@ -18,53 +20,95 @@
 #include <libcommute/expression/expression.hpp>
 #include <libcommute/expression/dyn_indices.hpp>
 
+#include <cassert>
 #include <string>
+#include <sstream>
+#include <tuple>
 
 using namespace libcommute;
 namespace py = pybind11;
+
+//
+// Just because std::to_string(std::string) is not part of STL ...
+//
 
 template<typename T>
 std::string to_string(T&& x) { using std::to_string; return to_string(x); }
 std::string to_string(std::string const& x) { return x; }
 
-//// FIXME!
-class Base {
-protected:
+//
+// Some commonly used type abbreviations
+//
 
-  int a;
+using dynamic_indices::dyn_indices;
+using gen_type = generator<dyn_indices>;
 
-public:
+//
+// Helper classes for abstract base generator<dyn_indices>
+//
 
-  Base(int a) : a(a) {
-    std::cout << "Base created at " << this << std::endl;
+class py_generator : public gen_type {
+
+  dyn_indices init(py::args args) {
+    dyn_indices::indices_t v;
+    v.reserve(args.size());
+    for(auto const& a : args)
+      v.emplace_back(a.cast<std::variant<int, std::string>>());
+    return dyn_indices(std::move(v));
   }
-  virtual ~Base() {
-    std::cout << "Base destroyed at " << this << std::endl;
+
+  public:
+
+  using gen_type::gen_type;
+
+  py_generator(py::args args) : gen_type(std::move(init(args))) {}
+
+  int algebra_id() const override {
+    PYBIND11_OVERRIDE_PURE(int, gen_type, algebra_id, );
   }
 
-  virtual std::unique_ptr<Base> clone() const = 0;
-  virtual double virtual_method(double x) const { return a*x; }
+  std::unique_ptr<gen_type> clone() const override {
+    // Generators are immutable, so one should use multiple references instead
+    // of creating deep copies in Python.
+    assert(false);
+    return nullptr;
+  }
 
-  int get_a() const { return a; }
+  double swap_with(gen_type const& g2, linear_function_t & f) const override {
+    PYBIND11_OVERRIDE_PURE(double, gen_type, swap_with, g2, f);
+  }
+
+  bool simplify_prod(gen_type const& g2, linear_function_t & f) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, simplify_prod, g2, f);
+  }
+
+  bool reduce_power(int power, linear_function_t & f) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, reduce_power, power, f);
+  }
+
+  bool equal(gen_type const& g) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, equal, g);
+  }
+
+  bool less(gen_type const& g) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, less, g);
+  }
+
+  bool greater(gen_type const& g) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, greater, g);
+  }
 };
 
-class Derived : public Base {
-protected:
-  int b;
-
+class py_generator_publicist : public gen_type {
 public:
-
-  Derived(int a, int b) : Base(a), b(b) {}
-  virtual ~Derived() = default;
-
-  virtual std::unique_ptr<Base> clone() const override {
-    return std::make_unique<Derived>(a, b);
-  }
-  virtual double virtual_method(double x) const override { return Base::a*x + b; }
+  using gen_type::equal;
+  using gen_type::less;
+  using gen_type::greater;
 };
 
-/// END OF FIXME!
-
+//
+// 'expression' Python module
+//
 
 PYBIND11_MODULE(expression, m) {
 
@@ -75,13 +119,17 @@ PYBIND11_MODULE(expression, m) {
   // dynamic_indices::dyn_indices
   //
 
-  using dynamic_indices::dyn_indices;
-
   py::class_<dyn_indices>(m, "Indices",
     "Mixed sequence of integer/string indices"
   )
-  .def(py::init<>(), "Construct an index sequence of zero length")
-  .def(py::init<dyn_indices::indices_t>(), "Construct an index sequence")
+  .def(py::init([](py::args args) {
+      dyn_indices::indices_t v;
+      v.reserve(args.size());
+      for(auto const& a : args)
+        v.emplace_back(a.cast<std::variant<int, std::string>>());
+      return std::make_unique<dyn_indices>(std::move(v));
+    })
+   )
   .def("__len__", &dyn_indices::size, "Index sequence length")
   .def(py::self == py::self)
   .def(py::self != py::self)
@@ -95,7 +143,7 @@ PYBIND11_MODULE(expression, m) {
     std::string s;
     for(size_t i = 0; i < N; ++i) {
       std::visit([&s](auto const& x) { s += to_string(x); }, ind[i]);
-      if(i < N-1) s += ",";
+      if(i + 1 < N) s += ",";
     }
     return s;
   })
@@ -107,66 +155,66 @@ PYBIND11_MODULE(expression, m) {
   );
 
   //
-  // generator
+  // generator::linear_function_t
   //
 
-  using gen_type = generator<dyn_indices>;
+  py::class_<gen_type::linear_function_t>(m, "LinearFunctionGen",
+    "Linear combination of algebra generators plus a constant term"
+  )
+  .def(py::init<double>(), "Construct a constant")
+  .def(py::init([](
+    double const_term,
+    std::vector<std::pair<const gen_type*, double>> const& terms) {
+      std::vector<std::pair<std::unique_ptr<gen_type>, double>> terms_;
+      terms_.reserve(terms.size());
+      for(auto const& t : terms)
+        terms_.emplace_back(t.first->clone(), t.second);
+      return std::make_unique<gen_type::linear_function_t>(
+        const_term,
+        std::move(terms_)
+      );
+    }),
+    "Construct from a constant term and a list of coefficient/generator pairs"
+  );
 
-  // TODO
-  // Helper class for generator<dyn_indices>
-  /*
-  class generator_trampoline : public gen_type {
-    public:
-    using gen_type::gen_type;
-    int algebra_id() const override {
-      PYBIND11_OVERLOAD_PURE(int, gen_type, algebra_id, );
-    }
-    std::unique_ptr<generator> clone() const override {
-      PYBIND11_OVERLOAD_PURE(std::unique_ptr<gen_type>, gen_type, clone, );
-    }
-    double commute(gen_type const& g2, linear_function_t & f) const override {
-      PYBIND11_OVERLOAD_PURE(double, gen_type, commute, g2, f);
-    }
-    // TODO
-  };*/
+  //
+  // generator<dyn_indices>
+  //
 
-  //py::class_<gen_type>(m, "Generator",
-  //  "Abstract algebra generator"
-  //);
-  //.def(py::init<dyn_indices>());
-  //.def_property_readonly("indices", &gen_type::indices);
-  //.def(py::self == py::self);
-  //.def(py::self != py::self)
-  //.def(py::self < py::self)
-  //.def(py::self > py::self);
-
-  class PyBase : public Base {
-    public:
-
-    using Base::Base;
-
-    virtual std::unique_ptr<Base> clone() const override {
-      // Workaround for pybind11 issue #1962
-      /*py::gil_scoped_acquire gil;
-      py::function overload =
-        py::get_overload(static_cast<const Base*>(this), "clone");
-      if(overload) {
-        auto o = overload();
-        return py::detail::cast_safe<std::unique_ptr<Base>>(std::move(o));
-      }
-      py::pybind11_fail("Tried to call pure virtual function Base::clone");
-      */
-      // FIXME
-      //PYBIND11_OVERLOAD_PURE(std::unique_ptr<Base>, Base, clone, );
-    }
-    virtual double virtual_method(double x) const override {
-      PYBIND11_OVERLOAD(double, Base, virtual_method, x);
-    }
-  };
-
-  // FIXME
-  py::class_<Base, PyBase>(m, "Base")
-  .def(py::init<int>())
-  .def_property_readonly("a", &Base::get_a)
-  .def("clone", &Base::clone);
+  py::class_<gen_type, py_generator>(m, "Generator",
+    "Abstract algebra generator"
+  )
+  // Algebra ID
+  .def("algebra_id", &gen_type::algebra_id)
+  // Product transformation methods
+  .def("swap_with", &gen_type::swap_with)
+  .def("simplify_prod", &gen_type::simplify_prod)
+  .def("reduce_power", &gen_type::reduce_power)
+  // Comparison methods
+  .def("equal", &py_generator_publicist::equal)
+  .def("less", &py_generator_publicist::less)
+  .def("greater", &py_generator_publicist::greater)
+  // Comparison operators
+  .def("__eq__",
+       [](gen_type const& g1, gen_type const& g2){ return g1 == g2; },
+       py::is_operator()
+  )
+  .def("__ne__",
+       [](gen_type const& g1, gen_type const& g2){ return g1 != g2; },
+       py::is_operator()
+  )
+  .def("__lt__",
+       [](gen_type const& g1, gen_type const& g2){ return g1 < g2; },
+       py::is_operator()
+  )
+  .def("__gt__",
+       [](gen_type const& g1, gen_type const& g2){ return g1 > g2; },
+       py::is_operator()
+  )
+  // String representation
+  .def("__repr__",
+       [](gen_type const& g) {
+         std::ostringstream ss; ss << g; return ss.str();
+       }
+  );
 }

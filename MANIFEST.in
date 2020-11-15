@@ -1,1 +1,1 @@
-recursive-include pycommute *.py
+recursive-include pycommute *.hpp *.py
