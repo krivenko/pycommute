@@ -19,6 +19,9 @@
 
 #include <libcommute/expression/expression.hpp>
 #include <libcommute/expression/dyn_indices.hpp>
+#include <libcommute/expression/generator_fermion.hpp>
+#include <libcommute/expression/generator_boson.hpp>
+#include <libcommute/expression/generator_spin.hpp>
 
 #include <cassert>
 #include <string>
@@ -37,7 +40,7 @@ std::string to_string(T&& x) { using std::to_string; return to_string(x); }
 std::string to_string(std::string const& x) { return x; }
 
 //
-// Some commonly used type abbreviations
+// Some commonly used type shorthands
 //
 
 using dynamic_indices::dyn_indices;
@@ -47,7 +50,7 @@ using gen_type = generator<dyn_indices>;
 // Helper classes for abstract base generator<dyn_indices>
 //
 
-class py_generator : public gen_type {
+class gen_type_trampoline : public gen_type {
 
   dyn_indices init(py::args args) {
     dyn_indices::indices_t v;
@@ -61,7 +64,7 @@ class py_generator : public gen_type {
 
   using gen_type::gen_type;
 
-  py_generator(py::args args) : gen_type(std::move(init(args))) {}
+  gen_type_trampoline(py::args args) : gen_type(std::move(init(args))) {}
 
   int algebra_id() const override {
     PYBIND11_OVERRIDE_PURE(int, gen_type, algebra_id, );
@@ -86,6 +89,10 @@ class py_generator : public gen_type {
     PYBIND11_OVERRIDE(bool, gen_type, reduce_power, power, f);
   }
 
+  void conj(linear_function_t & f) const override {
+    PYBIND11_OVERRIDE(void, gen_type, conj, f);
+  }
+
   bool equal(gen_type const& g) const override {
     PYBIND11_OVERRIDE(bool, gen_type, equal, g);
   }
@@ -99,12 +106,24 @@ class py_generator : public gen_type {
   }
 };
 
-class py_generator_publicist : public gen_type {
+class gen_type_publicist : public gen_type {
 public:
   using gen_type::equal;
   using gen_type::less;
   using gen_type::greater;
 };
+
+//
+// Convert Python positional arguments to dyn_indices::indices_t
+//
+
+dyn_indices::indices_t args2indices_t(py::args args) {
+  dyn_indices::indices_t v;
+  v.reserve(args.size());
+  for(auto const& a : args)
+    v.emplace_back(a.cast<std::variant<int, std::string>>());
+  return v;
+}
 
 //
 // 'expression' Python module
@@ -118,17 +137,18 @@ PYBIND11_MODULE(expression, m) {
   //
   // dynamic_indices::dyn_indices
   //
+  // The 'Indices' objects are not the same thing as Python tuples, because
+  // they follow a different ordering rule. Unlike with the Python tuples, two
+  // index sequences I1 and I2 always compare as I1 < I2 if len(I1) < len(I2).
+  //
 
   py::class_<dyn_indices>(m, "Indices",
     "Mixed sequence of integer/string indices"
   )
   .def(py::init([](py::args args) {
-      dyn_indices::indices_t v;
-      v.reserve(args.size());
-      for(auto const& a : args)
-        v.emplace_back(a.cast<std::variant<int, std::string>>());
-      return std::make_unique<dyn_indices>(std::move(v));
-    })
+      return std::make_unique<dyn_indices>(args2indices_t(args));
+    }),
+    "Construct an index sequence from positional integer/string arguments."
    )
   .def("__len__", &dyn_indices::size, "Index sequence length")
   .def(py::self == py::self)
@@ -136,7 +156,9 @@ PYBIND11_MODULE(expression, m) {
   .def(py::self < py::self)
   .def(py::self > py::self)
   .def_property_readonly("indices",
-                         &dyn_indices::operator dyn_indices::indices_t const&)
+                         &dyn_indices::operator dyn_indices::indices_t const&,
+                         "Index sequence as a list of integers and strings"
+                        )
   .def("__repr__", [](dyn_indices const& indices) {
     auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
     const size_t N = ind.size();
@@ -155,61 +177,167 @@ PYBIND11_MODULE(expression, m) {
   );
 
   //
+  // Wrap generator<dyn_indices> early on so that pybind11 knows about this type
+  // at the point where generator::linear_function_t is wrapped.
+  //
+
+  py::class_<gen_type, gen_type_trampoline> Generator(m, "Generator",
+    "Abstract algebra generator"
+  );
+
+  //
   // generator::linear_function_t
   //
+
+  auto copy_terms = [](auto const& terms) {
+    std::vector<std::pair<std::unique_ptr<gen_type>, double>> res;
+    res.reserve(terms.size());
+    for(auto const& t : terms)
+      res.emplace_back(t.first->clone(), t.second);
+    return res;
+  };
 
   py::class_<gen_type::linear_function_t>(m, "LinearFunctionGen",
     "Linear combination of algebra generators plus a constant term"
   )
-  .def(py::init<double>(), "Construct a constant")
-  .def(py::init([](
+  .def(py::init<>(), "Construct a function that is identically zero.")
+  .def(py::init<double>(), "Construct a constant.", py::arg("const_term"))
+  .def(py::init([&](
     double const_term,
     std::vector<std::pair<const gen_type*, double>> const& terms) {
-      std::vector<std::pair<std::unique_ptr<gen_type>, double>> terms_;
-      terms_.reserve(terms.size());
-      for(auto const& t : terms)
-        terms_.emplace_back(t.first->clone(), t.second);
       return std::make_unique<gen_type::linear_function_t>(
         const_term,
-        std::move(terms_)
+        std::move(copy_terms(terms))
       );
     }),
-    "Construct from a constant term and a list of coefficient/generator pairs"
+    "Construct from a constant term and a list of coefficient/generator pairs.",
+    py::arg("const_term"),
+    py::arg("terms")
+  )
+  .def_readwrite("const_term",
+                 &gen_type::linear_function_t::const_term,
+                 "Constant term.")
+  .def_property("terms",
+    [&](gen_type::linear_function_t const& f) { return copy_terms(f.terms); },
+    [&](gen_type::linear_function_t & f,
+       std::vector<std::pair<const gen_type*, double>> const& terms) {
+       f.terms = std::move(copy_terms(terms));
+    },
+    "List of pairs of algebra generators and their respective coefficients."
+  )
+  .def_property_readonly("vanishing",
+    [](gen_type::linear_function_t const& f) { return f.vanishing(); },
+    "Is this linear function identically zero?"
   );
+
+  //
+  // Algebra IDs
+  //
+
+  m.attr("FERMION") = fermion;
+  m.attr("BOSON") = boson;
+  m.attr("SPIN") = spin;
 
   //
   // generator<dyn_indices>
   //
 
-  py::class_<gen_type, py_generator>(m, "Generator",
-    "Abstract algebra generator"
-  )
+  Generator
   // Algebra ID
-  .def("algebra_id", &gen_type::algebra_id)
+  .def_property_readonly("algebra_id",
+                         &gen_type::algebra_id,
+                         "ID of the algebra this generator belongs to."
+                        )
+  // Tuple of indices
+  .def_property_readonly("indices", [](gen_type const& g){
+    return std::get<0>(g.indices());
+    },
+    "Indices carried by this generator."
+  )
   // Product transformation methods
-  .def("swap_with", &gen_type::swap_with)
-  .def("simplify_prod", &gen_type::simplify_prod)
-  .def("reduce_power", &gen_type::reduce_power)
+  .def("swap_with", &gen_type::swap_with, R"eol(
+Given a pair of generators g1 = 'self' and g2 such that g1 > g2, swap_with()
+must signal what transformation g1 * g2 -> c * g2 * g1 + f(g) should be applied
+to the product g1 * g2 to put it into the canonical order.
+swap_with() returns the constant 'c' and writes the linear function f(g) into
+'f'. 'c' is allowed to be zero.
+
+This method should be overridden in derived classes.)eol",
+    py::arg("g2"),
+    py::arg("f")
+  )
+  .def("simplify_prod", &gen_type::simplify_prod, R"eol(
+Given a pair of generators g1 = 'self' and g2 such that g1 * g2 is in the
+canonical order (g1 <= g2), optionally apply a simplifying transformation
+g1 * g2 -> f(g). If a simplification is actually possible, simplify_prod()
+must return True and write the linear function f(g) into 'f'.
+Otherwise return False.
+
+This method should be overridden in derived classes.)eol",
+    py::arg("g2"),
+    py::arg("f")
+  )
+  .def("reduce_power", &gen_type::reduce_power, R"eol(
+Given a generator g1 = 'self' and a power > 2, optionally apply a simplifying
+transformation g1^power -> f(g). If a simplification is actually possible,
+reduce_power() must return True and write the linear function f(g) into 'f'.
+Otherwise return False.
+
+N.B. Simplifications for power = 2 must be carried out by simplify_prod().
+
+This method should be overridden in derived classes.)eol",
+    py::arg("power"), py::arg("f")
+  )
   // Comparison methods
-  .def("equal", &py_generator_publicist::equal)
-  .def("less", &py_generator_publicist::less)
-  .def("greater", &py_generator_publicist::greater)
+  .def("equal", &gen_type_publicist::equal, R"eol(
+Determine whether two generators 'self' and 'g' belonging to the same algebra
+are equal.
+
+This method should be overridden in derived classes.)eol",
+    py::arg("g")
+  )
+  .def("less", &gen_type_publicist::less, R"eol(
+Determine whether two generators 'self' and 'g' belonging to the same algebra
+satisfy self < g.
+
+This method should be overridden in derived classes.)eol",
+    py::arg("g")
+  )
+  .def("greater", &gen_type_publicist::greater, R"eol(
+Determine whether two generators 'self' and 'g' belonging to the same algebra
+satisfy self > g.
+
+This method should be overridden in derived classes.)eol",
+    py::arg("g")
+  )
+  // Hermitian conjugate
+  .def("conj", &gen_type::conj, R"eol(
+Return the Hermitian conjugate of this generator as a linear function of
+generators via 'f'.
+
+This method should be overridden in derived classes.)eol",
+    py::arg("f")
+  )
   // Comparison operators
   .def("__eq__",
        [](gen_type const& g1, gen_type const& g2){ return g1 == g2; },
-       py::is_operator()
+       py::is_operator(),
+    py::arg("g2")
   )
   .def("__ne__",
        [](gen_type const& g1, gen_type const& g2){ return g1 != g2; },
-       py::is_operator()
+       py::is_operator(),
+       py::arg("g2")
   )
   .def("__lt__",
        [](gen_type const& g1, gen_type const& g2){ return g1 < g2; },
-       py::is_operator()
+       py::is_operator(),
+       py::arg("g2")
   )
   .def("__gt__",
        [](gen_type const& g1, gen_type const& g2){ return g1 > g2; },
-       py::is_operator()
+       py::is_operator(),
+       py::arg("g2")
   )
   // String representation
   .def("__repr__",
@@ -217,4 +345,141 @@ PYBIND11_MODULE(expression, m) {
          std::ostringstream ss; ss << g; return ss.str();
        }
   );
+
+  // Swap generators of potentially different algebras
+  m.def("swap_with", &swap_with<dyn_indices>, R"eol(
+Check if 'g1' and 'g2' belong to the same algebra and call g1.swap_with(g2, f)
+accordingly. Generators of different algebras always commute, and for such
+generators swap_with() returns 1 and sets 'f' to the trivial function.)eol",
+    py::arg("g1"), py::arg("g2"), py::arg("f")
+  );
+
+  //
+  // generator_fermion<dyn_indices>
+  //
+
+  py::class_<generator_fermion<dyn_indices>, gen_type>(m, "GeneratorFermion",
+    "Generator of the fermionic algebra"
+  )
+  .def(py::init<bool, dyn_indices const&>(), R"eol(
+Construct a creation ('dagger' = True) or annihilation ('dagger' = False)
+fermionic operator with given 'indices'.)eol",
+    py::arg("dagger"), py::arg("indices")
+  )
+  .def_property_readonly("dagger",
+                         &generator_fermion<dyn_indices>::dagger,
+                         "Is this generator a creation operator?"
+                        );
+
+  m.def("make_fermion", [](bool dagger, py::args args) {
+    return generator_fermion<dyn_indices>(dagger, args2indices_t(args));
+  },
+    R"eol(
+Make a creation ('dagger' = True) or annihilation ('dagger' = False) fermionic
+operator with indices passed as positional arguments.)eol",
+    py::arg("dagger")
+  );
+
+  //
+  // generator_boson<dyn_indices>
+  //
+
+  py::class_<generator_boson<dyn_indices>, gen_type>(m, "GeneratorBoson",
+    "Generator of the bosonic algebra"
+  )
+  .def(py::init<bool, dyn_indices const&>(), R"eol(
+Construct a creation ('dagger' = True) or annihilation ('dagger' = False)
+bosonic operator with given 'indices'.)eol",
+    py::arg("dagger"), py::arg("indices"))
+  .def_property_readonly("dagger",
+                         &generator_boson<dyn_indices>::dagger,
+                         "Is this generator a creation operator?");
+
+  m.def("make_boson", [](bool dagger, py::args args) {
+    return generator_boson<dyn_indices>(dagger, args2indices_t(args));
+  },
+    R"eol(
+Make a creation ('dagger' = True) or annihilation ('dagger' = False) bosonic
+operator with indices passed as positional arguments.)eol",
+    py::arg("dagger")
+  );
+
+  //
+  // generator_spin<dyn_indices>
+  //
+
+  py::enum_<spin_component>(m, "SpinComponent",
+                            "Spin operator component, S_+, S_- or S_z.")
+    .value("PLUS",
+           spin_component::plus,
+           "Label for the spin raising operators S_+ = S_x + i S_y"
+          )
+    .value("MINUS",
+           spin_component::minus,
+           "Label for the spin lowering operators S_- = S_x - i S_y"
+          )
+    .value("Z",
+           spin_component::z,
+           "Label for the 3rd spin projection operators S_z"
+          );
+
+  py::class_<generator_spin<dyn_indices>, gen_type>(m, "GeneratorSpin",
+    "Generator of the spin algebra"
+  )
+  .def(py::init<spin_component, dyn_indices const&>(), R"eol(
+Construct a spin-1/2 operator corresponding to the spin component 'c' and
+carrying given 'indices'.)eol",
+    py::arg("c"), py::arg("indices")
+  )
+  .def(py::init<double, spin_component, dyn_indices const&>(), R"eol(
+Construct an operator for a general spin S = 'spin' corresponding to the spin
+component 'c' and carrying given 'indices'.)eol",
+    py::arg("spin"), py::arg("c"), py::arg("indices")
+  )
+  .def_property_readonly("multiplicity",
+                         &generator_spin<dyn_indices>::multiplicity, R"eol(
+Multiplicity 2S+1 of the spin algebra this generator belongs to.)eol"
+  )
+  .def_property_readonly("spin", &generator_spin<dyn_indices>::spin, R"eol(
+Spin S of the algebra this generator belongs to.)eol"
+  )
+  .def_property_readonly("component",
+                         &generator_spin<dyn_indices>::component, R"eol(
+Whether this generator S_+, S_- or S_z?)eol"
+  );
+
+  m.def("make_spin", [](spin_component c, py::args args) {
+    return generator_spin<dyn_indices>(c, args2indices_t(args));
+  }, R"eol(
+Make a spin-1/2 operator corresponding to the spin component 'c' and carrying
+indices passed as positional arguments.)eol",
+    py::arg("c")
+);
+  m.def("make_spin", [](double spin, spin_component c, py::args args) {
+    return generator_spin<dyn_indices>(spin, c, args2indices_t(args));
+  }, R"eol(
+Make an operator for a general spin S = 'spin' corresponding to the spin
+component 'c' and carrying indices passed as positional arguments.)eol",
+    py::arg("spin"), py::arg("c")
+  );
+
+  //
+  // Generator type checks
+  //
+
+  m.def("is_fermion",
+        &is_fermion<dyn_indices>,
+        "Does 'g' belong to the fermionic algebra?",
+        py::arg("g")
+       );
+  m.def("is_boson",
+        &is_boson<dyn_indices>,
+        "Does 'g' belong to the bosonic algebra?",
+        py::arg("g")
+       );
+  m.def("is_spin",
+        &is_spin<dyn_indices>,
+        "Does 'g' belong to a spin algebra?",
+        py::arg("g")
+       );
 }
