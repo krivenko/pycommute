@@ -23,6 +23,7 @@
 #include <libcommute/expression/generator_boson.hpp>
 #include <libcommute/expression/generator_spin.hpp>
 
+#include <algorithm>
 #include <cassert>
 #include <string>
 #include <sstream>
@@ -40,11 +41,22 @@ std::string to_string(T&& x) { using std::to_string; return to_string(x); }
 std::string to_string(std::string const& x) { return x; }
 
 //
+// Use operator<< to create a string representation
+//
+
+template<typename T> std::string print(T const& obj) {
+  std::ostringstream ss;
+  ss << obj;
+  return ss.str();
+}
+
+//
 // Some commonly used type shorthands
 //
 
 using dynamic_indices::dyn_indices;
 using gen_type = generator<dyn_indices>;
+using mon_type = monomial<dyn_indices>;
 
 //
 // Helper classes for abstract base generator<dyn_indices>
@@ -340,11 +352,7 @@ This method should be overridden in derived classes.)eol",
        py::arg("g2")
   )
   // String representation
-  .def("__repr__",
-       [](gen_type const& g) {
-         std::ostringstream ss; ss << g; return ss.str();
-       }
-  );
+  .def("__repr__", &print<gen_type>);
 
   // Swap generators of potentially different algebras
   m.def("swap_with", &swap_with<dyn_indices>, R"eol(
@@ -482,4 +490,82 @@ component 'c' and carrying indices passed as positional arguments.)eol",
         "Does 'g' belong to a spin algebra?",
         py::arg("g")
        );
+
+  //
+  // monomial<dyn_indices>
+  //
+
+  py::class_<mon_type>(m, "Monomial",
+                       "Monomial: a product of algebra generators")
+  .def(py::init<>(), "Construct an identity monomial.")
+  .def(py::init<std::vector<gen_type*>>(),
+    "Construct from a list of algebra generators."
+  )
+  .def("__len__", &mon_type::size, "Number of generators in this monomial.")
+  // Ordering
+  .def(py::self == py::self)
+  .def(py::self != py::self)
+  .def(py::self < py::self)
+  .def(py::self > py::self)
+  .def_property_readonly("is_ordered", &mon_type::is_ordered,
+                         "Is this monomial canonically ordered?")
+  // String representation
+  .def("__repr__", &print<mon_type>)
+  // Individual generator access
+  .def("__getitem__", [](mon_type const& m, std::size_t n) -> gen_type const& {
+      if(n >= m.size())
+        throw py::index_error();
+      return m[n];
+    },
+    "Get a generator in the monomial by its index.",
+    py::return_value_policy::reference
+  )
+  .def("__getitem__", [](mon_type const& m, py::slice slice) {
+      std::size_t start, stop, step, slicelength;
+      if(!slice.compute(m.size(), &start, &stop, &step, &slicelength))
+        throw py::error_already_set();
+      mon_type res;
+      for(std::size_t n = start; n < stop; n += step)
+        res.append(m[n]);
+      return res;
+    },
+    "Get a slice of the monomial."
+  )
+  .def("__contains__", [](mon_type const& m, gen_type const& g) {
+    return std::find(m.begin(), m.end(), g) != m.end();
+  }
+  )
+  // Swap two generators
+  .def("swap_generators", [](mon_type & m, std::size_t n1, std::size_t n2) {
+      if(n1 >= m.size() || n2 >= m.size())
+        throw py::index_error();
+      m.swap_generators(n1, n2);
+    },
+    "Swap generators at positions 'n1' and 'n2'.",
+    py::arg("n1"), py::arg("n2")
+  )
+  // Iterators
+  .def("__iter__", [](mon_type const& m) {
+      return py::make_iterator(m.begin(), m.end());
+    },
+    py::keep_alive<0, 1>()
+  )
+  .def("__reverse__", [](mon_type const& m) {
+      return py::make_iterator(m.rbegin(), m.rend());
+    },
+    py::keep_alive<0, 1>()
+  )
+  // Concatenation
+  .def("__mul__", [](mon_type const& m, gen_type const& g) {
+      return concatenate(m, g);
+    }
+  )
+  .def("__rmul__", [](mon_type const& m, gen_type const& g) {
+      return concatenate(g, m);
+    }
+  )
+  .def("__mul__", [](mon_type const& m1, mon_type const& m2) {
+      return concatenate(m1, m2);
+    }
+  );
 }
