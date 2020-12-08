@@ -11,48 +11,27 @@
 from unittest import TestCase
 
 from itertools import product
-from pycommute.expression import *
-
-# Check that elements of `v` are pairwise distinct
-def check_equality(self, v):
-    for (i, x), (j, y) in product(enumerate(v), enumerate(v)):
-        self.assertEqual((x == y), (i == j))
-        self.assertEqual((x != y), (i != j))
-
-# Check that elements of `v` are ordered
-def check_less_greater(self, v):
-    for (i, x), (j, y) in product(enumerate(v), enumerate(v)):
-        self.assertEqual((x < y), (i < j))
-        self.assertEqual((x > y), (i > j))
-
-class TestIndices(TestCase):
-
-    def test_Indices(self):
-        all_ind = [Indices()]
-        self.assertEqual(len(all_ind[-1]), 0)
-        self.assertEqual(str(all_ind[-1]), "")
-        self.assertEqual([i for i in all_ind[-1]], [])
-        self.assertEqual(all_ind[-1].indices, [])
-
-        for i in (0, 1, "xxx", "yyy"):
-            all_ind.append(Indices(i))
-            self.assertEqual(len(all_ind[-1]), 1)
-            self.assertEqual(str(all_ind[-1]), str(i))
-            self.assertEqual([n for n in all_ind[-1]], [i])
-            self.assertEqual(all_ind[-1].indices, [i])
-
-        for i, j in product((0, 1, "xxx", "yyy"), (0, 1, "xxx", "yyy")):
-            all_ind.append(Indices(i, j))
-            self.assertEqual(len(all_ind[-1]), 2)
-            self.assertEqual(str(all_ind[-1]), "%s,%s" % (i,j))
-            self.assertEqual([n for n in all_ind[-1]], [i, j])
-            self.assertEqual(all_ind[-1].indices, [i, j])
-
-        check_equality(self, all_ind)
-        check_less_greater(self, all_ind)
+from pycommute.expression import Indices, LinearFunctionGen
+from pycommute.expression import FERMION, GeneratorFermion, make_fermion
+from pycommute.expression import BOSON, GeneratorBoson, make_boson
+from pycommute.expression import SPIN, GeneratorSpin, make_spin
+from pycommute.expression import SpinComponent, swap_with
+from pycommute.expression import is_fermion, is_boson, is_spin
 
 # All other Generator* tests
 class TestGenerator(TestCase):
+
+    # Check that elements of `v` are pairwise distinct
+    def check_equality(self, v):
+        for (i, x), (j, y) in product(enumerate(v), enumerate(v)):
+            self.assertEqual((x == y), (i == j))
+            self.assertEqual((x != y), (i != j))
+
+    # Check that elements of `v` are ordered
+    def check_less_greater(self, v):
+        for (i, x), (j, y) in product(enumerate(v), enumerate(v)):
+            self.assertEqual((x < y), (i < j))
+            self.assertEqual((x > y), (i > j))
 
     def check_linear_function_0(self, lf, const_term):
         self.assertEqual(lf.const_term, const_term)
@@ -234,8 +213,8 @@ class TestGenerator(TestCase):
         for i, op in enumerate(self.fermion_ops):
             self.assertEqual(op.dagger, (i < 2))
 
-        check_equality(self, self.fermion_ops)
-        check_less_greater(self, self.fermion_ops)
+        self.check_equality(self.fermion_ops)
+        self.check_less_greater(self.fermion_ops)
 
         for op in self.fermion_ops:
             self.assertTrue(is_fermion(op))
@@ -269,8 +248,8 @@ class TestGenerator(TestCase):
         for i, op in enumerate(self.boson_ops):
             self.assertEqual(op.dagger, (i < 2))
 
-        check_equality(self, self.boson_ops)
-        check_less_greater(self, self.boson_ops)
+        self.check_equality(self.boson_ops)
+        self.check_less_greater(self.boson_ops)
 
         for op in self.boson_ops:
             self.assertFalse(is_fermion(op))
@@ -309,8 +288,8 @@ class TestGenerator(TestCase):
                 self.assertTrue(op.reduce_power(4, lin_f))
                 self.assertTrue(lin_f.vanishing)
 
-        check_equality(self, self.spin_ops)
-        check_less_greater(self, self.spin_ops)
+        self.check_equality(self.spin_ops)
+        self.check_less_greater(self.spin_ops)
 
         for op in self.spin_ops:
             self.assertFalse(is_fermion(op))
@@ -344,8 +323,8 @@ class TestGenerator(TestCase):
                 self.assertTrue(op.reduce_power(4, lin_f))
                 self.check_linear_function_0(lin_f, 0)
 
-        check_equality(self, self.spin1_ops)
-        check_less_greater(self, self.spin1_ops)
+        self.check_equality(self.spin1_ops)
+        self.check_less_greater(self.spin1_ops)
 
         for op in self.spin1_ops:
             self.assertFalse(is_fermion(op))
@@ -378,8 +357,8 @@ class TestGenerator(TestCase):
                 self.assertTrue(op.reduce_power(4, lin_f))
                 self.check_linear_function_0(lin_f, 0)
 
-        check_equality(self, self.spin32_ops)
-        check_less_greater(self, self.spin32_ops)
+        self.check_equality(self.spin32_ops)
+        self.check_less_greater(self.spin32_ops)
 
         for op in self.spin32_ops:
             self.assertFalse(is_fermion(op))
@@ -401,8 +380,8 @@ class TestGenerator(TestCase):
                        self.spin1_ops,
                        self.spin32_ops], [])
 
-        check_equality(self, all_ops)
-        check_less_greater(self, all_ops)
+        self.check_equality(all_ops)
+        self.check_less_greater(all_ops)
 
         f = LinearFunctionGen()
         for i in range(len(all_ops)):
