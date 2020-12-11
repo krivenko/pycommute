@@ -14,8 +14,10 @@
 #include "pybind11_workarounds.hpp"
 
 #include <pybind11/pybind11.h>
+#include <pybind11/complex.h>
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>
+#include <pybind11/functional.h>
 
 #include <libcommute/expression/expression.hpp>
 #include <libcommute/expression/dyn_indices.hpp>
@@ -25,6 +27,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <functional>
 #include <string>
 #include <sstream>
 #include <tuple>
@@ -138,6 +141,91 @@ dyn_indices::indices_t args2indices_t(py::args args) {
 }
 
 //
+// Wrap expression<ScalarType, dyn_indices>
+//
+
+template<typename ScalarType>
+auto register_expression(py::module_ & m,
+                         std::string const& class_name,
+                         std::string const& docstring) {
+  using expr_t = expression<ScalarType, dyn_indices>;
+  py::class_<expr_t> c(m, class_name.c_str(), docstring.c_str());
+
+  using monomials_map_t = typename expr_t::monomials_map_t;
+
+  // Constructors
+  c
+  .def(py::init<>(), "Construct a zero expression.")
+  .def(py::init<ScalarType const&>(),
+       "Construct a constant expression.",
+       py::arg("x"))
+  .def(py::init<ScalarType const&, mon_type>(),
+       "Construct an expression with one monomial, x*m.",
+       py::arg("x"), py::arg("m")
+  )
+  // Accessors
+  .def("__len__", &expr_t::size, "Number of monomials in this expression.")
+  .def_property_readonly(
+    "monomials",
+    static_cast<monomials_map_t const&(expr_t::*)() const>(
+      &expr_t::get_monomials
+    ),
+    "List of monomials."
+  )
+  .def("clear", &expr_t::clear, "Reset expression to zero")
+  // Homogeneous arithmetic
+  .def(py::self == py::self)
+  .def(py::self != py::self)
+  .def(py::self + py::self)
+  .def(py::self - py::self)
+  .def(py::self * py::self)
+  // Compound assignments
+  .def(py::self += py::self)
+  .def(py::self -= py::self)
+  .def(py::self *= py::self)
+  // Unary minus
+  .def(-py::self)
+  // Arithmetic involving constants
+  .def(py::self + ScalarType{})
+  .def(ScalarType{} + py::self)
+  .def(py::self - ScalarType{})
+  .def(ScalarType{} - py::self)
+  .def(py::self * ScalarType{})
+  .def(ScalarType{} * py::self)
+  // Compound assignments from constants
+  .def(py::self += ScalarType{})
+  .def(py::self -= ScalarType{})
+  .def(py::self *= ScalarType{})
+  // String representation
+  .def("__repr__", &print<expr_t>)
+  // Iterator over monomials
+  .def("__iter__", [](const expr_t &e) {
+      return py::make_iterator(e.begin(), e.end());
+    },
+    py::keep_alive<0, 1>()
+  );
+
+  // Hermitian conjugate
+  m.def("conj",
+        [](expr_t const& e) { return conj(e); },
+        "Hermitian conjugate",
+        py::arg("expr")
+  );
+
+  // transform()
+  using f_t = std::function<ScalarType(mon_type const& m, ScalarType coeff)>;
+  m.def("transform",
+        [](expr_t const& expr, f_t const& f) { return transform(expr, f); },
+        R"eol(
+Apply function 'f' to all monomial/coefficient pairs and replace the
+coefficients with values returned by the function.)eol",
+    py::arg("expr"), py::arg("f")
+  );
+
+  return c;
+}
+
+//
 // 'expression' Python module
 //
 
@@ -237,8 +325,7 @@ PYBIND11_MODULE(expression, m) {
     },
     "List of pairs of algebra generators and their respective coefficients."
   )
-  .def_property_readonly("vanishing",
-    [](gen_type::linear_function_t const& f) { return f.vanishing(); },
+  .def_property_readonly("vanishing", &gen_type::linear_function_t::vanishing,
     "Is this linear function identically zero?"
   );
 
@@ -568,4 +655,100 @@ component 'c' and carrying indices passed as positional arguments.)eol",
       return concatenate(m1, m2);
     }
   );
+
+  //
+  // expression<double, dyn_indices>
+  //
+  // and
+  //
+  // expression<std::complex<double>, dyn_indices>
+  //
+
+  auto expr_r = register_expression<double>(m,
+    "ExpressionR",
+    "Polynomial in quantum-mechanical operators with real coefficients"
+  );
+  auto expr_c = register_expression<std::complex<double>>(m,
+    "ExpressionC",
+    "Polynomial in quantum-mechanical operators with complex coefficients"
+  );
+
+  expr_c.def(py::init<expression<double, dyn_indices> const&>(),
+    "Construct from a real expression by complexifying its coefficients.",
+    py::arg("expr")
+  );
+
+  // Heterogeneous arithmetic
+  using dynamic_indices::expr_real;
+  using dynamic_indices::expr_complex;
+  expr_r
+  .def("__add__", [](expr_real const& e1, expr_complex const& e2) {
+    return e1 + e2;
+  }, py::is_operator())
+  .def("__sub__", [](expr_real const& e1, expr_complex const& e2) {
+    return e1 - e2;
+  }, py::is_operator())
+  .def("__mul__", [](expr_real const& e1, expr_complex const& e2) {
+    return e1 * e2;
+  }, py::is_operator());
+  expr_c
+  .def("__add__", [](expr_complex const& e1, expr_real const& e2) {
+    return e1 + e2;
+  }, py::is_operator())
+  .def("__sub__", [](expr_complex const& e1, expr_real const& e2) {
+    return e1 - e2;
+  }, py::is_operator())
+  .def("__mul__", [](expr_complex const& e1, expr_real const& e2) {
+    return e1 * e2;
+  }, py::is_operator());
+  // Compound assignments real -> complex
+  expr_c
+  .def(py::self += dynamic_indices::expr_real{})
+  .def(py::self -= dynamic_indices::expr_real{})
+  .def(py::self *= dynamic_indices::expr_real{});
+  // Arithmetic involving constants
+  expr_r
+  .def(py::self + std::complex<double>{})
+  .def(std::complex<double>{} + py::self)
+  .def(py::self - std::complex<double>{})
+  .def(std::complex<double>{} - py::self)
+  .def(py::self * std::complex<double>{})
+  .def(std::complex<double>{} * py::self);
+  expr_c
+  .def(py::self + double{})
+  .def(double{} + py::self)
+  .def(py::self - double{})
+  .def(double{} - py::self)
+  .def(py::self * double{})
+  .def(double{} * py::self);
+  // Compound assignments from real constants
+  expr_c
+  .def(py::self += double{})
+  .def(py::self -= double{})
+  .def(py::self *= double{});
+
+  // transform() from real to complex and vice versa.
+  m.def("transform",
+        [](dynamic_indices::expr_real const& expr, std::function<
+             std::complex<double>(mon_type const& m, double coeff)
+           > const& f)
+        { return transform(expr, f); },
+        R"eol(
+Apply function 'f' to all monomial/coefficient pairs and replace the
+coefficients with values returned by the function.)eol",
+    py::arg("expr"), py::arg("f")
+  );
+  m.def("transform",
+        [](dynamic_indices::expr_complex const& expr, std::function<
+            double(mon_type const& m, std::complex<double> coeff)
+           > const& f)
+        { return transform(expr, f); },
+        R"eol(
+Apply function 'f' to all monomial/coefficient pairs and replace the
+coefficients with values returned by the function.)eol",
+    py::arg("expr"), py::arg("f")
+  );
+
+  // TODO: hc
+  // TODO: factories
 }
