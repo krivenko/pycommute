@@ -24,10 +24,14 @@
 #include <libcommute/expression/generator_fermion.hpp>
 #include <libcommute/expression/generator_boson.hpp>
 #include <libcommute/expression/generator_spin.hpp>
+#include <libcommute/expression/factories.hpp>
+#include <libcommute/expression/factories_dyn.hpp>
 
 #include <algorithm>
 #include <cassert>
+#include <complex>
 #include <functional>
+#include <stdexcept>
 #include <string>
 #include <sstream>
 #include <tuple>
@@ -165,13 +169,6 @@ auto register_expression(py::module_ & m,
   )
   // Accessors
   .def("__len__", &expr_t::size, "Number of monomials in this expression.")
-  .def_property_readonly(
-    "monomials",
-    static_cast<monomials_map_t const&(expr_t::*)() const>(
-      &expr_t::get_monomials
-    ),
-    "List of monomials."
-  )
   .def("clear", &expr_t::clear, "Reset expression to zero")
   // Homogeneous arithmetic
   .def(py::self == py::self)
@@ -200,7 +197,8 @@ auto register_expression(py::module_ & m,
   .def("__repr__", &print<expr_t>)
   // Iterator over monomials
   .def("__iter__", [](const expr_t &e) {
-      return py::make_iterator(e.begin(), e.end());
+      return py::make_iterator(e.get_monomials().begin(),
+                               e.get_monomials().end());
     },
     py::keep_alive<0, 1>()
   );
@@ -664,6 +662,9 @@ component 'c' and carrying indices passed as positional arguments.)eol",
   // expression<std::complex<double>, dyn_indices>
   //
 
+  using dynamic_indices::expr_real;
+  using dynamic_indices::expr_complex;
+
   auto expr_r = register_expression<double>(m,
     "ExpressionR",
     "Polynomial in quantum-mechanical operators with real coefficients"
@@ -679,8 +680,6 @@ component 'c' and carrying indices passed as positional arguments.)eol",
   );
 
   // Heterogeneous arithmetic
-  using dynamic_indices::expr_real;
-  using dynamic_indices::expr_complex;
   expr_r
   .def("__add__", [](expr_real const& e1, expr_complex const& e2) {
     return e1 + e2;
@@ -749,6 +748,173 @@ coefficients with values returned by the function.)eol",
     py::arg("expr"), py::arg("f")
   );
 
+  //
+  // Factory functions
+  //
+
+  // Fermions
+  m
+  .def("c_dag", [](py::args args) -> expr_real {
+      return static_indices::c_dag(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a fermionic creation operator with indices 'args'."
+  )
+  .def("c", [](py::args args) -> expr_real {
+      return static_indices::c(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a fermionic annihilation operator with indices 'args'."
+  )
+  .def("n", [](py::args args) -> expr_real {
+      return static_indices::n(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a fermionic particle number operator with indices 'args'."
+  );
+  // Bosons
+  m
+  .def("a_dag", [](py::args args) -> expr_real {
+      return static_indices::a_dag(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a bosonic creation operator with indices 'args'."
+  )
+  .def("a", [](py::args args) -> expr_real {
+      return static_indices::a(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a bosonic annihilation operator with indices 'args'."
+  );
+  // Spin 1/2
+  m
+  .def("S_p", [&](py::args args) -> expr_real {
+      return static_indices::S_p(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a spin-1/2 raising operator S_+ with indices 'args'."
+  )
+  .def("S_m", [](py::args args) -> expr_real {
+      return static_indices::S_m(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a spin-1/2 lowering operator S_+ with indices 'args'."
+  )
+  .def("S_x", [](py::args args) -> expr_complex {
+      return static_indices::S_x(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a spin-1/2 x-projection operator S_x with indices 'args'."
+  ).def("S_y", [](py::args args) -> expr_complex {
+      return static_indices::S_y(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a spin-1/2 y-projection operator S_y with indices 'args'."
+  )
+  .def("S_z", [](py::args args) -> expr_real {
+      return static_indices::S_z(dyn_indices(args2indices_t(args)));
+    },
+    "Returns a spin-1/2 z-projection operator S_z with indices 'args'."
+  );
+  // Arbitrary spin
+
+  // FIXME: This lambda is a temporary solution.
+  // It should be replaced by py::arg("spin") = 0.5 preceded by py::kw_only()
+  // as soon as that option can be used together with py::args.
+  auto extract_spin_arg = [](py::kwargs const& kwargs) -> double {
+    if(kwargs.size() == 1 && kwargs.contains("spin"))
+      return kwargs["spin"].cast<double>();
+    else
+      throw std::invalid_argument("Unexpected keyword argument");
+  };
+
+  auto valudate_spin = [](double spin) {
+    if(2*spin != int(spin*2))
+      throw std::invalid_argument(
+        "Spin must be either integer or half-integer"
+      );
+  };
+
+  m
+  .def("S_p", [&](py::args args, py::kwargs kwargs) -> expr_real {
+      double spin = extract_spin_arg(kwargs);
+      valudate_spin(spin);
+      return expr_real(1.0, mon_type(
+        static_indices::make_spin(spin,
+                                  spin_component::plus,
+                                  dyn_indices(args2indices_t(args)))
+      ));
+    },
+    R"eol(
+Returns a general spin raising operator S_+ with indices 'args'. The spin S is
+passed via the 'spin' keyword argument.)eol"
+  )
+  .def("S_m", [&](py::args args, py::kwargs kwargs) -> expr_real {
+      double spin = extract_spin_arg(kwargs);
+      valudate_spin(spin);
+      return expr_real(1.0, mon_type(
+        static_indices::make_spin(spin,
+                                  spin_component::minus,
+                                  dyn_indices(args2indices_t(args)))
+      ));
+    },
+    R"eol(
+Returns a general spin lowering operator S_- with indices 'args'. The spin S is
+passed via the 'spin' keyword argument.)eol"
+  )
+  .def("S_x", [&](py::args args, py::kwargs kwargs) -> expr_complex {
+      double spin = extract_spin_arg(kwargs);
+      valudate_spin(spin);
+      auto indices = dyn_indices(args2indices_t(args));
+
+      using spin_component::plus;
+      using spin_component::minus;
+
+      return 0.5 * (
+        expr_real(1.0, mon_type(static_indices::make_spin(spin, plus, indices)
+        )) +
+        expr_real(1.0, mon_type(static_indices::make_spin(spin, minus, indices)
+        ))
+      );
+    },
+    R"eol(
+Returns a general spin x-projection operator S_x with indices 'args'. The spin S
+is passed via the 'spin' keyword argument.)eol"
+  )
+  .def("S_y", [&](py::args args, py::kwargs kwargs) -> expr_complex {
+      double spin = extract_spin_arg(kwargs);
+      valudate_spin(spin);
+      auto indices = dyn_indices(args2indices_t(args));
+
+      using spin_component::plus;
+      using spin_component::minus;
+      using namespace std::complex_literals;
+
+      return -0.5i * (
+        expr_real(1.0, mon_type(static_indices::make_spin(spin, plus, indices)
+        )) -
+        expr_real(1.0, mon_type(static_indices::make_spin(spin, minus, indices)
+        ))
+      );
+    },
+    R"eol(
+Returns a general spin y-projection operator S_y with indices 'args'. The spin S
+is passed via the 'spin' keyword argument.)eol"
+  )
+  .def("S_z", [&](py::args args, py::kwargs kwargs) -> expr_real {
+      double spin = extract_spin_arg(kwargs);
+      valudate_spin(spin);
+      return expr_real(1.0, mon_type(
+        static_indices::make_spin(spin, spin_component::z,
+                                  dyn_indices(args2indices_t(args)))
+      ));
+    },
+    R"eol(
+Returns a general spin z-projection operator S_z with indices 'args'. The spin S
+is passed via the 'spin' keyword argument.)eol"
+  );
+
+  //
+  // make_complex()
+  //
+
+  m.def("make_complex", &dynamic_indices::make_complex,
+        "Make a complex expression out of a real one.",
+        py::arg("expr")
+       );
+
+
+
   // TODO: hc
-  // TODO: factories
 }
