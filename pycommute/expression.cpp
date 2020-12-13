@@ -65,6 +65,117 @@ using dynamic_indices::dyn_indices;
 using gen_type = generator<dyn_indices>;
 using mon_type = monomial<dyn_indices>;
 
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Convert Python positional arguments into dyn_indices::indices_t
+//
+
+dyn_indices::indices_t args2indices_t(py::args args) {
+  dyn_indices::indices_t v;
+  v.reserve(args.size());
+  for(auto const& a : args)
+    v.emplace_back(a.cast<std::variant<int, std::string>>());
+  return v;
+}
+
+//
+// Register dynamic_indices::dyn_indices
+//
+// The 'Indices' objects are not the same thing as Python tuples, because
+// they follow a different ordering rule. Unlike with the Python tuples, two
+// index sequences I1 and I2 always compare as I1 < I2 if len(I1) < len(I2).
+//
+
+void register_dyn_indices(py::module_ & m) {
+  py::class_<dyn_indices>(m, "Indices",
+    "Mixed sequence of integer/string indices"
+  )
+  .def(py::init([](py::args args) {
+      return std::make_unique<dyn_indices>(args2indices_t(args));
+    }),
+    "Construct an index sequence from positional integer/string arguments."
+   )
+  .def("__len__", &dyn_indices::size, "Index sequence length")
+  .def(py::self == py::self)
+  .def(py::self != py::self)
+  .def(py::self < py::self)
+  .def(py::self > py::self)
+  .def_property_readonly("indices",
+                         &dyn_indices::operator dyn_indices::indices_t const&,
+                         "Index sequence as a list of integers and strings"
+                        )
+  .def("__repr__", [](dyn_indices const& indices) {
+    auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
+    const size_t N = ind.size();
+    std::string s;
+    for(size_t i = 0; i < N; ++i) {
+      std::visit([&s](auto const& x) { s += to_string(x); }, ind[i]);
+      if(i + 1 < N) s += ",";
+    }
+    return s;
+  })
+  .def("__iter__", [](const dyn_indices &indices) {
+      auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
+      return py::make_iterator(ind.begin(), ind.end());
+    },
+    py::keep_alive<0, 1>()
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register generator::linear_function_t
+//
+
+void register_linear_function(py::module_ & m) {
+
+  auto copy_terms = [](auto const& terms) {
+    std::vector<std::pair<std::unique_ptr<gen_type>, double>> res;
+    res.reserve(terms.size());
+    for(auto const& t : terms)
+      res.emplace_back(t.first->clone(), t.second);
+    return res;
+  };
+
+  py::class_<gen_type::linear_function_t>(m, "LinearFunctionGen",
+    "Linear combination of algebra generators plus a constant term"
+  )
+  .def(py::init<>(), "Construct a function that is identically zero.")
+  .def(py::init<double>(), "Construct a constant.", py::arg("const_term"))
+  .def(py::init([copy_terms](
+    double const_term,
+    std::vector<std::pair<const gen_type*, double>> const& terms) {
+      return std::make_unique<gen_type::linear_function_t>(
+        const_term,
+        std::move(copy_terms(terms))
+      );
+    }),
+    "Construct from a constant term and a list of coefficient/generator pairs.",
+    py::arg("const_term"),
+    py::arg("terms")
+  )
+  .def_readwrite("const_term",
+                 &gen_type::linear_function_t::const_term,
+                 "Constant term.")
+  .def_property("terms",
+    [copy_terms](gen_type::linear_function_t const& f) {
+      return copy_terms(f.terms);
+    },
+    [copy_terms](gen_type::linear_function_t & f,
+       std::vector<std::pair<const gen_type*, double>> const& terms) {
+       f.terms = std::move(copy_terms(terms));
+    },
+    "List of pairs of algebra generators and their respective coefficients."
+  )
+  .def_property_readonly("vanishing", &gen_type::linear_function_t::vanishing,
+    "Is this linear function identically zero?"
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 //
 // Helper classes for abstract base generator<dyn_indices>
 //
@@ -133,213 +244,12 @@ public:
 };
 
 //
-// Convert Python positional arguments to dyn_indices::indices_t
+// Register generator<dyn_indices>
 //
 
-dyn_indices::indices_t args2indices_t(py::args args) {
-  dyn_indices::indices_t v;
-  v.reserve(args.size());
-  for(auto const& a : args)
-    v.emplace_back(a.cast<std::variant<int, std::string>>());
-  return v;
-}
-
-//
-// Wrap expression<ScalarType, dyn_indices>
-//
-
-template<typename ScalarType>
-auto register_expression(py::module_ & m,
-                         std::string const& class_name,
-                         std::string const& docstring) {
-  using expr_t = expression<ScalarType, dyn_indices>;
-  py::class_<expr_t> c(m, class_name.c_str(), docstring.c_str());
-
-  using monomials_map_t = typename expr_t::monomials_map_t;
-
-  // Constructors
-  c
-  .def(py::init<>(), "Construct a zero expression.")
-  .def(py::init<ScalarType const&>(),
-       "Construct a constant expression.",
-       py::arg("x"))
-  .def(py::init<ScalarType const&, mon_type>(),
-       "Construct an expression with one monomial, x*m.",
-       py::arg("x"), py::arg("m")
-  )
-  // Accessors
-  .def("__len__", &expr_t::size, "Number of monomials in this expression.")
-  .def("clear", &expr_t::clear, "Reset expression to zero")
-  // Homogeneous arithmetic
-  .def(py::self == py::self)
-  .def(py::self != py::self)
-  .def(py::self + py::self)
-  .def(py::self - py::self)
-  .def(py::self * py::self)
-  // Compound assignments
-  .def(py::self += py::self)
-  .def(py::self -= py::self)
-  .def(py::self *= py::self)
-  // Unary minus
-  .def(-py::self)
-  // Arithmetic involving constants
-  .def(py::self + ScalarType{})
-  .def(ScalarType{} + py::self)
-  .def(py::self - ScalarType{})
-  .def(ScalarType{} - py::self)
-  .def(py::self * ScalarType{})
-  .def(ScalarType{} * py::self)
-  // Compound assignments from constants
-  .def(py::self += ScalarType{})
-  .def(py::self -= ScalarType{})
-  .def(py::self *= ScalarType{})
-  // String representation
-  .def("__repr__", &print<expr_t>)
-  // Iterator over monomials
-  .def("__iter__", [](const expr_t &e) {
-      return py::make_iterator(e.get_monomials().begin(),
-                               e.get_monomials().end());
-    },
-    py::keep_alive<0, 1>()
-  );
-
-  // Hermitian conjugate
-  m.def("conj",
-        [](expr_t const& e) { return conj(e); },
-        "Hermitian conjugate",
-        py::arg("expr")
-  );
-
-  // transform()
-  using f_t = std::function<ScalarType(mon_type const& m, ScalarType coeff)>;
-  m.def("transform",
-        [](expr_t const& expr, f_t const& f) { return transform(expr, f); },
-        R"eol(
-Apply function 'f' to all monomial/coefficient pairs and replace the
-coefficients with values returned by the function.)eol",
-    py::arg("expr"), py::arg("f")
-  );
-
-  return c;
-}
-
-//
-// 'expression' Python module
-//
-
-PYBIND11_MODULE(expression, m) {
-
-  m.doc() = "Polynomial expressions involving quantum-mechanical operators "
-            "and manipulations with them";
-
-  //
-  // dynamic_indices::dyn_indices
-  //
-  // The 'Indices' objects are not the same thing as Python tuples, because
-  // they follow a different ordering rule. Unlike with the Python tuples, two
-  // index sequences I1 and I2 always compare as I1 < I2 if len(I1) < len(I2).
-  //
-
-  py::class_<dyn_indices>(m, "Indices",
-    "Mixed sequence of integer/string indices"
-  )
-  .def(py::init([](py::args args) {
-      return std::make_unique<dyn_indices>(args2indices_t(args));
-    }),
-    "Construct an index sequence from positional integer/string arguments."
-   )
-  .def("__len__", &dyn_indices::size, "Index sequence length")
-  .def(py::self == py::self)
-  .def(py::self != py::self)
-  .def(py::self < py::self)
-  .def(py::self > py::self)
-  .def_property_readonly("indices",
-                         &dyn_indices::operator dyn_indices::indices_t const&,
-                         "Index sequence as a list of integers and strings"
-                        )
-  .def("__repr__", [](dyn_indices const& indices) {
-    auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
-    const size_t N = ind.size();
-    std::string s;
-    for(size_t i = 0; i < N; ++i) {
-      std::visit([&s](auto const& x) { s += to_string(x); }, ind[i]);
-      if(i + 1 < N) s += ",";
-    }
-    return s;
-  })
-  .def("__iter__", [](const dyn_indices &indices) {
-      auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
-      return py::make_iterator(ind.begin(), ind.end());
-    },
-    py::keep_alive<0, 1>()
-  );
-
-  //
-  // Wrap generator<dyn_indices> early on so that pybind11 knows about this type
-  // at the point where generator::linear_function_t is wrapped.
-  //
-
-  py::class_<gen_type, gen_type_trampoline> Generator(m, "Generator",
-    "Abstract algebra generator"
-  );
-
-  //
-  // generator::linear_function_t
-  //
-
-  auto copy_terms = [](auto const& terms) {
-    std::vector<std::pair<std::unique_ptr<gen_type>, double>> res;
-    res.reserve(terms.size());
-    for(auto const& t : terms)
-      res.emplace_back(t.first->clone(), t.second);
-    return res;
-  };
-
-  py::class_<gen_type::linear_function_t>(m, "LinearFunctionGen",
-    "Linear combination of algebra generators plus a constant term"
-  )
-  .def(py::init<>(), "Construct a function that is identically zero.")
-  .def(py::init<double>(), "Construct a constant.", py::arg("const_term"))
-  .def(py::init([&](
-    double const_term,
-    std::vector<std::pair<const gen_type*, double>> const& terms) {
-      return std::make_unique<gen_type::linear_function_t>(
-        const_term,
-        std::move(copy_terms(terms))
-      );
-    }),
-    "Construct from a constant term and a list of coefficient/generator pairs.",
-    py::arg("const_term"),
-    py::arg("terms")
-  )
-  .def_readwrite("const_term",
-                 &gen_type::linear_function_t::const_term,
-                 "Constant term.")
-  .def_property("terms",
-    [&](gen_type::linear_function_t const& f) { return copy_terms(f.terms); },
-    [&](gen_type::linear_function_t & f,
-       std::vector<std::pair<const gen_type*, double>> const& terms) {
-       f.terms = std::move(copy_terms(terms));
-    },
-    "List of pairs of algebra generators and their respective coefficients."
-  )
-  .def_property_readonly("vanishing", &gen_type::linear_function_t::vanishing,
-    "Is this linear function identically zero?"
-  );
-
-  //
-  // Algebra IDs
-  //
-
-  m.attr("FERMION") = fermion;
-  m.attr("BOSON") = boson;
-  m.attr("SPIN") = spin;
-
-  //
-  // generator<dyn_indices>
-  //
-
-  Generator
+template<typename Gen>
+void register_generator(py::module_ & m, Gen & g) {
+  g
   // Algebra ID
   .def_property_readonly("algebra_id",
                          &gen_type::algebra_id,
@@ -446,10 +356,15 @@ accordingly. Generators of different algebras always commute, and for such
 generators swap_with() returns 1 and sets 'f' to the trivial function.)eol",
     py::arg("g1"), py::arg("g2"), py::arg("f")
   );
+}
 
-  //
-  // generator_fermion<dyn_indices>
-  //
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register generator_fermion<dyn_indices>
+//
+
+void register_generator_fermion(py::module_ & m) {
 
   py::class_<generator_fermion<dyn_indices>, gen_type>(m, "GeneratorFermion",
     "Generator of the fermionic algebra"
@@ -472,10 +387,15 @@ Make a creation ('dagger' = True) or annihilation ('dagger' = False) fermionic
 operator with indices passed as positional arguments.)eol",
     py::arg("dagger")
   );
+}
 
-  //
-  // generator_boson<dyn_indices>
-  //
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register generator_boson<dyn_indices>
+//
+
+void register_generator_boson(py::module_ & m) {
 
   py::class_<generator_boson<dyn_indices>, gen_type>(m, "GeneratorBoson",
     "Generator of the bosonic algebra"
@@ -496,10 +416,15 @@ Make a creation ('dagger' = True) or annihilation ('dagger' = False) bosonic
 operator with indices passed as positional arguments.)eol",
     py::arg("dagger")
   );
+}
 
-  //
-  // generator_spin<dyn_indices>
-  //
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register generator_spin<dyn_indices>
+//
+
+void register_generator_spin(py::module_ & m) {
 
   py::enum_<spin_component>(m, "SpinComponent",
                             "Spin operator component, S_+, S_- or S_z.")
@@ -575,11 +500,15 @@ component 'c' and carrying indices passed as positional arguments.)eol",
         "Does 'g' belong to a spin algebra?",
         py::arg("g")
        );
+}
 
-  //
-  // monomial<dyn_indices>
-  //
+////////////////////////////////////////////////////////////////////////////////
 
+//
+// Register monomial<dyn_indices>
+//
+
+void register_monomial(py::module_ & m) {
   py::class_<mon_type>(m, "Monomial",
                        "Monomial: a product of algebra generators")
   .def(py::init<>(), "Construct an identity monomial.")
@@ -653,31 +582,107 @@ component 'c' and carrying indices passed as positional arguments.)eol",
       return concatenate(m1, m2);
     }
   );
+}
 
-  //
-  // expression<double, dyn_indices>
-  //
-  // and
-  //
-  // expression<std::complex<double>, dyn_indices>
-  //
+////////////////////////////////////////////////////////////////////////////////
 
+//
+// Register expression<ScalarType, dyn_indices>
+//
+
+template<typename ScalarType>
+auto register_expression(py::module_ & m,
+                         std::string const& class_name,
+                         std::string const& docstring) {
+  using expr_t = expression<ScalarType, dyn_indices>;
+  py::class_<expr_t> c(m, class_name.c_str(), docstring.c_str());
+
+  using monomials_map_t = typename expr_t::monomials_map_t;
+
+  // Constructors
+  c
+  .def(py::init<>(), "Construct a zero expression.")
+  .def(py::init<ScalarType const&>(),
+       "Construct a constant expression.",
+       py::arg("x"))
+  .def(py::init<ScalarType const&, mon_type>(),
+       "Construct an expression with one monomial, x*m.",
+       py::arg("x"), py::arg("m")
+  )
+  // Accessors
+  .def("__len__", &expr_t::size, "Number of monomials in this expression.")
+  .def("clear", &expr_t::clear, "Reset expression to zero")
+  // Homogeneous arithmetic
+  .def(py::self == py::self)
+  .def(py::self != py::self)
+  .def(py::self + py::self)
+  .def(py::self - py::self)
+  .def(py::self * py::self)
+  // Compound assignments
+  .def(py::self += py::self)
+  .def(py::self -= py::self)
+  .def(py::self *= py::self)
+  // Unary minus
+  .def(-py::self)
+  // Arithmetic involving constants
+  .def(py::self + ScalarType{})
+  .def(ScalarType{} + py::self)
+  .def(py::self - ScalarType{})
+  .def(ScalarType{} - py::self)
+  .def(py::self * ScalarType{})
+  .def(ScalarType{} * py::self)
+  // Compound assignments from constants
+  .def(py::self += ScalarType{})
+  .def(py::self -= ScalarType{})
+  .def(py::self *= ScalarType{})
+  // String representation
+  .def("__repr__", &print<expr_t>)
+  // Iterator over monomials
+  .def("__iter__", [](const expr_t &e) {
+      return py::make_iterator(e.get_monomials().begin(),
+                               e.get_monomials().end());
+    },
+    py::keep_alive<0, 1>()
+  );
+
+  // Hermitian conjugate
+  m.def("conj",
+        [](expr_t const& e) { return conj(e); },
+        "Hermitian conjugate",
+        py::arg("expr")
+  );
+
+  // transform()
+  using f_t = std::function<ScalarType(mon_type const& m, ScalarType coeff)>;
+  m.def("transform",
+        [](expr_t const& expr, f_t const& f) { return transform(expr, f); },
+        R"eol(
+Apply function 'f' to all monomial/coefficient pairs and replace the
+coefficients with values returned by the function.)eol",
+    py::arg("expr"), py::arg("f")
+  );
+
+  return c;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register interactions between
+//
+// expression<double, dyn_indices>
+//
+// and
+//
+// expression<std::complex<double>, dyn_indices>
+//
+
+template<typename ExprR, typename ExprC>
+void register_expr_mixed_real_complex(py::module_ & m,
+                                      ExprR & expr_r,
+                                      ExprC & expr_c) {
   using dynamic_indices::expr_real;
   using dynamic_indices::expr_complex;
-
-  auto expr_r = register_expression<double>(m,
-    "ExpressionR",
-    "Polynomial in quantum-mechanical operators with real coefficients"
-  );
-  auto expr_c = register_expression<std::complex<double>>(m,
-    "ExpressionC",
-    "Polynomial in quantum-mechanical operators with complex coefficients"
-  );
-
-  expr_c.def(py::init<expression<double, dyn_indices> const&>(),
-    "Construct from a real expression by complexifying its coefficients.",
-    py::arg("expr")
-  );
 
   // Heterogeneous arithmetic
   expr_r
@@ -747,10 +752,17 @@ Apply function 'f' to all monomial/coefficient pairs and replace the
 coefficients with values returned by the function.)eol",
     py::arg("expr"), py::arg("f")
   );
+}
 
-  //
-  // Factory functions
-  //
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register factory functions
+//
+
+void register_factories(py::module_ & m) {
+  using dynamic_indices::expr_real;
+  using dynamic_indices::expr_complex;
 
   // Fermions
   m
@@ -827,7 +839,7 @@ coefficients with values returned by the function.)eol",
   };
 
   m
-  .def("S_p", [&](py::args args, py::kwargs kwargs) -> expr_real {
+  .def("S_p", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
       valudate_spin(spin);
       return expr_real(1.0, mon_type(
@@ -840,7 +852,7 @@ coefficients with values returned by the function.)eol",
 Returns a general spin raising operator S_+ with indices 'args'. The spin S is
 passed via the 'spin' keyword argument.)eol"
   )
-  .def("S_m", [&](py::args args, py::kwargs kwargs) -> expr_real {
+  .def("S_m", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
       valudate_spin(spin);
       return expr_real(1.0, mon_type(
@@ -853,7 +865,7 @@ passed via the 'spin' keyword argument.)eol"
 Returns a general spin lowering operator S_- with indices 'args'. The spin S is
 passed via the 'spin' keyword argument.)eol"
   )
-  .def("S_x", [&](py::args args, py::kwargs kwargs) -> expr_complex {
+  .def("S_x", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
       valudate_spin(spin);
       auto indices = dyn_indices(args2indices_t(args));
@@ -872,7 +884,7 @@ passed via the 'spin' keyword argument.)eol"
 Returns a general spin x-projection operator S_x with indices 'args'. The spin S
 is passed via the 'spin' keyword argument.)eol"
   )
-  .def("S_y", [&](py::args args, py::kwargs kwargs) -> expr_complex {
+  .def("S_y", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
       valudate_spin(spin);
       auto indices = dyn_indices(args2indices_t(args));
@@ -892,7 +904,7 @@ is passed via the 'spin' keyword argument.)eol"
 Returns a general spin y-projection operator S_y with indices 'args'. The spin S
 is passed via the 'spin' keyword argument.)eol"
   )
-  .def("S_z", [&](py::args args, py::kwargs kwargs) -> expr_real {
+  .def("S_z", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
       valudate_spin(spin);
       return expr_real(1.0, mon_type(
@@ -910,11 +922,68 @@ is passed via the 'spin' keyword argument.)eol"
   //
 
   m.def("make_complex", &dynamic_indices::make_complex,
-        "Make a complex expression out of a real one.",
-        py::arg("expr")
-       );
+    "Make a complex expression out of a real one.",
+    py::arg("expr")
+  );
+}
 
+////////////////////////////////////////////////////////////////////////////////
 
+//
+// 'expression' Python module
+//
+
+PYBIND11_MODULE(expression, m) {
+
+  m.doc() = "Polynomial expressions involving quantum-mechanical operators "
+            "and manipulations with them";
+
+  register_dyn_indices(m);
+
+  //
+  // Register generator<dyn_indices> early on so that pybind11 knows about this
+  // type at the point where generator::linear_function_t is wrapped.
+  //
+
+  py::class_<gen_type, gen_type_trampoline> g(m, "Generator",
+    "Abstract algebra generator"
+  );
+
+  register_linear_function(m);
+
+  //
+  // Algebra IDs
+  //
+
+  m.attr("FERMION") = fermion;
+  m.attr("BOSON") = boson;
+  m.attr("SPIN") = spin;
+
+  register_generator(m, g);
+
+  register_generator_fermion(m);
+  register_generator_boson(m);
+  register_generator_spin(m);
+
+  register_monomial(m);
+
+  auto expr_r = register_expression<double>(m,
+    "ExpressionR",
+    "Polynomial in quantum-mechanical operators with real coefficients"
+  );
+  auto expr_c = register_expression<std::complex<double>>(m,
+    "ExpressionC",
+    "Polynomial in quantum-mechanical operators with complex coefficients"
+  );
+
+  expr_c.def(py::init<expression<double, dyn_indices> const&>(),
+    "Construct from a real expression by complexifying its coefficients.",
+    py::arg("expr")
+  );
+
+  register_expr_mixed_real_complex(m, expr_r, expr_c);
+
+  register_factories(m);
 
   // TODO: hc
 }
