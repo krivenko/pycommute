@@ -118,3 +118,13 @@ class TestExpression(TestCase):
         # Q3 is a higher-order integral of motion
         Q3 = sum(dot(cross(S[i], S[(i+1)%N]), S[(i+2)%N]) for i in range(N))
         self.assertEqual(len(H * Q3 - Q3 * H), 0)
+
+    def test_hc(self):
+        # Real
+        expr = 2 * c_dag("up", 1) * c("up", 2)
+        self.assertEqual(expr + hc, expr + conj(expr))
+        self.assertEqual(expr - hc, expr - conj(expr))
+        # Complex
+        expr = (2+2j) * c_dag("up", 1) * c("up", 2)
+        self.assertEqual(expr + hc, expr + conj(expr))
+        self.assertEqual(expr - hc, expr - conj(expr))

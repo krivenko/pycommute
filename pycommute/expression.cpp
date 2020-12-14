@@ -26,6 +26,7 @@
 #include <libcommute/expression/generator_spin.hpp>
 #include <libcommute/expression/factories.hpp>
 #include <libcommute/expression/factories_dyn.hpp>
+#include <libcommute/expression/hc.hpp>
 
 #include <algorithm>
 #include <cassert>
@@ -930,6 +931,31 @@ is passed via the 'spin' keyword argument.)eol"
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Register 'hc'
+//
+
+void register_hc(py::module_ & m) {
+  using dynamic_indices::expr_real;
+  using dynamic_indices::expr_complex;
+
+  py::class_<std::remove_const_t<decltype(hc)>>(m, "HC",
+    "A placeholder object that adds/subtracts the Hermitian conjugate "
+    "to/from an expression")
+  .def("__radd__", [](decltype(hc), expr_real const& e){ return e + hc; },
+       py::is_operator())
+  .def("__radd__", [](decltype(hc), expr_complex const& e){ return e + hc; },
+       py::is_operator())
+  .def("__rsub__", [](decltype(hc), expr_real const& e){ return e - hc; },
+       py::is_operator())
+  .def("__rsub__", [](decltype(hc), expr_complex const& e){ return e - hc; },
+       py::is_operator());
+
+  m.attr("hc") = hc;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // 'expression' Python module
 //
 
@@ -984,6 +1010,5 @@ PYBIND11_MODULE(expression, m) {
   register_expr_mixed_real_complex(m, expr_r, expr_c);
 
   register_factories(m);
-
-  // TODO: hc
+  register_hc(m);
 }
