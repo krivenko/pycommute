@@ -15,3 +15,5 @@ from pycommute.expression import *
 class TestExpressionArithemtic(TestCase):
 
     pass
+
+    # TODO: test_unary_minus()
