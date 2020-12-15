@@ -49,16 +49,6 @@ std::string to_string(T&& x) { using std::to_string; return to_string(x); }
 std::string to_string(std::string const& x) { return x; }
 
 //
-// Use operator<< to create a string representation
-//
-
-template<typename T> std::string print(T const& obj) {
-  std::ostringstream ss;
-  ss << obj;
-  return ss.str();
-}
-
-//
 // Some commonly used type shorthands
 //
 
@@ -204,7 +194,12 @@ void register_generator(py::module_ & m) {
        py::arg("g2")
   )
   // String representation
-  .def("__repr__", &print<gen_type>);
+  .def("__repr__", [ss = std::ostringstream()](gen_type const& g) mutable {
+    ss.str(std::string());
+    ss.clear();
+    ss << g;
+    return ss.str();
+  });
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -373,7 +368,12 @@ void register_monomial(py::module_ & m) {
   .def_property_readonly("is_ordered", &mon_type::is_ordered,
                          "Is this monomial canonically ordered?")
   // String representation
-  .def("__repr__", &print<mon_type>)
+  .def("__repr__", [ss = std::ostringstream()](mon_type const& m) mutable {
+    ss.str(std::string());
+    ss.clear();
+    ss << m;
+    return ss.str();
+  })
   // Individual generator access
   .def("__getitem__", [](mon_type const& m, std::size_t n) -> gen_type const& {
       if(n >= m.size())
@@ -485,7 +485,12 @@ auto register_expression(py::module_ & m,
   .def(py::self -= ScalarType{})
   .def(py::self *= ScalarType{})
   // String representation
-  .def("__repr__", &print<expr_t>)
+  .def("__repr__", [ss = std::ostringstream()](expr_t const& e) mutable {
+    ss.str(std::string());
+    ss.clear();
+    ss << e;
+    return ss.str();
+  })
   // Iterator over monomials
   .def("__iter__", [](const expr_t &e) {
       return py::make_iterator(e.get_monomials().begin(),
