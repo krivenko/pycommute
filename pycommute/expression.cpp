@@ -32,6 +32,7 @@
 #include <cassert>
 #include <complex>
 #include <functional>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <sstream>
@@ -41,12 +42,12 @@ using namespace libcommute;
 namespace py = pybind11;
 
 //
-// Just because std::to_string(std::string) is not part of STL ...
+// Some commonly used type shorthands
 //
 
-template<typename T>
-std::string to_string(T&& x) { using std::to_string; return to_string(x); }
-std::string to_string(std::string const& x) { return x; }
+using dynamic_indices::dyn_indices;
+using gen_type = generator<dyn_indices>;
+using mon_type = monomial<dyn_indices>;
 
 //
 // Use operator<< to create a string representation
@@ -57,14 +58,6 @@ template<typename T> std::string print(T const& obj) {
   ss << obj;
   return ss.str();
 }
-
-//
-// Some commonly used type shorthands
-//
-
-using dynamic_indices::dyn_indices;
-using gen_type = generator<dyn_indices>;
-using mon_type = monomial<dyn_indices>;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -106,16 +99,7 @@ void register_dyn_indices(py::module_ & m) {
                          &dyn_indices::operator dyn_indices::indices_t const&,
                          "Index sequence as a list of integers and strings"
                         )
-  .def("__repr__", [](dyn_indices const& indices) {
-    auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
-    const size_t N = ind.size();
-    std::string s;
-    for(size_t i = 0; i < N; ++i) {
-      std::visit([&s](auto const& x) { s += to_string(x); }, ind[i]);
-      if(i + 1 < N) s += ",";
-    }
-    return s;
-  })
+  .def("__repr__", [](dyn_indices const& indices) { return to_string(indices);})
   .def("__iter__", [](const dyn_indices &indices) {
       auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
       return py::make_iterator(ind.begin(), ind.end());
@@ -132,27 +116,12 @@ void register_dyn_indices(py::module_ & m) {
 
 void register_linear_function(py::module_ & m) {
 
-  auto copy_terms = [](auto const& terms) {
-    std::vector<std::pair<std::unique_ptr<gen_type>, double>> res;
-    res.reserve(terms.size());
-    for(auto const& t : terms)
-      res.emplace_back(t.first->clone(), t.second);
-    return res;
-  };
-
   py::class_<gen_type::linear_function_t>(m, "LinearFunctionGen",
     "Linear combination of algebra generators plus a constant term"
   )
   .def(py::init<>(), "Construct a function that is identically zero.")
   .def(py::init<double>(), "Construct a constant.", py::arg("const_term"))
-  .def(py::init([copy_terms](
-    double const_term,
-    std::vector<std::pair<const gen_type*, double>> const& terms) {
-      return std::make_unique<gen_type::linear_function_t>(
-        const_term,
-        std::move(copy_terms(terms))
-      );
-    }),
+  .def(py::init<double, decltype(gen_type::linear_function_t::terms) const&>(),
     "Construct from a constant term and a list of coefficient/generator pairs.",
     py::arg("const_term"),
     py::arg("terms")
@@ -160,14 +129,7 @@ void register_linear_function(py::module_ & m) {
   .def_readwrite("const_term",
                  &gen_type::linear_function_t::const_term,
                  "Constant term.")
-  .def_property("terms",
-    [copy_terms](gen_type::linear_function_t const& f) {
-      return copy_terms(f.terms);
-    },
-    [copy_terms](gen_type::linear_function_t & f,
-       std::vector<std::pair<const gen_type*, double>> const& terms) {
-       f.terms = std::move(copy_terms(terms));
-    },
+  .def_readwrite("terms", &gen_type::linear_function_t::terms,
     "List of pairs of algebra generators and their respective coefficients."
   )
   .def_property_readonly("vanishing", &gen_type::linear_function_t::vanishing,
@@ -193,19 +155,23 @@ class gen_type_trampoline : public gen_type {
 
   public:
 
-  using gen_type::gen_type;
-
   gen_type_trampoline(py::args args) : gen_type(std::move(init(args))) {}
 
   int algebra_id() const override {
     PYBIND11_OVERRIDE_PURE(int, gen_type, algebra_id, );
   }
 
-  std::unique_ptr<gen_type> clone() const override {
-    // Generators are immutable, so one should use multiple references instead
-    // of creating deep copies in Python.
-    assert(false);
-    return nullptr;
+  virtual std::shared_ptr<gen_type> clone() const override {
+    std::cout << "clone() called" << std::endl;
+
+    // Workaround for pybind11 issue #1049 by Dean Moldovan
+    // https://github.com/pybind/pybind11/issues/1049#issuecomment-326688270
+
+    auto self = py::cast(this);
+    auto cloned = self.attr("clone")();
+    auto keep_python_state_alive = std::make_shared<py::object>(cloned);
+    auto ptr = cloned.cast<gen_type_trampoline*>();
+    return std::shared_ptr<gen_type>(keep_python_state_alive, ptr);
   }
 
   double swap_with(gen_type const& g2, linear_function_t & f) const override {
@@ -235,6 +201,10 @@ class gen_type_trampoline : public gen_type {
   bool greater(gen_type const& g) const override {
     PYBIND11_OVERRIDE(bool, gen_type, greater, g);
   }
+
+  std::string to_string() const override {
+    PYBIND11_OVERRIDE(std::string, gen_type, to_string, );
+  }
 };
 
 class gen_type_publicist : public gen_type {
@@ -242,6 +212,7 @@ public:
   using gen_type::equal;
   using gen_type::less;
   using gen_type::greater;
+  using gen_type::to_string;
 };
 
 //
@@ -251,11 +222,12 @@ public:
 template<typename Gen>
 void register_generator(py::module_ & m, Gen & g) {
   g
+  .def(py::init<py::args>())
   // Algebra ID
-  .def_property_readonly("algebra_id",
-                         &gen_type::algebra_id,
-                         "ID of the algebra this generator belongs to."
-                        )
+  .def("algebra_id",
+       &gen_type::algebra_id,
+       "ID of the algebra this generator belongs to."
+  )
   // Tuple of indices
   .def_property_readonly("indices", [](gen_type const& g){
     return std::get<0>(g.indices());
@@ -348,7 +320,7 @@ This method should be overridden in derived classes.)eol",
        py::arg("g2")
   )
   // String representation
-  .def("__repr__", &print<gen_type>);
+  .def("__repr__", &gen_type_publicist::to_string);
 
   // Swap generators of potentially different algebras
   m.def("swap_with", &swap_with<dyn_indices>, R"eol(
@@ -367,7 +339,12 @@ generators swap_with() returns 1 and sets 'f' to the trivial function.)eol",
 
 void register_generator_fermion(py::module_ & m) {
 
-  py::class_<generator_fermion<dyn_indices>, gen_type>(m, "GeneratorFermion",
+  py::class_<generator_fermion<dyn_indices>,
+             gen_type,
+             std::shared_ptr<generator_fermion<dyn_indices>>
+            >(
+    m,
+    "GeneratorFermion",
     "Generator of the fermionic algebra"
   )
   .def(py::init<bool, dyn_indices const&>(), R"eol(
@@ -398,7 +375,12 @@ operator with indices passed as positional arguments.)eol",
 
 void register_generator_boson(py::module_ & m) {
 
-  py::class_<generator_boson<dyn_indices>, gen_type>(m, "GeneratorBoson",
+  py::class_<generator_boson<dyn_indices>,
+             gen_type,
+             std::shared_ptr<generator_boson<dyn_indices>>
+            >(
+    m,
+    "GeneratorBoson",
     "Generator of the bosonic algebra"
   )
   .def(py::init<bool, dyn_indices const&>(), R"eol(
@@ -442,7 +424,12 @@ void register_generator_spin(py::module_ & m) {
            "Label for the 3rd spin projection operators S_z"
           );
 
-  py::class_<generator_spin<dyn_indices>, gen_type>(m, "GeneratorSpin",
+  py::class_<generator_spin<dyn_indices>,
+             gen_type,
+             std::shared_ptr<generator_spin<dyn_indices>>
+            >(
+    m,
+    "GeneratorSpin",
     "Generator of the spin algebra"
   )
   .def(py::init<spin_component, dyn_indices const&>(), R"eol(
@@ -513,7 +500,7 @@ void register_monomial(py::module_ & m) {
   py::class_<mon_type>(m, "Monomial",
                        "Monomial: a product of algebra generators")
   .def(py::init<>(), "Construct an identity monomial.")
-  .def(py::init<std::vector<gen_type*>>(),
+  .def(py::init<std::vector<mon_type::gen_ptr_type>>(),
     "Construct from a list of algebra generators."
   )
   .def("__len__", &mon_type::size, "Number of generators in this monomial.")
@@ -971,7 +958,9 @@ PYBIND11_MODULE(expression, m) {
   // type at the point where generator::linear_function_t is wrapped.
   //
 
-  py::class_<gen_type, gen_type_trampoline> g(m, "Generator",
+  py::class_<gen_type, gen_type_trampoline, std::shared_ptr<gen_type>> g(
+    m,
+    "Generator",
     "Abstract algebra generator"
   );
 
@@ -984,6 +973,8 @@ PYBIND11_MODULE(expression, m) {
   m.attr("FERMION") = fermion;
   m.attr("BOSON") = boson;
   m.attr("SPIN") = spin;
+  m.attr("MIN_USER_DEFINED_ALGEBRA_ID") =
+    LIBCOMMUTE_MIN_USER_DEFINED_ALGEBRA_ID;
 
   register_generator(m, g);
 

@@ -206,7 +206,7 @@ class TestGenerator(TestCase):
         lin_f = LinearFunctionGen()
 
         for op in self.fermion_ops:
-            self.assertEqual(op.algebra_id, FERMION)
+            self.assertEqual(op.algebra_id(), FERMION)
             self.assertFalse(op.reduce_power(3, lin_f))
             self.assertFalse(op.reduce_power(4, lin_f))
 
@@ -241,7 +241,7 @@ class TestGenerator(TestCase):
         lin_f = LinearFunctionGen()
 
         for op in self.boson_ops:
-            self.assertEqual(op.algebra_id, BOSON)
+            self.assertEqual(op.algebra_id(), BOSON)
             self.assertFalse(op.reduce_power(3, lin_f))
             self.assertFalse(op.reduce_power(4, lin_f))
 
@@ -276,7 +276,7 @@ class TestGenerator(TestCase):
         lin_f = LinearFunctionGen()
 
         for op in self.spin_ops:
-            self.assertEqual(op.algebra_id, SPIN)
+            self.assertEqual(op.algebra_id(), SPIN)
             self.assertEqual(op.spin, 0.5)
             self.assertEqual(op.multiplicity, 2)
             if op.component == SpinComponent.Z:
@@ -311,7 +311,7 @@ class TestGenerator(TestCase):
         lin_f = LinearFunctionGen()
 
         for op in self.spin1_ops:
-            self.assertEqual(op.algebra_id, SPIN)
+            self.assertEqual(op.algebra_id(), SPIN)
             self.assertEqual(op.spin, 1)
             self.assertEqual(op.multiplicity, 3)
             if op.component == SpinComponent.Z:
@@ -346,7 +346,7 @@ class TestGenerator(TestCase):
         lin_f = LinearFunctionGen()
 
         for op in self.spin32_ops:
-            self.assertEqual(op.algebra_id, SPIN)
+            self.assertEqual(op.algebra_id(), SPIN)
             self.assertEqual(op.spin, 3/2)
             self.assertEqual(op.multiplicity, 4)
             if op.component == SpinComponent.Z:
@@ -387,6 +387,6 @@ class TestGenerator(TestCase):
         for i in range(len(all_ops)):
             for j in range(i + 1, len(all_ops)):
                 c = swap_with(all_ops[j], all_ops[i], f)
-                if all_ops[j].algebra_id != all_ops[i].algebra_id:
+                if all_ops[j].algebra_id() != all_ops[i].algebra_id():
                     self.assertEqual(c, 1)
                     self.check_linear_function_0(f, 0)
