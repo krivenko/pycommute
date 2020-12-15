@@ -127,57 +127,6 @@ void register_dyn_indices(py::module_ & m) {
 ////////////////////////////////////////////////////////////////////////////////
 
 //
-// Register generator::linear_function_t
-//
-
-void register_linear_function(py::module_ & m) {
-
-  auto copy_terms = [](auto const& terms) {
-    std::vector<std::pair<std::unique_ptr<gen_type>, double>> res;
-    res.reserve(terms.size());
-    for(auto const& t : terms)
-      res.emplace_back(t.first->clone(), t.second);
-    return res;
-  };
-
-  py::class_<gen_type::linear_function_t>(m, "LinearFunctionGen",
-    "Linear combination of algebra generators plus a constant term"
-  )
-  .def(py::init<>(), "Construct a function that is identically zero.")
-  .def(py::init<double>(), "Construct a constant.", py::arg("const_term"))
-  .def(py::init([copy_terms](
-    double const_term,
-    std::vector<std::pair<const gen_type*, double>> const& terms) {
-      return std::make_unique<gen_type::linear_function_t>(
-        const_term,
-        std::move(copy_terms(terms))
-      );
-    }),
-    "Construct from a constant term and a list of coefficient/generator pairs.",
-    py::arg("const_term"),
-    py::arg("terms")
-  )
-  .def_readwrite("const_term",
-                 &gen_type::linear_function_t::const_term,
-                 "Constant term.")
-  .def_property("terms",
-    [copy_terms](gen_type::linear_function_t const& f) {
-      return copy_terms(f.terms);
-    },
-    [copy_terms](gen_type::linear_function_t & f,
-       std::vector<std::pair<const gen_type*, double>> const& terms) {
-       f.terms = std::move(copy_terms(terms));
-    },
-    "List of pairs of algebra generators and their respective coefficients."
-  )
-  .def_property_readonly("vanishing", &gen_type::linear_function_t::vanishing,
-    "Is this linear function identically zero?"
-  );
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-//
 // Helper classes for abstract base generator<dyn_indices>
 //
 
@@ -211,46 +160,17 @@ class gen_type_trampoline : public gen_type {
   double swap_with(gen_type const& g2, linear_function_t & f) const override {
     PYBIND11_OVERRIDE_PURE(double, gen_type, swap_with, g2, f);
   }
-
-  bool simplify_prod(gen_type const& g2, linear_function_t & f) const override {
-    PYBIND11_OVERRIDE(bool, gen_type, simplify_prod, g2, f);
-  }
-
-  bool reduce_power(int power, linear_function_t & f) const override {
-    PYBIND11_OVERRIDE(bool, gen_type, reduce_power, power, f);
-  }
-
-  void conj(linear_function_t & f) const override {
-    PYBIND11_OVERRIDE(void, gen_type, conj, f);
-  }
-
-  bool equal(gen_type const& g) const override {
-    PYBIND11_OVERRIDE(bool, gen_type, equal, g);
-  }
-
-  bool less(gen_type const& g) const override {
-    PYBIND11_OVERRIDE(bool, gen_type, less, g);
-  }
-
-  bool greater(gen_type const& g) const override {
-    PYBIND11_OVERRIDE(bool, gen_type, greater, g);
-  }
-};
-
-class gen_type_publicist : public gen_type {
-public:
-  using gen_type::equal;
-  using gen_type::less;
-  using gen_type::greater;
 };
 
 //
 // Register generator<dyn_indices>
 //
 
-template<typename Gen>
-void register_generator(py::module_ & m, Gen & g) {
-  g
+void register_generator(py::module_ & m) {
+
+  py::class_<gen_type, gen_type_trampoline>(m, "Generator",
+    "Abstract algebra generator"
+  )
   // Algebra ID
   .def_property_readonly("algebra_id",
                          &gen_type::algebra_id,
@@ -261,70 +181,6 @@ void register_generator(py::module_ & m, Gen & g) {
     return std::get<0>(g.indices());
     },
     "Indices carried by this generator."
-  )
-  // Product transformation methods
-  .def("swap_with", &gen_type::swap_with, R"eol(
-Given a pair of generators g1 = 'self' and g2 such that g1 > g2, swap_with()
-must signal what transformation g1 * g2 -> c * g2 * g1 + f(g) should be applied
-to the product g1 * g2 to put it into the canonical order.
-swap_with() returns the constant 'c' and writes the linear function f(g) into
-'f'. 'c' is allowed to be zero.
-
-This method should be overridden in derived classes.)eol",
-    py::arg("g2"),
-    py::arg("f")
-  )
-  .def("simplify_prod", &gen_type::simplify_prod, R"eol(
-Given a pair of generators g1 = 'self' and g2 such that g1 * g2 is in the
-canonical order (g1 <= g2), optionally apply a simplifying transformation
-g1 * g2 -> f(g). If a simplification is actually possible, simplify_prod()
-must return True and write the linear function f(g) into 'f'.
-Otherwise return False.
-
-This method should be overridden in derived classes.)eol",
-    py::arg("g2"),
-    py::arg("f")
-  )
-  .def("reduce_power", &gen_type::reduce_power, R"eol(
-Given a generator g1 = 'self' and a power > 2, optionally apply a simplifying
-transformation g1^power -> f(g). If a simplification is actually possible,
-reduce_power() must return True and write the linear function f(g) into 'f'.
-Otherwise return False.
-
-N.B. Simplifications for power = 2 must be carried out by simplify_prod().
-
-This method should be overridden in derived classes.)eol",
-    py::arg("power"), py::arg("f")
-  )
-  // Comparison methods
-  .def("equal", &gen_type_publicist::equal, R"eol(
-Determine whether two generators 'self' and 'g' belonging to the same algebra
-are equal.
-
-This method should be overridden in derived classes.)eol",
-    py::arg("g")
-  )
-  .def("less", &gen_type_publicist::less, R"eol(
-Determine whether two generators 'self' and 'g' belonging to the same algebra
-satisfy self < g.
-
-This method should be overridden in derived classes.)eol",
-    py::arg("g")
-  )
-  .def("greater", &gen_type_publicist::greater, R"eol(
-Determine whether two generators 'self' and 'g' belonging to the same algebra
-satisfy self > g.
-
-This method should be overridden in derived classes.)eol",
-    py::arg("g")
-  )
-  // Hermitian conjugate
-  .def("conj", &gen_type::conj, R"eol(
-Return the Hermitian conjugate of this generator as a linear function of
-generators via 'f'.
-
-This method should be overridden in derived classes.)eol",
-    py::arg("f")
   )
   // Comparison operators
   .def("__eq__",
@@ -349,14 +205,6 @@ This method should be overridden in derived classes.)eol",
   )
   // String representation
   .def("__repr__", &print<gen_type>);
-
-  // Swap generators of potentially different algebras
-  m.def("swap_with", &swap_with<dyn_indices>, R"eol(
-Check if 'g1' and 'g2' belong to the same algebra and call g1.swap_with(g2, f)
-accordingly. Generators of different algebras always commute, and for such
-generators swap_with() returns 1 and sets 'f' to the trivial function.)eol",
-    py::arg("g1"), py::arg("g2"), py::arg("f")
-  );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -967,17 +815,6 @@ PYBIND11_MODULE(expression, m) {
   register_dyn_indices(m);
 
   //
-  // Register generator<dyn_indices> early on so that pybind11 knows about this
-  // type at the point where generator::linear_function_t is wrapped.
-  //
-
-  py::class_<gen_type, gen_type_trampoline> g(m, "Generator",
-    "Abstract algebra generator"
-  );
-
-  register_linear_function(m);
-
-  //
   // Algebra IDs
   //
 
@@ -985,7 +822,7 @@ PYBIND11_MODULE(expression, m) {
   m.attr("BOSON") = boson;
   m.attr("SPIN") = spin;
 
-  register_generator(m, g);
+  register_generator(m);
 
   register_generator_fermion(m);
   register_generator_boson(m);
