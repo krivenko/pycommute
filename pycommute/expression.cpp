@@ -324,26 +324,6 @@ Make an operator for a general spin S = 'spin' corresponding to the spin
 component 'c' and carrying indices passed as positional arguments.)eol",
     py::arg("spin"), py::arg("c")
   );
-
-  //
-  // Generator type checks
-  //
-
-  m.def("is_fermion",
-        &is_fermion<dyn_indices>,
-        "Does 'g' belong to the fermionic algebra?",
-        py::arg("g")
-       );
-  m.def("is_boson",
-        &is_boson<dyn_indices>,
-        "Does 'g' belong to the bosonic algebra?",
-        py::arg("g")
-       );
-  m.def("is_spin",
-        &is_spin<dyn_indices>,
-        "Does 'g' belong to a spin algebra?",
-        py::arg("g")
-       );
 }
 
 ////////////////////////////////////////////////////////////////////////////////

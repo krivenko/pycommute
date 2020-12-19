@@ -61,7 +61,8 @@ class TestExpression(TestCase):
         expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 + \
                3.0 * a(0, "x") + 2.0 * a_dag(0, "y")
         # Multiply coefficients in front of bosonic operators by 2j
-        f = lambda m, c: 2*c if (len(m) > 0 and is_boson(m[0])) else 0
+        f = lambda m, c: 2*c if \
+            (len(m) > 0 and isinstance(m[0], GeneratorBoson)) else 0
         new_expr = transform(expr, f)
         self.assertEqual(new_expr, 6.0 * a(0, "x") + 4.0 * a_dag(0, "y"))
 

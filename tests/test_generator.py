@@ -16,7 +16,6 @@ from pycommute.expression import FERMION, GeneratorFermion, make_fermion
 from pycommute.expression import BOSON, GeneratorBoson, make_boson
 from pycommute.expression import SPIN, GeneratorSpin, make_spin
 from pycommute.expression import SpinComponent
-from pycommute.expression import is_fermion, is_boson, is_spin
 
 # All other Generator* tests
 class TestGenerator(TestCase):
@@ -112,9 +111,9 @@ class TestGenerator(TestCase):
         self.check_less_greater(self.fermion_ops)
 
         for op in self.fermion_ops:
-            self.assertTrue(is_fermion(op))
-            self.assertFalse(is_boson(op))
-            self.assertFalse(is_spin(op))
+            self.assertIsInstance(op, GeneratorFermion)
+            self.assertNotIsInstance(op, GeneratorBoson)
+            self.assertNotIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.fermion_ops)),
                              ["C+(dn,0)", "C+(up,0)", "C(up,0)", "C(dn,0)"])
@@ -133,9 +132,9 @@ class TestGenerator(TestCase):
         self.check_less_greater(self.boson_ops)
 
         for op in self.boson_ops:
-            self.assertFalse(is_fermion(op))
-            self.assertTrue(is_boson(op))
-            self.assertFalse(is_spin(op))
+            self.assertNotIsInstance(op, GeneratorFermion)
+            self.assertIsInstance(op, GeneratorBoson)
+            self.assertNotIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.boson_ops)),
                              ["A+(x)", "A+(y)", "A(y)", "A(x)"])
@@ -153,9 +152,9 @@ class TestGenerator(TestCase):
         self.check_less_greater(self.spin_ops)
 
         for op in self.spin_ops:
-            self.assertFalse(is_fermion(op))
-            self.assertFalse(is_boson(op))
-            self.assertTrue(is_spin(op))
+            self.assertNotIsInstance(op, GeneratorFermion)
+            self.assertNotIsInstance(op, GeneratorBoson)
+            self.assertIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.spin_ops)),
                              ["S+(1)","S-(1)","Sz(1)","S+(2)","S-(2)","Sz(2)"])
@@ -173,9 +172,9 @@ class TestGenerator(TestCase):
         self.check_less_greater(self.spin1_ops)
 
         for op in self.spin1_ops:
-            self.assertFalse(is_fermion(op))
-            self.assertFalse(is_boson(op))
-            self.assertTrue(is_spin(op))
+            self.assertNotIsInstance(op, GeneratorFermion)
+            self.assertNotIsInstance(op, GeneratorBoson)
+            self.assertIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.spin1_ops)),
             ["S1+(1)","S1-(1)","S1z(1)","S1+(2)","S1-(2)","S1z(2)"])
@@ -193,9 +192,9 @@ class TestGenerator(TestCase):
         self.check_less_greater(self.spin32_ops)
 
         for op in self.spin32_ops:
-            self.assertFalse(is_fermion(op))
-            self.assertFalse(is_boson(op))
-            self.assertTrue(is_spin(op))
+            self.assertNotIsInstance(op, GeneratorFermion)
+            self.assertNotIsInstance(op, GeneratorBoson)
+            self.assertIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.spin32_ops)),
             ["S3/2+(1)","S3/2-(1)","S3/2z(1)","S3/2+(2)","S3/2-(2)","S3/2z(2)"])
