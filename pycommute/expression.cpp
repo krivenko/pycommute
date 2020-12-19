@@ -36,6 +36,7 @@
 #include <string>
 #include <sstream>
 #include <tuple>
+#include <type_traits>
 
 using namespace libcommute;
 namespace py = pybind11;
@@ -213,9 +214,14 @@ void register_generator_fermion(py::module_ & m) {
   py::class_<generator_fermion<dyn_indices>, gen_type>(m, "GeneratorFermion",
     "Generator of the fermionic algebra"
   )
-  .def(py::init<bool, dyn_indices const&>(), R"eol(
-Construct a creation ('dagger' = True) or annihilation ('dagger' = False)
-fermionic operator with given 'indices'.)eol",
+  .def(py::init<bool, dyn_indices const&>(),
+R"=(
+Construct a creation or annihilation fermionic operator with given indices.
+
+:param dagger: ``True``/``False`` for a creation/annihilation operator
+                respectively.
+:param indices: Index sequence of the creation/annihilation operator.
+)=",
     py::arg("dagger"), py::arg("indices")
   )
   .def_property_readonly("dagger",
@@ -226,9 +232,14 @@ fermionic operator with given 'indices'.)eol",
   m.def("make_fermion", [](bool dagger, py::args args) {
     return generator_fermion<dyn_indices>(dagger, args2indices_t(args));
   },
-    R"eol(
-Make a creation ('dagger' = True) or annihilation ('dagger' = False) fermionic
-operator with indices passed as positional arguments.)eol",
+R"=(
+Make a creation or annihilation fermionic operator with indices passed as
+positional arguments.
+
+:param dagger: ``True``/``False`` for a creation/annihilation operator
+                respectively.
+:param *args: Indices of the creation/annihilation operator.
+)=",
     py::arg("dagger")
   );
 }
@@ -244,9 +255,14 @@ void register_generator_boson(py::module_ & m) {
   py::class_<generator_boson<dyn_indices>, gen_type>(m, "GeneratorBoson",
     "Generator of the bosonic algebra"
   )
-  .def(py::init<bool, dyn_indices const&>(), R"eol(
-Construct a creation ('dagger' = True) or annihilation ('dagger' = False)
-bosonic operator with given 'indices'.)eol",
+  .def(py::init<bool, dyn_indices const&>(),
+R"=(
+Construct a creation or annihilation bosonic operator with given indices.
+
+:param dagger: ``True``/``False`` for a creation/annihilation operator
+                respectively.
+:param indices: Index sequence of the creation/annihilation operator.
+)=",
     py::arg("dagger"), py::arg("indices"))
   .def_property_readonly("dagger",
                          &generator_boson<dyn_indices>::dagger,
@@ -255,9 +271,14 @@ bosonic operator with given 'indices'.)eol",
   m.def("make_boson", [](bool dagger, py::args args) {
     return generator_boson<dyn_indices>(dagger, args2indices_t(args));
   },
-    R"eol(
-Make a creation ('dagger' = True) or annihilation ('dagger' = False) bosonic
-operator with indices passed as positional arguments.)eol",
+R"=(
+Make a creation or annihilation bosonic operator with indices passed as
+positional arguments.
+
+:param dagger: ``True``/``False`` for a creation/annihilation operator
+                respectively.
+:param *args: Indices of the creation/annihilation operator.
+)=",
     py::arg("dagger")
   );
 }
@@ -271,57 +292,85 @@ operator with indices passed as positional arguments.)eol",
 void register_generator_spin(py::module_ & m) {
 
   py::enum_<spin_component>(m, "SpinComponent",
-                            "Spin operator component, S_+, S_- or S_z.")
+    "Enumeration: spin operator component, :math:`S_+`, :math:`S_-` "
+    "or :math:`S_z`.")
     .value("PLUS",
            spin_component::plus,
-           "Label for the spin raising operators S_+ = S_x + i S_y"
+           "Label for the spin raising operators :math:`S_+ = S_x + i S_y`"
           )
     .value("MINUS",
            spin_component::minus,
-           "Label for the spin lowering operators S_- = S_x - i S_y"
+           "Label for the spin lowering operators :math:`S_- = S_x - i S_y`"
           )
     .value("Z",
            spin_component::z,
-           "Label for the 3rd spin projection operators S_z"
+           "Label for the 3rd spin projection operators :math:`S_z`"
           );
 
   py::class_<generator_spin<dyn_indices>, gen_type>(m, "GeneratorSpin",
     "Generator of the spin algebra"
   )
-  .def(py::init<spin_component, dyn_indices const&>(), R"eol(
-Construct a spin-1/2 operator corresponding to the spin component 'c' and
-carrying given 'indices'.)eol",
+  .def(py::init<spin_component, dyn_indices const&>(),
+R"=(
+Construct a spin-1/2 operator corresponding to a single spin component and
+carrying given indices.
+
+:param c: Which spin component to construct, one of :py:class:`SpinComponent`
+          values.
+:param indices: Index sequence of the spin component operator.
+
+)=",
     py::arg("c"), py::arg("indices")
   )
-  .def(py::init<double, spin_component, dyn_indices const&>(), R"eol(
-Construct an operator for a general spin S = 'spin' corresponding to the spin
-component 'c' and carrying given 'indices'.)eol",
+  .def(py::init<double, spin_component, dyn_indices const&>(),
+R"=(
+Construct an operator for a general spin :math:`S` corresponding to a single
+spin component and carrying given indices.
+
+:param spin: Integer or half-integer value of spin :math:`S`.
+:param c: Which spin component to construct, one of :py:class:`SpinComponent`
+          values.
+:param indices: Index sequence of the spin component operator.
+)=",
     py::arg("spin"), py::arg("c"), py::arg("indices")
   )
   .def_property_readonly("multiplicity",
                          &generator_spin<dyn_indices>::multiplicity, R"eol(
-Multiplicity 2S+1 of the spin algebra this generator belongs to.)eol"
+Multiplicity :math:`2S+1` of the spin algebra this generator belongs to.)eol"
   )
   .def_property_readonly("spin", &generator_spin<dyn_indices>::spin, R"eol(
-Spin S of the algebra this generator belongs to.)eol"
+Spin :math:`S` of the algebra this generator belongs to.)eol"
   )
   .def_property_readonly("component",
                          &generator_spin<dyn_indices>::component, R"eol(
-Whether this generator S_+, S_- or S_z?)eol"
+Whether this generator :math:`S_+`, :math:`S_-` or :math:`S_z`?)eol"
   );
 
   m.def("make_spin", [](spin_component c, py::args args) {
     return generator_spin<dyn_indices>(c, args2indices_t(args));
-  }, R"eol(
-Make a spin-1/2 operator corresponding to the spin component 'c' and carrying
-indices passed as positional arguments.)eol",
+  },
+R"=(
+Make a spin-1/2 operator corresponding to a single spin component and carrying
+indices passed as positional arguments.
+
+:param c: Which spin component to construct, one of :py:class:`SpinComponent`
+          values.
+:param *args: Indices of the operator.
+)=",
     py::arg("c")
 );
   m.def("make_spin", [](double spin, spin_component c, py::args args) {
     return generator_spin<dyn_indices>(spin, c, args2indices_t(args));
-  }, R"eol(
-Make an operator for a general spin S = 'spin' corresponding to the spin
-component 'c' and carrying indices passed as positional arguments.)eol",
+  },
+R"=(
+Make an operator for a general spin :math:`S` corresponding to a single spin
+component and carrying indices passed as positional arguments.
+
+:param spin: Integer or half-integer value of spin :math:`S`.
+:param c: Which spin component to construct, one of :py:class:`SpinComponent`
+          values.
+:param *args: Indices of the operator.
+)=",
     py::arg("spin"), py::arg("c")
   );
 }
@@ -335,7 +384,8 @@ component 'c' and carrying indices passed as positional arguments.)eol",
 void register_monomial(py::module_ & m) {
   py::class_<mon_type>(m, "Monomial",
                        "Monomial: a product of algebra generators")
-  .def(py::init<>(), "Construct an identity monomial.")
+  .def(py::init<>(),
+       "Construct an identity monomial (a product of zero generators).")
   .def(py::init<std::vector<gen_type*>>(),
     "Construct from a list of algebra generators."
   )
@@ -384,7 +434,12 @@ void register_monomial(py::module_ & m) {
         throw py::index_error();
       m.swap_generators(n1, n2);
     },
-    "Swap generators at positions 'n1' and 'n2'.",
+R"=(
+Swap two generators at given positions within the monomial.
+
+:param n1: Position of the first generator to be swapped.
+:param n2: Position of the second generator to be swapped.
+)=",
     py::arg("n1"), py::arg("n2")
   )
   // Iterators
@@ -432,15 +487,24 @@ auto register_expression(py::module_ & m,
   c
   .def(py::init<>(), "Construct a zero expression.")
   .def(py::init<ScalarType const&>(),
-       "Construct a constant expression.",
+R"=(
+Construct a constant expression equal to :math:`x`.
+
+:param x: Constant :math:`x`.
+)=",
        py::arg("x"))
   .def(py::init<ScalarType const&, mon_type>(),
-       "Construct an expression with one monomial, x*m.",
+R"=(
+Construct an expression with one monomial, :math:`x \cdot m`.
+
+:param x: Coefficient :math:`x`.
+:param m: Monomial :math:`m`.
+)=",
        py::arg("x"), py::arg("m")
   )
   // Accessors
   .def("__len__", &expr_t::size, "Number of monomials in this expression.")
-  .def("clear", &expr_t::clear, "Reset expression to zero")
+  .def("clear", &expr_t::clear, "Reset expression to zero.")
   // Homogeneous arithmetic
   .def(py::self == py::self)
   .def(py::self != py::self)
@@ -481,18 +545,38 @@ auto register_expression(py::module_ & m,
 
   // Hermitian conjugate
   m.def("conj",
-        [](expr_t const& e) { return conj(e); },
-        "Hermitian conjugate",
+        [](expr_t const& expr) { return conj(expr); },
+R"=(
+Hermitian conjugate.
+
+:param expr: Expression to conjugate.
+)=",
         py::arg("expr")
   );
 
   // transform()
   using f_t = std::function<ScalarType(mon_type const& m, ScalarType coeff)>;
+
+  std::string f_doc_text = std::is_same_v<ScalarType, double> ?
+R"=(
+:param f: Transformation function. It must take two arguments, one of type
+          :py:class:`Monomial` and one :py:class:`float` argument.
+)=" :
+R"=(
+:param f: Transformation function. It must take two arguments, one of type
+          :py:class:`Monomial` and one :py:class:`complex` argument.
+)=";
+
   m.def("transform",
         [](expr_t const& expr, f_t const& f) { return transform(expr, f); },
-        R"eol(
-Apply function 'f' to all monomial/coefficient pairs and replace the
-coefficients with values returned by the function.)eol",
+        (std::string(
+R"=(
+Apply a given function to all monomial/coefficient pairs and replace the
+coefficients with values returned by the function. Zero return values will
+result in respective monomials being discarded.
+
+:param expr: Expression to be transformed.
+)=") + f_doc_text).c_str(),
     py::arg("expr"), py::arg("f")
   );
 
@@ -571,9 +655,15 @@ void register_expr_mixed_real_complex(py::module_ & m,
              std::complex<double>(mon_type const& m, double coeff)
            > const& f)
         { return transform(expr, f); },
-        R"eol(
-Apply function 'f' to all monomial/coefficient pairs and replace the
-coefficients with values returned by the function.)eol",
+R"=(
+Apply a given function to all monomial/coefficient pairs and replace the
+coefficients with values returned by the function. Zero return values will
+result in respective monomials being discarded.
+
+:param expr: Expression to be transformed.
+:param f: Transformation function. It must take two arguments, one of type
+          :py:class:`Monomial` and one :py:class:`float` argument.
+)=",
     py::arg("expr"), py::arg("f")
   );
   m.def("transform",
@@ -581,9 +671,15 @@ coefficients with values returned by the function.)eol",
             double(mon_type const& m, std::complex<double> coeff)
            > const& f)
         { return transform(expr, f); },
-        R"eol(
-Apply function 'f' to all monomial/coefficient pairs and replace the
-coefficients with values returned by the function.)eol",
+R"=(
+Apply a given function to all monomial/coefficient pairs and replace the
+coefficients with values returned by the function. Zero return values will
+result in respective monomials being discarded.
+
+:param expr: Expression to be transformed.
+:param f: Transformation function. It must take two arguments, one of type
+          :py:class:`Monomial` and one :py:class:`complex` argument.
+)=",
     py::arg("expr"), py::arg("f")
   );
 }
@@ -603,55 +699,106 @@ void register_factories(py::module_ & m) {
   .def("c_dag", [](py::args args) -> expr_real {
       return static_indices::c_dag(dyn_indices(args2indices_t(args)));
     },
-    "Returns a fermionic creation operator with indices 'args'."
+R"=(
+Returns a fermionic creation operator with indices passed as positional
+arguments.
+
+:param *args: Indices of the operator.
+)="
   )
   .def("c", [](py::args args) -> expr_real {
       return static_indices::c(dyn_indices(args2indices_t(args)));
     },
-    "Returns a fermionic annihilation operator with indices 'args'."
+R"=(
+Returns a fermionic annihilation operator with indices passed as positional
+arguments.
+
+:param *args: Indices of the operator.
+)="
   )
   .def("n", [](py::args args) -> expr_real {
       return static_indices::n(dyn_indices(args2indices_t(args)));
     },
-    "Returns a fermionic particle number operator with indices 'args'."
+R"=(
+Returns a fermionic particle number operator with indices passed as positional
+arguments.
+
+:param *args: Indices of the operator.
+)="
   );
   // Bosons
   m
   .def("a_dag", [](py::args args) -> expr_real {
       return static_indices::a_dag(dyn_indices(args2indices_t(args)));
     },
-    "Returns a bosonic creation operator with indices 'args'."
+R"=(
+Returns a bosonic creation operator with indices passed as positional arguments.
+
+:param *args: Indices of the operator.
+)="
   )
   .def("a", [](py::args args) -> expr_real {
       return static_indices::a(dyn_indices(args2indices_t(args)));
     },
-    "Returns a bosonic annihilation operator with indices 'args'."
+R"=(
+Returns a bosonic annihilation operator with indices passed as
+positional arguments.
+
+:param *args: Indices of the operator.
+)="
   );
+
   // Spin 1/2
   m
   .def("S_p", [&](py::args args) -> expr_real {
       return static_indices::S_p(dyn_indices(args2indices_t(args)));
     },
-    "Returns a spin-1/2 raising operator S_+ with indices 'args'."
+R"=(
+Returns a spin-1/2 raising operator :math:`S_+` with indices passed as
+positional arguments.
+
+:param *args: Indices of the operator.
+)="
   )
   .def("S_m", [](py::args args) -> expr_real {
       return static_indices::S_m(dyn_indices(args2indices_t(args)));
     },
-    "Returns a spin-1/2 lowering operator S_+ with indices 'args'."
+R"=(
+Returns a spin-1/2 lowering operator :math:`S_-` with indices passed as
+positional arguments.
+
+:param *args: Indices of the operator.
+)="
   )
   .def("S_x", [](py::args args) -> expr_complex {
       return static_indices::S_x(dyn_indices(args2indices_t(args)));
     },
-    "Returns a spin-1/2 x-projection operator S_x with indices 'args'."
-  ).def("S_y", [](py::args args) -> expr_complex {
+R"=(
+Returns a spin-1/2 x-projection operator :math:`S_x` with indices passed as
+positional arguments.
+
+:param *args: Indices of the operator.
+)="
+  )
+  .def("S_y", [](py::args args) -> expr_complex {
       return static_indices::S_y(dyn_indices(args2indices_t(args)));
     },
-    "Returns a spin-1/2 y-projection operator S_y with indices 'args'."
+R"=(
+Returns a spin-1/2 y-projection operator :math:`S_y` with indices passed as
+positional arguments.
+
+:param *args: Indices of the operator.
+)="
   )
   .def("S_z", [](py::args args) -> expr_real {
       return static_indices::S_z(dyn_indices(args2indices_t(args)));
     },
-    "Returns a spin-1/2 z-projection operator S_z with indices 'args'."
+R"=(
+Returns a spin-1/2 z-projection operator :math:`S_z` with indices passed as
+positional arguments.
+
+:param *args: Indices of the operator.
+)="
   );
   // Arbitrary spin
 
@@ -682,9 +829,13 @@ void register_factories(py::module_ & m) {
                                   dyn_indices(args2indices_t(args)))
       ));
     },
-    R"eol(
-Returns a general spin raising operator S_+ with indices 'args'. The spin S is
-passed via the 'spin' keyword argument.)eol"
+R"=(
+Returns a general spin raising operator :math:`S_+` with indices passed as
+positional arguments.
+
+:param spin: Spin :math:`S`.
+:param *args: Indices of the operator.
+)="
   )
   .def("S_m", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
@@ -695,9 +846,13 @@ passed via the 'spin' keyword argument.)eol"
                                   dyn_indices(args2indices_t(args)))
       ));
     },
-    R"eol(
-Returns a general spin lowering operator S_- with indices 'args'. The spin S is
-passed via the 'spin' keyword argument.)eol"
+R"=(
+Returns a general spin lowering operator :math:`S_-` with indices passed as
+positional arguments.
+
+:param spin: Spin :math:`S`.
+:param *args: Indices of the operator.
+)="
   )
   .def("S_x", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
@@ -714,9 +869,13 @@ passed via the 'spin' keyword argument.)eol"
         ))
       );
     },
-    R"eol(
-Returns a general spin x-projection operator S_x with indices 'args'. The spin S
-is passed via the 'spin' keyword argument.)eol"
+R"=(
+Returns a general spin :math:`S` x-projection operator :math:`S_x` with indices
+passed as positional arguments.
+
+:param spin: Spin :math:`S`.
+:param *args: Indices of the operator.
+)="
   )
   .def("S_y", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
@@ -734,9 +893,13 @@ is passed via the 'spin' keyword argument.)eol"
         ))
       );
     },
-    R"eol(
-Returns a general spin y-projection operator S_y with indices 'args'. The spin S
-is passed via the 'spin' keyword argument.)eol"
+R"=(
+Returns a general spin :math:`S` y-projection operator :math:`S_y` with indices
+passed as positional arguments.
+
+:param spin: Spin :math:`S`.
+:param *args: Indices of the operator.
+)="
   )
   .def("S_z", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
@@ -746,9 +909,13 @@ is passed via the 'spin' keyword argument.)eol"
                                   dyn_indices(args2indices_t(args)))
       ));
     },
-    R"eol(
-Returns a general spin z-projection operator S_z with indices 'args'. The spin S
-is passed via the 'spin' keyword argument.)eol"
+R"=(
+Returns a general spin :math:`S` z-projection operator :math:`S_z` with indices
+passed as positional arguments.
+
+:param spin: Spin :math:`S`.
+:param *args: Indices of the operator.
+)="
   );
 
   //
@@ -756,7 +923,11 @@ is passed via the 'spin' keyword argument.)eol"
   //
 
   m.def("make_complex", &dynamic_indices::make_complex,
-    "Make a complex expression out of a real one.",
+R"=(
+Make a complex expression out of a real one.
+
+:param expr: Real expression to be complexified.
+)=",
     py::arg("expr")
   );
 }
@@ -772,8 +943,13 @@ void register_hc(py::module_ & m) {
   using dynamic_indices::expr_complex;
 
   py::class_<std::remove_const_t<decltype(hc)>>(m, "HC",
-    "A placeholder object that adds/subtracts the Hermitian conjugate "
-    "to/from an expression")
+R"=(
+A placeholder type that adds/subtracts the Hermitian conjugate
+to/from an expression. There is a module-level constant of this type called
+:py:data:`hc`, which allows to mimic the :math:`\pm H.c.` notation in
+expressions.
+)="
+  )
   .def("__radd__", [](decltype(hc), expr_real const& e){ return e + hc; },
        py::is_operator())
   .def("__radd__", [](decltype(hc), expr_complex const& e){ return e + hc; },
