@@ -13,6 +13,7 @@
 #
 
 from setuptools import setup
+from sphinx.setup_command import BuildDoc
 from pybind11.setup_helpers import Pybind11Extension, build_ext
 
 __version__ = "0.5"
@@ -76,6 +77,11 @@ class pycommute_build_ext(build_ext):
 
         build_ext.build_extensions(self)
 
+class run_build_before_doc(BuildDoc):
+    def run(self):
+        self.run_command("build")
+        super(run_build_before_doc, self).run()
+
 setup(
     name = "pycommute",
     version = __version__,
@@ -99,6 +105,7 @@ setup(
     packages = ['pycommute'],
     ext_modules = ext_modules,
     include_package_data = True,
-    cmdclass = {'build_ext' : pycommute_build_ext},
+    cmdclass = {'build_ext' : pycommute_build_ext,
+                'build_sphinx' : run_build_before_doc},
     zip_safe = False
 )
