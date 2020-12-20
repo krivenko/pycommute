@@ -5,13 +5,25 @@
 
 .. automodule:: pycommute.expression
 
+.. pybind11class:: pycommute.expression.Indices
+.. pybind11class:: pycommute.expression.SpinComponent
+.. pybind11class:: pycommute.expression.GeneratorFermion
+.. pybind11class:: pycommute.expression.GeneratorBoson
+.. pybind11class:: pycommute.expression.GeneratorSpin
+.. pybind11class:: pycommute.expression.Generator
+.. pybind11class:: pycommute.expression.Monomial
+.. pybind11class:: pycommute.expression.ExpressionR
+.. pybind11class:: pycommute.expression.ExpressionC
+
 Index sequence
 --------------
 
-``Indices`` objects are not the same thing as Python tuples, because they
-follow a different ordering rule. Unlike with the Python tuples, two index
-sequences ``I1`` and ``I2`` always compare as ``I1 < I2`` if
-``len(I1) < len(I2)``.
+.. note::
+
+  :py:class:`Indices` objects are not the same thing as Python tuples, because
+  they follow a different ordering rule. Unlike with the Python tuples, two
+  index sequences ``I1`` and ``I2`` always compare as ``I1 < I2`` if
+  ``len(I1) < len(I2)``.
 
 .. autoclass:: Indices
   :members:

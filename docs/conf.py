@@ -19,6 +19,8 @@ sys.path.insert(0, os.path.abspath(os.path.join(
   "..", "build", "lib.%s-%s" % (get_platform(), get_python_version())))
 )
 
+sys.path.append(os.path.abspath("./_ext"))
+
 # -- Project information -----------------------------------------------------
 
 project = 'pycommute'
@@ -34,7 +36,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
-    'sphinx_rtd_theme'
+    'sphinx_rtd_theme',
+    'pybind11_preprocess'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
