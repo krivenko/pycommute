@@ -386,7 +386,7 @@ void register_monomial(py::module_ & m) {
                        "Monomial: a product of algebra generators")
   .def(py::init<>(),
        "Construct an identity monomial (a product of zero generators).")
-  .def(py::init<std::vector<gen_type*>>(),
+  .def(py::init<std::vector<gen_type*> const&>(),
     "Construct from a list of algebra generators."
   )
   .def("__len__", &mon_type::size, "Number of generators in this monomial.")
