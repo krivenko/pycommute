@@ -456,15 +456,15 @@ Swap two generators at given positions within the monomial.
   // Concatenation
   .def("__mul__", [](mon_type const& m, gen_type const& g) {
       return concatenate(m, g);
-    }
+    }, py::is_operator()
   )
   .def("__rmul__", [](mon_type const& m, gen_type const& g) {
       return concatenate(g, m);
-    }
+    }, py::is_operator()
   )
   .def("__mul__", [](mon_type const& m1, mon_type const& m2) {
       return concatenate(m1, m2);
-    }
+    }, py::is_operator()
   );
 }
 
