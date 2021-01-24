@@ -10,6 +10,7 @@
 .. pybind11class:: pycommute.loperator.ESpaceFermion
 .. pybind11class:: pycommute.loperator.ESpaceBoson
 .. pybind11class:: pycommute.loperator.ESpaceSpin
+.. pybind11class:: pycommute.loperator.HilbertSpace
 
 Elementary spaces
 -----------------
@@ -39,3 +40,13 @@ Elementary spaces
   :special-members:
 
 .. automethod:: pycommute.loperator.make_space_spin
+
+Full Hilbert spaces
+-------------------
+
+.. autoclass:: pycommute.loperator.HilbertSpace
+  :show-inheritance:
+  :members:
+  :special-members:
+
+.. automethod:: pycommute.loperator.foreach

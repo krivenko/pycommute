@@ -14,12 +14,15 @@
 #include "pybind11_workarounds.hpp"
 
 #include <pybind11/pybind11.h>
+#include <pybind11/operators.h>
 #include <pybind11/stl.h>
+#include <pybind11/functional.h>
 
 #include <libcommute/loperator/loperator.hpp>
 #include <libcommute/loperator/elementary_space_fermion.hpp>
 #include <libcommute/loperator/elementary_space_boson.hpp>
 #include <libcommute/loperator/elementary_space_spin.hpp>
+#include <libcommute/loperator/es_constructor.hpp>
 #include <libcommute/expression/dyn_indices.hpp>
 
 #include <string>
@@ -33,6 +36,7 @@ namespace py = pybind11;
 
 using dynamic_indices::dyn_indices;
 using es_type = elementary_space<dyn_indices>;
+using hs_type = hilbert_space<dyn_indices>;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -242,8 +246,130 @@ Make a spin elementary space with indices passed as positional arguments.
 :param *args: Indices of the corresponding spin operator.
 )=",
     py::arg("spin")
-);
+  );
+}
 
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register hilbert_space<dyn_indices>
+//
+
+void register_hilbert_space(py::module_ & m) {
+
+  using dynamic_indices::expr_real;
+  using dynamic_indices::expr_complex;
+
+  py::class_<hs_type>(m, "HilbertSpace",
+    "Hilbert space as a direct product of elementary spaces"
+  )
+  .def(py::init<>(), "Construct an empty Hilbert space.")
+  .def(py::init<std::vector<es_type*> const&>(),
+    "Construct from a list to elementary spaces.",
+    py::arg("elementary_spaces")
+  )
+  .def(py::init(
+    [](expr_real const& expr, int bits_per_boson) {
+      return hs_type(expr, boson_es_constructor(bits_per_boson));
+    }),
+R"=(
+Inspect a real polynomial expression and collect elementary spaces associated to
+every algebra generator found in the expression.
+
+:param expr: Polynomial expression to inspect.
+:param bits_per_boson: Base-2 logarithm of the dimension of every bosonic
+       elementary space to be constructed.
+)=",
+    py::arg("expr"), py::arg("bits_per_boson") = 1
+  )
+  .def(py::init(
+    [](expr_complex const& expr, int bits_per_boson) {
+      return hs_type(expr, boson_es_constructor(bits_per_boson));
+    }),
+R"=(
+Inspect a complex polynomial expression and collect elementary spaces associated
+to every algebra generator found in the expression.
+
+:param expr: Polynomial expression to inspect.
+:param bits_per_boson: Base-2 logarithm of the dimension of every bosonic
+       elementary space to be constructed.
+)=",
+    py::arg("expr"), py::arg("bits_per_boson") = 1
+  )
+  .def(py::self == py::self, py::arg("hs"))
+  .def(py::self != py::self, py::arg("hs"))
+  .def("add",
+    &hs_type::add,
+R"=(
+Add a new elementary space into the direct product.
+
+:param es: Elementary space to add.
+)=",
+    py::arg("es")
+  )
+  .def("__contains__",
+    &hs_type::has,
+    "Is a given elementary space part of the direct product?",
+    py::arg("es")
+  )
+  .def("__len__",
+    &hs_type::size,
+    "Number of elementary spaces in the direct product."
+  )
+  .def_property_readonly("dim",
+    &hs_type::dim,
+    "Dimension of this Hilbert space, :math:`2^\\text{total_n_bits}`."
+  )
+  .def("bit_range",
+    &hs_type::bit_range,
+R"=(
+Bit range spanned by a given elementary space.
+
+:param es: Elementary space.
+)=",
+    py::arg("es")
+  )
+  .def("algebra_bit_range",
+    &hs_type::algebra_bit_range,
+R"=(
+Bit range spanned by a given algebra ID.
+
+:param algebra_id: Algebra ID.
+)=",
+  py::arg("algebra_id")
+  )
+  .def_property_readonly("total_n_bits",
+    &hs_type::total_n_bits,
+R"=(The minimal number of binary digits needed to represent any state in this
+Hilbert space.)="
+  )
+  .def("basis_state_index",
+    &hs_type::basis_state_index,
+R"=(
+Returns index of the product basis state, which decomposes over bases of
+the elementary spaces as
+:math:`|0\rangle |0\rangle \ldots |0\rangle |n\rangle_\text{es} |0\rangle
+\ldots |0\rangle`.
+
+:param es: Elementary space corresponding to the arbitrary index in
+           the decomposition.
+:param n: Index of the basis state within the selected elementary space.
+)=", py::arg("es"), py::arg("n")
+  );
+
+  // foreach()
+  using f_t = std::function<void(sv_index_type n)>;
+
+  m.def("foreach",
+        [](hs_type const& hs, f_t const& f) { return foreach(hs, f); },
+R"=(
+Apply a given functor to all basis state indices in a Hilbert space.
+
+:param hs: Hilbert space in question.
+:param f: Functor to be applied.
+)=",
+    py::arg("hs"), py::arg("f")
+  );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -254,12 +380,13 @@ Make a spin elementary space with indices passed as positional arguments.
 
 PYBIND11_MODULE(loperator, m) {
 
-  m.doc() = "Linear operators in finite-dimensional Hilbert spaces and "
-            "Exact Diagonalization toolkit";
+  m.doc() = "Linear operators in finite-dimensional Hilbert spaces";
 
   register_elementary_space(m);
 
   register_elementary_space_fermion(m);
   register_elementary_space_boson(m);
   register_elementary_space_spin(m);
+
+  register_hilbert_space(m);
 }
