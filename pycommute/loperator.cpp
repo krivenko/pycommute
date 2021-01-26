@@ -18,6 +18,8 @@
 #include <pybind11/stl.h>
 #include <pybind11/functional.h>
 
+#include "numpy_state_vectors.hpp"
+
 #include <libcommute/loperator/loperator.hpp>
 #include <libcommute/loperator/elementary_space_fermion.hpp>
 #include <libcommute/loperator/elementary_space_boson.hpp>
@@ -26,6 +28,8 @@
 #include <libcommute/expression/dyn_indices.hpp>
 
 #include <string>
+#include <type_traits>
+#include <utility>
 
 using namespace libcommute;
 namespace py = pybind11;
@@ -374,6 +378,119 @@ Apply a given functor to all basis state indices in a Hilbert space.
 
 ////////////////////////////////////////////////////////////////////////////////
 
+template<typename ScalarType>
+using lop_type = loperator<ScalarType, fermion, boson, spin>;
+
+//
+// Register loperator<ScalarType, fermion, boson, spin>::operator()()
+//
+
+template<typename ScalarType, typename SrcScalarType, typename DstScalarType>
+void register_loperator_act(py::class_<lop_type<ScalarType>> & lop) {
+
+  std::string src_vector_text = std::is_same_v<SrcScalarType, double> ?
+                                "real" : "complex";
+  std::string dst_vector_text = std::is_same_v<DstScalarType, double> ?
+                                "real" : "complex";
+  auto docstring = "\nAct on a " + src_vector_text +
+    " state vector and write the result into another " + dst_vector_text +
+    " state vector.\n" +
+    R"=(
+:param src: Source state vector.
+:param dst: Destination state vector.
+)=";
+
+  lop.def("__call__",
+    [](lop_type<ScalarType> const& op,
+       py::array_t<SrcScalarType> const& src,
+       py::array_t<DstScalarType> & dst
+      ) {
+      py::buffer_info src_buf = src.request();
+      py::buffer_info dst_buf = dst.request();
+      if(src_buf.ndim != 1)
+        throw std::runtime_error(
+          "Source state vector must be a 1-dimensional array"
+        );
+      if(dst_buf.ndim != 1)
+        throw std::runtime_error(
+          "Destination state vector must be a 1-dimensional array"
+        );
+      op(src, dst);
+    },
+    docstring.c_str(),
+    py::is_operator(), py::arg("src"), py::arg("dst").noconvert()
+  );
+}
+
+//
+// Register loperator<ScalarType, fermion, boson, spin>::operator*()
+//
+
+template<typename ScalarType, typename StateScalarType>
+void register_loperator_mul(py::class_<lop_type<ScalarType>> & lop) {
+  using dst_scalar_type = mul_type<ScalarType, StateScalarType>;
+
+  auto docstring = "Act on a " +
+    std::string(std::is_same_v<StateScalarType, double> ? "real" : "complex") +
+    " state vector and return the resulting vector.";
+
+  lop.def("__mul__",
+    [](lop_type<ScalarType> const& op,
+       py::array_t<StateScalarType> const& sv) ->
+      py::array_t<dst_scalar_type> {
+      py::buffer_info sv_buf = sv.request();
+      if(sv_buf.ndim != 1)
+        throw std::runtime_error("State vector must be a 1-dimensional array");
+      auto dst = py::array_t<dst_scalar_type>(sv_buf.size);
+      op(sv, dst);
+      return dst;
+    },
+    docstring.c_str(),
+    py::is_operator(), py::arg("sv")
+  );
+}
+
+//
+// Register loperator<ScalarType, fermion, boson, spin>
+//
+
+template<typename ScalarType>
+void register_loperator(py::module_ & m,
+                        std::string const& class_name,
+                        std::string const& docstring
+                       ) {
+  py::class_<lop_type<ScalarType>> lop(m,
+                                       class_name.c_str(),
+                                       docstring.c_str());
+
+  // Constructor
+  lop.def(
+    py::init<expression<ScalarType, dyn_indices> const&, hs_type const&>(),
+R"=(
+Construct the linear operator representing action of a given polynomial
+expression on a Hilbert space.
+
+:param expr: Source polynomial expression.
+:param hs: Hilbert space the linear operator acts on.
+)=",
+    py::arg("expr"), py::arg("hs")
+  );
+
+  // Multiplication (action on a state vector)
+  register_loperator_mul<ScalarType, double>(lop);
+  register_loperator_mul<ScalarType, std::complex<double>>(lop);
+
+  // Call operator (in-place action on a state vector)
+  if constexpr(std::is_same_v<ScalarType, double>)
+    register_loperator_act<ScalarType, double, double>(lop);
+  register_loperator_act<ScalarType, double, std::complex<double>>(lop);
+  register_loperator_act<ScalarType,
+                         std::complex<double>,
+                         std::complex<double>>(lop);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
 //
 // 'loperator' Python module
 //
@@ -389,4 +506,11 @@ PYBIND11_MODULE(loperator, m) {
   register_elementary_space_spin(m);
 
   register_hilbert_space(m);
+
+  register_loperator<double>(
+    m, "LOperatorR", "Real-valued linear operator"
+  );
+  register_loperator<std::complex<double>>(
+    m, "LOperatorC", "Complex-valued linear operator"
+  );
 }

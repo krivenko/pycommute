@@ -11,6 +11,8 @@
 .. pybind11class:: pycommute.loperator.ESpaceBoson
 .. pybind11class:: pycommute.loperator.ESpaceSpin
 .. pybind11class:: pycommute.loperator.HilbertSpace
+.. pybind11class:: pycommute.loperator.LOperatorR
+.. pybind11class:: pycommute.loperator.LOperatorC
 
 Elementary spaces
 -----------------
@@ -50,3 +52,14 @@ Full Hilbert spaces
   :special-members:
 
 .. automethod:: pycommute.loperator.foreach
+
+Linear operators
+----------------
+
+.. autoclass:: pycommute.loperator.LOperatorR
+  :members:
+  :special-members:
+
+.. autoclass:: pycommute.loperator.LOperatorC
+  :members:
+  :special-members:
