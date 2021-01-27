@@ -29,24 +29,27 @@ namespace libcommute {
 // pybind11::array_t
 //
 
-template<typename ScalarType>
-struct element_type<pybind11::array_t<ScalarType>> { using type = ScalarType; };
+template<typename ScalarType, int ExtraFlags>
+struct element_type<pybind11::array_t<ScalarType, ExtraFlags>> {
+  using type = ScalarType;
+};
 
-template<typename ScalarType>
-inline ScalarType const& get_element(pybind11::array_t<ScalarType> const& sv,
-                                     sv_index_type n) {
+template<typename ScalarType, int ExtraFlags>
+inline ScalarType const& get_element(
+  pybind11::array_t<ScalarType, ExtraFlags> const& sv,
+  sv_index_type n) {
   return *sv.data(n);
 }
 
-template<typename ScalarType, typename T>
-inline void update_add_element(pybind11::array_t<ScalarType> & sv,
+template<typename ScalarType, int ExtraFlags, typename T>
+inline void update_add_element(pybind11::array_t<ScalarType, ExtraFlags> & sv,
                                sv_index_type n,
                                T value) {
   *sv.mutable_data(n) += value;
 }
 
-template<typename ScalarType>
-inline void set_zeros(pybind11::array_t<ScalarType> & sv) {
+template<typename ScalarType, int ExtraFlags>
+inline void set_zeros(pybind11::array_t<ScalarType, ExtraFlags> & sv) {
   auto z = scalar_traits<ScalarType>::make_const(0);
   auto d = sv.template mutable_unchecked<1>();
   sv_index_type size = d.shape(0);
@@ -54,8 +57,9 @@ inline void set_zeros(pybind11::array_t<ScalarType> & sv) {
     d(n) = z;
 }
 
-template<typename ScalarType, typename Functor>
-inline void foreach(pybind11::array_t<ScalarType> const& sv, Functor&& f) {
+template<typename ScalarType, int ExtraFlags, typename Functor>
+inline void foreach(pybind11::array_t<ScalarType, ExtraFlags> const& sv,
+                    Functor&& f) {
   auto d = sv.template unchecked<1>();
   sv_index_type size = d.shape(0);
   for(sv_index_type n = 0; n < size; ++n) {

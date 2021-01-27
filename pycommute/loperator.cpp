@@ -402,8 +402,8 @@ void register_loperator_act(py::class_<lop_type<ScalarType>> & lop) {
 
   lop.def("__call__",
     [](lop_type<ScalarType> const& op,
-       py::array_t<SrcScalarType> const& src,
-       py::array_t<DstScalarType> & dst
+       py::array_t<SrcScalarType, 0> const& src,
+       py::array_t<DstScalarType, 0> & dst
       ) {
       py::buffer_info src_buf = src.request();
       py::buffer_info dst_buf = dst.request();
@@ -418,7 +418,7 @@ void register_loperator_act(py::class_<lop_type<ScalarType>> & lop) {
       op(src, dst);
     },
     docstring.c_str(),
-    py::is_operator(), py::arg("src"), py::arg("dst").noconvert()
+    py::arg("src"), py::arg("dst").noconvert()
   );
 }
 
@@ -436,7 +436,7 @@ void register_loperator_mul(py::class_<lop_type<ScalarType>> & lop) {
 
   lop.def("__mul__",
     [](lop_type<ScalarType> const& op,
-       py::array_t<StateScalarType> const& sv) ->
+       py::array_t<StateScalarType, 0> const& sv) ->
       py::array_t<dst_scalar_type> {
       py::buffer_info sv_buf = sv.request();
       if(sv_buf.ndim != 1)
