@@ -25,8 +25,10 @@
 #include <libcommute/loperator/elementary_space_boson.hpp>
 #include <libcommute/loperator/elementary_space_spin.hpp>
 #include <libcommute/loperator/es_constructor.hpp>
+#include <libcommute/loperator/space_partition.hpp>
 #include <libcommute/expression/dyn_indices.hpp>
 
+#include <stdexcept>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -41,6 +43,9 @@ namespace py = pybind11;
 using dynamic_indices::dyn_indices;
 using es_type = elementary_space<dyn_indices>;
 using hs_type = hilbert_space<dyn_indices>;
+
+template<typename ScalarType>
+using lop_type = loperator<ScalarType, fermion, boson, spin>;
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -378,9 +383,6 @@ Apply a given functor to all basis state indices in a Hilbert space.
 
 ////////////////////////////////////////////////////////////////////////////////
 
-template<typename ScalarType>
-using lop_type = loperator<ScalarType, fermion, boson, spin>;
-
 //
 // Register loperator<ScalarType, fermion, boson, spin>::operator()()
 //
@@ -492,6 +494,161 @@ expression on a Hilbert space.
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Register make_space_partition()
+//
+
+template<typename ScalarType>
+void register_make_space_partition(py::module_ & m) {
+  m.def(
+    "make_space_partition",
+    [](lop_type<ScalarType> const& h,
+       hs_type const& hs,
+       bool store_matrix_elements)
+      -> std::pair<space_partition, matrix_elements_map<ScalarType>>
+    {
+      if(store_matrix_elements) {
+        matrix_elements_map<ScalarType> matrix_elements;
+        return {space_partition(h, hs, matrix_elements),
+                std::move(matrix_elements)};
+      } else
+        return {space_partition(h, hs), matrix_elements_map<ScalarType>{}};
+    },
+R"=(
+Constructs a partition of a finite-dimensional Hilbert space into a direct sum
+of invariant subspaces of a given Hermitian operator.
+
+This function can optionally collect non-vanishing matrix elements
+:math:`H_{ij}` of the Hermitian operator and return them in a form of
+a dictionary ``{(i, j) : H_ij}``.
+
+:param h: Hermitian operator (Hamiltonian) :math:`\hat H` used to partition
+          the space.
+:param hs: Hilbert space to partition.
+:param store_matrix_elements: Collect the non-vanishing matrix elements of
+                              :py:data:`h`.
+:return: A tuple containing the constructed :py:class:`SpacePartition` object
+         and a dictionary with the collected matrix elements (an empty
+         dictionary when ``store_matrix_elements = False``).
+)=",
+    py::arg("h"), py::arg("hs"), py::arg("store_matrix_elements") = true
+  );
+}
+
+//
+// Register space_partition::merge_subspaces()
+//
+
+template<typename ScalarType>
+void register_merge_subspaces(py::class_<space_partition> & sp) {
+  sp.def("merge_subspaces",
+  &space_partition::merge_subspaces<hs_type, ScalarType, fermion, boson, spin>,
+R"=(
+Merge some of the invariant subspaces to ensure that a given operator
+:math:`\hat O` and its Hermitian conjugate :math:`\hat O^\dagger` generate only
+one-to-one connections between the subspaces.
+
+This function can optionally collect non-vanishing matrix elements
+of :math:`\hat O` and :math:`\hat O^\dagger` and return them in a form of
+dictionaries ``{(i, j) : O_ij}``.
+
+:param od: Operator :math:`\hat O^\dagger`.
+:param o: Operator :math:`\hat O`.
+:param hs: Hilbert space used to construct the original space partition.
+:param store_matrix_elements: Collect the non-vanishing matrix elements of
+                              :py:data:`od` and :py:data:`o`.
+:return: A tuple containing dictionaries with the collected matrix elements
+         of :math:`\hat O^\dagger` and :math:`\hat O` (empty dictionaries when
+         ``store_matrix_elements = False``).
+)=",
+    py::arg("od"), py::arg("o"), py::arg("hs"),
+    py::arg("store_matrix_elements") = true
+  );
+}
+
+//
+// Register space_partition
+//
+
+void register_space_partition(py::module_ & m) {
+  py::class_<space_partition> sp(
+    m,
+    "SpacePartition",
+R"=(Partition of a Hilbert space into a set of disjoint subspaces invariant
+under action of a given Hermitian operator (Hamiltonian).
+
+For a detailed description of the algorithm see
+`Computer Physics Communications 200, March 2016, 274-284
+<http://dx.doi.org/10.1016/j.cpc.2015.10.023>`_ (section 4.2).
+)="
+  );
+
+  sp.def(py::init<lop_type<double> const&, hs_type const&>(),
+R"=(
+Partition a finite-dimensional Hilbert space into a direct sum of invariant
+subspaces of a Hermitian operator.
+
+:param h: Hermitian operator (Hamiltonian) used to partition the space.
+:param hs: Hilbert space to partition.
+)=",
+    py::arg("h"), py::arg("hs")
+  )
+  .def(py::init<lop_type<std::complex<double>> const&, hs_type const&>(),
+R"=(
+Partition a finite-dimensional Hilbert space into a direct sum of invariant
+subspaces of a Hermitian operator.
+
+:param h: Hermitian operator (Hamiltonian) used to partition the space.
+:param hs: Hilbert space to partition.
+)=",
+    py::arg("h"), py::arg("hs")
+  )
+  .def_property_readonly(
+    "dim",
+     &space_partition::dim,
+   "Dimension of the original Hilbert space used to construct this partition."
+  )
+  .def_property_readonly(
+    "n_subspaces",
+    &space_partition::n_subspaces,
+    "Number of invariant subspaces in this partition."
+  )
+  .def(
+    "__getitem__",
+    [](space_partition const& partition, sv_index_type index) {
+      if(index >= partition.dim())
+        throw std::out_of_range("Unexpected basis state index " +
+                                std::to_string(index));
+      return partition[index];
+    },
+    "Find what invariant subspace a given basis state belongs to.",
+    py::arg("basis_state_index")
+  );
+
+  register_merge_subspaces<double>(sp);
+  register_merge_subspaces<std::complex<double>>(sp);
+
+  register_make_space_partition<double>(m);
+  register_make_space_partition<std::complex<double>>(m);
+
+  using f_t = std::function<void(sv_index_type n, sv_index_type sp_index)>;
+
+  m.def("foreach",
+        [](space_partition const& sp, f_t const& f) { return foreach(sp, f); },
+R"=(
+Apply a given functor to all basis states in a given space partition.
+The functor must take two arguments, index of the basis state and index of
+the subspace this basis state belongs to.
+
+:param sp: Space partition in question.
+:param f: Functor to be applied.
+)=",
+    py::arg("sp"), py::arg("f")
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // 'loperator' Python module
 //
 
@@ -513,4 +670,6 @@ PYBIND11_MODULE(loperator, m) {
   register_loperator<std::complex<double>>(
     m, "LOperatorC", "Complex-valued linear operator"
   );
+
+  register_space_partition(m);
 }

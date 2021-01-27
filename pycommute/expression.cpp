@@ -335,15 +335,15 @@ spin component and carrying given indices.
     py::arg("spin"), py::arg("c"), py::arg("indices")
   )
   .def_property_readonly("multiplicity",
-                         &generator_spin<dyn_indices>::multiplicity, R"eol(
-Multiplicity :math:`2S+1` of the spin algebra this generator belongs to.)eol"
+                         &generator_spin<dyn_indices>::multiplicity, R"=(
+Multiplicity :math:`2S+1` of the spin algebra this generator belongs to.)="
   )
-  .def_property_readonly("spin", &generator_spin<dyn_indices>::spin, R"eol(
-Spin :math:`S` of the algebra this generator belongs to.)eol"
+  .def_property_readonly("spin", &generator_spin<dyn_indices>::spin, R"=(
+Spin :math:`S` of the algebra this generator belongs to.)="
   )
   .def_property_readonly("component",
-                         &generator_spin<dyn_indices>::component, R"eol(
-Whether this generator :math:`S_+`, :math:`S_-` or :math:`S_z`?)eol"
+                         &generator_spin<dyn_indices>::component, R"=(
+Whether this generator :math:`S_+`, :math:`S_-` or :math:`S_z`?)="
   );
 
   m.def("make_spin", [](spin_component c, py::args args) {

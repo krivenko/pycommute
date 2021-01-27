@@ -13,6 +13,7 @@
 .. pybind11class:: pycommute.loperator.HilbertSpace
 .. pybind11class:: pycommute.loperator.LOperatorR
 .. pybind11class:: pycommute.loperator.LOperatorC
+.. pybind11class:: pycommute.loperator.SpacePartition
 
 Elementary spaces
 -----------------
@@ -63,3 +64,12 @@ Linear operators
 .. autoclass:: pycommute.loperator.LOperatorC
   :members:
   :special-members:
+
+Hilbert space partition
+-----------------------
+
+.. autoclass:: pycommute.loperator.SpacePartition
+  :members:
+  :special-members:
+
+.. automethod:: pycommute.loperator.make_space_partition
