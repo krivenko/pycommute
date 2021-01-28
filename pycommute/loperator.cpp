@@ -404,8 +404,8 @@ void register_loperator_act(py::class_<lop_type<ScalarType>> & lop) {
 
   lop.def("__call__",
     [](lop_type<ScalarType> const& op,
-       py::array_t<SrcScalarType, 0> const& src,
-       py::array_t<DstScalarType, 0> & dst
+       py::array_t<SrcScalarType, 0> src,
+       py::array_t<DstScalarType, 0> dst
       ) {
       py::buffer_info src_buf = src.request();
       py::buffer_info dst_buf = dst.request();
@@ -437,8 +437,7 @@ void register_loperator_mul(py::class_<lop_type<ScalarType>> & lop) {
     " state vector and return the resulting vector.";
 
   lop.def("__mul__",
-    [](lop_type<ScalarType> const& op,
-       py::array_t<StateScalarType, 0> const& sv) ->
+    [](lop_type<ScalarType> const& op, py::array_t<StateScalarType, 0> sv) ->
       py::array_t<dst_scalar_type> {
       py::buffer_info sv_buf = sv.request();
       if(sv_buf.ndim != 1)
