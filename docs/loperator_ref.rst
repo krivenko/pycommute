@@ -14,6 +14,9 @@
 .. pybind11class:: pycommute.loperator.LOperatorR
 .. pybind11class:: pycommute.loperator.LOperatorC
 .. pybind11class:: pycommute.loperator.SpacePartition
+.. pybind11class:: pycommute.loperator.MappedBasisViewR
+.. pybind11class:: pycommute.loperator.MappedBasisViewC
+.. pybind11class:: pycommute.loperator.BasisMapper
 
 Elementary spaces
 -----------------
@@ -73,3 +76,18 @@ Hilbert space partition
   :special-members:
 
 .. automethod:: pycommute.loperator.make_space_partition
+
+Views of state vectors
+----------------------
+
+.. autoclass:: pycommute.loperator.MappedBasisViewR
+  :members:
+  :special-members:
+
+.. autoclass:: pycommute.loperator.MappedBasisViewC
+  :members:
+  :special-members:
+
+.. autoclass:: pycommute.loperator.BasisMapper
+  :members:
+  :special-members:

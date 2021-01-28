@@ -20,14 +20,16 @@
 
 #include "numpy_state_vectors.hpp"
 
+#include <libcommute/expression/dyn_indices.hpp>
 #include <libcommute/loperator/loperator.hpp>
 #include <libcommute/loperator/elementary_space_fermion.hpp>
 #include <libcommute/loperator/elementary_space_boson.hpp>
 #include <libcommute/loperator/elementary_space_spin.hpp>
 #include <libcommute/loperator/es_constructor.hpp>
 #include <libcommute/loperator/space_partition.hpp>
-#include <libcommute/expression/dyn_indices.hpp>
+#include <libcommute/loperator/mapped_basis_view.hpp>
 
+#include <complex>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -39,6 +41,8 @@ namespace py = pybind11;
 //
 // Some commonly used type shorthands
 //
+
+using dcomplex = std::complex<double>;
 
 using dynamic_indices::dyn_indices;
 using es_type = elementary_space<dyn_indices>;
@@ -59,6 +63,23 @@ dyn_indices::indices_t args2indices_t(py::args args) {
   for(auto const& a : args)
     v.emplace_back(a.cast<std::variant<int, std::string>>());
   return v;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Names of the two scalar types used in this module
+//
+
+template<typename ScalarType>
+std::string scalar_type_name() {
+  static_assert(std::is_same_v<ScalarType, double> ||
+                std::is_same_v<ScalarType, dcomplex>
+  );
+  if constexpr(std::is_same_v<ScalarType, double>)
+    return "real";
+  else
+    return "complex";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -390,10 +411,9 @@ Apply a given functor to all basis state indices in a Hilbert space.
 template<typename ScalarType, typename SrcScalarType, typename DstScalarType>
 void register_loperator_act(py::class_<lop_type<ScalarType>> & lop) {
 
-  std::string src_vector_text = std::is_same_v<SrcScalarType, double> ?
-                                "real" : "complex";
-  std::string dst_vector_text = std::is_same_v<DstScalarType, double> ?
-                                "real" : "complex";
+  std::string src_vector_text = scalar_type_name<SrcScalarType>();
+  std::string dst_vector_text = scalar_type_name<DstScalarType>();
+
   auto docstring = "\nAct on a " + src_vector_text +
     " state vector and write the result into another " + dst_vector_text +
     " state vector.\n" +
@@ -432,8 +452,7 @@ template<typename ScalarType, typename StateScalarType>
 void register_loperator_mul(py::class_<lop_type<ScalarType>> & lop) {
   using dst_scalar_type = mul_type<ScalarType, StateScalarType>;
 
-  auto docstring = "Act on a " +
-    std::string(std::is_same_v<StateScalarType, double> ? "real" : "complex") +
+  auto docstring = "Act on a " + scalar_type_name<StateScalarType>() +
     " state vector and return the resulting vector.";
 
   lop.def("__mul__",
@@ -456,10 +475,11 @@ void register_loperator_mul(py::class_<lop_type<ScalarType>> & lop) {
 //
 
 template<typename ScalarType>
-void register_loperator(py::module_ & m,
-                        std::string const& class_name,
-                        std::string const& docstring
-                       ) {
+py::class_<lop_type<ScalarType>> register_loperator(
+  py::module_ & m,
+  std::string const& class_name,
+  std::string const& docstring
+) {
   py::class_<lop_type<ScalarType>> lop(m,
                                        class_name.c_str(),
                                        docstring.c_str());
@@ -479,15 +499,15 @@ expression on a Hilbert space.
 
   // Multiplication (action on a state vector)
   register_loperator_mul<ScalarType, double>(lop);
-  register_loperator_mul<ScalarType, std::complex<double>>(lop);
+  register_loperator_mul<ScalarType, dcomplex>(lop);
 
   // Call operator (in-place action on a state vector)
   if constexpr(std::is_same_v<ScalarType, double>)
     register_loperator_act<ScalarType, double, double>(lop);
-  register_loperator_act<ScalarType, double, std::complex<double>>(lop);
-  register_loperator_act<ScalarType,
-                         std::complex<double>,
-                         std::complex<double>>(lop);
+  register_loperator_act<ScalarType, double, dcomplex>(lop);
+  register_loperator_act<ScalarType, dcomplex, dcomplex>(lop);
+
+  return lop;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -591,7 +611,7 @@ subspaces of a Hermitian operator.
 )=",
     py::arg("h"), py::arg("hs")
   )
-  .def(py::init<lop_type<std::complex<double>> const&, hs_type const&>(),
+  .def(py::init<lop_type<dcomplex> const&, hs_type const&>(),
 R"=(
 Partition a finite-dimensional Hilbert space into a direct sum of invariant
 subspaces of a Hermitian operator.
@@ -624,10 +644,10 @@ subspaces of a Hermitian operator.
   );
 
   register_merge_subspaces<double>(sp);
-  register_merge_subspaces<std::complex<double>>(sp);
+  register_merge_subspaces<dcomplex>(sp);
 
   register_make_space_partition<double>(m);
-  register_make_space_partition<std::complex<double>>(m);
+  register_make_space_partition<dcomplex>(m);
 
   using f_t = std::function<void(sv_index_type n, sv_index_type sp_index)>;
 
@@ -648,6 +668,198 @@ the subspace this basis state belongs to.
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Register mapped_basis_view()
+//
+
+template<typename ScalarType>
+void register_mapped_basis_view(py::module_ & m, std::string const& classname) {
+
+  std::string docstring = "This object is a view of a " +
+                          scalar_type_name<ScalarType>() +
+R"=( state vector (one-dimensional NumPy array) that performs index translation
+according to a predefined map. It is accepted by methods of linear operator
+objects :py:func:`LOperatorR.__call__()` and :py:func:`LOperatorC.__call__()`.
+
+:py:class:`)=" + classname + R"=(` can be used in situations where a linear
+operator is known to act only within a subspace of a full Hilbert space, and
+it is desirable to store vector components only within this particular subspace.
+The relevant components are then stored in a NumPy array, while the view object
+translates indices of basis states from the full Hilbert space to the smaller
+subspace.
+)=";
+
+  py::class_<mapped_basis_view<py::array_t<ScalarType, 0>, false>>(
+    m,
+    classname.c_str(),
+    docstring.c_str()
+  );
+}
+
+//
+// Register action of linear operators on MappedBasisView objects
+//
+
+template<typename SrcScalarType, typename DstScalarType, typename LOpType>
+void register_loperator_call_mbv(py::class_<LOpType> & lop) {
+
+  using scalar_t = typename LOpType::scalar_type;
+  using src_mbv_t = mapped_basis_view<py::array_t<SrcScalarType, 0>, false>;
+  using dst_mbv_t = mapped_basis_view<py::array_t<DstScalarType, 0>, false>;
+
+  std::string src_vector_text = scalar_type_name<SrcScalarType>();
+  std::string dst_vector_text = scalar_type_name<DstScalarType>();
+
+  auto docstring = "\nAct on a mapped view of a " + src_vector_text +
+    " state vector and write the result through a view of another " +
+    dst_vector_text +
+    " state vector.\n" +
+    R"=(
+:param src: View of the source state vector.
+:param dst: View of the destination state vector.
+)=";
+
+  lop.def("__call__",
+    [](lop_type<scalar_t> const& op, src_mbv_t const& src, dst_mbv_t & dst) {
+      op(src, dst);
+    },
+    docstring.c_str(),
+    py::arg("src").noconvert(), py::arg("dst").noconvert()
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
+// Register basis_mapper
+//
+
+void register_basis_mapper(py::module_ & m) {
+  py::class_<basis_mapper>(
+    m,
+    "BasisMapper",
+    "Factory class for :py:class:`MappedBasisViewR` and "
+    ":py:class:`MappedBasisViewC` objects"
+  )
+  .def(py::init<std::vector<sv_index_type> const&>(),
+R"=(
+Build a mapping from a list of basis state indices to their positions within
+the list.
+
+:param basis_state_indices: List of the basis state indices.
+)=",
+    py::arg("basis_state_indices")
+  )
+  .def(py::init<lop_type<double> const&, hs_type const&>(),
+R"=(
+Build a mapping from a set of all basis states contributing to
+:math:`\hat O|0\rangle`, where :math:`|0\rangle` is the product basis state
+corresponding to zero index in each elementary space.
+
+.. math::
+
+  |0\rangle = |0\rangle_1 |0\rangle_2 |0\rangle_3 \ldots.
+
+:param O: Real-valued linear operator :math:`\hat O`.
+:param hs: Hilbert space :math:`\hat O` acts in.
+)=",
+    py::arg("O"), py::arg("hs")
+  )
+  .def(py::init<lop_type<dcomplex> const&, hs_type const&>(),
+R"=(
+Build a mapping from a set of all basis states contributing to
+:math:`\hat O|0\rangle`, where :math:`|0\rangle` is the product basis state
+corresponding to zero index in each elementary space.
+
+.. math::
+
+  |0\rangle = |0\rangle_1 |0\rangle_2 |0\rangle_3 \ldots.
+
+:param O: Complex-valued linear operator :math:`\hat O`.
+:param hs: Hilbert space :math:`\hat O` acts in.
+)=",
+    py::arg("O"), py::arg("hs")
+  )
+  .def(py::init<std::vector<lop_type<double>> const&, hs_type const&, int>(),
+R"=(
+Given a list of operators
+:math:`\{\hat O_1, \hat O_2, \hat O_3, \ldots, \hat O_M\}`, build a mapping
+including all basis states that contribute to all states
+:math:`\hat O_1^{n_1} \hat O_2^{n_2} \ldots \hat O_M^{n_M} |0\rangle`.
+
+:math:`|0\rangle` is the product basis state corresponding to zero index
+in each elementary space,
+
+.. math::
+
+  |\hat 0\rangle = |0\rangle_1 |0\rangle_2 |0\rangle_3 \ldots,
+
+and the non-negative integers :math:`n_m` satisfy :math:`\sum_{m=1}^M n_m = N`.
+Mapped values are assigned continuously but without any specific order.
+
+:param O_list: List of real-valued linear operators :math:`\{\hat O_m\}`.
+:param hs: Hilbert space operators :math:`\hat O_m` act in.
+:param N: Total power :math:`N`.
+)=",
+    py::arg("O_list"), py::arg("hs"), py::arg("N")
+  )
+  .def(py::init<std::vector<lop_type<dcomplex>> const&, hs_type const&, int>(),
+R"=(
+Given a list of operators
+:math:`\{\hat O_1, \hat O_2, \hat O_3, \ldots, \hat O_M\}`, build a mapping
+including all basis states that contribute to all states
+:math:`\hat O_1^{n_1} \hat O_2^{n_2} \ldots \hat O_M^{n_M} |0\rangle`.
+
+:math:`|0\rangle` is the product basis state corresponding to zero index
+in each elementary space,
+
+.. math::
+
+  |\hat 0\rangle = |0\rangle_1 |0\rangle_2 |0\rangle_3 \ldots,
+
+and the non-negative integers :math:`n_m` satisfy :math:`\sum_{m=1}^M n_m = N`.
+Mapped values are assigned continuously but without any specific order.
+
+:param O_list: List of complex-valued linear operators :math:`\{\hat O_m\}`.
+:param hs: Hilbert space operators :math:`\hat O_m` act in.
+:param N: Total power :math:`N`.
+)=",
+    py::arg("O_list"), py::arg("hs"), py::arg("N")
+  )
+  .def("__call__", &basis_mapper::make_view_no_ref<py::array_t<double, 0>>,
+R"=(
+Make a basis mapping view of a real state vector (1-dimensional NumPy array).
+
+:param sv: The state vector to make the view of.
+)=",
+    py::arg("sv"), py::keep_alive<1, 0>()
+  )
+  .def("__call__", &basis_mapper::make_view_no_ref<py::array_t<dcomplex, 0>>,
+R"=(
+Make a basis mapping view of a complex state vector (1-dimensional NumPy array).
+
+:param sv: The state vector to make the view of.
+)=",
+    py::arg("sv"), py::keep_alive<1, 0>()
+  )
+  .def("__len__",
+       &basis_mapper::size,
+       "Number of basis states in the mapping."
+  )
+  .def_property_readonly(
+    "map",
+     &basis_mapper::map,
+    "Direct access to the mapping as Dict[int, int]."
+  )
+  .def_property_readonly(
+    "inverse_map",
+    &basis_mapper::inverse_map,
+    "Direct access to the inverse mapping as Dict[int, int]. (slow!)"
+   );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // 'loperator' Python module
 //
 
@@ -663,12 +875,23 @@ PYBIND11_MODULE(loperator, m) {
 
   register_hilbert_space(m);
 
-  register_loperator<double>(
+  auto lop_real = register_loperator<double>(
     m, "LOperatorR", "Real-valued linear operator"
   );
-  register_loperator<std::complex<double>>(
+  auto lop_complex = register_loperator<dcomplex>(
     m, "LOperatorC", "Complex-valued linear operator"
   );
 
   register_space_partition(m);
+
+  register_mapped_basis_view<double>(m, "MappedBasisViewR");
+  register_mapped_basis_view<dcomplex>(m, "MappedBasisViewC");
+
+  register_loperator_call_mbv<double, double>(lop_real);
+  register_loperator_call_mbv<double, dcomplex>(lop_real);
+  register_loperator_call_mbv<dcomplex, dcomplex>(lop_real);
+  register_loperator_call_mbv<double, dcomplex>(lop_complex);
+  register_loperator_call_mbv<dcomplex, dcomplex>(lop_complex);
+
+  register_basis_mapper(m);
 }
