@@ -23,6 +23,7 @@ ext_modules = [
     Pybind11Extension("pycommute/loperator", ["pycommute/loperator.cpp"])
 ]
 
+
 class pycommute_build_ext(build_ext):
     """A custom build extension for adding libcommute-specific options."""
 
@@ -46,12 +47,12 @@ class pycommute_build_ext(build_ext):
             """)
             try:
                 objs = self.compiler.compile(["libcommute_version.cpp"],
-                                             include_dirs = inc)
+                                             include_dirs=inc)
                 self.compiler.link_executable(objs,
                                               "libcommute_version",
-                                              target_lang = 'c++')
+                                              target_lang='c++')
                 v = subprocess.run(["./libcommute_version"],
-                                   stdout = subprocess.PIPE).stdout
+                                   stdout=subprocess.PIPE).stdout
                 v = str(v, 'utf-8', 'ignore')
             except distutils.errors.CompileError:
                 return False
@@ -77,20 +78,22 @@ class pycommute_build_ext(build_ext):
 
         build_ext.build_extensions(self)
 
+
 class run_build_before_doc(BuildDoc):
     def run(self):
         self.run_command("build")
         super(run_build_before_doc, self).run()
 
+
 setup(
-    name = "pycommute",
-    version = __version__,
-    author = "Igor Krivenko",
-    author_email = "igor.s.krivenko@gmail.com",
-    description = "Python bindings for the libcommute C++ library",
-    keywords = "libcommute dsl computer algebra quantum",
-    license = "MPL-2",
-    classifiers = [
+    name="pycommute",
+    version=__version__,
+    author="Igor Krivenko",
+    author_email="igor.s.krivenko@gmail.com",
+    description="Python bindings for the libcommute C++ library",
+    keywords="libcommute dsl computer algebra quantum",
+    license="MPL-2",
+    classifiers=[
         'Development Status :: 3 - Alpha',
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Programming Language :: Python',
@@ -101,11 +104,11 @@ setup(
         'Programming Language :: Python :: 3.9',
         'Topic :: Scientific/Engineering :: Physics'
     ],
-    python_requires = ">=3.6",
-    packages = ['pycommute'],
-    ext_modules = ext_modules,
-    include_package_data = True,
-    cmdclass = {'build_ext' : pycommute_build_ext,
-                'build_sphinx' : run_build_before_doc},
-    zip_safe = False
+    python_requires=">=3.6",
+    packages=['pycommute'],
+    ext_modules=ext_modules,
+    include_package_data=True,
+    cmdclass={'build_ext': pycommute_build_ext,
+              'build_sphinx': run_build_before_doc},
+    zip_safe=False
 )

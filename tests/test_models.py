@@ -10,7 +10,16 @@
 
 from unittest import TestCase
 
-from pycommute.models import *
+from pycommute.expression import (
+    FERMION, BOSON,
+    c, c_dag, a, a_dag
+)
+from pycommute.models import (
+    tight_binding
+)
+
+import numpy as np
+
 
 class TestModels(TestCase):
 
@@ -23,12 +32,14 @@ class TestModels(TestCase):
         H2 = tight_binding(M, indices, FERMION)
         H3 = tight_binding(M, indices, BOSON)
 
-        ref = c_dag("A")*c("A") + 2*c_dag("B")*c("B") + 3.0*c_dag("C")*c("C")
-        ref += 0.5*c_dag("A")*c("C") + 0.5*c_dag("C")*c("A")
+        ref = c_dag("A") * c("A") + 2 * c_dag("B") * c("B") \
+            + 3.0 * c_dag("C") * c("C")
+        ref += 0.5 * c_dag("A") * c("C") + 0.5 * c_dag("C") * c("A")
         self.assertEqual(H1, ref)
         self.assertEqual(H2, ref)
-        ref = a_dag("A")*a("A") + 2*a_dag("B")*a("B") + 3.0*a_dag("C")*a("C")
-        ref += 0.5*a_dag("A")*a("C") + 0.5*a_dag("C")*a("A")
+        ref = a_dag("A") * a("A") + 2 * a_dag("B") * a("B") \
+            + 3.0 * a_dag("C") * a("C")
+        ref += 0.5 * a_dag("A") * a("C") + 0.5 * a_dag("C") * a("A")
         self.assertEqual(H3, ref)
 
         M = np.array([[1.0, 0.0, 0.5j],
@@ -38,10 +49,12 @@ class TestModels(TestCase):
         H5 = tight_binding(M, indices, FERMION)
         H6 = tight_binding(M, indices, BOSON)
 
-        ref = c_dag("A")*c("A") + 2*c_dag("B")*c("B") + 3.0*c_dag("C")*c("C")
-        ref += 0.5j*c_dag("A")*c("C") - 0.5j*c_dag("C")*c("A")
+        ref = c_dag("A") * c("A") + 2 * c_dag("B") * c("B") \
+            + 3.0 * c_dag("C") * c("C")
+        ref += 0.5j * c_dag("A") * c("C") - 0.5j * c_dag("C") * c("A")
         self.assertEqual(H4, ref)
         self.assertEqual(H5, ref)
-        ref = a_dag("A")*a("A") + 2*a_dag("B")*a("B") + 3.0*a_dag("C")*a("C")
-        ref += 0.5j*a_dag("A")*a("C") - 0.5j*a_dag("C")*a("A")
+        ref = a_dag("A") * a("A") + 2 * a_dag("B") * a("B") \
+            + 3.0 * a_dag("C") * a("C")
+        ref += 0.5j * a_dag("A") * a("C") - 0.5j * a_dag("C") * a("A")
         self.assertEqual(H6, ref)

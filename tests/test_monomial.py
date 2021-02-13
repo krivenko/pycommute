@@ -15,6 +15,7 @@ from pycommute.expression import make_fermion, make_boson, make_spin
 from pycommute.expression import SpinComponent
 from pycommute.expression import Monomial
 
+
 class TestMonomial(TestCase):
 
     # Check that elements of `v` are pairwise distinct
@@ -44,10 +45,11 @@ class TestMonomial(TestCase):
         self.assertEqual(len(self.monomials[-1]), 0)
 
         for order in range(1, 5):
-            for gens in product(*((self.basis_gens,)*order)):
+            for gens in product(*((self.basis_gens,) * order)):
                 self.monomials.append(Monomial([*gens]))
             self.assertEqual(len(self.monomials[-1]), order)
-            self.assertEqual(self.monomials[-1], Monomial((self.S1z_j,)*order))
+            self.assertEqual(self.monomials[-1],
+                             Monomial((self.S1z_j,) * order))
 
     def test_equality_ordering(self):
         self.check_equality(self.monomials)
@@ -55,7 +57,7 @@ class TestMonomial(TestCase):
 
     def test_ordering(self):
         self.assertTrue(Monomial().is_ordered)
-        self.assertTrue(Monomial([self.S1z_j]*4).is_ordered)
+        self.assertTrue(Monomial([self.S1z_j] * 4).is_ordered)
         m121 = Monomial([self.S1z_j, self.A_y, self.S1z_j, self.A_y])
         self.assertFalse(m121.is_ordered)
         m22 = Monomial([self.A_y, self.A_y, self.S1z_j, self.S1z_j])
@@ -84,7 +86,7 @@ class TestMonomial(TestCase):
     def test_str(self):
         self.assertEqual(str(Monomial()), "")
         m1 = Monomial([self.Cdag_dn, self.A_y, self.Sp_i, self.S1z_j])
-        self.assertEqual(str(m1),"C+(dn,0)A(y,0)S+(i,0)S1z(j,0)")
+        self.assertEqual(str(m1), "C+(dn,0)A(y,0)S+(i,0)S1z(j,0)")
         m2 = Monomial([self.Cdag_dn, self.A_y, self.A_y, self.S1z_j])
         self.assertEqual(str(m2), "C+(dn,0)[A(y,0)]^2S1z(j,0)")
         m3 = Monomial([self.Cdag_dn, self.Cdag_dn, self.S1z_j, self.S1z_j])

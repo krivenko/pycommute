@@ -10,7 +10,18 @@
 
 from unittest import TestCase
 
-from pycommute.expression import *
+from pycommute.expression import (
+    GeneratorBoson,
+    Monomial,
+    ExpressionR, ExpressionC,
+    SpinComponent,
+    make_fermion, make_boson, make_spin,
+    c, c_dag, a, a_dag, S_p, S_m, S_x, S_y, S_z,
+    conj,
+    transform,
+    hc
+)
+
 
 class TestExpression(TestCase):
 
@@ -32,23 +43,27 @@ class TestExpression(TestCase):
 
     def test_S_z_products(self):
         mon_sz = Monomial(
-            [make_fermion(True, 1)] +
-            [make_spin(SpinComponent.Z, 1)] * 4 +
-            [make_fermion(True, 2)] +
-            [make_spin(SpinComponent.Z, 2)] * 4 +
-            [make_spin(SpinComponent.Z, 3)] * 3 +
-            [make_fermion(True, 4)] +
-            [make_spin(SpinComponent.Z, 4)] * 3
+            [make_fermion(True, 1)]
+            + [make_spin(SpinComponent.Z, 1)] * 4
+            + [make_fermion(True, 2)]
+            + [make_spin(SpinComponent.Z, 2)] * 4
+            + [make_spin(SpinComponent.Z, 3)] * 3
+            + [make_fermion(True, 4)]
+            + [make_spin(SpinComponent.Z, 4)] * 3
         )
         expr_sz = ExpressionR(1.0, mon_sz)
-        self.assertEqual(expr_sz, c_dag(1)*0.25*0.25*c_dag(2)*0.25*0.25*
-                                  0.25*S_z(3)*c_dag(4)*0.25*S_z(4))
+        self.assertEqual(expr_sz,
+                         c_dag(1) * 0.25 * 0.25 * c_dag(2)
+                         * 0.25 * 0.25
+                         * 0.25 * S_z(3) * c_dag(4)
+                         * 0.25 * S_z(4)
+                         )
 
     def test_iter(self):
         expr0 = ExpressionR()
         self.assertEqual([_ for _ in expr0], [])
-        expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 + \
-               3.0 * a(0, "x") + 2.0 * a_dag(0, "y")
+        expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 \
+            + 3.0 * a(0, "x") + 2.0 * a_dag(0, "y")
         ref = [(Monomial(), 1.0),
                (Monomial([make_boson(True, 0, "y")]), 2.0),
                (Monomial([make_boson(False, 0, "x")]), 3.0),
@@ -58,56 +73,69 @@ class TestExpression(TestCase):
         self.assertEqual([_ for _ in expr], ref)
 
     def test_transform(self):
-        expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 + \
-               3.0 * a(0, "x") + 2.0 * a_dag(0, "y")
+        expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 \
+            + 3.0 * a(0, "x") + 2.0 * a_dag(0, "y")
+
         # Multiply coefficients in front of bosonic operators by 2j
-        f = lambda m, c: 2*c if \
-            (len(m) > 0 and isinstance(m[0], GeneratorBoson)) else 0
+        def f(m, c):
+            if len(m) > 0 and isinstance(m[0], GeneratorBoson):
+                return 2 * c
+            else:
+                return 0
         new_expr = transform(expr, f)
         self.assertEqual(new_expr, 6.0 * a(0, "x") + 4.0 * a_dag(0, "y"))
 
     def test_conj(self):
-        expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 + \
-               3.0 * a(0, "x") + 2j * a_dag(0, "y")
-        ref = 4.0 * c_dag(2, "dn") * c(1, "up") + 1.0 + \
-              3.0 * a_dag(0, "x") + -2j * a(0, "y")
+        expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 \
+            + 3.0 * a(0, "x") + 2j * a_dag(0, "y")
+        ref = 4.0 * c_dag(2, "dn") * c(1, "up") + 1.0 \
+            + 3.0 * a_dag(0, "x") + -2j * a(0, "y")
         self.assertEqual(conj(expr), ref)
 
     def test_spin12_products(self):
         self.assertEqual(S_z() * S_z(), ExpressionR(0.25))
         self.assertEqual(S_p() * S_p(), ExpressionR())
         self.assertEqual(S_m() * S_m(), ExpressionR())
-        self.assertEqual(S_p() * S_z(), -0.5*S_p())
-        self.assertEqual(S_z() * S_m(), -0.5*S_m())
-        self.assertEqual(S_z() * S_p(), 0.5*S_p())
-        self.assertEqual(S_m() * S_z(), 0.5*S_m())
+        self.assertEqual(S_p() * S_z(), -0.5 * S_p())
+        self.assertEqual(S_z() * S_m(), -0.5 * S_m())
+        self.assertEqual(S_z() * S_p(), 0.5 * S_p())
+        self.assertEqual(S_m() * S_z(), 0.5 * S_m())
         self.assertEqual(S_p() * S_m(), 0.5 + S_z())
         self.assertEqual(S_m() * S_p(), 0.5 - S_z())
 
     def test_powers_of_S_z(self):
         s = ExpressionR()
-        for n in range(1,12):
+        for n in range(1, 12):
             p = c_dag()
-            for i in range(n): p *= S_z()
+            for _ in range(n):
+                p *= S_z()
             p *= a()
             s += p
-        self.assertEqual(s, c_dag()*(341.0/1024 + (1365.0/1024)*S_z())*a())
+        self.assertEqual(
+            s,
+            c_dag() * (341.0 / 1024 + (1365.0 / 1024) * S_z()) * a()
+        )
 
     def test_Heisenberg(self):
 
         # Addition of 3D vectors
-        add = lambda S1, S2: (S1[0] + S2[0], S1[1] + S2[1], S1[2] + S2[2])
+        def add(S1, S2):
+            return (S1[0] + S2[0], S1[1] + S2[1], S1[2] + S2[2])
+
         # Dot-product of 3D vectors
-        dot = lambda S1, S2: S1[0] * S2[0] + S1[1] * S2[1] + S1[2] * S2[2]
+        def dot(S1, S2):
+            return S1[0] * S2[0] + S1[1] * S2[1] + S1[2] * S2[2]
+
         # Cross-product of vectors
-        cross = lambda S1, S2: (S1[1] * S2[2] - S1[2] * S2[1],
-                                S1[2] * S2[0] - S1[0] * S2[2],
-                                S1[0] * S2[1] - S1[1] * S2[0])
+        def cross(S1, S2):
+            return (S1[1] * S2[2] - S1[2] * S2[1],
+                    S1[2] * S2[0] - S1[0] * S2[2],
+                    S1[0] * S2[1] - S1[1] * S2[0])
 
         N = 6
         S = [(S_x(i), S_y(i), S_z(i)) for i in range(N)]
-        H = sum(dot(S[i], S[(i+1)%N]) for i in range(N))
-        S_tot = (ExpressionC(),)*3
+        H = sum(dot(S[i], S[(i + 1) % N]) for i in range(N))
+        S_tot = (ExpressionC(),) * 3
         for i in range(N):
             S_tot += add(S_tot, S[i])
 
@@ -117,7 +145,8 @@ class TestExpression(TestCase):
         self.assertEqual(len(H * S_tot[2] - S_tot[2] * H), 0)
 
         # Q3 is a higher-order integral of motion
-        Q3 = sum(dot(cross(S[i], S[(i+1)%N]), S[(i+2)%N]) for i in range(N))
+        Q3 = sum(dot(cross(S[i], S[(i + 1) % N]), S[(i + 2) % N])
+                 for i in range(N))
         self.assertEqual(len(H * Q3 - Q3 * H), 0)
 
     def test_hc(self):
@@ -126,6 +155,6 @@ class TestExpression(TestCase):
         self.assertEqual(expr + hc, expr + conj(expr))
         self.assertEqual(expr - hc, expr - conj(expr))
         # Complex
-        expr = (2+2j) * c_dag("up", 1) * c("up", 2)
+        expr = (2 + 2j) * c_dag("up", 1) * c("up", 2)
         self.assertEqual(expr + hc, expr + conj(expr))
         self.assertEqual(expr - hc, expr - conj(expr))

@@ -10,11 +10,17 @@
 
 from unittest import TestCase
 
-from pycommute.expression import *
-from pycommute.loperator import *
+from pycommute.expression import (Indices, c, c_dag, a_dag)
+from pycommute.loperator import (
+    ESpaceFermion,
+    HilbertSpace,
+    LOperatorR, LOperatorC,
+    BasisMapper
+)
 
 import numpy as np
 from numpy.testing import assert_equal
+
 
 class TestMappedBasisView(TestCase):
     """Basis-mapped view of a state vector"""
@@ -28,10 +34,12 @@ class TestMappedBasisView(TestCase):
         # Finite system of 4 fermions: 2 orbitals, two spin projections
 
         # Hamiltonian: spin flips
-        cls.Hex = 2 * c_dag("up", 1)*c("up", 2)*c_dag("dn", 2) * c("dn", 1) + \
-                  2 * c_dag("up", 2)*c("up", 1)*c_dag("dn", 1) * c("dn", 2)
-        cls.Hp = 2 * c_dag("up", 1)*c("up", 2)*c_dag("dn", 1) * c("dn", 2) + \
-                  2 * c_dag("up", 2)*c("up", 1)*c_dag("dn", 2) * c("dn", 1)
+        cls.Hex = \
+            2 * c_dag("up", 1) * c("up", 2) * c_dag("dn", 2) * c("dn", 1) \
+            + 2 * c_dag("up", 2) * c("up", 1) * c_dag("dn", 1) * c("dn", 2)
+        cls.Hp = \
+            2 * c_dag("up", 1) * c("up", 2) * c_dag("dn", 1) * c("dn", 2) \
+            + 2 * c_dag("up", 2) * c("up", 1) * c_dag("dn", 2) * c("dn", 1)
 
         cls.hs = HilbertSpace(cls.Hex + cls.Hp)
 
@@ -44,15 +52,16 @@ class TestMappedBasisView(TestCase):
 
         # Map all basis states with 2 electrons so that their indices
         # are contiguous
-        cls.mapping = {i : j for j, i in enumerate([3, 5, 6, 9, 10, 12])}
+        cls.mapping = {i: j for j, i in enumerate([3, 5, 6, 9, 10, 12])}
         cls.mapper = BasisMapper([3, 5, 6, 9, 10, 12])
 
-        cls.st = np.array([0, 1, 2, 3, 4, 5], dtype = float)
+        cls.st = np.array([0, 1, 2, 3, 4, 5], dtype=float)
 
     def test_map(self):
         self.assertEqual(self.hs.dim, 16)
 
-        bit_range = lambda ind: self.hs.bit_range(ESpaceFermion(ind))
+        def bit_range(ind):
+            return self.hs.bit_range(ESpaceFermion(ind))
 
         self.assertEqual(bit_range(Indices("dn", 1)), (0, 0))
         self.assertEqual(bit_range(Indices("dn", 2)), (1, 1))
@@ -62,43 +71,41 @@ class TestMappedBasisView(TestCase):
         self.assertEqual(len(self.mapper), 6)
 
     def test_loperator(self):
-        out = np.zeros((6,), dtype = float)
+        out = np.zeros((6,), dtype=float)
         dst = self.mapper(out)
 
         # Spin flips
         Hop = LOperatorR(self.Hex, self.hs)
 
-        in1 = np.array([1, 1, 1, 1, 1, 1], dtype = float)
+        in1 = np.array([1, 1, 1, 1, 1, 1], dtype=float)
         src = self.mapper(in1)
         Hop(src, dst)
-        assert_equal(out, np.array([0, 0, 2, 2, 0, 0], dtype = float))
+        assert_equal(out, np.array([0, 0, 2, 2, 0, 0], dtype=float))
 
-        in2 = np.array([1, 1, 1, -1, 1, 1], dtype = float)
+        in2 = np.array([1, 1, 1, -1, 1, 1], dtype=float)
         src = self.mapper(in2)
         Hop(src, dst)
-        assert_equal(out, np.array([0, 0, -2, 2, 0, 0], dtype = float))
+        assert_equal(out, np.array([0, 0, -2, 2, 0, 0], dtype=float))
 
         # Pair hops
         Hop = LOperatorR(self.Hp, self.hs)
 
         src = self.mapper(in1)
         Hop(src, dst)
-        assert_equal(out, np.array([0, 2, 0, 0, 2, 0], dtype = float))
+        assert_equal(out, np.array([0, 2, 0, 0, 2, 0], dtype=float))
 
-        in2 = np.array([1, 1, 1, 1, -1, 1], dtype = float)
+        in2 = np.array([1, 1, 1, 1, -1, 1], dtype=float)
         src = self.mapper(in2)
         Hop(src, dst)
-        assert_equal(out, np.array([0, -2, 0, 0, 2, 0], dtype = float))
+        assert_equal(out, np.array([0, -2, 0, 0, 2, 0], dtype=float))
 
     def test_basis_state_indices(self):
-        st = np.array([1, 1, 1, 1, 1, 1], dtype = float)
-
         basis_indices = [3, 5, 6, 9, 10, 12]
         mapper = BasisMapper(basis_indices)
         self.assertEqual(len(mapper), 6)
         self.assertEqual(mapper.map, self.mapping)
 
-        inv_mapping = {j : i for i, j in self.mapping.items()}
+        inv_mapping = {j: i for i, j in self.mapping.items()}
         self.assertEqual(mapper.inverse_map, inv_mapping)
 
     def test_O_vac(self):

@@ -17,6 +17,7 @@ from pycommute.expression import BOSON, GeneratorBoson, make_boson
 from pycommute.expression import SPIN, GeneratorSpin, make_spin
 from pycommute.expression import SpinComponent
 
+
 # All other Generator* tests
 class TestGenerator(TestCase):
 
@@ -87,12 +88,12 @@ class TestGenerator(TestCase):
                          make_spin(1, SpinComponent.MINUS, 2),
                          make_spin(1, SpinComponent.Z, 2)]
         # Spin-3/2 algebra generators
-        cls.spin32_ops = [make_spin(3/2, SpinComponent.PLUS, 1),
-                          make_spin(3/2, SpinComponent.MINUS, 1),
-                          make_spin(3/2, SpinComponent.Z, 1),
-                          make_spin(3/2, SpinComponent.PLUS, 2),
-                          make_spin(3/2, SpinComponent.MINUS, 2),
-                          make_spin(3/2, SpinComponent.Z, 2)]
+        cls.spin32_ops = [make_spin(3 / 2, SpinComponent.PLUS, 1),
+                          make_spin(3 / 2, SpinComponent.MINUS, 1),
+                          make_spin(3 / 2, SpinComponent.Z, 1),
+                          make_spin(3 / 2, SpinComponent.PLUS, 2),
+                          make_spin(3 / 2, SpinComponent.MINUS, 2),
+                          make_spin(3 / 2, SpinComponent.Z, 2)]
 
     def test_fermion(self):
         self.assertListEqual(list(map(lambda g: g.indices, self.fermion_ops)),
@@ -120,7 +121,10 @@ class TestGenerator(TestCase):
 
     def test_boson(self):
         self.assertListEqual(list(map(lambda g: g.indices, self.boson_ops)),
-                      [Indices("x"), Indices("y"), Indices("y"), Indices("x")])
+                             [Indices("x"),
+                              Indices("y"),
+                              Indices("y"),
+                              Indices("x")])
 
         for op in self.boson_ops:
             self.assertEqual(op.algebra_id, BOSON)
@@ -141,7 +145,7 @@ class TestGenerator(TestCase):
 
     def test_spin12(self):
         self.assertListEqual(list(map(lambda g: g.indices, self.spin_ops)),
-                             [Indices(1)]*3 + [Indices(2)]*3)
+                             [Indices(1)] * 3 + [Indices(2)] * 3)
 
         for op in self.spin_ops:
             self.assertEqual(op.algebra_id, SPIN)
@@ -157,11 +161,16 @@ class TestGenerator(TestCase):
             self.assertIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.spin_ops)),
-                             ["S+(1)","S-(1)","Sz(1)","S+(2)","S-(2)","Sz(2)"])
+                             ["S+(1)",
+                              "S-(1)",
+                              "Sz(1)",
+                              "S+(2)",
+                              "S-(2)",
+                              "Sz(2)"])
 
     def test_spin1(self):
         self.assertListEqual(list(map(lambda g: g.indices, self.spin1_ops)),
-                             [Indices(1)]*3 + [Indices(2)]*3)
+                             [Indices(1)] * 3 + [Indices(2)] * 3)
 
         for op in self.spin1_ops:
             self.assertEqual(op.algebra_id, SPIN)
@@ -177,15 +186,20 @@ class TestGenerator(TestCase):
             self.assertIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.spin1_ops)),
-            ["S1+(1)","S1-(1)","S1z(1)","S1+(2)","S1-(2)","S1z(2)"])
+                             ["S1+(1)",
+                              "S1-(1)",
+                              "S1z(1)",
+                              "S1+(2)",
+                              "S1-(2)",
+                              "S1z(2)"])
 
     def test_spin32(self):
         self.assertListEqual(list(map(lambda g: g.indices, self.spin32_ops)),
-                             [Indices(1)]*3 + [Indices(2)]*3)
+                             [Indices(1)] * 3 + [Indices(2)] * 3)
 
         for op in self.spin32_ops:
             self.assertEqual(op.algebra_id, SPIN)
-            self.assertEqual(op.spin, 3/2)
+            self.assertEqual(op.spin, 3 / 2)
             self.assertEqual(op.multiplicity, 4)
 
         self.check_equality(self.spin32_ops)
@@ -197,7 +211,12 @@ class TestGenerator(TestCase):
             self.assertIsInstance(op, GeneratorSpin)
 
         self.assertListEqual(list(map(str, self.spin32_ops)),
-            ["S3/2+(1)","S3/2-(1)","S3/2z(1)","S3/2+(2)","S3/2-(2)","S3/2z(2)"])
+                             ["S3/2+(1)",
+                              "S3/2-(1)",
+                              "S3/2z(1)",
+                              "S3/2+(2)",
+                              "S3/2-(2)",
+                              "S3/2z(2)"])
 
     def test_different_algebras(self):
         all_ops = sum([self.fermion_ops,

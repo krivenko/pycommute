@@ -15,6 +15,7 @@ docstrings.
 
 from sphinx.util.docutils import SphinxDirective
 
+
 class PyBind11Class(SphinxDirective):
 
     has_content = True
@@ -24,11 +25,12 @@ class PyBind11Class(SphinxDirective):
         self.registered_classes.append(self.content[0])
         return []
 
+
 def autodoc_process_docstring(app, what, name, obj, options, lines):
     # Escape the asterisks in "*args" and "**kwrags"
     if what in ("function", "method"):
         for n, s in enumerate(lines):
-            s = s.replace("*args", "\*args").replace("**kwargs", "\*\*kwargs")
+            s = s.replace("*args", r"\*args").replace("**kwargs", r"\*\*kwargs")
             lines[n] = s
 
     # Turn pybind11 class names into :py:class: roles.
@@ -37,6 +39,7 @@ def autodoc_process_docstring(app, what, name, obj, options, lines):
             s = s.replace(" " + c, " :py:class:`" + c + "`")
             s = s.replace("[" + c, "[:py:class:`" + c + "`")
         lines[n] = s
+
 
 def setup(app):
     app.add_directive("pybind11class", PyBind11Class)

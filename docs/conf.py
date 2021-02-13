@@ -16,7 +16,7 @@ from distutils.util import get_platform
 from distutils.sysconfig import get_python_version
 
 sys.path.insert(0, os.path.abspath(os.path.join(
-  "..", "build", "lib.%s-%s" % (get_platform(), get_python_version())))
+    "..", "build", "lib.%s-%s" % (get_platform(), get_python_version())))
 )
 
 sys.path.append(os.path.abspath("./_ext"))

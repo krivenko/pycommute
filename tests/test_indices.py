@@ -13,6 +13,7 @@ from unittest import TestCase
 from itertools import product
 from pycommute.expression import Indices
 
+
 class TestIndices(TestCase):
 
     # Check that elements of `v` are pairwise distinct
@@ -44,7 +45,7 @@ class TestIndices(TestCase):
         for i, j in product((0, 1, "xxx", "yyy"), (0, 1, "xxx", "yyy")):
             all_ind.append(Indices(i, j))
             self.assertEqual(len(all_ind[-1]), 2)
-            self.assertEqual(str(all_ind[-1]), "%s,%s" % (i,j))
+            self.assertEqual(str(all_ind[-1]), "%s,%s" % (i, j))
             self.assertEqual([n for n in all_ind[-1]], [i, j])
             self.assertEqual(all_ind[-1].indices, [i, j])
 

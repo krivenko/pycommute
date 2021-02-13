@@ -20,7 +20,6 @@
 #
 
 from numpy import array, dot, cross
-from pycommute.expression import ExpressionR
 from pycommute.expression import S_x, S_y, S_z
 
 # Number of spins in the chain
@@ -33,7 +32,7 @@ S = [array([S_x(i), S_y(i), S_z(i)]) for i in range(N)]
 
 # Hamiltonian of the spin-1/2 Heisenberg chain.
 # Index shift modulo N ensures periodic boundary conditions.
-H = sum(g * dot(S[i], S[(i+1)%N]) for i in range(N))
+H = sum(g * dot(S[i], S[(i + 1) % N]) for i in range(N))
 
 # Total spin of the chain.
 S_tot = array(sum(S))
@@ -44,22 +43,27 @@ print("[H, S_y] =", (H * S_tot[1] - S_tot[1] * H))
 print("[H, S_z] =", (H * S_tot[2] - S_tot[2] * H))
 
 # Higher charge Q_3 (1st line of Eq. (10)).
-Q3 = sum(dot(cross(S[i], S[(i+1)%N]), S[(i+2)%N]) for i in range(N))
+Q3 = sum(dot(cross(S[i], S[(i + 1) % N]), S[(i + 2) % N]) for i in range(N))
 print("[H, Q3] =", (H * Q3 - Q3 * H))
 
 # Higher charge Q_4 (2nd line of Eq. (10)).
-Q4 = sum(4.0 * dot(cross(cross(S[i], S[(i+1)%N]), S[(i+2)%N]), S[(i+3)%N])
-         for i in range(N))
-Q4 += sum(dot(S[i], S[(i+2)%N]) for i in range(N))
+Q4 = sum(4.0 * dot(
+    cross(
+        cross(S[i], S[(i + 1) % N]), S[(i + 2) % N]
+    ), S[(i + 3) % N]) for i in range(N))
+Q4 += sum(dot(S[i], S[(i + 2) % N]) for i in range(N))
 print("[H, Q4] =", (H * Q4 - Q4 * H))
 
 # Higher charge Q_5 (3rd line of Eq. (10)).
 Q5 = sum(4.0 * dot(
-             cross(cross(cross(S[i], S[(i+1)%N]), S[(i+2)%N]), S[(i+3)%N]),
-             S[(i+4)%N]
-          ) for i in range(N))
-Q5 += sum(dot(cross(S[i], S[(i+2)%N]), S[(i+3)%N]) for i in range(N))
-Q5 += sum(dot(cross(S[i], S[(i+1)%N]), S[(i+3)%N]) for i in range(N))
+    cross(
+        cross(
+            cross(S[i], S[(i + 1) % N]),
+            S[(i + 2) % N]
+        ), S[(i + 3) % N]),
+    S[(i + 4) % N]) for i in range(N))
+Q5 += sum(dot(cross(S[i], S[(i + 2) % N]), S[(i + 3) % N]) for i in range(N))
+Q5 += sum(dot(cross(S[i], S[(i + 1) % N]), S[(i + 3) % N]) for i in range(N))
 print("[H, Q5] =", (H * Q5 - Q5 * H))
 
 # Check that the higher charges pairwise commute.

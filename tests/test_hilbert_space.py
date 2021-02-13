@@ -10,8 +10,17 @@
 
 from unittest import TestCase
 
-from pycommute.expression import *
-from pycommute.loperator import *
+from pycommute.expression import (
+    ExpressionR,
+    FERMION, BOSON, SPIN,
+    n, a, a_dag, S_p, S_m
+)
+from pycommute.loperator import (
+    HilbertSpace,
+    make_space_fermion, make_space_boson, make_space_spin,
+    foreach
+)
+
 
 class TestHilbertSpace(TestCase):
 
@@ -34,8 +43,8 @@ class TestHilbertSpace(TestCase):
         cls.es_s1_j = make_space_spin(1.0, "j", 0)
         cls.spin1_es = [cls.es_s1_i, cls.es_s1_j]
         # Spin-3/2 elementary spaces
-        cls.es_s32_i = make_space_spin(3.0/2, "i", 0)
-        cls.es_s32_j = make_space_spin(3.0/2, "j", 0)
+        cls.es_s32_i = make_space_spin(3 / 2, "i", 0)
+        cls.es_s32_j = make_space_spin(3 / 2, "j", 0)
         cls.spin32_es = [cls.es_s32_i, cls.es_s32_j]
 
     def test_equality(self):
@@ -165,25 +174,31 @@ class TestHilbertSpace(TestCase):
             self.assertTrue(es in hs)
             self.assertEqual(hs.bit_range(es), (b, e))
 
-            if not fermion is None:
+            if fermion is not None:
                 self.assertEqual(hs.algebra_bit_range(FERMION), fermion)
             else:
-                with self.assertRaisesRegex(RuntimeError,
-                    "^No elementary spaces with algebra ID %i$" % FERMION):
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "^No elementary spaces with algebra ID %i$" % FERMION
+                ):
                     hs.algebra_bit_range(FERMION)
 
-            if not boson is None:
+            if boson is not None:
                 self.assertEqual(hs.algebra_bit_range(BOSON), boson)
             else:
-                with self.assertRaisesRegex(RuntimeError,
-                    "^No elementary spaces with algebra ID %i$" % BOSON):
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "^No elementary spaces with algebra ID %i$" % BOSON
+                ):
                     hs.algebra_bit_range(BOSON)
 
-            if not spin is None:
+            if spin is not None:
                 self.assertEqual(hs.algebra_bit_range(SPIN), spin)
             else:
-                with self.assertRaisesRegex(RuntimeError,
-                    "^No elementary spaces with algebra ID %i$" % SPIN):
+                with self.assertRaisesRegex(
+                    RuntimeError,
+                    "^No elementary spaces with algebra ID %i$" % SPIN
+                ):
                     hs.algebra_bit_range(SPIN)
 
         check_hs(self.es_s32_i, 1, 2, 0, 1, None, None, (0, 1))
@@ -219,8 +234,8 @@ class TestHilbertSpace(TestCase):
         self.assertEqual(hs.algebra_bit_range(SPIN), (6, 13))
 
     def test_from_expression(self):
-        expr = 2.0 * S_p("i", 0, spin = 3/2) * S_m("j", 0, spin = 3/2) + \
-               5.0 * n("up", 0) * n("dn", 0)
+        expr = 2.0 * S_p("i", 0, spin=3 / 2) * S_m("j", 0, spin=3 / 2) \
+            + 5.0 * n("up", 0) * n("dn", 0)
 
         hs1 = HilbertSpace(expr)
         self.assertEqual(len(hs1), 4)
@@ -237,6 +252,7 @@ class TestHilbertSpace(TestCase):
 
         # foreach()
         count = 0
+
         def counter(i):
             nonlocal count
             count += i
@@ -245,7 +261,7 @@ class TestHilbertSpace(TestCase):
 
         expr += a_dag("x", 0) + a("y", 0)
 
-        hs2 = HilbertSpace(expr, bits_per_boson = 4)
+        hs2 = HilbertSpace(expr, bits_per_boson=4)
 
         self.assertEqual(len(hs2), 6)
         self.assertEqual(hs2.total_n_bits, 14)
@@ -261,24 +277,30 @@ class TestHilbertSpace(TestCase):
         self.assertTrue(self.es_s32_i in hs2)
         self.assertEqual(hs2.bit_range(self.es_s32_i), (10, 11))
         self.assertTrue(self.es_s32_j in hs2)
-        self.assertEqual(hs2.bit_range(self.es_s32_j),(12, 13))
+        self.assertEqual(hs2.bit_range(self.es_s32_j), (12, 13))
 
     def test_very_big_space(self):
         hs1 = HilbertSpace()
-        for i in range(32): hs1.add(make_space_spin(3.0/2, "s", i))
+        for i in range(32):
+            hs1.add(make_space_spin(3 / 2, "s", i))
 
-        with self.assertRaisesRegex(RuntimeError,
-          "Hilbert space size is not representable by a 64-bit integer "
-          "\\(n_bits = 66\\)"):
-            hs1.add(make_space_spin(3.0/2, "s", 32))
+        with self.assertRaisesRegex(
+            RuntimeError,
+            "Hilbert space size is not representable by a 64-bit integer "
+            "\\(n_bits = 66\\)"
+        ):
+            hs1.add(make_space_spin(3 / 2, "s", 32))
 
         expr = ExpressionR(1.0)
-        for i in range(32): expr *= S_p("s", i, spin = 3/2)
+        for i in range(32):
+            expr *= S_p("s", i, spin=3 / 2)
         hs2 = HilbertSpace(expr)
         self.assertEqual(hs2.total_n_bits, 64)
 
-        expr *= S_p("s", 32, spin = 3/2)
-        with self.assertRaisesRegex(RuntimeError,
-          "Hilbert space size is not representable by a 64-bit integer "
-          "\\(n_bits = 66\\)"):
+        expr *= S_p("s", 32, spin=3 / 2)
+        with self.assertRaisesRegex(
+            RuntimeError,
+            "Hilbert space size is not representable by a 64-bit integer "
+            "\\(n_bits = 66\\)"
+        ):
             HilbertSpace(expr)

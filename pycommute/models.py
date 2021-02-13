@@ -8,14 +8,22 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-from .expression import *
+from .expression import (
+    FERMION, BOSON,
+    ExpressionR, ExpressionC,
+    c, c_dag, a, a_dag
+)
 
-from typing import Union, Tuple, Sequence
+from typing import Union, Tuple, Sequence, Callable
 from itertools import product
 import numpy as np
 
+
+IndicesType = Tuple[Union[int, str], ...]
+
+
 def tight_binding(matrix_elements: np.ndarray,
-                  indices: Sequence[Tuple[Union[int, str], ...]],
+                  indices: Sequence[IndicesType],
                   statistics: int = FERMION
                   ) -> Union[ExpressionR, ExpressionC]:
     """
@@ -37,10 +45,13 @@ def tight_binding(matrix_elements: np.ndarray,
 
     return H
 
+
 def hypercubic_lattice(shape: Tuple[int, ...],
                        hopping_matrices: Tuple[np.ndarray],
-                       index_translator = None,
-                       statistics: int = FERMION) -> ExpressionR:
+                       index_translator:
+                       Callable[[Tuple[int, ...]], IndicesType] = None,
+                       statistics: int = FERMION
+                       ) -> ExpressionR:
     """
     TODO
     """

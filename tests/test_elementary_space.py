@@ -11,8 +11,11 @@
 from unittest import TestCase
 
 from itertools import product
-from pycommute.loperator import *
-from pycommute.expression import FERMION, BOSON, SPIN
+from pycommute.loperator import (
+    make_space_fermion, make_space_boson, make_space_spin
+)
+from pycommute.expression import (FERMION, BOSON, SPIN)
+
 
 class TestElementarySpace(TestCase):
 
@@ -43,8 +46,8 @@ class TestElementarySpace(TestCase):
         cls.spin1_es = [make_space_spin(1.0, "i", 0),
                         make_space_spin(1.0, "j", 0)]
         # Spin-3/2 algebra elementary spaces
-        cls.spin32_es = [make_space_spin(3.0/2, "i", 0),
-                         make_space_spin(3.0/2, "j", 0)]
+        cls.spin32_es = [make_space_spin(3 / 2, "i", 0),
+                         make_space_spin(3 / 2, "j", 0)]
 
     def test_fermion(self):
         for es in self.fermion_es:
