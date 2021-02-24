@@ -44,16 +44,3 @@ def tight_binding(matrix_elements: np.ndarray,
         H += matrix_elements[i1, i2] * O_dag(*ind1) * O(ind2)
 
     return H
-
-
-def hypercubic_lattice(shape: Tuple[int, ...],
-                       hopping_matrices: Tuple[np.ndarray],
-                       index_translator:
-                       Callable[[Tuple[int, ...]], IndicesType] = None,
-                       statistics: int = FERMION
-                       ) -> ExpressionR:
-    """
-    TODO
-    """
-    # TODO
-    pass
