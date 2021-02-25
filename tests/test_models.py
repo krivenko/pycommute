@@ -18,7 +18,10 @@ from pycommute.models import (
     tight_binding,
 )
 from pycommute.lattices import (
-    hypercubic_lattice
+    hypercubic_lattice,
+    chain,
+    square_lattice,
+    cubic_lattice
 )
 
 import numpy as np
@@ -157,3 +160,75 @@ class TestModels(TestCase):
         )
         assert_allclose(lat1.subgraph_matrices['NNN'], ref_NNN)
         assert_allclose(lat2.subgraph_matrices['NNN'], ref_NNN)
+
+        assert_allclose(
+            lat1.adjacency_matrix({'NN': 2, 'NNN': 3}),
+            2 * ref_NN + 3 * ref_NNN
+        )
+
+    def test_chain(self):
+        c = chain(4, lambda i: "a%d" % i)
+        self.assertEqual(c.node_names, [("a0",), ("a1",), ("a2",), ("a3",)])
+
+        self.assertEqual(len(c.subgraph_matrices), 1)
+        assert_allclose(
+            c.subgraph_matrices['NN'],
+            hypercubic_lattice((4,), periodic=True).subgraph_matrices['NN']
+        )
+
+        c = chain(4, lambda i: "a%d" % i, periodic=False)
+        self.assertEqual(len(c.subgraph_matrices), 1)
+        assert_allclose(
+            c.subgraph_matrices['NN'],
+            hypercubic_lattice((4,), periodic=False).subgraph_matrices['NN']
+        )
+
+    def test_square_lattice(self):
+        lat = square_lattice(2, 2, lambda ij: ("a%d" % ij[0], "b%d" % ij[1]))
+        self.assertEqual(
+            lat.node_names,
+            [("a0", "b0"), ("a0", "b1"), ("a1", "b0"), ("a1", "b1")]
+        )
+
+        lat = square_lattice(4, 4)
+        self.assertEqual(len(lat.subgraph_matrices), 2)
+        for sg in ('NN', 'NNN'):
+            assert_allclose(
+              lat.subgraph_matrices[sg],
+              hypercubic_lattice((4, 4), periodic=True).subgraph_matrices[sg]
+            )
+        lat = square_lattice(4, 4, periodic=False)
+        self.assertEqual(len(lat.subgraph_matrices), 2)
+        for sg in ('NN', 'NNN'):
+            assert_allclose(
+              lat.subgraph_matrices[sg],
+              hypercubic_lattice((4, 4), periodic=False).subgraph_matrices[sg]
+            )
+
+    def test_cubic_lattice(self):
+        lat = cubic_lattice(
+            2, 2, 2,
+            lambda ijk: ("a%d" % ijk[0], "b%d" % ijk[1], "c%d" % ijk[2])
+        )
+        self.assertEqual(
+            lat.node_names,
+            [("a0", "b0", "c0"), ("a0", "b0", "c1"),
+             ("a0", "b1", "c0"), ("a0", "b1", "c1"),
+             ("a1", "b0", "c0"), ("a1", "b0", "c1"),
+             ("a1", "b1", "c0"), ("a1", "b1", "c1")]
+        )
+
+        lat = cubic_lattice(4, 4, 4)
+        self.assertEqual(len(lat.subgraph_matrices), 3)
+        for sg in ('NN', 'NNN', 'NNNN'):
+            assert_allclose(
+              lat.subgraph_matrices[sg],
+              hypercubic_lattice((4, 4, 4), periodic=True).subgraph_matrices[sg]
+            )
+        lat = cubic_lattice(4, 4, 4, periodic=False)
+        self.assertEqual(len(lat.subgraph_matrices), 3)
+        for sg in ('NN', 'NNN', 'NNNN'):
+            assert_allclose(
+              lat.subgraph_matrices[sg],
+              hypercubic_lattice((4, 4, 4), periodic=False).subgraph_matrices[sg]
+            )

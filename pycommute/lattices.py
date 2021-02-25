@@ -47,7 +47,7 @@ class Lattice:
         """
         TODO
         """
-        sum(weights[w] * self.subgraph_matrices[w] for w in weights)
+        return sum(weights[w] * self.subgraph_matrices[w] for w in weights)
 
 
 def hypercubic_lattice(shape: Tuple[int, ...],
@@ -88,3 +88,37 @@ def hypercubic_lattice(shape: Tuple[int, ...],
 
     it = index_translator if (index_translator is not None) else (lambda i: i)
     return Lattice(map(it, nodes), mats)
+
+def chain(N: int,
+          index_translator: Callable[[int], Union[int, str]] = None,
+          periodic: bool = True
+          ) -> Lattice:
+    """
+    TODO
+    """
+    if index_translator is not None:
+        def it(indices: Tuple[int, ...]) -> IndicesType:
+            return (index_translator(indices[0]),)
+    else:
+        it = None
+    return hypercubic_lattice((N,), it, periodic)
+
+def square_lattice(
+    Nx: int, Ny: int,
+    index_translator: Callable[[Tuple[int, int]], IndicesType] = None,
+    periodic: bool = True
+    ) -> Lattice:
+    """
+    TODO
+    """
+    return hypercubic_lattice((Nx, Ny), index_translator, periodic)
+
+def cubic_lattice(
+    Nx: int, Ny: int, Nz: int,
+    index_translator: Callable[[Tuple[int, int, int]], IndicesType] = None,
+    periodic: bool = True
+    ) -> Lattice:
+    """
+    TODO
+    """
+    return hypercubic_lattice((Nx, Ny, Nz), index_translator, periodic)
