@@ -57,6 +57,7 @@ def hypercubic_lattice(shape: Tuple[int, ...],
                        ) -> Lattice:
     """
     TODO
+    Basis vectors: (1,0,0,...), (0,1,0,...), (0,0,1,...)
     """
     ndim = len(shape)
     assert ndim > 0
@@ -95,6 +96,7 @@ def chain(N: int,
           ) -> Lattice:
     """
     TODO
+    Basis vector: (1)
     """
     if index_translator is not None:
         def it(indices: Tuple[int, ...]) -> IndicesType:
@@ -110,6 +112,8 @@ def square_lattice(
     ) -> Lattice:
     """
     TODO
+    Basis vectors: (1,0), (0,1)
+
     """
     return hypercubic_lattice((Nx, Ny), index_translator, periodic)
 
@@ -120,5 +124,95 @@ def cubic_lattice(
     ) -> Lattice:
     """
     TODO
+    Basis vectors: (1,0,0), (0,1,0), (0,0,1)
     """
     return hypercubic_lattice((Nx, Ny, Nz), index_translator, periodic)
+
+def triangular_lattice(
+    cluster: str,
+    index_translator: Callable[[Tuple[int, int]], IndicesType] = None,
+    **kwargs
+    ) -> Lattice:
+    """
+    TODO
+    Basis vectors: u1 = (1,0), u2 = (1/2, \sqrt{3}/2)
+
+    Phys. Rev. B 50, 10048 (1994)
+    """
+
+    if cluster == "triangle":
+        # Triangle spanned by T1 = l*u1 and T2 = l*u2
+        l = kwargs['l']
+        nodes = [(i, j) for i in range(l + 1) for j in range(l - i + 1)]
+        def node_on_cluster(i, j):
+            return (i, j) if ((0 <= j <= l) and (0 <= i <= l - j)) else None
+    elif cluster == "parallelogram":
+        # Parallelogram spanned by T1 = l*u1 and T2 = m*u2
+        # This cluster keeps all symmetries of the infinite lattice at l = m.
+        l, m = kwargs['l'], kwargs['m']
+        periodic = kwargs.get('periodic', True)
+        nodes = list(product(range(l + 1), range(m + 1)))
+        def node_on_cluster(i, j):
+            if periodic:
+                return (i % (l + 1), j % (m + 1))
+            else:
+                return (i, j) if ((0 <= i <= l) and (0 <= j <= m)) else None
+    elif cluster == "hexagon":
+        # Hexagonal cluster which keeps all symmetries of the infinite lattice.
+        # Periodicity vectors T1 = l*(u1 + u2) and T2 = -l*u1 + 2l*u2
+        l = kwargs['l']
+        periodic = kwargs.get('periodic', True)
+        i_max = 3 * l - 2
+        nodes = [(i, j) for i in range(i_max + 1) for j in range(i_max + 1 - i)
+                 if (i + j >= l - 1 and i <= 2 * l - 1 and j <= 2 * l - 1)]
+        def on_hexagon(i, j):
+            return (i >= 0 and j >= 0 and
+                    i + j >= l - 1 and i + j <= i_max and
+                    i <= 2 * l - 1 and j <= 2 * l - 1)
+
+        if periodic:
+            T = ((2, 2), (-2, -2), (-2, 4), (2, -4), (4, -2), (-4, 2))
+            reduced_nodes = {}
+            for node in nodes:
+                reduced_nodes[node] = node
+                for t in T:
+                    shifted_node = tuple(np.add(node, t))
+                    if not on_hexagon(*shifted_node):
+                        reduced_nodes[shifted_node] = node
+
+            def node_on_cluster(i, j):
+                return reduced_nodes.get((i, j), None)
+
+        else:
+            def node_on_cluster(i, j):
+                return (i, j) if on_hexagon(i, j) else None
+    else:
+        raise ValueError(f"Unknown cluster shape '{cluster}'")
+
+    n_nodes = len(nodes)
+
+    stencils_d = {}
+    stencils_d['NN'] = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, 1), (1, -1)]
+    stencils_d['NNN'] = [(1, 1), (-1, -1), (2, -1), (-2, 1), (-1, 2), (1, -2)]
+
+    mats = {n: np.zeros((n_nodes, n_nodes), dtype=int)
+            for n in stencils_d.keys()}
+
+    for subgraph_name in stencils_d.keys():
+        stencils = stencils_d[subgraph_name]
+        mat = mats[subgraph_name]
+        for n1, node1 in enumerate(nodes):
+            for st in stencils:
+                node2 = node_on_cluster(*np.add(node1, st))
+                if node2 is not None:
+                    mat[n1, nodes.index(node2)] += 1
+
+    it = index_translator if (index_translator is not None) else (lambda i: i)
+    return Lattice(map(it, nodes), mats)
+
+# TODO: Lieb lattice
+# TODO: Shastry–Sutherland lattice
+# TODO: BCC lattice
+# TODO: FCC lattice
+# TODO: Hexagonal lattice
+# TODO: Kagome lattice

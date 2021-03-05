@@ -44,3 +44,10 @@ def tight_binding(matrix_elements: np.ndarray,
         H += matrix_elements[i1, i2] * O_dag(*ind1) * O(ind2)
 
     return H
+
+# TODO: Su-Schrieffer–Heeger model
+# TODO: Kitaev chain
+# TODO: Spin models
+# TODO: Interaction term for bosons
+# TODO: Interaction terms for fermions: Hubbard, Hubbard-Kanamori and Slater
+# TODO: Interaction term: Hubbard-Holstein

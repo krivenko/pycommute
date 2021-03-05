@@ -21,7 +21,8 @@ from pycommute.lattices import (
     hypercubic_lattice,
     chain,
     square_lattice,
-    cubic_lattice
+    cubic_lattice,
+    triangular_lattice
 )
 
 import numpy as np
@@ -66,18 +67,24 @@ class TestModels(TestCase):
         ref += 0.5j * a_dag("A") * a("C") - 0.5j * a_dag("C") * a("A")
         self.assertEqual(H6, ref)
 
-    def make_adj_matrix(self, size, edges):
-        matrix = np.zeros((size, size), dtype=int)
+    def make_adj_matrix(self, mat, edges):
+        if isinstance(mat, int):
+            matrix = np.zeros((mat, mat), dtype=int)
+        else:
+            matrix = mat.copy()
+
         for e in edges:
             matrix[e[0], e[1]] += 1
             matrix[e[1], e[0]] += 1
         return matrix
 
+    def index_translator(self, indices):
+        return tuple("abc"[d] + str(i) for d, i in enumerate(indices))
+
     def test_hypercubic_lattice(self):
         shape = (2, 3)
 
-        lat = hypercubic_lattice(shape,
-                                 lambda ij: ("a%d" % ij[0], "b%d" % ij[1]))
+        lat = hypercubic_lattice(shape, self.index_translator)
         self.assertEqual(
             lat.node_names,
             [("a0", "b0"), ("a0", "b1"), ("a0", "b2"),
@@ -112,16 +119,9 @@ class TestModels(TestCase):
         # periodic = (False, True)
         lat = hypercubic_lattice(shape, periodic=(False, True))
         self.assertEqual(len(lat.subgraph_matrices), 2)
-        ref_NN = self.make_adj_matrix(6,
-            [(i00, i01), (i01, i02), (i10, i11), (i11, i12),
-             (i00, i10), (i01, i11), (i02, i12),
-             (i00, i02), (i10, i12)]
-        )
+        ref_NN = self.make_adj_matrix(ref_NN, [(i00, i02), (i10, i12)])
         assert_allclose(lat.subgraph_matrices['NN'], ref_NN)
-        ref_NNN = self.make_adj_matrix(6,
-            [(i00, i11), (i01, i10), (i01, i12), (i02, i11),
-             (i00, i12), (i10, i02)]
-        )
+        ref_NNN = self.make_adj_matrix(ref_NNN, [(i00, i12), (i10, i02)])
         assert_allclose(lat.subgraph_matrices['NNN'], ref_NNN)
 
         # periodic = (True, False)
@@ -144,19 +144,11 @@ class TestModels(TestCase):
         lat2 = hypercubic_lattice(shape, periodic=(True, True))
         self.assertEqual(len(lat1.subgraph_matrices), 2)
         self.assertEqual(len(lat2.subgraph_matrices), 2)
-        ref_NN = self.make_adj_matrix(6,
-            [(i00, i01), (i01, i02), (i10, i11), (i11, i12),
-             (i00, i10), (i01, i11), (i02, i12),
-             (i10, i00), (i11, i01), (i12, i02),
-             (i00, i02), (i10, i12)]
-        )
+        ref_NN = self.make_adj_matrix(ref_NN, [(i00, i02), (i10, i12)])
         assert_allclose(lat1.subgraph_matrices['NN'], ref_NN)
         assert_allclose(lat2.subgraph_matrices['NN'], ref_NN)
-        ref_NNN = self.make_adj_matrix(6,
-            [(i00, i11), (i01, i10), (i01, i12), (i02, i11),
-             (i10, i01), (i11, i00), (i11, i02), (i12, i01),
-             (i00, i12), (i10, i02),
-             (i10, i02), (i00, i12)]
+        ref_NNN = self.make_adj_matrix(ref_NNN,
+            [(i00, i12), (i10, i02), (i10, i02), (i00, i12)]
         )
         assert_allclose(lat1.subgraph_matrices['NNN'], ref_NNN)
         assert_allclose(lat2.subgraph_matrices['NNN'], ref_NNN)
@@ -232,3 +224,154 @@ class TestModels(TestCase):
               lat.subgraph_matrices[sg],
               hypercubic_lattice((4, 4, 4), periodic=False).subgraph_matrices[sg]
             )
+
+    def test_triangular_lattice(self):
+        # triangle
+        lat = triangular_lattice(
+            "triangle",
+            lambda ij: ("a%d" % ij[0], "b%d" % ij[1]),
+            l = 3
+        )
+        self.assertEqual(
+            lat.node_names,
+            [("a0", "b0"), ("a0", "b1"), ("a0", "b2"), ("a0", "b3"),
+             ("a1", "b0"), ("a1", "b1"), ("a1", "b2"),
+             ("a2", "b0"), ("a2", "b1"),
+             ("a3", "b0")]
+        )
+
+        lat = triangular_lattice("triangle", l = 3)
+        self.assertEqual(len(lat.subgraph_matrices), 2)
+
+        i00, i01, i02, i03, i10, i11, i12, i20, i21, i30 = range(10)
+        ref_NN = self.make_adj_matrix(10,
+            [(i00, i10), (i10, i20), (i20, i30),
+             (i01, i11), (i11, i21), (i02, i12),
+             (i00, i01), (i01, i10), (i10, i11),
+             (i11, i20), (i20, i21), (i21, i30),
+             (i01, i02), (i02, i11), (i11, i12), (i12, i21),
+             (i02, i03), (i03, i12)]
+        )
+        assert_allclose(lat.subgraph_matrices['NN'], ref_NN)
+        ref_NNN = self.make_adj_matrix(10,
+            [(i11, i00), (i11, i30), (i11, i03),
+             (i01, i12), (i12, i20), (i20, i01),
+             (i02, i21), (i21, i10), (i10, i02)]
+        )
+        assert_allclose(lat.subgraph_matrices['NNN'], ref_NNN)
+
+        # parallelogram
+        lat = triangular_lattice(
+            "parallelogram",
+            lambda ij: ("a%d" % ij[0], "b%d" % ij[1]),
+            l=2,
+            m=1
+        )
+        self.assertEqual(
+            lat.node_names,
+            [("a0", "b0"), ("a0", "b1"),
+             ("a1", "b0"), ("a1", "b1"),
+             ("a2", "b0"), ("a2", "b1")]
+        )
+
+        lat = triangular_lattice("parallelogram", l=2, m=1, periodic=False)
+        self.assertEqual(len(lat.subgraph_matrices), 2)
+
+        i00, i01, i10, i11, i20, i21 = range(6)
+        ref_NN = self.make_adj_matrix(6,
+            [(i00, i01), (i10, i11), (i20, i21),
+             (i00, i10), (i10, i20), (i01, i11), (i11, i21),
+             (i01, i10), (i11, i20)]
+        )
+        assert_allclose(lat.subgraph_matrices['NN'], ref_NN)
+        ref_NNN = self.make_adj_matrix(6,
+            [(i00, i11), (i01, i20), (i10, i21)]
+        )
+        assert_allclose(lat.subgraph_matrices['NNN'], ref_NNN)
+
+        lat = triangular_lattice("parallelogram", l=2, m=1, periodic=True)
+        self.assertEqual(len(lat.subgraph_matrices), 2)
+
+        i00, i01, i10, i11, i20, i21 = range(6)
+        ref_NN = self.make_adj_matrix(ref_NN,
+            [(i00, i01), (i00, i11), (i10, i11), (i10, i21),
+             (i20, i21), (i20, i01),
+             (i00, i20), (i01, i21), (i00, i21)]
+        )
+        assert_allclose(lat.subgraph_matrices['NN'], ref_NN)
+        ref_NNN = self.make_adj_matrix(ref_NNN,
+            [(i00, i21), (i00, i20), (i00, i21), (i00, i10), (i00, i11),
+             (i01, i10), (i01, i21), (i01, i10), (i01, i20), (i01, i11),
+             (i11, i20), (i11, i20), (i11, i21),
+             (i10, i20), (i10, i21)]
+        )
+        assert_allclose(lat.subgraph_matrices['NNN'], ref_NNN)
+
+        # hexagon
+        lat = triangular_lattice(
+            "hexagon",
+            lambda ij: ("a%d" % ij[0], "b%d" % ij[1]),
+            l=3,
+            periodic=False
+        )
+        self.assertEqual(
+            lat.node_names,
+            [("a0", "b2"), ("a0", "b3"), ("a0", "b4"), ("a0", "b5"),
+             ("a1", "b1"), ("a1", "b2"), ("a1", "b3"),
+             ("a1", "b4"), ("a1", "b5"),
+             ("a2", "b0"), ("a2", "b1"), ("a2", "b2"),
+             ("a2", "b3"), ("a2", "b4"), ("a2", "b5"),
+             ("a3", "b0"), ("a3", "b1"), ("a3", "b2"), ("a3", "b3"),
+             ("a3", "b4"),
+             ("a4", "b0"), ("a4", "b1"), ("a4", "b2"), ("a4", "b3"),
+             ("a5", "b0"), ("a5", "b1"), ("a5", "b2")
+             ]
+        )
+
+        lat = triangular_lattice("hexagon", l=2, periodic=False)
+        self.assertEqual(
+            lat.node_names,
+            [(0, 1), (0, 2), (0, 3),
+             (1, 0), (1, 1), (1, 2), (1, 3),
+             (2, 0), (2, 1), (2, 2),
+             (3, 0), (3, 1)
+             ]
+        )
+        self.assertEqual(len(lat.subgraph_matrices), 2)
+
+        i01, i02, i03, i10, i11, i12, i13, i20, i21, i22, i30, i31 = range(12)
+        ref_NN = self.make_adj_matrix(12,
+            [(i01, i10), (i01, i11), (i01, i02),
+             (i02, i11), (i02, i12), (i02, i03),
+             (i03, i12), (i03, i13),
+             (i10, i20), (i10, i11),
+             (i11, i20), (i11, i21), (i11, i12),
+             (i12, i21), (i12, i22), (i12, i13),
+             (i13, i22),
+             (i20, i30), (i20, i21),
+             (i21, i30), (i21, i31), (i21, i22),
+             (i22, i31),
+             (i30, i31)]
+        )
+        assert_allclose(lat.subgraph_matrices['NN'], ref_NN)
+        ref_NNN = self.make_adj_matrix(12,
+            [(i10, i02), (i11, i03), (i20, i12), (i21, i13), (i30, i22),
+             (i01, i20), (i11, i30), (i02, i21), (i12, i31), (i03, i22),
+             (i01, i12), (i02, i13), (i10, i21), (i20, i31), (i11, i22)]
+        )
+        assert_allclose(lat.subgraph_matrices['NNN'], ref_NNN)
+
+        lat = triangular_lattice("hexagon", l=2)
+        self.assertEqual(len(lat.subgraph_matrices), 2)
+
+        ref_NN = self.make_adj_matrix(ref_NN,
+            [(i01, i30), (i01, i13), (i01, i22),
+             (i10, i22), (i10, i31), (i10, i03),
+             (i20, i03), (i20, i13),
+             (i30, i13), (i30, i02),
+             (i31, i02), (i31, i03)]
+        )
+        assert_allclose(lat.subgraph_matrices['NN'], ref_NN)
+
+        # TODO: ref_NNN
+
