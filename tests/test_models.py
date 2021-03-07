@@ -18,7 +18,8 @@ from pycommute.expression import (
 from pycommute.models import (
     tight_binding,
     ising,
-    heisenberg
+    heisenberg,
+    anisotropic_heisenberg
 )
 
 import numpy as np
@@ -188,3 +189,68 @@ class TestModels(TestCase):
                 - 3.0 * S1_z('c', 2) * S1_z('d', 3) \
                 - 0.3 * S1_x('a', 0) - 0.4 * S1_y('b', 1) - 0.5 * S1_z('c', 2)
         self.assertEqual(H5, ref_5)
+
+    def test_anisotropic_heisenberg(self):
+        Jx = np.array([[0, 1, 0, 0],
+                       [0, 0, 2, 0],
+                       [0, 0, 0, 3],
+                       [0, 0, 0, 0]], dtype=float)
+        Jy = np.array([[0, 4, 0, 0],
+                       [0, 0, 5, 0],
+                       [0, 0, 0, 6],
+                       [0, 0, 0, 0]], dtype=float)
+        Jz = np.array([[0, 7, 0, 0],
+                       [0, 0, 8, 0],
+                       [0, 0, 0, 9],
+                       [0, 0, 0, 0]], dtype=float)
+        h = np.array([[0.3, 0, 0],
+                      [0, 0.4, 0],
+                      [0, 0, 0.5],
+                      [0, 0, 0]])
+        sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+
+        H1 = anisotropic_heisenberg((Jx, Jy, Jz))
+        self.assertIsInstance(H1, ExpressionC)
+        ref_1 = - 1.0 * S_x(0) * S_x(1) \
+                - 4.0 * S_y(0) * S_y(1) \
+                - 7.0 * S_z(0) * S_z(1) \
+                - 2.0 * S_x(1) * S_x(2) \
+                - 5.0 * S_y(1) * S_y(2) \
+                - 8.0 * S_z(1) * S_z(2) \
+                - 3.0 * S_x(2) * S_x(3) \
+                - 6.0 * S_y(2) * S_y(3) \
+                - 9.0 * S_z(2) * S_z(3)
+        self.assertEqual(H1, ref_1)
+
+        H2 = anisotropic_heisenberg((Jx, Jy, Jz), h)
+        self.assertIsInstance(H2, ExpressionC)
+        ref_2 = ref_1 - 0.3 * S_x(0) - 0.4 * S_y(1) - 0.5 * S_z(2)
+        self.assertEqual(H2, ref_2)
+
+        H3 = anisotropic_heisenberg((Jx, Jy, Jz), h, sites=sites)
+        self.assertIsInstance(H3, ExpressionC)
+        ref_3 = - 1.0 * S_x('a', 0) * S_x('b', 1) \
+                - 4.0 * S_y('a', 0) * S_y('b', 1) \
+                - 7.0 * S_z('a', 0) * S_z('b', 1) \
+                - 2.0 * S_x('b', 1) * S_x('c', 2) \
+                - 5.0 * S_y('b', 1) * S_y('c', 2) \
+                - 8.0 * S_z('b', 1) * S_z('c', 2) \
+                - 3.0 * S_x('c', 2) * S_x('d', 3) \
+                - 6.0 * S_y('c', 2) * S_y('d', 3) \
+                - 9.0 * S_z('c', 2) * S_z('d', 3) \
+                - 0.3 * S_x('a', 0) - 0.4 * S_y('b', 1) - 0.5 * S_z('c', 2)
+        self.assertEqual(H3, ref_3)
+
+        H4 = anisotropic_heisenberg((Jx, Jy, Jz), h, sites=sites, spin=1)
+        self.assertIsInstance(H4, ExpressionC)
+        ref_4 = - 1.0 * S1_x('a', 0) * S1_x('b', 1) \
+                - 4.0 * S1_y('a', 0) * S1_y('b', 1) \
+                - 7.0 * S1_z('a', 0) * S1_z('b', 1) \
+                - 2.0 * S1_x('b', 1) * S1_x('c', 2) \
+                - 5.0 * S1_y('b', 1) * S1_y('c', 2) \
+                - 8.0 * S1_z('b', 1) * S1_z('c', 2) \
+                - 3.0 * S1_x('c', 2) * S1_x('d', 3) \
+                - 6.0 * S1_y('c', 2) * S1_y('d', 3) \
+                - 9.0 * S1_z('c', 2) * S1_z('d', 3) \
+                - 0.3 * S1_x('a', 0) - 0.4 * S1_y('b', 1) - 0.5 * S1_z('c', 2)
+        self.assertEqual(H4, ref_4)

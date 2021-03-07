@@ -177,3 +177,72 @@ def heisenberg(J: np.array,
 
     return H
 
+
+def anisotropic_heisenberg(J: Tuple[np.array, np.array, np.array],
+                           h: np.array = None,
+                           *,
+                           sites: Sequence[IndicesType] = None,
+                           spin: float = 1 / 2
+                           ) -> ExpressionC:
+    r"""
+    Make Hamiltonian of the anisotropic quantum Heisenberg model on
+    a finite lattice (collection of sites :math:`i = 0, \ldots, N-1`),
+
+    .. math::
+
+        \hat H = -\sum_{i,j = 0}^{N-1}\left[
+                 J^x_{ij}\hat{S}^x_i \hat{S}^x_j +
+                 J^y_{ij}\hat{S}^y_i \hat{S}^y_j +
+                 J^z_{ij}\hat{S}^z_i \hat{S}^z_j
+                 \right]
+                 - \sum_{i=0}^{N-1} \mathbf{h}_i \cdot \hat{\mathbf{S}}_i.
+
+    :param J: A triplet of :math:`N\times N` matrices of Heisenberg coupling
+              constants :math:`(J^x_{ij}, J^y_{ij}, J^z_{ij})`.
+    :param h: An :math:`N\times 3` matrix, whose rows are the local magnetic
+              field vectors :math:`\mathbf{h}_i = \{h^x_i, h^y_i, h^z_i\}`.
+              By default, all magnetic fields are zero.
+    :param sites: An optional list of site names to be used instead of the
+                  simple numeric indices :math:`i`. Dimensions of components of
+                  :obj:`J` and of :obj:`h` must agree with the length of
+                  :obj:`sites`.
+    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
+    :return: Hamiltonian :math:`\hat H`.
+    """
+    assert len(J) == 3
+    Jx, Jy, Jz = J
+
+    N = J[0].shape[0]
+    assert Jx.shape == (N, N)
+    assert Jy.shape == (N, N)
+    assert Jz.shape == (N, N)
+
+    if sites is None:
+        sites = list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(sites) == N
+
+    H = ExpressionC()
+
+    def add_J_terms(H, J, Sa):
+        with np.nditer(J, flags=['multi_index']) as it:
+            for x in it:
+                if x == 0:
+                    continue
+                site_i = sites[it.multi_index[0]]
+                site_j = sites[it.multi_index[1]]
+                H += -x * Sa(*site_i, spin=spin) * Sa(*site_j, spin=spin)
+
+    add_J_terms(H, Jx, S_x)
+    add_J_terms(H, Jy, S_y)
+    add_J_terms(H, Jz, S_z)
+
+    if h is not None:
+        assert h.shape == (N, 3)
+        for i, h_i in enumerate(h):
+            site = sites[i]
+            H += -np.dot(h_i, (S_x(*site, spin=spin),
+                               S_y(*site, spin=spin),
+                               S_z(*site, spin=spin)))
+
+    return H
