@@ -9,3 +9,4 @@ API reference
 
     expression_ref
     loperator_ref
+    models_ref
