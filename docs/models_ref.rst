@@ -11,3 +11,4 @@ Spin models
 .. autofunction:: pycommute.models.ising
 .. autofunction:: pycommute.models.heisenberg
 .. autofunction:: pycommute.models.anisotropic_heisenberg
+.. autofunction:: pycommute.models.biquadratic_spin_int

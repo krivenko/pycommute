@@ -246,3 +246,54 @@ def anisotropic_heisenberg(J: Tuple[np.array, np.array, np.array],
                                S_z(*site, spin=spin)))
 
     return H
+
+
+def biquadratic_spin_int(J: np.array,
+                         *,
+                         sites: Sequence[IndicesType] = None,
+                         spin: float = 1
+                         ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make a biquadratic spin interaction term on a finite lattice
+    (collection of sites :math:`i = 0, \ldots, N-1`),
+
+    .. math::
+
+        \hat H = -\sum_{i,j = 0}^{N-1} J_{ij}
+                 \left(\hat{\mathbf{S}}_i \cdot \hat{\mathbf{S}}_j\right)^2
+
+    :param J: An :math:`N\times N` matrix of Heisenberg coupling constants
+              :math:`J_{ij}`.
+    :param sites: An optional list of site names to be used instead of the
+                  simple numeric indices :math:`i`. Dimensions of :obj:`J`
+                  must agree with the length of :obj:`sites`.
+    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1 by default.
+    :return: Hamiltonian :math:`\hat H`.
+    """
+    assert J.ndim == 2
+    N = J.shape[0]
+    assert N == J.shape[1]
+
+    if sites is None:
+        sites = list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(sites) == N
+
+    H = ExpressionC() if np.iscomplexobj(J) else ExpressionR()
+
+    with np.nditer(J, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            site_i = sites[it.multi_index[0]]
+            site_j = sites[it.multi_index[1]]
+
+            SS = (S_z(*site_i, spin=spin) * S_z(*site_j, spin=spin)
+                  + 0.5 * S_p(*site_i, spin=spin) * S_p(*site_j, spin=spin)
+                  + 0.5 * S_m(*site_i, spin=spin) * S_m(*site_j, spin=spin))
+            H += -x * SS * SS
+
+    return H
+
+# TODO: def dzyaloshinskii_moriya()
