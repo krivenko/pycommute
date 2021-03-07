@@ -48,10 +48,76 @@ def tight_binding(matrix_elements: np.ndarray,
     return H
 
 
+def ising(J: np.array,
+          h_l: np.array = None,
+          h_t: np.array = None,
+          sites: Sequence[IndicesType] = None,
+          *,
+          spin: float = 1 / 2
+          ) -> ExpressionR:
+    r"""
+    Make Hamiltonian of the quantum Ising model on a finite lattice
+    (collection of sites :math:`i = 0, \ldots, N-1`),
+
+    .. math::
+
+        \hat H = -\sum_{i,j = 0}^{N-1} J_{ij}
+                 \hat{S}^z_i \hat{S}^z_j
+                 - \sum_{i=0}^{N-1} (h^l_i \hat{S}^z_i + h^t_i \hat{S}^x_i).
+
+    :param J: An :math:`N\times N` matrix of coupling constants :math:`J_{ij}`.
+    :param h_l: A length-:math:`N` vector of the local longitudinal magnetic
+                fields :math:`h^l_i`. By default, all magnetic fields are zero.
+    :param h_t: A length-:math:`N` vector of the local transverse magnetic
+                fields :math:`h^t_i`. By default, all magnetic fields are zero.
+    :param sites: An optional list of site names to be used instead of the
+                  simple numeric indices :math:`i`. Dimensions of :obj:`J` and
+                  :obj:`h_l`/:obj:`h_t` must agree with the length
+                  of :obj:`sites`.
+    :param spin: Spin of operators :math:`\hat{S}^\alpha_i`, 1/2 by default.
+    :return: Hamiltonian :math:`\hat H`.
+    """
+    assert J.ndim == 2
+    N = J.shape[0]
+    assert N == J.shape[1]
+
+    if sites is None:
+        sites = list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(sites) == N
+
+    is_complex = np.iscomplexobj(J) or \
+        np.iscomplexobj(h_l) or (h_t is not None)
+    H = ExpressionC() if is_complex else ExpressionR()
+
+    with np.nditer(J, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            site_i = sites[it.multi_index[0]]
+            site_j = sites[it.multi_index[1]]
+
+            H += -x * S_z(*site_i, spin=spin) * S_z(*site_j, spin=spin)
+
+    if h_l is not None:
+        assert h_l.shape == (N,)
+        for i, h_i in enumerate(h_l):
+            site = sites[i]
+            H += -h_i * S_z(*site, spin=spin)
+    if h_t is not None:
+        assert h_t.shape == (N,)
+        for i, h_i in enumerate(h_t):
+            site = sites[i]
+            H += -h_i * S_x(*site, spin=spin)
+
+    return H
+
+
 def heisenberg(J: np.array,
                h: np.array = None,
-               sites: Sequence[IndicesType] = None,
                *,
+               sites: Sequence[IndicesType] = None,
                spin: float = 1 / 2
                ) -> Union[ExpressionR, ExpressionC]:
     r"""
@@ -111,4 +177,3 @@ def heisenberg(J: np.array,
 
     return H
 
-# TODO: Ising model
