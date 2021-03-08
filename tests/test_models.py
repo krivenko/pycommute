@@ -20,7 +20,8 @@ from pycommute.models import (
     ising,
     heisenberg,
     anisotropic_heisenberg,
-    biquadratic_spin_int
+    biquadratic_spin_int,
+    dzyaloshinskii_moriya
 )
 
 import numpy as np
@@ -264,15 +265,15 @@ class TestModels(TestCase):
         sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         S0S1 = 0.5 * (S1_p(0) * S1_p(1) + S1_m(0) * S1_m(1)) \
-               + S1_z(0) * S1_z(1)
+            + S1_z(0) * S1_z(1)
         S1S2 = 0.5 * (S1_p(1) * S1_p(2) + S1_m(1) * S1_m(2)) \
-               + S1_z(1) * S1_z(2)
+            + S1_z(1) * S1_z(2)
         S2S3 = 0.5 * (S1_p(2) * S1_p(3) + S1_m(2) * S1_m(3)) \
-               + S1_z(2) * S1_z(3)
+            + S1_z(2) * S1_z(3)
 
         H1 = biquadratic_spin_int(J)
         self.assertIsInstance(H1, ExpressionR)
-        ref_1 = - 1.0 * S0S1 * S0S1 - 2.0 * S1S2 * S1S2 - 3.0 * S2S3 * S2S3
+        ref_1 = 1.0 * S0S1 * S0S1 + 2.0 * S1S2 * S1S2 + 3.0 * S2S3 * S2S3
         self.assertEqual(H1, ref_1)
 
         H2 = biquadratic_spin_int(1j * J)
@@ -283,25 +284,56 @@ class TestModels(TestCase):
         H3 = biquadratic_spin_int(J, sites=sites)
         self.assertIsInstance(H3, ExpressionR)
 
-        S0S1 = 0.5 * (S1_p('a', 0) * S1_p('b', 1) \
-               + S1_m('a', 0) * S1_m('b', 1)) + S1_z('a', 0) * S1_z('b', 1)
-        S1S2 = 0.5 * (S1_p('b', 1) * S1_p('c', 2) \
-               + S1_m('b', 1) * S1_m('c', 2)) + S1_z('b', 1) * S1_z('c', 2)
-        S2S3 = 0.5 * (S1_p('c', 2) * S1_p('d', 3) \
-               + S1_m('c', 2) * S1_m('d', 3)) + S1_z('c', 2) * S1_z('d', 3)
+        S0S1 = 0.5 * (S1_p('a', 0) * S1_p('b', 1)
+                      + S1_m('a', 0) * S1_m('b', 1)) \
+            + S1_z('a', 0) * S1_z('b', 1)
+        S1S2 = 0.5 * (S1_p('b', 1) * S1_p('c', 2)
+                      + S1_m('b', 1) * S1_m('c', 2)) \
+            + S1_z('b', 1) * S1_z('c', 2)
+        S2S3 = 0.5 * (S1_p('c', 2) * S1_p('d', 3)
+                      + S1_m('c', 2) * S1_m('d', 3)) \
+            + S1_z('c', 2) * S1_z('d', 3)
 
-        ref_3 = - 1.0 * S0S1 * S0S1 - 2.0 * S1S2 * S1S2 - 3.0 * S2S3 * S2S3
+        ref_3 = 1.0 * S0S1 * S0S1 + 2.0 * S1S2 * S1S2 + 3.0 * S2S3 * S2S3
         self.assertEqual(H3, ref_3)
 
-        H4 = biquadratic_spin_int(J, sites=sites, spin = 1 / 2)
+        H4 = biquadratic_spin_int(J, sites=sites, spin=1 / 2)
         self.assertIsInstance(H4, ExpressionR)
 
-        S0S1 = 0.5 * (S_p('a', 0) * S_p('b', 1) \
-               + S_m('a', 0) * S_m('b', 1)) + S_z('a', 0) * S_z('b', 1)
-        S1S2 = 0.5 * (S_p('b', 1) * S_p('c', 2) \
-               + S_m('b', 1) * S_m('c', 2)) + S_z('b', 1) * S_z('c', 2)
-        S2S3 = 0.5 * (S_p('c', 2) * S_p('d', 3) \
-               + S_m('c', 2) * S_m('d', 3)) + S_z('c', 2) * S_z('d', 3)
+        S0S1 = 0.5 * (S_p('a', 0) * S_p('b', 1)
+                      + S_m('a', 0) * S_m('b', 1)) + S_z('a', 0) * S_z('b', 1)
+        S1S2 = 0.5 * (S_p('b', 1) * S_p('c', 2)
+                      + S_m('b', 1) * S_m('c', 2)) + S_z('b', 1) * S_z('c', 2)
+        S2S3 = 0.5 * (S_p('c', 2) * S_p('d', 3)
+                      + S_m('c', 2) * S_m('d', 3)) + S_z('c', 2) * S_z('d', 3)
 
-        ref_4 = - 1.0 * S0S1 * S0S1 - 2.0 * S1S2 * S1S2 - 3.0 * S2S3 * S2S3
+        ref_4 = 1.0 * S0S1 * S0S1 + 2.0 * S1S2 * S1S2 + 3.0 * S2S3 * S2S3
         self.assertEqual(H4, ref_4)
+
+    def test_dzyaloshinskii_moriya(self):
+        D = np.zeros((4, 4, 3), dtype=float)
+        D[0, 1, :] = [1.0, 0, 0]
+        D[1, 2, :] = [0, 2.0, 0]
+        D[2, 3, :] = [0, 0, 3.0]
+        sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+
+        H1 = dzyaloshinskii_moriya(D)
+        self.assertIsInstance(H1, ExpressionC)
+        ref_1 = 1.0 * (S_y(0) * S_z(1) - S_z(0) * S_y(1)) \
+            + 2.0 * (S_z(1) * S_x(2) - S_x(1) * S_z(2)) \
+            + 3.0 * (S_x(2) * S_y(3) - S_y(2) * S_x(3))
+        self.assertEqual(H1, ref_1)
+
+        H2 = dzyaloshinskii_moriya(D, sites=sites)
+        self.assertIsInstance(H2, ExpressionC)
+        ref_2 = 1.0 * (S_y('a', 0) * S_z('b', 1) - S_z('a', 0) * S_y('b', 1)) \
+            + 2.0 * (S_z('b', 1) * S_x('c', 2) - S_x('b', 1) * S_z('c', 2)) \
+            + 3.0 * (S_x('c', 2) * S_y('d', 3) - S_y('c', 2) * S_x('d', 3))
+        self.assertEqual(H2, ref_2)
+
+        H3 = dzyaloshinskii_moriya(D, spin=1)
+        self.assertIsInstance(H3, ExpressionC)
+        ref_3 = 1.0 * (S1_y(0) * S1_z(1) - S1_z(0) * S1_y(1)) \
+            + 2.0 * (S1_z(1) * S1_x(2) - S1_x(1) * S1_z(2)) \
+            + 3.0 * (S1_x(2) * S1_y(3) - S1_y(2) * S1_x(3))
+        self.assertEqual(H3, ref_3)

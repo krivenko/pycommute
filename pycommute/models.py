@@ -48,9 +48,12 @@ def tight_binding(matrix_elements: np.ndarray,
     return H
 
 
-def ising(J: np.array,
-          h_l: np.array = None,
-          h_t: np.array = None,
+# TODO: dispersion(eps: np.ndarray (1D), ...)
+
+
+def ising(J: np.ndarray,
+          h_l: np.ndarray = None,
+          h_t: np.ndarray = None,
           sites: Sequence[IndicesType] = None,
           *,
           spin: float = 1 / 2
@@ -79,7 +82,7 @@ def ising(J: np.array,
     """
     assert J.ndim == 2
     N = J.shape[0]
-    assert N == J.shape[1]
+    assert J.shape == (N, N)
 
     if sites is None:
         sites = list(map(lambda i: (i,), range(N)))
@@ -114,8 +117,8 @@ def ising(J: np.array,
     return H
 
 
-def heisenberg(J: np.array,
-               h: np.array = None,
+def heisenberg(J: np.ndarray,
+               h: np.ndarray = None,
                *,
                sites: Sequence[IndicesType] = None,
                spin: float = 1 / 2
@@ -143,7 +146,7 @@ def heisenberg(J: np.array,
     """
     assert J.ndim == 2
     N = J.shape[0]
-    assert N == J.shape[1]
+    assert J.shape == (N, N)
 
     if sites is None:
         sites = list(map(lambda i: (i,), range(N)))
@@ -178,8 +181,8 @@ def heisenberg(J: np.array,
     return H
 
 
-def anisotropic_heisenberg(J: Tuple[np.array, np.array, np.array],
-                           h: np.array = None,
+def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
+                           h: np.ndarray = None,
                            *,
                            sites: Sequence[IndicesType] = None,
                            spin: float = 1 / 2
@@ -248,7 +251,7 @@ def anisotropic_heisenberg(J: Tuple[np.array, np.array, np.array],
     return H
 
 
-def biquadratic_spin_int(J: np.array,
+def biquadratic_spin_int(J: np.ndarray,
                          *,
                          sites: Sequence[IndicesType] = None,
                          spin: float = 1
@@ -259,7 +262,7 @@ def biquadratic_spin_int(J: np.array,
 
     .. math::
 
-        \hat H = -\sum_{i,j = 0}^{N-1} J_{ij}
+        \hat H = \sum_{i,j = 0}^{N-1} J_{ij}
                  \left(\hat{\mathbf{S}}_i \cdot \hat{\mathbf{S}}_j\right)^2
 
     :param J: An :math:`N\times N` matrix of Heisenberg coupling constants
@@ -268,11 +271,11 @@ def biquadratic_spin_int(J: np.array,
                   simple numeric indices :math:`i`. Dimensions of :obj:`J`
                   must agree with the length of :obj:`sites`.
     :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1 by default.
-    :return: Hamiltonian :math:`\hat H`.
+    :return: Interaction term :math:`\hat H`.
     """
     assert J.ndim == 2
     N = J.shape[0]
-    assert N == J.shape[1]
+    assert J.shape == (N, N)
 
     if sites is None:
         sites = list(map(lambda i: (i,), range(N)))
@@ -292,8 +295,55 @@ def biquadratic_spin_int(J: np.array,
             SS = (S_z(*site_i, spin=spin) * S_z(*site_j, spin=spin)
                   + 0.5 * S_p(*site_i, spin=spin) * S_p(*site_j, spin=spin)
                   + 0.5 * S_m(*site_i, spin=spin) * S_m(*site_j, spin=spin))
-            H += -x * SS * SS
+            H += x * SS * SS
 
     return H
 
-# TODO: def dzyaloshinskii_moriya()
+
+def dzyaloshinskii_moriya(D: np.ndarray,
+                          *,
+                          sites: Sequence[IndicesType] = None,
+                          spin: float = 1 / 2
+                          ) -> ExpressionC:
+    r"""
+    Make Dzyaloshinskii–Moriya interaction Hamiltonian on
+    a finite lattice (collection of sites :math:`i = 0, \ldots, N-1`).
+
+    .. math::
+
+        \hat H = \sum_{i,j=0}^{N-1} \mathbf{D}_{ij} \cdot
+                 (\hat{\mathbf{S}}_i \times \hat{\mathbf{S}}_j).
+
+    :param D: An :math:`N\times N \times 3` array, whose slices
+              ``D[i,j,:]`` are vectors :math:`\mathbf{D}_{ij}`.
+    :param sites: An optional list of site names to be used instead of the
+                  simple numeric indices :math:`i`. Dimensions of :obj:`D`
+                  must agree with the length of :obj:`sites`.
+    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
+    :return: Hamiltonian :math:`\hat H`.
+    """
+    assert D.ndim == 3
+    N = D.shape[0]
+    assert D.shape == (N, N, 3)
+
+    if sites is None:
+        sites = list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(sites) == N
+
+    H = ExpressionC()
+
+    for (i, site_i), (j, site_j) in product(enumerate(sites),
+                                            enumerate(sites)):
+        D_vec = D[i, j, :]
+        if (D_vec == 0).all():
+            continue
+
+        H += D_vec[0] * (S_y(*site_i, spin=spin) * S_z(*site_j, spin=spin)
+                         - S_z(*site_i, spin=spin) * S_y(*site_j, spin=spin))
+        H += D_vec[1] * (S_z(*site_i, spin=spin) * S_x(*site_j, spin=spin)
+                         - S_x(*site_i, spin=spin) * S_z(*site_j, spin=spin))
+        H += D_vec[2] * (S_x(*site_i, spin=spin) * S_y(*site_j, spin=spin)
+                         - S_y(*site_i, spin=spin) * S_x(*site_j, spin=spin))
+
+    return H
