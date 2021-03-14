@@ -24,26 +24,58 @@ import numpy as np
 IndicesType = Tuple[Union[int, str], ...]
 
 
-def tight_binding(matrix_elements: np.ndarray,
-                  indices: Sequence[IndicesType],
+def tight_binding(t: np.ndarray,
+                  sites: Sequence[IndicesType] = None,
+                  *,
                   statistics: int = FERMION
                   ) -> Union[ExpressionR, ExpressionC]:
-    """
-    TODO
-    """
-    assert matrix_elements.ndim == 2, "TODO"
-    assert matrix_elements.shape[0] == len(indices), "TODO"
-    assert matrix_elements.shape[1] == len(indices), "TODO"
+    r"""
+    Make a tight-binding lattice Hamiltonian from a matrix of hopping
+    elements :math:`t`.
 
-    assert statistics in (FERMION, BOSON), "TODO"
+    .. math::
 
-    is_complex = np.iscomplexobj(matrix_elements.dtype)
-    H = ExpressionC() if is_complex else ExpressionR()
+        \hat H = \sum_{i,j=0}^{N-1} t_{ij} \hat O^\dagger_{i} \hat O_{j}.
+
+    By default, the corresponding lattice is a collection of sites
+    with integer indices :math:`i = 0, \ldots, N-1`. Operators
+    :math:`O^\dagger_i` and :math:`\hat O_j` can be fermionic or bosonic
+    creation/annihilation operators.
+    The on-site energies are given by the diagonal elements of the hopping
+    matrix :math:`t_{ij}`.
+
+    :param t: An :math:`N\times N` matrix of hopping elements :math:`t_{ij}`.
+    :param sites: An optional list of site names to be used instead of the
+                  simple numeric indices :math:`i`.
+                  Dimensions of :obj:`t` must agree with
+                  the length of :obj:`sites`.
+    :param statistics: Statistics of the particles in question, either
+                       :attr:`pycommute.expression.FERMION` or
+                       :attr:`pycommute.expression.BOSON`.
+    """
+    assert t.ndim == 2
+    N = t.shape[0]
+    assert t.shape == (N, N)
+    assert statistics in (FERMION, BOSON)
+
+    if sites is None:
+        sites = list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(sites) == N
+
+    H = ExpressionC() if np.iscomplexobj(t) else ExpressionR()
 
     O, O_dag = (c, c_dag) if statistics == FERMION else (a, a_dag)
-    for (i1, ind1), (i2, ind2) in product(enumerate(indices),
-                                          enumerate(indices)):
-        H += matrix_elements[i1, i2] * O_dag(*ind1) * O(ind2)
+
+    with np.nditer(t, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            site_i = sites[it.multi_index[0]]
+            site_j = sites[it.multi_index[1]]
+
+            H += x * O_dag(*site_i) * O(*site_j)
 
     return H
 
