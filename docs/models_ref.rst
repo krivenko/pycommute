@@ -11,6 +11,7 @@ Models of many fermions/bosons
 .. autofunction:: pycommute.models.tight_binding
 .. autofunction:: pycommute.models.dispersion
 .. autofunction:: pycommute.models.zeeman
+.. autofunction:: pycommute.models.hubbard_int
 
 Spin models
 -----------

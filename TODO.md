@@ -6,7 +6,6 @@ TODO list
   related issues are ever resolved.
   See also https://github.com/pybind/pybind11/pull/1566.
 * Models to add:
-  - ``hubbard_int()``
   - ``bose_hubbard_int()``
   - ``extended_hubbard_int()``
   - ``holstein_int()``

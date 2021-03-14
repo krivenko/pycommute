@@ -19,6 +19,7 @@ from pycommute.models import (
     tight_binding,
     dispersion,
     zeeman,
+    hubbard_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -149,6 +150,28 @@ class TestModels(TestCase):
                       - c_dag("up", 1) * c("dn", 1)) \
             + 3.0 * (n("up", 2) - n("dn", 2))
         self.assertEqual(H6, ref6)
+
+    def test_hubbard_int(self):
+        U = np.array([1, 2, 3, 4], dtype=float)
+        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
+                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+
+        H1 = hubbard_int(U)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = n(0, "up") * n(0, "dn") + 2.0 * n(1, "up") * n(1, "dn") \
+            + 3.0 * n(2, "up") * n(2, "dn") + 4.0 * n(3, "up") * n(3, "dn")
+        self.assertEqual(H1, ref1)
+
+        H2 = hubbard_int(1j * U)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = hubbard_int(U, indices)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = n("up", 0) * n("dn", 0) + 2.0 * n("up", 1) * n("dn", 1) \
+            + 3.0 * n("up", 2) * n("dn", 2) + 4.0 * n("up", 3) * n("dn", 3)
+        self.assertEqual(H3, ref3)
 
     def test_ising(self):
         J = np.array([[0, 1, 0, 0],

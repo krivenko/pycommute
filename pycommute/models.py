@@ -52,6 +52,7 @@ def tight_binding(t: np.ndarray,
     :param statistics: Statistics of the particles in question, either
                        :attr:`pycommute.expression.FERMION` or
                        :attr:`pycommute.expression.BOSON`.
+    :return: Tight-binding Hamiltonian :math:`\hat H`.
     """
     assert t.ndim == 2
     N = t.shape[0]
@@ -107,6 +108,7 @@ def dispersion(eps: np.ndarray,
     :param statistics: Statistics of the particles in question, either
                        :attr:`pycommute.expression.FERMION` or
                        :attr:`pycommute.expression.BOSON`.
+    :return: Dispersion term :math:`\hat H`.
     """
     assert eps.ndim == 1
     N = eps.shape[0]
@@ -165,6 +167,7 @@ def zeeman(b: np.ndarray,
                     and spin-down states. By default, the spin-up/spin-down
                     operators carry indices ``(0, "up"), (1, "up"), ...`` and
                     ``(0, "dn"), (1, "dn"), ...`` respectively.
+    :return: Zeeman coupling term :math:`\hat H`.
     """
     N = b.shape[0]
     assert b.shape == (N,) or b.shape == (N, 3)
@@ -198,6 +201,51 @@ def zeeman(b: np.ndarray,
             H += 1j * h_i[1] * (c_dag(*ind_dn) * c(*ind_up)
                                 - c_dag(*ind_up) * c(*ind_dn))
             H += h_i[2] * (n(*ind_up) - n(*ind_dn))
+
+    return H
+
+
+def hubbard_int(
+    U: np.ndarray,
+    indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None
+) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make an interaction term of the Fermi-Hubbard model defined on a finite
+    lattice (collection of sites :math:`i = 0, \ldots, N-1`),
+
+    .. math::
+
+        \hat H = \sum_{i=0}^{N-1} U_i \hat n_{i,\uparrow} \hat n_{i,\downarrow}.
+
+    :param U: A length-:math:`N` vector of Hubbard interaction parameters
+              :math:`U_i`.
+    :param indices: An optional pair of lists with operator indices for spin-up
+                    and spin-down states. By default, the spin-up/spin-down
+                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
+                    ``(0, "dn"), (1, "dn"), ...`` respectively.
+
+    :return: Interaction term :math:`\hat H`.
+    """
+    assert U.ndim == 1
+    N = U.shape[0]
+
+    if indices is None:
+        indices = (list(map(lambda i: (i, "up"), range(N))),
+                   list(map(lambda i: (i, "dn"), range(N))))
+    else:
+        assert len(indices) == 2
+        assert len(indices[0]) == N and len(indices[1]) == N
+
+    H = ExpressionC() if np.iscomplexobj(U) else ExpressionR()
+
+    with np.nditer(U, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            ind_up, ind_dn = indices[0][it.index], indices[1][it.index]
+
+            H += x * n(*ind_up) * n(*ind_dn)
 
     return H
 
