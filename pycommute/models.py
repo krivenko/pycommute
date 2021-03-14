@@ -166,7 +166,8 @@ def zeeman(b: np.ndarray,
     :param indices: An optional pair of lists with operator indices for spin-up
                     and spin-down states. By default, the spin-up/spin-down
                     operators carry indices ``(0, "up"), (1, "up"), ...`` and
-                    ``(0, "dn"), (1, "dn"), ...`` respectively.
+                    ``(0, "dn"), (1, "dn"), ...`` respectively. The length of
+                    :obj:`b` must agree with the length of the lists.
     :return: Zeeman coupling term :math:`\hat H`.
     """
     N = b.shape[0]
@@ -219,10 +220,11 @@ def hubbard_int(
 
     :param U: A length-:math:`N` vector of Hubbard interaction parameters
               :math:`U_i`.
-    :param indices: An optional pair of lists with operator indices for spin-up
+    :param indices: An optional list of operator indices for spin-up
                     and spin-down states. By default, the spin-up/spin-down
                     operators carry indices ``(0, "up"), (1, "up"), ...`` and
-                    ``(0, "dn"), (1, "dn"), ...`` respectively.
+                    ``(0, "dn"), (1, "dn"), ...`` respectively. The length of
+                    :obj:`U` must agree with the length of :obj:`indices`.
 
     :return: Interaction term :math:`\hat H`.
     """
@@ -246,6 +248,48 @@ def hubbard_int(
             ind_up, ind_dn = indices[0][it.index], indices[1][it.index]
 
             H += x * n(*ind_up) * n(*ind_dn)
+
+    return H
+
+
+def bose_hubbard_int(U: np.ndarray,
+                     indices: Sequence[IndicesType] = None
+                     ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make an interaction term of the Bose-Hubbard model defined on a finite
+    lattice (collection of sites :math:`i = 0, \ldots, N-1`),
+
+    .. math::
+
+        \hat H = \sum_{i=0}^{N-1} U_i
+                 \hat a^\dagger_i \hat a_i (\hat a^\dagger_i \hat a_i - 1).
+
+    :param U: A length-:math:`N` vector of Hubbard interaction parameters
+              :math:`U_i`.
+    :param indices: An optional list of names to be used instead of the
+                    simple numeric indices :math:`i`. The length of :obj:`U`
+                    must agree with the length of :obj:`indices`.
+
+    :return: Interaction term :math:`\hat H`.
+    """
+    assert U.ndim == 1
+    N = U.shape[0]
+
+    if indices is None:
+        indices = list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(indices) == N
+
+    H = ExpressionC() if np.iscomplexobj(U) else ExpressionR()
+
+    with np.nditer(U, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            index = indices[it.index]
+
+            H += x * a_dag(*index) * a(*index) * (a_dag(*index) * a(*index) - 1)
 
     return H
 

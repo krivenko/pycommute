@@ -20,6 +20,7 @@ from pycommute.models import (
     dispersion,
     zeeman,
     hubbard_int,
+    bose_hubbard_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -171,6 +172,32 @@ class TestModels(TestCase):
         self.assertIsInstance(H3, ExpressionR)
         ref3 = n("up", 0) * n("dn", 0) + 2.0 * n("up", 1) * n("dn", 1) \
             + 3.0 * n("up", 2) * n("dn", 2) + 4.0 * n("up", 3) * n("dn", 3)
+        self.assertEqual(H3, ref3)
+
+    def test_bose_hubbard_int(self):
+        U = np.array([1, 2, 3, 4], dtype=float)
+        indices = [("a", 0), ("b", 1), ("c", 2), ("d", 3)]
+
+        def nb(*args):
+            return a_dag(*args) * a(*args)
+
+        H1 = bose_hubbard_int(U)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = nb(0) * (nb(0) - 1) + 2.0 * nb(1) * (nb(1) - 1) \
+            + 3.0 * nb(2) * (nb(2) - 1) + 4.0 * nb(3) * (nb(3) - 1)
+        self.assertEqual(H1, ref1)
+
+        H2 = bose_hubbard_int(1j * U)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = bose_hubbard_int(U, indices)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = nb("a", 0) * (nb("a", 0) - 1) \
+            + 2.0 * nb("b", 1) * (nb("b", 1) - 1) \
+            + 3.0 * nb("c", 2) * (nb("c", 2) - 1) \
+            + 4.0 * nb("d", 3) * (nb("d", 3) - 1)
         self.assertEqual(H3, ref3)
 
     def test_ising(self):
