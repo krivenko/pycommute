@@ -17,6 +17,7 @@ from pycommute.expression import (
 )
 from pycommute.models import (
     tight_binding,
+    dispersion,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -69,6 +70,36 @@ class TestModels(TestCase):
         self.assertIsInstance(H5, ExpressionR)
         ref5 = a_dag(0) * a(0) + 2 * a_dag(1) * a(1) + 3.0 * a_dag(2) * a(2)
         ref5 += 0.5 * a_dag(0) * a(2) + 0.5 * a_dag(2) * a(0)
+        self.assertEqual(H5, ref5)
+
+    def test_dispersion(self):
+        sites = [("a", 0), ("b", 1), ("c", 2)]
+        eps = np.array([1.0, 2.0, 3.0])
+
+        H1 = dispersion(eps)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = c_dag(0) * c(0) + 2 * c_dag(1) * c(1) + 3.0 * c_dag(2) * c(2)
+        self.assertEqual(H1, ref1)
+
+        H2 = dispersion(1j * eps)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = dispersion(eps, statistics=FERMION)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = ref1
+        self.assertEqual(H3, ref3)
+
+        H4 = dispersion(eps, sites)
+        self.assertIsInstance(H4, ExpressionR)
+        ref4 = c_dag("a", 0) * c("a", 0) + 2 * c_dag("b", 1) * c("b", 1) \
+            + 3.0 * c_dag("c", 2) * c("c", 2)
+        self.assertEqual(H4, ref4)
+
+        H5 = dispersion(eps, statistics=BOSON)
+        self.assertIsInstance(H5, ExpressionR)
+        ref5 = a_dag(0) * a(0) + 2 * a_dag(1) * a(1) + 3.0 * a_dag(2) * a(2)
         self.assertEqual(H5, ref5)
 
     def test_ising(self):

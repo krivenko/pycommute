@@ -39,7 +39,7 @@ def tight_binding(t: np.ndarray,
 
     By default, the corresponding lattice is a collection of sites
     with integer indices :math:`i = 0, \ldots, N-1`. Operators
-    :math:`O^\dagger_i` and :math:`\hat O_j` can be fermionic or bosonic
+    :math:`\hat O^\dagger_i` and :math:`\hat O_j` can be fermionic or bosonic
     creation/annihilation operators.
     The on-site energies are given by the diagonal elements of the hopping
     matrix :math:`t_{ij}`.
@@ -80,7 +80,57 @@ def tight_binding(t: np.ndarray,
     return H
 
 
-# TODO: dispersion(eps: np.ndarray (1D), ...)
+def dispersion(eps: np.ndarray,
+               sites: Sequence[IndicesType] = None,
+               *,
+               statistics: int = FERMION
+               ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make an energy dispersion term of a system of many fermions or bosons
+    from a list of energy levels.
+
+    .. math::
+
+        \hat H = \sum_{i=0}^{N-1} \varepsilon_i \hat O^\dagger_{i} \hat O_{i}.
+
+    By default, individual degrees of freedom carry integer indices
+    :math:`i = 0, \ldots, N-1`. Operators :math:`\hat O^\dagger_i` and
+    :math:`\hat O_j` can be fermionic or bosonic creation/annihilation
+    operators.
+
+    :param eps: A length-:math:`N` list of energy levels
+                :math:`\varepsilon_i`.
+    :param sites: An optional list of names to be used instead of the
+                  simple numeric indices :math:`i`.
+                  The length of :obj:`eps` must agree with
+                  the length of :obj:`sites`.
+    :param statistics: Statistics of the particles in question, either
+                       :attr:`pycommute.expression.FERMION` or
+                       :attr:`pycommute.expression.BOSON`.
+    """
+    assert eps.ndim == 1
+    N = eps.shape[0]
+    assert statistics in (FERMION, BOSON)
+
+    if sites is None:
+        sites = list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(sites) == N
+
+    H = ExpressionC() if np.iscomplexobj(eps) else ExpressionR()
+
+    O, O_dag = (c, c_dag) if statistics == FERMION else (a, a_dag)
+
+    with np.nditer(eps, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            site = sites[it.index]
+
+            H += x * O_dag(*site) * O(*site)
+
+    return H
 
 
 def ising(J: np.ndarray,

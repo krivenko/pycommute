@@ -9,6 +9,7 @@ Models of many fermions/bosons
 ------------------------------
 
 .. autofunction:: pycommute.models.tight_binding
+.. autofunction:: pycommute.models.dispersion
 
 Spin models
 -----------
