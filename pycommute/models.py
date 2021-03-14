@@ -24,6 +24,24 @@ import numpy as np
 IndicesType = Tuple[Union[int, str], ...]
 
 
+def _make_default_indices(indices, N):
+    if indices is None:
+        return list(map(lambda i: (i,), range(N)))
+    else:
+        assert len(indices) == N
+        return indices
+
+
+def _make_default_indices_with_spin(indices, N):
+    if indices is None:
+        return (list(map(lambda i: (i, "up"), range(N))),
+                list(map(lambda i: (i, "dn"), range(N))))
+    else:
+        assert len(indices) == 2
+        assert len(indices[0]) == N and len(indices[1]) == N
+        return indices
+
+
 def tight_binding(t: np.ndarray,
                   indices: Sequence[IndicesType] = None,
                   *,
@@ -59,10 +77,7 @@ def tight_binding(t: np.ndarray,
     assert t.shape == (N, N)
     assert statistics in (FERMION, BOSON)
 
-    if indices is None:
-        indices = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(indices) == N
+    indices = _make_default_indices(indices, N)
 
     H = ExpressionC() if np.iscomplexobj(t) else ExpressionR()
 
@@ -114,10 +129,7 @@ def dispersion(eps: np.ndarray,
     N = eps.shape[0]
     assert statistics in (FERMION, BOSON)
 
-    if indices is None:
-        indices = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(indices) == N
+    indices = _make_default_indices(indices, N)
 
     H = ExpressionC() if np.iscomplexobj(eps) else ExpressionR()
 
@@ -173,12 +185,7 @@ def zeeman(b: np.ndarray,
     N = b.shape[0]
     assert b.shape == (N,) or b.shape == (N, 3)
 
-    if indices is None:
-        indices = (list(map(lambda i: (i, "up"), range(N))),
-                   list(map(lambda i: (i, "dn"), range(N))))
-    else:
-        assert len(indices) == 2
-        assert len(indices[0]) == N and len(indices[1]) == N
+    indices = _make_default_indices_with_spin(indices, N)
 
     is_complex = np.iscomplexobj(b) or (b.ndim == 2)
     H = ExpressionC() if is_complex else ExpressionR()
@@ -231,12 +238,7 @@ def hubbard_int(
     assert U.ndim == 1
     N = U.shape[0]
 
-    if indices is None:
-        indices = (list(map(lambda i: (i, "up"), range(N))),
-                   list(map(lambda i: (i, "dn"), range(N))))
-    else:
-        assert len(indices) == 2
-        assert len(indices[0]) == N and len(indices[1]) == N
+    indices = _make_default_indices_with_spin(indices, N)
 
     H = ExpressionC() if np.iscomplexobj(U) else ExpressionR()
 
@@ -275,10 +277,7 @@ def bose_hubbard_int(U: np.ndarray,
     assert U.ndim == 1
     N = U.shape[0]
 
-    if indices is None:
-        indices = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(indices) == N
+    indices = _make_default_indices(indices, N)
 
     H = ExpressionC() if np.iscomplexobj(U) else ExpressionR()
 
@@ -327,10 +326,7 @@ def ising(J: np.ndarray,
     N = J.shape[0]
     assert J.shape == (N, N)
 
-    if sites is None:
-        sites = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(sites) == N
+    sites = _make_default_indices(sites, N)
 
     is_complex = np.iscomplexobj(J) or \
         np.iscomplexobj(h_l) or (h_t is not None)
@@ -391,10 +387,7 @@ def heisenberg(J: np.ndarray,
     N = J.shape[0]
     assert J.shape == (N, N)
 
-    if sites is None:
-        sites = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(sites) == N
+    sites = _make_default_indices(sites, N)
 
     is_complex = np.iscomplexobj(J) or (h is not None)
     H = ExpressionC() if is_complex else ExpressionR()
@@ -463,10 +456,7 @@ def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
     assert Jy.shape == (N, N)
     assert Jz.shape == (N, N)
 
-    if sites is None:
-        sites = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(sites) == N
+    sites = _make_default_indices(sites, N)
 
     H = ExpressionC()
 
@@ -520,10 +510,7 @@ def biquadratic_spin_int(J: np.ndarray,
     N = J.shape[0]
     assert J.shape == (N, N)
 
-    if sites is None:
-        sites = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(sites) == N
+    sites = _make_default_indices(sites, N)
 
     H = ExpressionC() if np.iscomplexobj(J) else ExpressionR()
 
@@ -569,10 +556,7 @@ def dzyaloshinskii_moriya(D: np.ndarray,
     N = D.shape[0]
     assert D.shape == (N, N, 3)
 
-    if sites is None:
-        sites = list(map(lambda i: (i,), range(N)))
-    else:
-        assert len(sites) == N
+    sites = _make_default_indices(sites, N)
 
     H = ExpressionC()
 
