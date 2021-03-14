@@ -13,11 +13,12 @@ from unittest import TestCase
 from pycommute.expression import (
     ExpressionR, ExpressionC,
     FERMION, BOSON,
-    c, c_dag, a, a_dag, S_p, S_m, S_x, S_y, S_z
+    c, c_dag, n, a, a_dag, S_p, S_m, S_x, S_y, S_z
 )
 from pycommute.models import (
     tight_binding,
     dispersion,
+    zeeman,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -101,6 +102,53 @@ class TestModels(TestCase):
         self.assertIsInstance(H5, ExpressionR)
         ref5 = a_dag(0) * a(0) + 2 * a_dag(1) * a(1) + 3.0 * a_dag(2) * a(2)
         self.assertEqual(H5, ref5)
+
+    def test_zeeman(self):
+        b1 = np.array([1, 2, 3, 0], dtype=float)
+        b2 = np.array([[1, 0, 0],
+                       [0, 2, 0],
+                       [0, 0, 3],
+                       [0, 0, 0]], dtype=float)
+        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
+                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+
+        H1 = zeeman(b1)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = n(0, "up") - n(0, "dn") + 2.0 * (n(1, "up") - n(1, "dn")) \
+            + 3.0 * (n(2, "up") - n(2, "dn"))
+        self.assertEqual(H1, ref1)
+
+        H2 = zeeman(1j * b1)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = zeeman(b1, indices)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = n("up", 0) - n("dn", 0) + 2.0 * (n("up", 1) - n("dn", 1)) \
+            + 3.0 * (n("up", 2) - n("dn", 2))
+        self.assertEqual(H3, ref3)
+
+        H4 = zeeman(b2)
+        self.assertIsInstance(H4, ExpressionC)
+        ref4 = (c_dag(0, "up") * c(0, "dn") + c_dag(0, "dn") * c(0, "up")) \
+            + 2.0j * (c_dag(1, "dn") * c(1, "up")
+                      - c_dag(1, "up") * c(1, "dn")) \
+            + 3.0 * (n(2, "up") - n(2, "dn"))
+        self.assertEqual(H4, ref4)
+
+        H5 = zeeman(1j * b2)
+        self.assertIsInstance(H5, ExpressionC)
+        ref5 = 1j * ref4
+        self.assertEqual(H5, ref5)
+
+        H6 = zeeman(b2, indices)
+        self.assertIsInstance(H6, ExpressionC)
+        ref6 = (c_dag("up", 0) * c("dn", 0) + c_dag("dn", 0) * c("up", 0)) \
+            + 2.0j * (c_dag("dn", 1) * c("up", 1)
+                      - c_dag("up", 1) * c("dn", 1)) \
+            + 3.0 * (n("up", 2) - n("dn", 2))
+        self.assertEqual(H6, ref6)
 
     def test_ising(self):
         J = np.array([[0, 1, 0, 0],

@@ -13,7 +13,7 @@ __all__ = ["tight_binding", "heisenberg"]
 from .expression import (
     FERMION, BOSON,
     ExpressionR, ExpressionC,
-    c, c_dag, a, a_dag, S_p, S_m, S_x, S_y, S_z
+    c, c_dag, n, a, a_dag, S_p, S_m, S_x, S_y, S_z
 )
 
 from typing import Union, Tuple, Sequence
@@ -25,7 +25,7 @@ IndicesType = Tuple[Union[int, str], ...]
 
 
 def tight_binding(t: np.ndarray,
-                  sites: Sequence[IndicesType] = None,
+                  indices: Sequence[IndicesType] = None,
                   *,
                   statistics: int = FERMION
                   ) -> Union[ExpressionR, ExpressionC]:
@@ -45,10 +45,10 @@ def tight_binding(t: np.ndarray,
     matrix :math:`t_{ij}`.
 
     :param t: An :math:`N\times N` matrix of hopping elements :math:`t_{ij}`.
-    :param sites: An optional list of site names to be used instead of the
-                  simple numeric indices :math:`i`.
-                  Dimensions of :obj:`t` must agree with
-                  the length of :obj:`sites`.
+    :param indices: An optional list of names to be used instead of the
+                    simple numeric indices :math:`i`.
+                    Dimensions of :obj:`t` must agree with
+                    the length of :obj:`indices`.
     :param statistics: Statistics of the particles in question, either
                        :attr:`pycommute.expression.FERMION` or
                        :attr:`pycommute.expression.BOSON`.
@@ -58,10 +58,10 @@ def tight_binding(t: np.ndarray,
     assert t.shape == (N, N)
     assert statistics in (FERMION, BOSON)
 
-    if sites is None:
-        sites = list(map(lambda i: (i,), range(N)))
+    if indices is None:
+        indices = list(map(lambda i: (i,), range(N)))
     else:
-        assert len(sites) == N
+        assert len(indices) == N
 
     H = ExpressionC() if np.iscomplexobj(t) else ExpressionR()
 
@@ -72,16 +72,16 @@ def tight_binding(t: np.ndarray,
             if x == 0:
                 continue
 
-            site_i = sites[it.multi_index[0]]
-            site_j = sites[it.multi_index[1]]
+            ind_i = indices[it.multi_index[0]]
+            ind_j = indices[it.multi_index[1]]
 
-            H += x * O_dag(*site_i) * O(*site_j)
+            H += x * O_dag(*ind_i) * O(*ind_j)
 
     return H
 
 
 def dispersion(eps: np.ndarray,
-               sites: Sequence[IndicesType] = None,
+               indices: Sequence[IndicesType] = None,
                *,
                statistics: int = FERMION
                ) -> Union[ExpressionR, ExpressionC]:
@@ -100,10 +100,10 @@ def dispersion(eps: np.ndarray,
 
     :param eps: A length-:math:`N` list of energy levels
                 :math:`\varepsilon_i`.
-    :param sites: An optional list of names to be used instead of the
-                  simple numeric indices :math:`i`.
-                  The length of :obj:`eps` must agree with
-                  the length of :obj:`sites`.
+    :param indices: An optional list of names to be used instead of the
+                    simple numeric indices :math:`i`.
+                    The length of :obj:`eps` must agree with
+                    the length of :obj:`indices`.
     :param statistics: Statistics of the particles in question, either
                        :attr:`pycommute.expression.FERMION` or
                        :attr:`pycommute.expression.BOSON`.
@@ -112,10 +112,10 @@ def dispersion(eps: np.ndarray,
     N = eps.shape[0]
     assert statistics in (FERMION, BOSON)
 
-    if sites is None:
-        sites = list(map(lambda i: (i,), range(N)))
+    if indices is None:
+        indices = list(map(lambda i: (i,), range(N)))
     else:
-        assert len(sites) == N
+        assert len(indices) == N
 
     H = ExpressionC() if np.iscomplexobj(eps) else ExpressionR()
 
@@ -126,9 +126,78 @@ def dispersion(eps: np.ndarray,
             if x == 0:
                 continue
 
-            site = sites[it.index]
+            ind = indices[it.index]
 
-            H += x * O_dag(*site) * O(*site)
+            H += x * O_dag(*ind) * O(*ind)
+
+    return H
+
+
+def zeeman(b: np.ndarray,
+           indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None,
+           ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make a Zeeman coupling term describing a system of :math:`N` electrons
+    (spin-1/2 fermions) in an external magnetic field,
+
+    .. math::
+
+        \hat H = 2 \sum_{i=0}^{N-1} \hat{\mathbf{S}}_i \cdot \mathbf{B}_i
+               = \sum_{i=0}^{N-1} \sum_{\sigma,\sigma'=\uparrow,\downarrow}
+                 (\boldsymbol{\tau}_{\sigma\sigma'} \cdot \mathbf{B}_i)
+                 \hat c^\dagger_{i,\sigma} \hat c_{i,\sigma'}.
+
+    The pre-factor 2 is the spin Landé factor, while the Bohr magneton and the
+    Planck constant are set to unity. :math:`\boldsymbol{\tau}` is a vector of
+    Pauli matrices, and the operators
+    :math:`\hat c^\dagger_{i,\sigma}`/:math:`\hat c_{i,\sigma}`
+    create/annihilate electrons at site :math:`i` with the 3-rd spin projection
+    :math:`\sigma`.
+
+    :param b: One of the following:
+
+        - An :math:`N\times 3` matrix, whose rows are the local magnetic
+          field vectors :math:`\mathbf{b}_i = \{b^x_i, b^y_i, b^z_i\}`.
+        - A length-:math:`N` vector of 3-rd projections :math:`b^z_i`.
+          It is assumed that :math:`b^x_i = b^y_i = 0` in this case.
+
+    :param indices: An optional pair of lists with operator indices for spin-up
+                    and spin-down states. By default, the spin-up/spin-down
+                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
+                    ``(0, "dn"), (1, "dn"), ...`` respectively.
+    """
+    N = b.shape[0]
+    assert b.shape == (N,) or b.shape == (N, 3)
+
+    if indices is None:
+        indices = (list(map(lambda i: (i, "up"), range(N))),
+                   list(map(lambda i: (i, "dn"), range(N))))
+    else:
+        assert len(indices) == 2
+        assert len(indices[0]) == N and len(indices[1]) == N
+
+    is_complex = np.iscomplexobj(b) or (b.ndim == 2)
+    H = ExpressionC() if is_complex else ExpressionR()
+
+    if b.ndim == 1:  # Only the b^z component
+        with np.nditer(b, flags=['c_index']) as it:
+            for x in it:
+                if x == 0:
+                    continue
+
+                ind_up, ind_dn = indices[0][it.index], indices[1][it.index]
+
+                H += x * (n(*ind_up) - n(*ind_dn))
+    else:
+        for i, h_i in enumerate(b):
+            ind_up = indices[0][i]
+            ind_dn = indices[1][i]
+
+            H += h_i[0] * (c_dag(*ind_dn) * c(*ind_up)
+                           + c_dag(*ind_up) * c(*ind_dn))
+            H += 1j * h_i[1] * (c_dag(*ind_dn) * c(*ind_up)
+                                - c_dag(*ind_up) * c(*ind_dn))
+            H += h_i[2] * (n(*ind_up) - n(*ind_dn))
 
     return H
 

@@ -10,6 +10,7 @@ Models of many fermions/bosons
 
 .. autofunction:: pycommute.models.tight_binding
 .. autofunction:: pycommute.models.dispersion
+.. autofunction:: pycommute.models.zeeman
 
 Spin models
 -----------
