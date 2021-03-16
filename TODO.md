@@ -9,5 +9,4 @@ TODO list
   - ``holstein_int()``
   - ``hubbard_kanamori_int()``
   - ``slater_int()``
-  - ``kondo_int()``
   - ``spin_boson_int()`` (?)

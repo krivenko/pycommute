@@ -15,6 +15,7 @@ Models of many fermions/bosons
 .. autofunction:: pycommute.models.bose_hubbard_int
 .. autofunction:: pycommute.models.extended_hubbard_int
 .. autofunction:: pycommute.models.t_j_int
+.. autofunction:: pycommute.models.kondo_int
 
 Spin models
 -----------

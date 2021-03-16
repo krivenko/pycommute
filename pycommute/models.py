@@ -344,7 +344,7 @@ def extended_hubbard_int(
 def t_j_int(
     J: np.ndarray,
     indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None
-) -> ExpressionC:
+) -> Union[ExpressionR, ExpressionC]:
     r"""
     Make an interaction term of the t-J model defined on a finite lattice
     (collection of sites :math:`i = 0, \ldots, N-1`),
@@ -407,6 +407,76 @@ def t_j_int(
             H += x * (0.5 * (spi * smj + smi * spj) + szi * szj)
             H -= x * 0.25 * (n(*ind_i_up) + n(*ind_i_dn)) \
                           * (n(*ind_j_up) + n(*ind_j_dn))
+
+    return H
+
+
+def kondo_int(
+    J: np.ndarray,
+    *,
+    fermion_indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None,
+    spin_indices: Sequence[IndicesType] = None,
+    spin: float = 1 / 2
+) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make an interaction term of the Kondo lattice defined on a finite
+    collection of sites :math:`i = 0, \ldots, N-1`,
+
+    .. math::
+
+        \hat H = \sum_{i}^{N-1} J_i
+                \hat{\mathbf{s}}_i \cdot \hat{\mathbf{S}}_i,
+
+    where
+
+    .. math::
+
+        \hat{\mathbf{s}}_i = \sum_{\sigma\sigma'}
+            \frac{\boldsymbol{\tau}_{\sigma\sigma'}}{2}
+            \hat c^\dagger_{i,\sigma} c_{i,\sigma'}
+
+    is the spin vector of the electron localized at site :math:`i`.
+
+    :param J: A length-:math:`N` vector of coupling constants :math:`J_i`.
+    :param fermion_indices: An optional list of operator indices for spin-up
+                            and spin-down fermionic states. By default, the
+                            spin-up/spin-down operators carry indices
+                            ``(0, "up"), (1, "up"), ...`` and
+                            ``(0, "dn"), (1, "dn"), ...`` respectively.
+                            The length of :obj:`J` must agree with the length of
+                            the lists.
+    :param spin_indices: An optional list of site names for the localized spin
+                         operators :math:`\hat{\mathbf{S}}_i` to be used instead
+                         of the simple numeric indices :math:`i`.
+                         The length of :obj:`J` must agree with the length of
+                         :obj:`spin_indices`.
+    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
+    :return: Interaction term :math:`\hat H`.
+    """
+    assert J.ndim == 1
+    N = J.shape[0]
+
+    fermion_indices = _make_default_indices_with_spin(fermion_indices, N)
+    spin_indices = _make_default_indices(spin_indices, N)
+
+    H = ExpressionC() if np.iscomplexobj(J) else ExpressionR()
+
+    with np.nditer(J, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            ind_up = fermion_indices[0][it.index]
+            ind_dn = fermion_indices[1][it.index]
+            ind_spin = spin_indices[it.index]
+
+            sp = c_dag(*ind_up) * c(*ind_dn)
+            sm = c_dag(*ind_dn) * c(*ind_up)
+            sz = 0.5 * (n(*ind_up) - n(*ind_dn))
+
+            H += x * (0.5 * (sp * S_m(*ind_spin, spin=spin)
+                             + sm * S_p(*ind_spin, spin=spin))
+                      + sz * S_z(*ind_spin, spin=spin))
 
     return H
 

@@ -23,6 +23,7 @@ from pycommute.models import (
     bose_hubbard_int,
     extended_hubbard_int,
     t_j_int,
+    kondo_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -271,6 +272,63 @@ class TestModels(TestCase):
         ref3 += 3.0 * (0.5 * (sp[2] * sm[3] + sm[2] * sp[3]) + sz[2] * sz[3])
         ref3 += -0.75 * ni[2] * ni[3]
         self.assertEqual(H3, ref3)
+
+    def test_kondo_int(self):
+        J = np.array([1, 2, 3, 4], dtype=float)
+        fermion_indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
+                           [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+        spin_indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+
+        H1 = kondo_int(J)
+        self.assertIsInstance(H1, ExpressionR)
+        sp = [c_dag(i, "up") * c(i, "dn") for i in range(4)]
+        sm = [c_dag(i, "dn") * c(i, "up") for i in range(4)]
+        sz = [0.5 * (n(i, "up") - n(i, "dn")) for i in range(4)]
+
+        ref1 = 1.0 * (0.5 * (sp[0] * S_m(0) + sm[0] * S_p(0)) + sz[0] * S_z(0))
+        ref1 += 2.0 * (0.5 * (sp[1] * S_m(1) + sm[1] * S_p(1)) + sz[1] * S_z(1))
+        ref1 += 3.0 * (0.5 * (sp[2] * S_m(2) + sm[2] * S_p(2)) + sz[2] * S_z(2))
+        ref1 += 4.0 * (0.5 * (sp[3] * S_m(3) + sm[3] * S_p(3)) + sz[3] * S_z(3))
+        self.assertEqual(H1, ref1)
+
+        H2 = kondo_int(1j * J)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = kondo_int(J,
+                       fermion_indices=fermion_indices,
+                       spin_indices=spin_indices)
+        self.assertIsInstance(H3, ExpressionR)
+        sp = [c_dag("up", i) * c("dn", i) for i in range(4)]
+        sm = [c_dag("dn", i) * c("up", i) for i in range(4)]
+        sz = [0.5 * (n("up", i) - n("dn", i)) for i in range(4)]
+
+        ref3 = 1.0 * (0.5 * (sp[0] * S_m('a', 0) + sm[0] * S_p('a', 0))
+                      + sz[0] * S_z('a', 0))
+        ref3 += 2.0 * (0.5 * (sp[1] * S_m('b', 1) + sm[1] * S_p('b', 1))
+                       + sz[1] * S_z('b', 1))
+        ref3 += 3.0 * (0.5 * (sp[2] * S_m('c', 2) + sm[2] * S_p('c', 2))
+                       + sz[2] * S_z('c', 2))
+        ref3 += 4.0 * (0.5 * (sp[3] * S_m('d', 3) + sm[3] * S_p('d', 3))
+                       + sz[3] * S_z('d', 3))
+        self.assertEqual(H3, ref3)
+
+        H4 = kondo_int(J, spin=1)
+        self.assertIsInstance(H4, ExpressionR)
+        sp = [c_dag(i, "up") * c(i, "dn") for i in range(4)]
+        sm = [c_dag(i, "dn") * c(i, "up") for i in range(4)]
+        sz = [0.5 * (n(i, "up") - n(i, "dn")) for i in range(4)]
+
+        ref4 = 1.0 * (0.5 * (sp[0] * S1_m(0) + sm[0] * S1_p(0))
+                      + sz[0] * S1_z(0))
+        ref4 += 2.0 * (0.5 * (sp[1] * S1_m(1) + sm[1] * S1_p(1))
+                       + sz[1] * S1_z(1))
+        ref4 += 3.0 * (0.5 * (sp[2] * S1_m(2) + sm[2] * S1_p(2))
+                       + sz[2] * S1_z(2))
+        ref4 += 4.0 * (0.5 * (sp[3] * S1_m(3) + sm[3] * S1_p(3))
+                       + sz[3] * S1_z(3))
+        self.assertEqual(H4, ref4)
 
     def test_ising(self):
         J = np.array([[0, 1, 0, 0],
