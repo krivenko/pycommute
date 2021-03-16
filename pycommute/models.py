@@ -424,7 +424,7 @@ def kondo_int(
 
     .. math::
 
-        \hat H = \sum_{i}^{N-1} J_i
+        \hat H = \sum_{i=0}^{N-1} J_i
                 \hat{\mathbf{s}}_i \cdot \hat{\mathbf{S}}_i,
 
     where
@@ -477,6 +477,59 @@ def kondo_int(
             H += x * (0.5 * (sp * S_m(*ind_spin, spin=spin)
                              + sm * S_p(*ind_spin, spin=spin))
                       + sz * S_z(*ind_spin, spin=spin))
+
+    return H
+
+
+def holstein_int(
+    g: np.ndarray,
+    *,
+    fermion_indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None,
+    boson_indices: Sequence[IndicesType] = None
+) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make an electron-phonon coupling term of the Holstein model defined on
+    a finite collection of sites :math:`i = 0, \ldots, N-1`,
+
+    .. math::
+
+        \hat H = \sum_{i=0}^{N-1}\sum_\sigma
+                g_i \hat n_{i,\sigma} (\hat a^\dagger_i + \hat a_i).
+
+    :param g: A length-:math:`N` vector of coupling constants :math:`g_i`.
+    :param fermion_indices: An optional list of operator indices for spin-up
+                            and spin-down fermionic states. By default, the
+                            spin-up/spin-down operators carry indices
+                            ``(0, "up"), (1, "up"), ...`` and
+                            ``(0, "dn"), (1, "dn"), ...`` respectively.
+                            The length of :obj:`J` must agree with the length of
+                            the lists.
+    :param boson_indices: An optional list of site names for the localized boson
+                          (phonon) operators :math:`\hat a_i` to be used instead
+                          of the simple numeric indices :math:`i`.
+                          The length of :obj:`g` must agree with the length of
+                          :obj:`boson_indices`.
+    :return: Electron-phonon coupling term :math:`\hat H`.
+    """
+    assert g.ndim == 1
+    N = g.shape[0]
+
+    fermion_indices = _make_default_indices_with_spin(fermion_indices, N)
+    boson_indices = _make_default_indices(boson_indices, N)
+
+    H = ExpressionC() if np.iscomplexobj(g) else ExpressionR()
+
+    with np.nditer(g, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            ind_up = fermion_indices[0][it.index]
+            ind_dn = fermion_indices[1][it.index]
+            ind_boson = boson_indices[it.index]
+
+            H += x * (n(*ind_up) + n(*ind_dn)) \
+                * (a_dag(*ind_boson) + a(*ind_boson))
 
     return H
 

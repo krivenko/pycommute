@@ -24,6 +24,7 @@ from pycommute.models import (
     extended_hubbard_int,
     t_j_int,
     kondo_int,
+    holstein_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -329,6 +330,33 @@ class TestModels(TestCase):
         ref4 += 4.0 * (0.5 * (sp[3] * S1_m(3) + sm[3] * S1_p(3))
                        + sz[3] * S1_z(3))
         self.assertEqual(H4, ref4)
+
+    def test_holstein_int(self):
+        g = np.array([1, 2, 3, 4], dtype=float)
+        fermion_indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
+                           [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+        boson_indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+
+        H1 = holstein_int(g)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = sum(g[i] * (n(i, "up") + n(i, "dn")) * (a_dag(i) + a(i))
+                   for i in range(4))
+        self.assertEqual(H1, ref1)
+
+        H2 = holstein_int(1j * g)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = holstein_int(g,
+                          fermion_indices=fermion_indices,
+                          boson_indices=boson_indices)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = 1.0 * (n("up", 0) + n("dn", 0)) * (a_dag('a', 0) + a('a', 0))
+        ref3 += 2.0 * (n("up", 1) + n("dn", 1)) * (a_dag('b', 1) + a('b', 1))
+        ref3 += 3.0 * (n("up", 2) + n("dn", 2)) * (a_dag('c', 2) + a('c', 2))
+        ref3 += 4.0 * (n("up", 3) + n("dn", 3)) * (a_dag('d', 3) + a('d', 3))
+        self.assertEqual(H3, ref3)
 
     def test_ising(self):
         J = np.array([[0, 1, 0, 0],
