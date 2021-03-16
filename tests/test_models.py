@@ -22,6 +22,7 @@ from pycommute.models import (
     hubbard_int,
     bose_hubbard_int,
     extended_hubbard_int,
+    t_j_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -226,6 +227,49 @@ class TestModels(TestCase):
         ref3 = 0.5 * (n("up", 0) + n("dn", 0)) * (n("up", 1) + n("dn", 1)) \
             + 1.0 * (n("up", 1) + n("dn", 1)) * (n("up", 2) + n("dn", 2)) \
             + 1.5 * (n("up", 2) + n("dn", 2)) * (n("up", 3) + n("dn", 3))
+        self.assertEqual(H3, ref3)
+
+    def test_t_j_int(self):
+        J = np.array([[0, 1, 0, 0],
+                      [0, 0, 2, 0],
+                      [0, 0, 0, 3],
+                      [0, 0, 0, 0]], dtype=float)
+        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
+                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+
+        H1 = t_j_int(J)
+        self.assertIsInstance(H1, ExpressionR)
+        sp = [c_dag(i, "up") * c(i, "dn") for i in range(4)]
+        sm = [c_dag(i, "dn") * c(i, "up") for i in range(4)]
+        sz = [0.5 * (n(i, "up") - n(i, "dn")) for i in range(4)]
+        ni = [n(i, "up") + n(i, "dn") for i in range(4)]
+
+        ref1 = 0.5 * (sp[0] * sm[1] + sm[0] * sp[1]) + sz[0] * sz[1]
+        ref1 += -0.25 * ni[0] * ni[1]
+        ref1 += 2.0 * (0.5 * (sp[1] * sm[2] + sm[1] * sp[2]) + sz[1] * sz[2])
+        ref1 += -0.5 * ni[1] * ni[2]
+        ref1 += 3.0 * (0.5 * (sp[2] * sm[3] + sm[2] * sp[3]) + sz[2] * sz[3])
+        ref1 += -0.75 * ni[2] * ni[3]
+        self.assertEqual(H1, ref1)
+
+        H2 = t_j_int(1j * J)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = t_j_int(J, indices)
+        self.assertIsInstance(H3, ExpressionR)
+        sp = [c_dag("up", i) * c("dn", i) for i in range(4)]
+        sm = [c_dag("dn", i) * c("up", i) for i in range(4)]
+        sz = [0.5 * (n("up", i) - n("dn", i)) for i in range(4)]
+        ni = [n("up", i) + n("dn", i) for i in range(4)]
+
+        ref3 = 0.5 * (sp[0] * sm[1] + sm[0] * sp[1]) + sz[0] * sz[1]
+        ref3 += -0.25 * ni[0] * ni[1]
+        ref3 += 2.0 * (0.5 * (sp[1] * sm[2] + sm[1] * sp[2]) + sz[1] * sz[2])
+        ref3 += -0.5 * ni[1] * ni[2]
+        ref3 += 3.0 * (0.5 * (sp[2] * sm[3] + sm[2] * sp[3]) + sz[2] * sz[3])
+        ref3 += -0.75 * ni[2] * ni[3]
         self.assertEqual(H3, ref3)
 
     def test_ising(self):

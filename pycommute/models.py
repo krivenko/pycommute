@@ -353,6 +353,76 @@ def extended_hubbard_int(
     return H
 
 
+def t_j_int(
+    J: np.ndarray,
+    indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None
+) -> ExpressionC:
+    r"""
+    Make an interaction term of the t-J model defined on a finite lattice
+    (collection of sites :math:`i = 0, \ldots, N-1`),
+
+    .. math::
+
+        \hat H = \sum_{i,j=0}^{N-1} J_{ij}
+            \left(
+                \hat{\mathbf{S}}_i \cdot \hat{\mathbf{S}}_j
+                - \frac{1}{4} \hat n_i \hat n_j
+            \right),
+
+    where
+
+    .. math::
+
+        \hat{\mathbf{S}}_i = \sum_{\sigma\sigma'}
+            \frac{\boldsymbol{\tau}_{\sigma\sigma'}}{2}
+            \hat c^\dagger_{i,\sigma} c_{i,\sigma'}
+
+    is the spin vector of the electron localized at site :math:`i`, and
+    :math:`\hat n_i = \hat n_{i,\uparrow} + \hat n_{i,\downarrow}` is
+    the total electron occupation number at site :math:`i`.
+
+    :param J: An :math:`N\times N` matrix of coupling parameters
+              :math:`J_{ij}`.
+    :param indices: An optional list of operator indices for spin-up
+                    and spin-down states. By default, the spin-up/spin-down
+                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
+                    ``(0, "dn"), (1, "dn"), ...`` respectively. The dimensions
+                    of :obj:`J` must agree with the length of the lists.
+
+    :return: Interaction term :math:`\hat H`.
+    """
+    assert J.ndim == 2
+    N = J.shape[0]
+    assert J.shape == (N, N)
+
+    indices = _make_default_indices_with_spin(indices, N)
+
+    H = ExpressionC() if np.iscomplexobj(J) else ExpressionR()
+
+    with np.nditer(J, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            ind_i_up = indices[0][it.multi_index[0]]
+            ind_i_dn = indices[1][it.multi_index[0]]
+            ind_j_up = indices[0][it.multi_index[1]]
+            ind_j_dn = indices[1][it.multi_index[1]]
+
+            spi = c_dag(*ind_i_up) * c(*ind_i_dn)
+            smi = c_dag(*ind_i_dn) * c(*ind_i_up)
+            szi = 0.5 * (n(*ind_i_up) - n(*ind_i_dn))
+            spj = c_dag(*ind_j_up) * c(*ind_j_dn)
+            smj = c_dag(*ind_j_dn) * c(*ind_j_up)
+            szj = 0.5 * (n(*ind_j_up) - n(*ind_j_dn))
+
+            H += x * (0.5 * (spi * smj + smi * spj) + szi * szj)
+            H -= x * 0.25 * (n(*ind_i_up) + n(*ind_i_dn)) \
+                          * (n(*ind_j_up) + n(*ind_j_dn))
+
+    return H
+
+
 def ising(J: np.ndarray,
           h_l: np.ndarray = None,
           h_t: np.ndarray = None,
