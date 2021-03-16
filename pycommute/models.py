@@ -40,23 +40,6 @@ def _make_default_indices_with_spin(indices, N):
         return indices
 
 
-def _tau_c_dag_c(ind_up, ind_dn):
-    r"""
-    Returns a vector of the form
-
-    .. math::
-
-         \sum_{\sigma\sigma'}
-         \boldsymbol{\tau}_{\sigma\sigma'}
-         \hat c^\dagger_{\sigma} \hat c_{\sigma'},
-
-    where :math:`\boldsymbol{\tau}` is a vector of Pauli matrices.
-    """
-    return (c_dag(*ind_dn) * c(*ind_up) + c_dag(*ind_up) * c(*ind_dn),
-            1j * (c_dag(*ind_dn) * c(*ind_up) - c_dag(*ind_up) * c(*ind_dn)),
-            n(*ind_up) - n(*ind_dn))
-
-
 def tight_binding(t: np.ndarray,
                   indices: Sequence[IndicesType] = None,
                   *,
@@ -218,7 +201,12 @@ def zeeman(b: np.ndarray,
         for i, h_i in enumerate(b):
             ind_up = indices[0][i]
             ind_dn = indices[1][i]
-            H += np.dot(h_i, _tau_c_dag_c(ind_up, ind_dn))
+
+            H += h_i[0] * (c_dag(*ind_dn) * c(*ind_up)
+                           + c_dag(*ind_up) * c(*ind_dn))
+            H += 1j * h_i[1] * (c_dag(*ind_dn) * c(*ind_up)
+                                - c_dag(*ind_up) * c(*ind_dn))
+            H += h_i[2] * (n(*ind_up) - n(*ind_dn))
 
     return H
 
