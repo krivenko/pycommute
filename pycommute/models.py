@@ -303,6 +303,56 @@ def bose_hubbard_int(U: np.ndarray,
     return H
 
 
+def extended_hubbard_int(
+    V: np.ndarray,
+    indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None
+) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Make an interaction term of the extended Fermi-Hubbard model defined on a
+    finite lattice (collection of sites :math:`i = 0, \ldots, N-1`),
+
+    .. math::
+
+        \hat H = \frac{1}{2} \sum_{i,j=0}^{N-1} V_{ij} \hat n_i \hat n_j,
+
+    where :math:`\hat n_i = \hat n_{i,\uparrow} + \hat n_{i,\downarrow}` is
+    the total electron occupation number at site :math:`i`. The local part of
+    the interaction is encoded in the diagonal matrix elements :math:`V_{ii}`.
+
+    :param V: An :math:`N\times N` matrix of interaction parameters
+              :math:`V_{ij}`.
+    :param indices: An optional list of operator indices for spin-up
+                    and spin-down states. By default, the spin-up/spin-down
+                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
+                    ``(0, "dn"), (1, "dn"), ...`` respectively. The dimensions
+                    of :obj:`V` must agree with the length of the lists.
+
+    :return: Interaction term :math:`\hat H`.
+    """
+    assert V.ndim == 2
+    N = V.shape[0]
+    assert V.shape == (N, N)
+
+    indices = _make_default_indices_with_spin(indices, N)
+
+    H = ExpressionC() if np.iscomplexobj(V) else ExpressionR()
+
+    with np.nditer(V, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            ind_i_up = indices[0][it.multi_index[0]]
+            ind_i_dn = indices[1][it.multi_index[0]]
+            ind_j_up = indices[0][it.multi_index[1]]
+            ind_j_dn = indices[1][it.multi_index[1]]
+
+            H += 0.5 * x * (n(*ind_i_up) + n(*ind_i_dn)) * \
+                           (n(*ind_j_up) + n(*ind_j_dn))
+
+    return H
+
+
 def ising(J: np.ndarray,
           h_l: np.ndarray = None,
           h_t: np.ndarray = None,

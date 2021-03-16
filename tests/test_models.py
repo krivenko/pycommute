@@ -21,6 +21,7 @@ from pycommute.models import (
     zeeman,
     hubbard_int,
     bose_hubbard_int,
+    extended_hubbard_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -198,6 +199,33 @@ class TestModels(TestCase):
             + 2.0 * nb("b", 1) * (nb("b", 1) - 1) \
             + 3.0 * nb("c", 2) * (nb("c", 2) - 1) \
             + 4.0 * nb("d", 3) * (nb("d", 3) - 1)
+        self.assertEqual(H3, ref3)
+
+    def test_extended_hubbard_int(self):
+        V = np.array([[0, 1, 0, 0],
+                      [0, 0, 2, 0],
+                      [0, 0, 0, 3],
+                      [0, 0, 0, 0]], dtype=float)
+        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
+                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+
+        H1 = extended_hubbard_int(V)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = 0.5 * (n(0, "up") + n(0, "dn")) * (n(1, "up") + n(1, "dn")) \
+            + 1.0 * (n(1, "up") + n(1, "dn")) * (n(2, "up") + n(2, "dn")) \
+            + 1.5 * (n(2, "up") + n(2, "dn")) * (n(3, "up") + n(3, "dn"))
+        self.assertEqual(H1, ref1)
+
+        H2 = extended_hubbard_int(1j * V)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = extended_hubbard_int(V, indices)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = 0.5 * (n("up", 0) + n("dn", 0)) * (n("up", 1) + n("dn", 1)) \
+            + 1.0 * (n("up", 1) + n("dn", 1)) * (n("up", 2) + n("dn", 2)) \
+            + 1.5 * (n("up", 2) + n("dn", 2)) * (n("up", 3) + n("dn", 3))
         self.assertEqual(H3, ref3)
 
     def test_ising(self):

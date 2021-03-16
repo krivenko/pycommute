@@ -13,6 +13,7 @@ Models of many fermions/bosons
 .. autofunction:: pycommute.models.zeeman
 .. autofunction:: pycommute.models.hubbard_int
 .. autofunction:: pycommute.models.bose_hubbard_int
+.. autofunction:: pycommute.models.extended_hubbard_int
 
 Spin models
 -----------
