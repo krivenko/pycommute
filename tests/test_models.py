@@ -18,6 +18,7 @@ from pycommute.expression import (
 from pycommute.models import (
     tight_binding,
     dispersion,
+    pairing,
     zeeman,
     hubbard_int,
     bose_hubbard_int,
@@ -108,6 +109,35 @@ class TestModels(TestCase):
         self.assertIsInstance(H5, ExpressionR)
         ref5 = a_dag(0) * a(0) + 2 * a_dag(1) * a(1) + 3.0 * a_dag(2) * a(2)
         self.assertEqual(H5, ref5)
+
+    def test_pairing(self):
+        indices = [("a", 0), ("b", 1), ("c", 2)]
+        delta = np.array([[1.0, 4.0, 6.0],
+                          [-4.0, 2.0, 5.0],
+                          [-6.0, -5.0, 3.0]])
+
+        H1 = pairing(delta)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = 2 * 4.0 * (c(0) * c(1) - c_dag(0) * c_dag(1))
+        ref1 += 2 * 5.0 * (c(1) * c(2) - c_dag(1) * c_dag(2))
+        ref1 += 2 * 6.0 * (c(0) * c(2) - c_dag(0) * c_dag(2))
+        self.assertEqual(H1, ref1)
+
+        H2 = pairing(1j * delta)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 2 * 4.0j * (c(0) * c(1) + c_dag(0) * c_dag(1))
+        ref2 += 2 * 5.0j * (c(1) * c(2) + c_dag(1) * c_dag(2))
+        ref2 += 2 * 6.0j * (c(0) * c(2) + c_dag(0) * c_dag(2))
+        self.assertEqual(H2, ref2)
+
+        H3 = pairing(delta, indices=indices)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = 2 * 4.0 * (c("a", 0) * c("b", 1) - c_dag("a", 0) * c_dag("b", 1))
+        ref3 += 2 * 5.0 * (c("b", 1) * c("c", 2)
+                           - c_dag("b", 1) * c_dag("c", 2))
+        ref3 += 2 * 6.0 * (c("a", 0) * c("c", 2)
+                           - c_dag("a", 0) * c_dag("c", 2))
+        self.assertEqual(H3, ref3)
 
     def test_zeeman(self):
         b1 = np.array([1, 2, 3, 0], dtype=float)

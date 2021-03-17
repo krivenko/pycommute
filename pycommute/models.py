@@ -19,7 +19,7 @@ from itertools import product
 import numpy as np
 
 
-IndicesType = Tuple[Union[int, str], ...]
+IndicesType = Union[int, str, Tuple[Union[int, str], ...]]
 
 
 def _make_default_indices(indices, N):
@@ -135,6 +135,47 @@ def dispersion(eps: np.ndarray,
             ind = indices[it.index]
 
             H += x * O_dag(*ind) * O(*ind)
+
+    return H
+
+
+def pairing(delta: np.ndarray,
+            *,
+            indices: Sequence[IndicesType] = None):
+    r"""
+    Constructs a pairing Hamiltonian from a matrix of pairing parameters
+    :math:`\Delta`.
+
+    .. math::
+
+        \hat H = \sum_{i,j=0}^{N-1} (
+            \Delta_{ij} \hat c_i \hat c_j -
+            \Delta^*_{ij} \hat c^\dagger_i \hat c^\dagger_j).
+
+    :param delta: An :math:`N\times N` matrix of the pairing parameters
+                   :math:`\Delta_{ij}`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
+    :return: Pairing Hamiltonian :math:`\hat H`.
+    """
+    assert delta.ndim == 2
+    N = delta.shape[0]
+    assert delta.shape == (N, N)
+
+    indices = _make_default_indices(indices, N)
+
+    H = ExpressionC() if np.iscomplexobj(delta) else ExpressionR()
+
+    with np.nditer(delta, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+
+            ind_i = indices[it.multi_index[0]]
+            ind_j = indices[it.multi_index[1]]
+
+            H += x * c(*ind_i) * c(*ind_j) \
+                - np.conj(x) * c_dag(*ind_i) * c_dag(*ind_j)
 
     return H
 

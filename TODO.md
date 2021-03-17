@@ -6,7 +6,6 @@ TODO list
   related issues are ever resolved.
   See also https://github.com/pybind/pybind11/pull/1566.
 * Models to add:
-  - Superconducting terms
   - ``spin_boson_int()`` (?)
   - ``hubbard_kanamori_int()``
   - ``slater_int()``

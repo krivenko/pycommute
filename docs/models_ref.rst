@@ -19,11 +19,14 @@ custom lists of indices, which can come in two forms,
 - A list of integer and/or string indices, e.g. ``[0, "a", 2, 5, "xyz"]``;
 - A list of multi-indices, e.g. ``[('a', 1), ('b', 2), ('c', 'd')]``.
 
+It is also allowed to mix indices and multi-indices in the same list.
+
 Models of many fermions/bosons
 ------------------------------
 
 .. autofunction:: pycommute.models.tight_binding
 .. autofunction:: pycommute.models.dispersion
+.. autofunction:: pycommute.models.pairing
 .. autofunction:: pycommute.models.zeeman
 .. autofunction:: pycommute.models.hubbard_int
 .. autofunction:: pycommute.models.bose_hubbard_int
