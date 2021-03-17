@@ -5,6 +5,20 @@
 
 .. automodule:: pycommute.models
 
+Functions in this module return
+:py:class:`real <pycommute.expression.ExpressionR>` or
+:py:class:`complex expression objects <pycommute.expression.ExpressionC>`
+corresponding to some Hamiltonians widely used in the theory of quantum
+many-body systems and statistical mechanics of interacting spins.
+
+By default, these functions use integer indices ``0, 1, ...`` to label
+fermionic, bosonic and spin operators corresponding to individual basis states
+(lattice sites, orbitals) in the output expressions. They also accept
+custom lists of indices, which can come in two forms,
+
+- A list of integer and/or string indices, e.g. ``[0, "a", 2, 5, "xyz"]``;
+- A list of multi-indices, e.g. ``[('a', 1), ('b', 2), ('c', 'd')]``.
+
 Models of many fermions/bosons
 ------------------------------
 

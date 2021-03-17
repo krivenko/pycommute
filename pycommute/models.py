@@ -27,26 +27,24 @@ def _make_default_indices(indices, N):
         return list(map(lambda i: (i,), range(N)))
     else:
         assert len(indices) == N
-        return indices
+        return [((i,) if isinstance(i, (int, str)) else i) for i in indices]
 
 
-def _make_default_indices_with_spin(indices, N):
+def _make_default_indices_with_spin(indices, N, spin_name):
     if indices is None:
-        return (list(map(lambda i: (i, "up"), range(N))),
-                list(map(lambda i: (i, "dn"), range(N))))
+        return list(map(lambda i: (i, spin_name), range(N)))
     else:
-        assert len(indices) == 2
-        assert len(indices[0]) == N and len(indices[1]) == N
-        return indices
+        assert len(indices) == N
+        return [((i,) if isinstance(i, (int, str)) else i) for i in indices]
 
 
 def tight_binding(t: np.ndarray,
-                  indices: Sequence[IndicesType] = None,
                   *,
+                  indices: Sequence[IndicesType] = None,
                   statistics: int = FERMION
                   ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make a tight-binding lattice Hamiltonian from a matrix of hopping
+    Constructs a tight-binding lattice Hamiltonian from a matrix of hopping
     elements :math:`t`.
 
     .. math::
@@ -61,10 +59,8 @@ def tight_binding(t: np.ndarray,
     matrix :math:`t_{ij}`.
 
     :param t: An :math:`N\times N` matrix of hopping elements :math:`t_{ij}`.
-    :param indices: An optional list of names to be used instead of the
-                    simple numeric indices :math:`i`.
-                    Dimensions of :obj:`t` must agree with
-                    the length of :obj:`indices`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :param statistics: Statistics of the particles in question, either
                        :attr:`pycommute.expression.FERMION` or
                        :attr:`pycommute.expression.BOSON`.
@@ -95,12 +91,12 @@ def tight_binding(t: np.ndarray,
 
 
 def dispersion(eps: np.ndarray,
-               indices: Sequence[IndicesType] = None,
                *,
+               indices: Sequence[IndicesType] = None,
                statistics: int = FERMION
                ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make an energy dispersion term of a system of many fermions or bosons
+    Constructs an energy dispersion term of a system of many fermions or bosons
     from a list of energy levels.
 
     .. math::
@@ -114,10 +110,8 @@ def dispersion(eps: np.ndarray,
 
     :param eps: A length-:math:`N` list of energy levels
                 :math:`\varepsilon_i`.
-    :param indices: An optional list of names to be used instead of the
-                    simple numeric indices :math:`i`.
-                    The length of :obj:`eps` must agree with
-                    the length of :obj:`indices`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :param statistics: Statistics of the particles in question, either
                        :attr:`pycommute.expression.FERMION` or
                        :attr:`pycommute.expression.BOSON`.
@@ -146,10 +140,12 @@ def dispersion(eps: np.ndarray,
 
 
 def zeeman(b: np.ndarray,
-           indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None,
+           *,
+           indices_up: Sequence[IndicesType] = None,
+           indices_dn: Sequence[IndicesType] = None
            ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make a Zeeman coupling term describing a system of :math:`N` electrons
+    Constructs a Zeeman coupling term describing a system of :math:`N` electrons
     (spin-1/2 fermions) in an external magnetic field,
 
     .. math::
@@ -161,7 +157,7 @@ def zeeman(b: np.ndarray,
 
     The pre-factor 2 is the spin Landé factor, while the Bohr magneton and the
     Planck constant are set to unity. :math:`\boldsymbol{\tau}` is a vector of
-    Pauli matrices, and the operators
+    Pauli matrices, and operators
     :math:`\hat c^\dagger_{i,\sigma}`/:math:`\hat c_{i,\sigma}`
     create/annihilate electrons at site :math:`i` with the 3-rd spin projection
     :math:`\sigma`.
@@ -173,17 +169,20 @@ def zeeman(b: np.ndarray,
         - A length-:math:`N` vector of 3-rd projections :math:`b^z_i`.
           It is assumed that :math:`b^x_i = b^y_i = 0` in this case.
 
-    :param indices: An optional pair of lists with operator indices for spin-up
-                    and spin-down states. By default, the spin-up/spin-down
-                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
-                    ``(0, "dn"), (1, "dn"), ...`` respectively. The length of
-                    :obj:`b` must agree with the length of the lists.
+    :param indices_up: An optional list of :math:`N` (multi-)indices to label
+                       the spin-up operators. By default, the spin-up operators
+                       carry indices ``(0, "up"), (1, "up"), ...``.
+    :param indices_dn: An optional list of :math:`N` (multi-)indices to label
+                       the spin-down operators. By default, the spin-down
+                       operators carry indices ``(0, "dn"), (1, "dn"), ...``.
+
     :return: Zeeman coupling term :math:`\hat H`.
     """
     N = b.shape[0]
     assert b.shape == (N,) or b.shape == (N, 3)
 
-    indices = _make_default_indices_with_spin(indices, N)
+    indices_up = _make_default_indices_with_spin(indices_up, N, "up")
+    indices_dn = _make_default_indices_with_spin(indices_dn, N, "dn")
 
     is_complex = np.iscomplexobj(b) or (b.ndim == 2)
     H = ExpressionC() if is_complex else ExpressionR()
@@ -194,13 +193,13 @@ def zeeman(b: np.ndarray,
                 if x == 0:
                     continue
 
-                ind_up, ind_dn = indices[0][it.index], indices[1][it.index]
+                ind_up, ind_dn = indices_up[it.index], indices_dn[it.index]
 
                 H += x * (n(*ind_up) - n(*ind_dn))
     else:
         for i, h_i in enumerate(b):
-            ind_up = indices[0][i]
-            ind_dn = indices[1][i]
+            ind_up = indices_up[i]
+            ind_dn = indices_dn[i]
 
             H += h_i[0] * (c_dag(*ind_dn) * c(*ind_up)
                            + c_dag(*ind_up) * c(*ind_dn))
@@ -213,11 +212,13 @@ def zeeman(b: np.ndarray,
 
 def hubbard_int(
     U: np.ndarray,
-    indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None
+    *,
+    indices_up: Sequence[IndicesType] = None,
+    indices_dn: Sequence[IndicesType] = None
 ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make an interaction term of the Fermi-Hubbard model defined on a finite
-    lattice (collection of sites :math:`i = 0, \ldots, N-1`),
+    Constructs an interaction term of the Fermi-Hubbard model defined on
+    a finite lattice (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
 
@@ -225,18 +226,20 @@ def hubbard_int(
 
     :param U: A length-:math:`N` vector of Hubbard interaction parameters
               :math:`U_i`.
-    :param indices: An optional list of operator indices for spin-up
-                    and spin-down states. By default, the spin-up/spin-down
-                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
-                    ``(0, "dn"), (1, "dn"), ...`` respectively. The length of
-                    :obj:`U` must agree with the length of :obj:`indices`.
+    :param indices_up: An optional list of :math:`N` (multi-)indices to label
+                       the spin-up operators. By default, the spin-up operators
+                       carry indices ``(0, "up"), (1, "up"), ...``.
+    :param indices_dn: An optional list of :math:`N` (multi-)indices to label
+                       the spin-down operators. By default, the spin-down
+                       operators carry indices ``(0, "dn"), (1, "dn"), ...``.
 
     :return: Interaction term :math:`\hat H`.
     """
     assert U.ndim == 1
     N = U.shape[0]
 
-    indices = _make_default_indices_with_spin(indices, N)
+    indices_up = _make_default_indices_with_spin(indices_up, N, "up")
+    indices_dn = _make_default_indices_with_spin(indices_dn, N, "dn")
 
     H = ExpressionC() if np.iscomplexobj(U) else ExpressionR()
 
@@ -245,7 +248,7 @@ def hubbard_int(
             if x == 0:
                 continue
 
-            ind_up, ind_dn = indices[0][it.index], indices[1][it.index]
+            ind_up, ind_dn = indices_up[it.index], indices_dn[it.index]
 
             H += x * n(*ind_up) * n(*ind_dn)
 
@@ -253,10 +256,11 @@ def hubbard_int(
 
 
 def bose_hubbard_int(U: np.ndarray,
+                     *,
                      indices: Sequence[IndicesType] = None
                      ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make an interaction term of the Bose-Hubbard model defined on a finite
+    Constructs an interaction term of the Bose-Hubbard model defined on a finite
     lattice (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
@@ -266,10 +270,8 @@ def bose_hubbard_int(U: np.ndarray,
 
     :param U: A length-:math:`N` vector of Hubbard interaction parameters
               :math:`U_i`.
-    :param indices: An optional list of names to be used instead of the
-                    simple numeric indices :math:`i`. The length of :obj:`U`
-                    must agree with the length of :obj:`indices`.
-
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :return: Interaction term :math:`\hat H`.
     """
     assert U.ndim == 1
@@ -293,11 +295,13 @@ def bose_hubbard_int(U: np.ndarray,
 
 def extended_hubbard_int(
     V: np.ndarray,
-    indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None
+    *,
+    indices_up: Sequence[IndicesType] = None,
+    indices_dn: Sequence[IndicesType] = None
 ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make an interaction term of the extended Fermi-Hubbard model defined on a
-    finite lattice (collection of sites :math:`i = 0, \ldots, N-1`),
+    Constructs an interaction term of the extended Fermi-Hubbard model defined
+    on a finite lattice (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
 
@@ -309,11 +313,12 @@ def extended_hubbard_int(
 
     :param V: An :math:`N\times N` matrix of interaction parameters
               :math:`V_{ij}`.
-    :param indices: An optional list of operator indices for spin-up
-                    and spin-down states. By default, the spin-up/spin-down
-                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
-                    ``(0, "dn"), (1, "dn"), ...`` respectively. The dimensions
-                    of :obj:`V` must agree with the length of the lists.
+    :param indices_up: An optional list of :math:`N` (multi-)indices to label
+                       the spin-up operators. By default, the spin-up operators
+                       carry indices ``(0, "up"), (1, "up"), ...``.
+    :param indices_dn: An optional list of :math:`N` (multi-)indices to label
+                       the spin-down operators. By default, the spin-down
+                       operators carry indices ``(0, "dn"), (1, "dn"), ...``.
 
     :return: Interaction term :math:`\hat H`.
     """
@@ -321,7 +326,8 @@ def extended_hubbard_int(
     N = V.shape[0]
     assert V.shape == (N, N)
 
-    indices = _make_default_indices_with_spin(indices, N)
+    indices_up = _make_default_indices_with_spin(indices_up, N, "up")
+    indices_dn = _make_default_indices_with_spin(indices_dn, N, "dn")
 
     H = ExpressionC() if np.iscomplexobj(V) else ExpressionR()
 
@@ -330,10 +336,10 @@ def extended_hubbard_int(
             if x == 0:
                 continue
 
-            ind_i_up = indices[0][it.multi_index[0]]
-            ind_i_dn = indices[1][it.multi_index[0]]
-            ind_j_up = indices[0][it.multi_index[1]]
-            ind_j_dn = indices[1][it.multi_index[1]]
+            ind_i_up = indices_up[it.multi_index[0]]
+            ind_i_dn = indices_dn[it.multi_index[0]]
+            ind_j_up = indices_up[it.multi_index[1]]
+            ind_j_dn = indices_dn[it.multi_index[1]]
 
             H += 0.5 * x * (n(*ind_i_up) + n(*ind_i_dn)) * \
                            (n(*ind_j_up) + n(*ind_j_dn))
@@ -343,10 +349,12 @@ def extended_hubbard_int(
 
 def t_j_int(
     J: np.ndarray,
-    indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None
+    *,
+    indices_up: Sequence[IndicesType] = None,
+    indices_dn: Sequence[IndicesType] = None
 ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make an interaction term of the t-J model defined on a finite lattice
+    Constructs an interaction term of the t-J model defined on a finite lattice
     (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
@@ -363,7 +371,7 @@ def t_j_int(
 
         \hat{\mathbf{S}}_i = \sum_{\sigma\sigma'}
             \frac{\boldsymbol{\tau}_{\sigma\sigma'}}{2}
-            \hat c^\dagger_{i,\sigma} c_{i,\sigma'}
+            \hat c^\dagger_{i,\sigma} \hat c_{i,\sigma'}
 
     is the spin vector of the electron localized at site :math:`i`, and
     :math:`\hat n_i = \hat n_{i,\uparrow} + \hat n_{i,\downarrow}` is
@@ -371,19 +379,20 @@ def t_j_int(
 
     :param J: An :math:`N\times N` matrix of coupling parameters
               :math:`J_{ij}`.
-    :param indices: An optional list of operator indices for spin-up
-                    and spin-down states. By default, the spin-up/spin-down
-                    operators carry indices ``(0, "up"), (1, "up"), ...`` and
-                    ``(0, "dn"), (1, "dn"), ...`` respectively. The dimensions
-                    of :obj:`J` must agree with the length of the lists.
-
+    :param indices_up: An optional list of :math:`N` (multi-)indices to label
+                       the spin-up operators. By default, the spin-up operators
+                       carry indices ``(0, "up"), (1, "up"), ...``.
+    :param indices_dn: An optional list of :math:`N` (multi-)indices to label
+                       the spin-down operators. By default, the spin-down
+                       operators carry indices ``(0, "dn"), (1, "dn"), ...``.
     :return: Interaction term :math:`\hat H`.
     """
     assert J.ndim == 2
     N = J.shape[0]
     assert J.shape == (N, N)
 
-    indices = _make_default_indices_with_spin(indices, N)
+    indices_up = _make_default_indices_with_spin(indices_up, N, "up")
+    indices_dn = _make_default_indices_with_spin(indices_dn, N, "dn")
 
     H = ExpressionC() if np.iscomplexobj(J) else ExpressionR()
 
@@ -392,10 +401,10 @@ def t_j_int(
             if x == 0:
                 continue
 
-            ind_i_up = indices[0][it.multi_index[0]]
-            ind_i_dn = indices[1][it.multi_index[0]]
-            ind_j_up = indices[0][it.multi_index[1]]
-            ind_j_dn = indices[1][it.multi_index[1]]
+            ind_i_up = indices_up[it.multi_index[0]]
+            ind_i_dn = indices_dn[it.multi_index[0]]
+            ind_j_up = indices_up[it.multi_index[1]]
+            ind_j_dn = indices_dn[it.multi_index[1]]
 
             spi = c_dag(*ind_i_up) * c(*ind_i_dn)
             smi = c_dag(*ind_i_dn) * c(*ind_i_up)
@@ -414,13 +423,14 @@ def t_j_int(
 def kondo_int(
     J: np.ndarray,
     *,
-    fermion_indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None,
-    spin_indices: Sequence[IndicesType] = None,
+    indices_up: Sequence[IndicesType] = None,
+    indices_dn: Sequence[IndicesType] = None,
+    indices_spin: Sequence[IndicesType] = None,
     spin: float = 1 / 2
 ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make an interaction term of the Kondo lattice defined on a finite
-    collection of sites :math:`i = 0, \ldots, N-1`,
+    Constructs an interaction term of the Kondo lattice model defined on
+    a finite collection of sites :math:`i = 0, \ldots, N-1`,
 
     .. math::
 
@@ -433,31 +443,34 @@ def kondo_int(
 
         \hat{\mathbf{s}}_i = \sum_{\sigma\sigma'}
             \frac{\boldsymbol{\tau}_{\sigma\sigma'}}{2}
-            \hat c^\dagger_{i,\sigma} c_{i,\sigma'}
+            \hat c^\dagger_{i,\sigma} \hat c_{i,\sigma'}
 
     is the spin vector of the electron localized at site :math:`i`.
 
     :param J: A length-:math:`N` vector of coupling constants :math:`J_i`.
-    :param fermion_indices: An optional list of operator indices for spin-up
-                            and spin-down fermionic states. By default, the
-                            spin-up/spin-down operators carry indices
-                            ``(0, "up"), (1, "up"), ...`` and
-                            ``(0, "dn"), (1, "dn"), ...`` respectively.
-                            The length of :obj:`J` must agree with the length of
-                            the lists.
-    :param spin_indices: An optional list of site names for the localized spin
-                         operators :math:`\hat{\mathbf{S}}_i` to be used instead
-                         of the simple numeric indices :math:`i`.
-                         The length of :obj:`J` must agree with the length of
-                         :obj:`spin_indices`.
+    :param indices_up: An optional list of :math:`N` (multi-)indices to label
+                       the spin-up operators
+                       :math:`\hat c^\dagger_{i,\uparrow}`/
+                       :math:`\hat c_{i,\uparrow}`. By default, the spin-up
+                       operators carry indices ``(0, "up"), (1, "up"), ...``.
+    :param indices_dn: An optional list of :math:`N` (multi-)indices to label
+                       the spin-down operators
+                       :math:`\hat c^\dagger_{i,\downarrow}`/
+                       :math:`\hat c_{i,\downarrow}`. By default, the spin-down
+                       operators carry indices ``(0, "dn"), (1, "dn"), ...``.
+    :param indices_spin: An optional list of :math:`N` (multi-)indices to label
+                         the localized spin operators
+                         :math:`\hat{\mathbf{S}}_i`. By default, the localized
+                         spin operators carry indices ``0, 1, ...``.
     :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
     :return: Interaction term :math:`\hat H`.
     """
     assert J.ndim == 1
     N = J.shape[0]
 
-    fermion_indices = _make_default_indices_with_spin(fermion_indices, N)
-    spin_indices = _make_default_indices(spin_indices, N)
+    indices_up = _make_default_indices_with_spin(indices_up, N, "up")
+    indices_dn = _make_default_indices_with_spin(indices_dn, N, "dn")
+    indices_spin = _make_default_indices(indices_spin, N)
 
     H = ExpressionC() if np.iscomplexobj(J) else ExpressionR()
 
@@ -466,9 +479,9 @@ def kondo_int(
             if x == 0:
                 continue
 
-            ind_up = fermion_indices[0][it.index]
-            ind_dn = fermion_indices[1][it.index]
-            ind_spin = spin_indices[it.index]
+            ind_up = indices_up[it.index]
+            ind_dn = indices_dn[it.index]
+            ind_spin = indices_spin[it.index]
 
             sp = c_dag(*ind_up) * c(*ind_dn)
             sm = c_dag(*ind_dn) * c(*ind_up)
@@ -484,11 +497,12 @@ def kondo_int(
 def holstein_int(
     g: np.ndarray,
     *,
-    fermion_indices: Tuple[Sequence[IndicesType], Sequence[IndicesType]] = None,
-    boson_indices: Sequence[IndicesType] = None
+    indices_up: Sequence[IndicesType] = None,
+    indices_dn: Sequence[IndicesType] = None,
+    indices_boson: Sequence[IndicesType] = None
 ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make an electron-phonon coupling term of the Holstein model defined on
+    Constructs an electron-phonon coupling term of the Holstein model defined on
     a finite collection of sites :math:`i = 0, \ldots, N-1`,
 
     .. math::
@@ -497,25 +511,24 @@ def holstein_int(
                 g_i \hat n_{i,\sigma} (\hat a^\dagger_i + \hat a_i).
 
     :param g: A length-:math:`N` vector of coupling constants :math:`g_i`.
-    :param fermion_indices: An optional list of operator indices for spin-up
-                            and spin-down fermionic states. By default, the
-                            spin-up/spin-down operators carry indices
-                            ``(0, "up"), (1, "up"), ...`` and
-                            ``(0, "dn"), (1, "dn"), ...`` respectively.
-                            The length of :obj:`J` must agree with the length of
-                            the lists.
-    :param boson_indices: An optional list of site names for the localized boson
-                          (phonon) operators :math:`\hat a_i` to be used instead
-                          of the simple numeric indices :math:`i`.
-                          The length of :obj:`g` must agree with the length of
-                          :obj:`boson_indices`.
+    :param indices_up: An optional list of :math:`N` (multi-)indices to label
+                       the spin-up operators. By default, the spin-up operators
+                       carry indices ``(0, "up"), (1, "up"), ...``.
+    :param indices_dn: An optional list of :math:`N` (multi-)indices to label
+                       the spin-down operators. By default, the spin-down
+                       operators carry indices ``(0, "dn"), (1, "dn"), ...``.
+    :param indices_boson: An optional list of :math:`N` (multi-)indices to label
+                          the localized boson (phonon) operators
+                          :math:`\hat a_i`. By default, the localized
+                          boson operators carry indices ``0, 1, ...``.
     :return: Electron-phonon coupling term :math:`\hat H`.
     """
     assert g.ndim == 1
     N = g.shape[0]
 
-    fermion_indices = _make_default_indices_with_spin(fermion_indices, N)
-    boson_indices = _make_default_indices(boson_indices, N)
+    indices_up = _make_default_indices_with_spin(indices_up, N, "up")
+    indices_dn = _make_default_indices_with_spin(indices_dn, N, "dn")
+    indices_boson = _make_default_indices(indices_boson, N)
 
     H = ExpressionC() if np.iscomplexobj(g) else ExpressionR()
 
@@ -524,9 +537,9 @@ def holstein_int(
             if x == 0:
                 continue
 
-            ind_up = fermion_indices[0][it.index]
-            ind_dn = fermion_indices[1][it.index]
-            ind_boson = boson_indices[it.index]
+            ind_up = indices_up[it.index]
+            ind_dn = indices_dn[it.index]
+            ind_boson = indices_boson[it.index]
 
             H += x * (n(*ind_up) + n(*ind_dn)) \
                 * (a_dag(*ind_boson) + a(*ind_boson))
@@ -537,12 +550,12 @@ def holstein_int(
 def ising(J: np.ndarray,
           h_l: np.ndarray = None,
           h_t: np.ndarray = None,
-          sites: Sequence[IndicesType] = None,
           *,
+          indices: Sequence[IndicesType] = None,
           spin: float = 1 / 2
           ) -> ExpressionR:
     r"""
-    Make Hamiltonian of the quantum Ising model on a finite lattice
+    Constructs Hamiltonian of the quantum Ising model on a finite lattice
     (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
@@ -556,10 +569,8 @@ def ising(J: np.ndarray,
                 fields :math:`h^l_i`. By default, all magnetic fields are zero.
     :param h_t: A length-:math:`N` vector of the local transverse magnetic
                 fields :math:`h^t_i`. By default, all magnetic fields are zero.
-    :param sites: An optional list of site names to be used instead of the
-                  simple numeric indices :math:`i`. Dimensions of :obj:`J` and
-                  :obj:`h_l`/:obj:`h_t` must agree with the length
-                  of :obj:`sites`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :param spin: Spin of operators :math:`\hat{S}^\alpha_i`, 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
@@ -567,7 +578,7 @@ def ising(J: np.ndarray,
     N = J.shape[0]
     assert J.shape == (N, N)
 
-    sites = _make_default_indices(sites, N)
+    indices = _make_default_indices(indices, N)
 
     is_complex = np.iscomplexobj(J) or \
         np.iscomplexobj(h_l) or (h_t is not None)
@@ -578,21 +589,21 @@ def ising(J: np.ndarray,
             if x == 0:
                 continue
 
-            site_i = sites[it.multi_index[0]]
-            site_j = sites[it.multi_index[1]]
+            ind_i = indices[it.multi_index[0]]
+            ind_j = indices[it.multi_index[1]]
 
-            H += -x * S_z(*site_i, spin=spin) * S_z(*site_j, spin=spin)
+            H += -x * S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
 
     if h_l is not None:
         assert h_l.shape == (N,)
         for i, h_i in enumerate(h_l):
-            site = sites[i]
-            H += -h_i * S_z(*site, spin=spin)
+            ind = indices[i]
+            H += -h_i * S_z(*ind, spin=spin)
     if h_t is not None:
         assert h_t.shape == (N,)
         for i, h_i in enumerate(h_t):
-            site = sites[i]
-            H += -h_i * S_x(*site, spin=spin)
+            ind = indices[i]
+            H += -h_i * S_x(*ind, spin=spin)
 
     return H
 
@@ -600,11 +611,11 @@ def ising(J: np.ndarray,
 def heisenberg(J: np.ndarray,
                h: np.ndarray = None,
                *,
-               sites: Sequence[IndicesType] = None,
+               indices: Sequence[IndicesType] = None,
                spin: float = 1 / 2
                ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make Hamiltonian of the quantum Heisenberg model on a finite lattice
+    Constructs Hamiltonian of the quantum Heisenberg model on a finite lattice
     (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
@@ -618,9 +629,8 @@ def heisenberg(J: np.ndarray,
     :param h: An :math:`N\times 3` matrix, whose rows are the local magnetic
               field vectors :math:`\mathbf{h}_i = \{h^x_i, h^y_i, h^z_i\}`.
               By default, all magnetic fields are zero.
-    :param sites: An optional list of site names to be used instead of the
-                  simple numeric indices :math:`i`. Dimensions of :obj:`J` and
-                  :obj:`h` must agree with the length of :obj:`sites`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
@@ -628,7 +638,7 @@ def heisenberg(J: np.ndarray,
     N = J.shape[0]
     assert J.shape == (N, N)
 
-    sites = _make_default_indices(sites, N)
+    indices = _make_default_indices(indices, N)
 
     is_complex = np.iscomplexobj(J) or (h is not None)
     H = ExpressionC() if is_complex else ExpressionR()
@@ -638,22 +648,22 @@ def heisenberg(J: np.ndarray,
             if x == 0:
                 continue
 
-            site_i = sites[it.multi_index[0]]
-            site_j = sites[it.multi_index[1]]
+            ind_i = indices[it.multi_index[0]]
+            ind_j = indices[it.multi_index[1]]
 
             H += -x * (
-                S_z(*site_i, spin=spin) * S_z(*site_j, spin=spin)
-                + 0.5 * S_p(*site_i, spin=spin) * S_p(*site_j, spin=spin)
-                + 0.5 * S_m(*site_i, spin=spin) * S_m(*site_j, spin=spin)
+                S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
+                + 0.5 * S_p(*ind_i, spin=spin) * S_p(*ind_j, spin=spin)
+                + 0.5 * S_m(*ind_i, spin=spin) * S_m(*ind_j, spin=spin)
             )
 
     if h is not None:
         assert h.shape == (N, 3)
         for i, h_i in enumerate(h):
-            site = sites[i]
-            H += -np.dot(h_i, (S_x(*site, spin=spin),
-                               S_y(*site, spin=spin),
-                               S_z(*site, spin=spin)))
+            ind = indices[i]
+            H += -np.dot(h_i, (S_x(*ind, spin=spin),
+                               S_y(*ind, spin=spin),
+                               S_z(*ind, spin=spin)))
 
     return H
 
@@ -661,11 +671,11 @@ def heisenberg(J: np.ndarray,
 def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
                            h: np.ndarray = None,
                            *,
-                           sites: Sequence[IndicesType] = None,
+                           indices: Sequence[IndicesType] = None,
                            spin: float = 1 / 2
                            ) -> ExpressionC:
     r"""
-    Make Hamiltonian of the anisotropic quantum Heisenberg model on
+    Constructs Hamiltonian of the anisotropic quantum Heisenberg model on
     a finite lattice (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
@@ -682,10 +692,8 @@ def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
     :param h: An :math:`N\times 3` matrix, whose rows are the local magnetic
               field vectors :math:`\mathbf{h}_i = \{h^x_i, h^y_i, h^z_i\}`.
               By default, all magnetic fields are zero.
-    :param sites: An optional list of site names to be used instead of the
-                  simple numeric indices :math:`i`. Dimensions of components of
-                  :obj:`J` and of :obj:`h` must agree with the length of
-                  :obj:`sites`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
@@ -697,7 +705,7 @@ def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
     assert Jy.shape == (N, N)
     assert Jz.shape == (N, N)
 
-    sites = _make_default_indices(sites, N)
+    indices = _make_default_indices(indices, N)
 
     H = ExpressionC()
 
@@ -706,9 +714,9 @@ def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
             for x in it:
                 if x == 0:
                     continue
-                site_i = sites[it.multi_index[0]]
-                site_j = sites[it.multi_index[1]]
-                H += -x * Sa(*site_i, spin=spin) * Sa(*site_j, spin=spin)
+                ind_i = indices[it.multi_index[0]]
+                ind_j = indices[it.multi_index[1]]
+                H += -x * Sa(*ind_i, spin=spin) * Sa(*ind_j, spin=spin)
 
     add_J_terms(H, Jx, S_x)
     add_J_terms(H, Jy, S_y)
@@ -717,21 +725,21 @@ def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
     if h is not None:
         assert h.shape == (N, 3)
         for i, h_i in enumerate(h):
-            site = sites[i]
-            H += -np.dot(h_i, (S_x(*site, spin=spin),
-                               S_y(*site, spin=spin),
-                               S_z(*site, spin=spin)))
+            ind = indices[i]
+            H += -np.dot(h_i, (S_x(*ind, spin=spin),
+                               S_y(*ind, spin=spin),
+                               S_z(*ind, spin=spin)))
 
     return H
 
 
 def biquadratic_spin_int(J: np.ndarray,
                          *,
-                         sites: Sequence[IndicesType] = None,
+                         indices: Sequence[IndicesType] = None,
                          spin: float = 1
                          ) -> Union[ExpressionR, ExpressionC]:
     r"""
-    Make a biquadratic spin interaction term on a finite lattice
+    Constructs a biquadratic spin interaction term on a finite lattice
     (collection of sites :math:`i = 0, \ldots, N-1`),
 
     .. math::
@@ -741,9 +749,8 @@ def biquadratic_spin_int(J: np.ndarray,
 
     :param J: An :math:`N\times N` matrix of Heisenberg coupling constants
               :math:`J_{ij}`.
-    :param sites: An optional list of site names to be used instead of the
-                  simple numeric indices :math:`i`. Dimensions of :obj:`J`
-                  must agree with the length of :obj:`sites`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1 by default.
     :return: Interaction term :math:`\hat H`.
     """
@@ -751,7 +758,7 @@ def biquadratic_spin_int(J: np.ndarray,
     N = J.shape[0]
     assert J.shape == (N, N)
 
-    sites = _make_default_indices(sites, N)
+    indices = _make_default_indices(indices, N)
 
     H = ExpressionC() if np.iscomplexobj(J) else ExpressionR()
 
@@ -760,12 +767,12 @@ def biquadratic_spin_int(J: np.ndarray,
             if x == 0:
                 continue
 
-            site_i = sites[it.multi_index[0]]
-            site_j = sites[it.multi_index[1]]
+            ind_i = indices[it.multi_index[0]]
+            ind_j = indices[it.multi_index[1]]
 
-            SS = (S_z(*site_i, spin=spin) * S_z(*site_j, spin=spin)
-                  + 0.5 * S_p(*site_i, spin=spin) * S_p(*site_j, spin=spin)
-                  + 0.5 * S_m(*site_i, spin=spin) * S_m(*site_j, spin=spin))
+            SS = (S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
+                  + 0.5 * S_p(*ind_i, spin=spin) * S_p(*ind_j, spin=spin)
+                  + 0.5 * S_m(*ind_i, spin=spin) * S_m(*ind_j, spin=spin))
             H += x * SS * SS
 
     return H
@@ -773,11 +780,11 @@ def biquadratic_spin_int(J: np.ndarray,
 
 def dzyaloshinskii_moriya(D: np.ndarray,
                           *,
-                          sites: Sequence[IndicesType] = None,
+                          indices: Sequence[IndicesType] = None,
                           spin: float = 1 / 2
                           ) -> ExpressionC:
     r"""
-    Make Dzyaloshinskii–Moriya interaction Hamiltonian on
+    Constructs Dzyaloshinskii–Moriya interaction Hamiltonian on
     a finite lattice (collection of sites :math:`i = 0, \ldots, N-1`).
 
     .. math::
@@ -787,9 +794,8 @@ def dzyaloshinskii_moriya(D: np.ndarray,
 
     :param D: An :math:`N\times N \times 3` array, whose slices
               ``D[i,j,:]`` are vectors :math:`\mathbf{D}_{ij}`.
-    :param sites: An optional list of site names to be used instead of the
-                  simple numeric indices :math:`i`. Dimensions of :obj:`D`
-                  must agree with the length of :obj:`sites`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
     :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
@@ -797,21 +803,21 @@ def dzyaloshinskii_moriya(D: np.ndarray,
     N = D.shape[0]
     assert D.shape == (N, N, 3)
 
-    sites = _make_default_indices(sites, N)
+    indices = _make_default_indices(indices, N)
 
     H = ExpressionC()
 
-    for (i, site_i), (j, site_j) in product(enumerate(sites),
-                                            enumerate(sites)):
+    for (i, ind_i), (j, ind_j) in product(enumerate(indices),
+                                          enumerate(indices)):
         D_vec = D[i, j, :]
         if (D_vec == 0).all():
             continue
 
-        H += D_vec[0] * (S_y(*site_i, spin=spin) * S_z(*site_j, spin=spin)
-                         - S_z(*site_i, spin=spin) * S_y(*site_j, spin=spin))
-        H += D_vec[1] * (S_z(*site_i, spin=spin) * S_x(*site_j, spin=spin)
-                         - S_x(*site_i, spin=spin) * S_z(*site_j, spin=spin))
-        H += D_vec[2] * (S_x(*site_i, spin=spin) * S_y(*site_j, spin=spin)
-                         - S_y(*site_i, spin=spin) * S_x(*site_j, spin=spin))
+        H += D_vec[0] * (S_y(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
+                         - S_z(*ind_i, spin=spin) * S_y(*ind_j, spin=spin))
+        H += D_vec[1] * (S_z(*ind_i, spin=spin) * S_x(*ind_j, spin=spin)
+                         - S_x(*ind_i, spin=spin) * S_z(*ind_j, spin=spin))
+        H += D_vec[2] * (S_x(*ind_i, spin=spin) * S_y(*ind_j, spin=spin)
+                         - S_y(*ind_i, spin=spin) * S_x(*ind_j, spin=spin))
 
     return H

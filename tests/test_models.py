@@ -44,7 +44,7 @@ S1_z = partial(S_z, spin=1)
 class TestModels(TestCase):
 
     def test_tight_binding(self):
-        sites = [("a", 0), ("b", 1), ("c", 2)]
+        indices = [("a", 0), ("b", 1), ("c", 2)]
         t = np.array([[1.0, 0.0, 0.5],
                       [0.0, 2.0, 0.0],
                       [0.5, 0.0, 3.0]])
@@ -65,7 +65,7 @@ class TestModels(TestCase):
         ref3 = ref1
         self.assertEqual(H3, ref3)
 
-        H4 = tight_binding(t, sites)
+        H4 = tight_binding(t, indices=indices)
         self.assertIsInstance(H4, ExpressionR)
         ref4 = c_dag("a", 0) * c("a", 0) + 2 * c_dag("b", 1) * c("b", 1) \
             + 3.0 * c_dag("c", 2) * c("c", 2)
@@ -80,7 +80,7 @@ class TestModels(TestCase):
         self.assertEqual(H5, ref5)
 
     def test_dispersion(self):
-        sites = [("a", 0), ("b", 1), ("c", 2)]
+        indices = [("a", 0), ("b", 1), ("c", 2)]
         eps = np.array([1.0, 2.0, 3.0])
 
         H1 = dispersion(eps)
@@ -98,7 +98,7 @@ class TestModels(TestCase):
         ref3 = ref1
         self.assertEqual(H3, ref3)
 
-        H4 = dispersion(eps, sites)
+        H4 = dispersion(eps, indices=indices)
         self.assertIsInstance(H4, ExpressionR)
         ref4 = c_dag("a", 0) * c("a", 0) + 2 * c_dag("b", 1) * c("b", 1) \
             + 3.0 * c_dag("c", 2) * c("c", 2)
@@ -115,8 +115,8 @@ class TestModels(TestCase):
                        [0, 2, 0],
                        [0, 0, 3],
                        [0, 0, 0]], dtype=float)
-        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
-                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+        indices_up = [("up", 0), ("up", 1), ("up", 2), ("up", 3)]
+        indices_dn = [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)]
 
         H1 = zeeman(b1)
         self.assertIsInstance(H1, ExpressionR)
@@ -129,7 +129,7 @@ class TestModels(TestCase):
         ref2 = 1j * ref1
         self.assertEqual(H2, ref2)
 
-        H3 = zeeman(b1, indices)
+        H3 = zeeman(b1, indices_up=indices_up, indices_dn=indices_dn)
         self.assertIsInstance(H3, ExpressionR)
         ref3 = n("up", 0) - n("dn", 0) + 2.0 * (n("up", 1) - n("dn", 1)) \
             + 3.0 * (n("up", 2) - n("dn", 2))
@@ -148,7 +148,7 @@ class TestModels(TestCase):
         ref5 = 1j * ref4
         self.assertEqual(H5, ref5)
 
-        H6 = zeeman(b2, indices)
+        H6 = zeeman(b2, indices_up=indices_up, indices_dn=indices_dn)
         self.assertIsInstance(H6, ExpressionC)
         ref6 = (c_dag("up", 0) * c("dn", 0) + c_dag("dn", 0) * c("up", 0)) \
             + 2.0j * (c_dag("dn", 1) * c("up", 1)
@@ -158,8 +158,8 @@ class TestModels(TestCase):
 
     def test_hubbard_int(self):
         U = np.array([1, 2, 3, 4], dtype=float)
-        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
-                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+        indices_up = [("up", 0), ("up", 1), ("up", 2), ("up", 3)]
+        indices_dn = [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)]
 
         H1 = hubbard_int(U)
         self.assertIsInstance(H1, ExpressionR)
@@ -172,7 +172,7 @@ class TestModels(TestCase):
         ref2 = 1j * ref1
         self.assertEqual(H2, ref2)
 
-        H3 = hubbard_int(U, indices)
+        H3 = hubbard_int(U, indices_up=indices_up, indices_dn=indices_dn)
         self.assertIsInstance(H3, ExpressionR)
         ref3 = n("up", 0) * n("dn", 0) + 2.0 * n("up", 1) * n("dn", 1) \
             + 3.0 * n("up", 2) * n("dn", 2) + 4.0 * n("up", 3) * n("dn", 3)
@@ -196,7 +196,7 @@ class TestModels(TestCase):
         ref2 = 1j * ref1
         self.assertEqual(H2, ref2)
 
-        H3 = bose_hubbard_int(U, indices)
+        H3 = bose_hubbard_int(U, indices=indices)
         self.assertIsInstance(H3, ExpressionR)
         ref3 = nb("a", 0) * (nb("a", 0) - 1) \
             + 2.0 * nb("b", 1) * (nb("b", 1) - 1) \
@@ -209,8 +209,8 @@ class TestModels(TestCase):
                       [0, 0, 2, 0],
                       [0, 0, 0, 3],
                       [0, 0, 0, 0]], dtype=float)
-        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
-                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+        indices_up = [("up", 0), ("up", 1), ("up", 2), ("up", 3)]
+        indices_dn = [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)]
 
         H1 = extended_hubbard_int(V)
         self.assertIsInstance(H1, ExpressionR)
@@ -224,7 +224,9 @@ class TestModels(TestCase):
         ref2 = 1j * ref1
         self.assertEqual(H2, ref2)
 
-        H3 = extended_hubbard_int(V, indices)
+        H3 = extended_hubbard_int(V,
+                                  indices_up=indices_up,
+                                  indices_dn=indices_dn)
         self.assertIsInstance(H3, ExpressionR)
         ref3 = 0.5 * (n("up", 0) + n("dn", 0)) * (n("up", 1) + n("dn", 1)) \
             + 1.0 * (n("up", 1) + n("dn", 1)) * (n("up", 2) + n("dn", 2)) \
@@ -236,8 +238,8 @@ class TestModels(TestCase):
                       [0, 0, 2, 0],
                       [0, 0, 0, 3],
                       [0, 0, 0, 0]], dtype=float)
-        indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
-                   [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
+        indices_up = [("up", 0), ("up", 1), ("up", 2), ("up", 3)]
+        indices_dn = [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)]
 
         H1 = t_j_int(J)
         self.assertIsInstance(H1, ExpressionR)
@@ -259,7 +261,7 @@ class TestModels(TestCase):
         ref2 = 1j * ref1
         self.assertEqual(H2, ref2)
 
-        H3 = t_j_int(J, indices)
+        H3 = t_j_int(J, indices_up=indices_up, indices_dn=indices_dn)
         self.assertIsInstance(H3, ExpressionR)
         sp = [c_dag("up", i) * c("dn", i) for i in range(4)]
         sm = [c_dag("dn", i) * c("up", i) for i in range(4)]
@@ -276,9 +278,9 @@ class TestModels(TestCase):
 
     def test_kondo_int(self):
         J = np.array([1, 2, 3, 4], dtype=float)
-        fermion_indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
-                           [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
-        spin_indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+        indices_up = [("up", 0), ("up", 1), ("up", 2), ("up", 3)]
+        indices_dn = [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)]
+        indices_spin = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         H1 = kondo_int(J)
         self.assertIsInstance(H1, ExpressionR)
@@ -298,8 +300,9 @@ class TestModels(TestCase):
         self.assertEqual(H2, ref2)
 
         H3 = kondo_int(J,
-                       fermion_indices=fermion_indices,
-                       spin_indices=spin_indices)
+                       indices_up=indices_up,
+                       indices_dn=indices_dn,
+                       indices_spin=indices_spin)
         self.assertIsInstance(H3, ExpressionR)
         sp = [c_dag("up", i) * c("dn", i) for i in range(4)]
         sm = [c_dag("dn", i) * c("up", i) for i in range(4)]
@@ -333,9 +336,9 @@ class TestModels(TestCase):
 
     def test_holstein_int(self):
         g = np.array([1, 2, 3, 4], dtype=float)
-        fermion_indices = ([("up", 0), ("up", 1), ("up", 2), ("up", 3)],
-                           [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)])
-        boson_indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+        indices_up = [("up", 0), ("up", 1), ("up", 2), ("up", 3)]
+        indices_dn = [("dn", 0), ("dn", 1), ("dn", 2), ("dn", 3)]
+        indices_boson = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         H1 = holstein_int(g)
         self.assertIsInstance(H1, ExpressionR)
@@ -349,8 +352,9 @@ class TestModels(TestCase):
         self.assertEqual(H2, ref2)
 
         H3 = holstein_int(g,
-                          fermion_indices=fermion_indices,
-                          boson_indices=boson_indices)
+                          indices_up=indices_up,
+                          indices_dn=indices_dn,
+                          indices_boson=indices_boson)
         self.assertIsInstance(H3, ExpressionR)
         ref3 = 1.0 * (n("up", 0) + n("dn", 0)) * (a_dag('a', 0) + a('a', 0))
         ref3 += 2.0 * (n("up", 1) + n("dn", 1)) * (a_dag('b', 1) + a('b', 1))
@@ -365,7 +369,7 @@ class TestModels(TestCase):
                       [0, 0, 0, 0]], dtype=float)
         h_l = np.array([0.3, 0.4, 0.5, 0.0])
         h_t = np.array([0.0, 0.6, 0.7, 0.8])
-        sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+        indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         H1 = ising(J)
         self.assertIsInstance(H1, ExpressionR)
@@ -399,7 +403,7 @@ class TestModels(TestCase):
         ref6 = ref1 - 1j * (0.6 * S_x(1) + 0.7 * S_x(2) + 0.8 * S_x(3))
         self.assertEqual(H6, ref6)
 
-        H7 = ising(J, h_l, h_t, sites=sites)
+        H7 = ising(J, h_l, h_t, indices=indices)
         self.assertIsInstance(H7, ExpressionC)
         ref7 = - 1.0 * S_z('a', 0) * S_z('b', 1) \
                - 2.0 * S_z('b', 1) * S_z('c', 2) \
@@ -408,7 +412,7 @@ class TestModels(TestCase):
                - 0.6 * S_x('b', 1) - 0.7 * S_x('c', 2) - 0.8 * S_x('d', 3)
         self.assertEqual(H7, ref7)
 
-        H8 = ising(J, h_l, h_t, sites=sites, spin=1)
+        H8 = ising(J, h_l, h_t, indices=indices, spin=1)
         self.assertIsInstance(H8, ExpressionC)
         ref8 = - 1.0 * S1_z('a', 0) * S1_z('b', 1) \
                - 2.0 * S1_z('b', 1) * S1_z('c', 2) \
@@ -426,7 +430,7 @@ class TestModels(TestCase):
                       [0, 0.4, 0],
                       [0, 0, 0.5],
                       [0, 0, 0]])
-        sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+        indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         H1 = heisenberg(J)
         self.assertIsInstance(H1, ExpressionR)
@@ -451,7 +455,7 @@ class TestModels(TestCase):
         ref3 = ref1 - 0.3 * S_x(0) - 0.4 * S_y(1) - 0.5 * S_z(2)
         self.assertEqual(H3, ref3)
 
-        H4 = heisenberg(J, h, sites=sites)
+        H4 = heisenberg(J, h, indices=indices)
         self.assertIsInstance(H4, ExpressionC)
         ref4 = - 0.5 * S_p('a', 0) * S_p('b', 1) \
                - 0.5 * S_m('a', 0) * S_m('b', 1) \
@@ -465,7 +469,7 @@ class TestModels(TestCase):
                - 0.3 * S_x('a', 0) - 0.4 * S_y('b', 1) - 0.5 * S_z('c', 2)
         self.assertEqual(H4, ref4)
 
-        H5 = heisenberg(J, h, sites=sites, spin=1)
+        H5 = heisenberg(J, h, indices=indices, spin=1)
         self.assertIsInstance(H5, ExpressionC)
         ref5 = - 0.5 * S1_p('a', 0) * S1_p('b', 1) \
                - 0.5 * S1_m('a', 0) * S1_m('b', 1) \
@@ -496,7 +500,7 @@ class TestModels(TestCase):
                       [0, 0.4, 0],
                       [0, 0, 0.5],
                       [0, 0, 0]])
-        sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+        indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         H1 = anisotropic_heisenberg((Jx, Jy, Jz))
         self.assertIsInstance(H1, ExpressionC)
@@ -516,7 +520,7 @@ class TestModels(TestCase):
         ref2 = ref1 - 0.3 * S_x(0) - 0.4 * S_y(1) - 0.5 * S_z(2)
         self.assertEqual(H2, ref2)
 
-        H3 = anisotropic_heisenberg((Jx, Jy, Jz), h, sites=sites)
+        H3 = anisotropic_heisenberg((Jx, Jy, Jz), h, indices=indices)
         self.assertIsInstance(H3, ExpressionC)
         ref3 = - 1.0 * S_x('a', 0) * S_x('b', 1) \
                - 4.0 * S_y('a', 0) * S_y('b', 1) \
@@ -530,7 +534,7 @@ class TestModels(TestCase):
                - 0.3 * S_x('a', 0) - 0.4 * S_y('b', 1) - 0.5 * S_z('c', 2)
         self.assertEqual(H3, ref3)
 
-        H4 = anisotropic_heisenberg((Jx, Jy, Jz), h, sites=sites, spin=1)
+        H4 = anisotropic_heisenberg((Jx, Jy, Jz), h, indices=indices, spin=1)
         self.assertIsInstance(H4, ExpressionC)
         ref4 = - 1.0 * S1_x('a', 0) * S1_x('b', 1) \
                - 4.0 * S1_y('a', 0) * S1_y('b', 1) \
@@ -549,7 +553,7 @@ class TestModels(TestCase):
                       [0, 0, 2, 0],
                       [0, 0, 0, 3],
                       [0, 0, 0, 0]], dtype=float)
-        sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+        indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         S0S1 = 0.5 * (S1_p(0) * S1_p(1) + S1_m(0) * S1_m(1)) \
             + S1_z(0) * S1_z(1)
@@ -568,7 +572,7 @@ class TestModels(TestCase):
         ref2 = 1j * ref1
         self.assertEqual(H2, ref2)
 
-        H3 = biquadratic_spin_int(J, sites=sites)
+        H3 = biquadratic_spin_int(J, indices=indices)
         self.assertIsInstance(H3, ExpressionR)
 
         S0S1 = 0.5 * (S1_p('a', 0) * S1_p('b', 1)
@@ -584,7 +588,7 @@ class TestModels(TestCase):
         ref3 = 1.0 * S0S1 * S0S1 + 2.0 * S1S2 * S1S2 + 3.0 * S2S3 * S2S3
         self.assertEqual(H3, ref3)
 
-        H4 = biquadratic_spin_int(J, sites=sites, spin=1 / 2)
+        H4 = biquadratic_spin_int(J, indices=indices, spin=1 / 2)
         self.assertIsInstance(H4, ExpressionR)
 
         S0S1 = 0.5 * (S_p('a', 0) * S_p('b', 1)
@@ -602,7 +606,7 @@ class TestModels(TestCase):
         D[0, 1, :] = [1.0, 0, 0]
         D[1, 2, :] = [0, 2.0, 0]
         D[2, 3, :] = [0, 0, 3.0]
-        sites = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
+        indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
         H1 = dzyaloshinskii_moriya(D)
         self.assertIsInstance(H1, ExpressionC)
@@ -611,7 +615,7 @@ class TestModels(TestCase):
             + 3.0 * (S_x(2) * S_y(3) - S_y(2) * S_x(3))
         self.assertEqual(H1, ref1)
 
-        H2 = dzyaloshinskii_moriya(D, sites=sites)
+        H2 = dzyaloshinskii_moriya(D, indices=indices)
         self.assertIsInstance(H2, ExpressionC)
         ref2 = 1.0 * (S_y('a', 0) * S_z('b', 1) - S_z('a', 0) * S_y('b', 1)) \
             + 2.0 * (S_z('b', 1) * S_x('c', 2) - S_x('b', 1) * S_z('c', 2)) \
