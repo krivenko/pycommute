@@ -49,3 +49,4 @@ Quantum optics and quantum dissipation
 --------------------------------------
 
 .. autofunction:: pycommute.models.spin_boson
+.. autofunction:: pycommute.models.rabi

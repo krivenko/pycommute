@@ -31,7 +31,8 @@ from pycommute.models import (
     anisotropic_heisenberg,
     biquadratic_spin_int,
     dzyaloshinskii_moriya,
-    spin_boson
+    spin_boson,
+    rabi
 )
 
 import numpy as np
@@ -721,4 +722,56 @@ class TestModels(TestCase):
         ref3 += S1_z(1) * (0.4j * a_dag(1) - 0.4j * a(1))
         ref3 += S1_z(2) * (0.5j * a_dag(0) - 0.5j * a(0))
         ref3 += S1_z(2) * (0.6j * a_dag(1) - 0.6j * a(1))
+        self.assertEqual(H3, ref3)
+
+    def test_rabi(self):
+        eps = np.array([1, 2, 3], dtype=float)
+        omega = np.array([4, 5], dtype=float)
+        g = np.array([[0.1, 0.2],
+                      [0.3, 0.4],
+                      [0.5, 0.6]], dtype=float)
+        indices_atom = [('a', 0), ('b', 1), ('c', 2)]
+        indices_boson = [('x', 0), ('y', 1)]
+
+        self.assertIsInstance(rabi(eps, omega, np.zeros((3, 2))), ExpressionR)
+        self.assertIsInstance(rabi(eps, omega, g), ExpressionC)
+        self.assertIsInstance(rabi(1j * eps, omega, g), ExpressionC)
+        self.assertIsInstance(rabi(eps, 1j * omega, g), ExpressionC)
+        self.assertIsInstance(rabi(eps, 1j * omega, 1j * g), ExpressionC)
+
+        H1 = rabi(eps, omega, g)
+        ref1 = S_z(0) + 2.0 * S_z(1) + 3.0 * S_z(2)
+        ref1 += 4.0 * a_dag(0) * a(0) + 5.0 * a_dag(1) * a(1)
+        ref1 += 0.1 * S_x(0) * (a_dag(0) + a(0))
+        ref1 += 0.2 * S_x(0) * (a_dag(1) + a(1))
+        ref1 += 0.3 * S_x(1) * (a_dag(0) + a(0))
+        ref1 += 0.4 * S_x(1) * (a_dag(1) + a(1))
+        ref1 += 0.5 * S_x(2) * (a_dag(0) + a(0))
+        ref1 += 0.6 * S_x(2) * (a_dag(1) + a(1))
+        self.assertEqual(H1, ref1)
+
+        H2 = rabi(eps,
+                  omega,
+                  g,
+                  indices_atom=indices_atom,
+                  indices_boson=indices_boson)
+        ref2 = S_z('a', 0) + 2.0 * S_z('b', 1) + 3.0 * S_z('c', 2)
+        ref2 += 4 * a_dag('x', 0) * a('x', 0) + 5 * a_dag('y', 1) * a('y', 1)
+        ref2 += 0.1 * S_x('a', 0) * (a_dag('x', 0) + a('x', 0))
+        ref2 += 0.2 * S_x('a', 0) * (a_dag('y', 1) + a('y', 1))
+        ref2 += 0.3 * S_x('b', 1) * (a_dag('x', 0) + a('x', 0))
+        ref2 += 0.4 * S_x('b', 1) * (a_dag('y', 1) + a('y', 1))
+        ref2 += 0.5 * S_x('c', 2) * (a_dag('x', 0) + a('x', 0))
+        ref2 += 0.6 * S_x('c', 2) * (a_dag('y', 1) + a('y', 1))
+        self.assertEqual(H2, ref2)
+
+        H3 = rabi(eps, omega, g, spin=1)
+        ref3 = S1_z(0) + 2.0 * S1_z(1) + 3.0 * S1_z(2)
+        ref3 += 4.0 * a_dag(0) * a(0) + 5.0 * a_dag(1) * a(1)
+        ref3 += 0.1 * S1_x(0) * (a_dag(0) + a(0))
+        ref3 += 0.2 * S1_x(0) * (a_dag(1) + a(1))
+        ref3 += 0.3 * S1_x(1) * (a_dag(0) + a(0))
+        ref3 += 0.4 * S1_x(1) * (a_dag(1) + a(1))
+        ref3 += 0.5 * S1_x(2) * (a_dag(0) + a(0))
+        ref3 += 0.6 * S1_x(2) * (a_dag(1) + a(1))
         self.assertEqual(H3, ref3)
