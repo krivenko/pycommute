@@ -30,7 +30,8 @@ from pycommute.models import (
     heisenberg,
     anisotropic_heisenberg,
     biquadratic_spin_int,
-    dzyaloshinskii_moriya
+    dzyaloshinskii_moriya,
+    spin_boson
 )
 
 import numpy as np
@@ -657,4 +658,67 @@ class TestModels(TestCase):
         ref3 = 1.0 * (S1_y(0) * S1_z(1) - S1_z(0) * S1_y(1)) \
             + 2.0 * (S1_z(1) * S1_x(2) - S1_x(1) * S1_z(2)) \
             + 3.0 * (S1_x(2) * S1_y(3) - S1_y(2) * S1_x(3))
+        self.assertEqual(H3, ref3)
+
+    def test_spin_boson(self):
+        eps = np.array([1, 2, 3], dtype=float)
+        delta = np.array([4, 5, 6], dtype=float)
+        delta_z = np.zeros((3,))
+        omega = np.array([7, 8], dtype=float)
+        lambda_ = np.array([[0.1, 0.2],
+                            [0.3, 0.4],
+                            [0.5, 0.6]], dtype=float)
+        indices_spin = [('a', 0), ('b', 1), ('c', 2)]
+        indices_boson = [('x', 0), ('y', 1)]
+
+        self.assertIsInstance(spin_boson(eps, delta, omega, lambda_),
+                              ExpressionC)
+        self.assertIsInstance(spin_boson(eps, delta_z, omega, lambda_),
+                              ExpressionR)
+        self.assertIsInstance(spin_boson(1j * eps, delta_z, omega, lambda_),
+                              ExpressionC)
+        self.assertIsInstance(spin_boson(eps, delta_z, 1j * omega, lambda_),
+                              ExpressionC)
+        self.assertIsInstance(spin_boson(eps, delta_z, omega, 1j * lambda_),
+                              ExpressionC)
+
+        H1 = spin_boson(eps, delta, omega, 1j * lambda_)
+        ref1 = -(S_z(0) + 2.0 * S_z(1) + 3.0 * S_z(2))
+        ref1 += (4.0 * S_x(0) + 5.0 * S_x(1) + 6.0 * S_x(2))
+        ref1 += 7.0 * a_dag(0) * a(0) + 8.0 * a_dag(1) * a(1)
+        ref1 += S_z(0) * (0.1j * a_dag(0) - 0.1j * a(0))
+        ref1 += S_z(0) * (0.2j * a_dag(1) - 0.2j * a(1))
+        ref1 += S_z(1) * (0.3j * a_dag(0) - 0.3j * a(0))
+        ref1 += S_z(1) * (0.4j * a_dag(1) - 0.4j * a(1))
+        ref1 += S_z(2) * (0.5j * a_dag(0) - 0.5j * a(0))
+        ref1 += S_z(2) * (0.6j * a_dag(1) - 0.6j * a(1))
+        self.assertEqual(H1, ref1)
+
+        H2 = spin_boson(eps,
+                        delta,
+                        omega,
+                        1j * lambda_,
+                        indices_spin=indices_spin,
+                        indices_boson=indices_boson)
+        ref2 = -(S_z('a', 0) + 2.0 * S_z('b', 1) + 3.0 * S_z('c', 2))
+        ref2 += (4.0 * S_x('a', 0) + 5.0 * S_x('b', 1) + 6.0 * S_x('c', 2))
+        ref2 += 7 * a_dag('x', 0) * a('x', 0) + 8 * a_dag('y', 1) * a('y', 1)
+        ref2 += S_z('a', 0) * (0.1j * a_dag('x', 0) - 0.1j * a('x', 0))
+        ref2 += S_z('a', 0) * (0.2j * a_dag('y', 1) - 0.2j * a('y', 1))
+        ref2 += S_z('b', 1) * (0.3j * a_dag('x', 0) - 0.3j * a('x', 0))
+        ref2 += S_z('b', 1) * (0.4j * a_dag('y', 1) - 0.4j * a('y', 1))
+        ref2 += S_z('c', 2) * (0.5j * a_dag('x', 0) - 0.5j * a('x', 0))
+        ref2 += S_z('c', 2) * (0.6j * a_dag('y', 1) - 0.6j * a('y', 1))
+        self.assertEqual(H2, ref2)
+
+        H3 = spin_boson(eps, delta, omega, 1j * lambda_, spin=1)
+        ref3 = -(S1_z(0) + 2.0 * S1_z(1) + 3.0 * S1_z(2))
+        ref3 += (4.0 * S1_x(0) + 5.0 * S1_x(1) + 6.0 * S1_x(2))
+        ref3 += 7.0 * a_dag(0) * a(0) + 8.0 * a_dag(1) * a(1)
+        ref3 += S1_z(0) * (0.1j * a_dag(0) - 0.1j * a(0))
+        ref3 += S1_z(0) * (0.2j * a_dag(1) - 0.2j * a(1))
+        ref3 += S1_z(1) * (0.3j * a_dag(0) - 0.3j * a(0))
+        ref3 += S1_z(1) * (0.4j * a_dag(1) - 0.4j * a(1))
+        ref3 += S1_z(2) * (0.5j * a_dag(0) - 0.5j * a(0))
+        ref3 += S1_z(2) * (0.6j * a_dag(1) - 0.6j * a(1))
         self.assertEqual(H3, ref3)

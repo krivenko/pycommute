@@ -81,10 +81,8 @@ def tight_binding(t: np.ndarray,
         for x in it:
             if x == 0:
                 continue
-
             ind_i = indices[it.multi_index[0]]
             ind_j = indices[it.multi_index[1]]
-
             H += x * O_dag(*ind_i) * O(*ind_j)
 
     return H
@@ -131,9 +129,7 @@ def dispersion(eps: np.ndarray,
         for x in it:
             if x == 0:
                 continue
-
             ind = indices[it.index]
-
             H += x * O_dag(*ind) * O(*ind)
 
     return H
@@ -170,10 +166,8 @@ def pairing(delta: np.ndarray,
         for x in it:
             if x == 0:
                 continue
-
             ind_i = indices[it.multi_index[0]]
             ind_j = indices[it.multi_index[1]]
-
             H += x * c(*ind_i) * c(*ind_j) \
                 - np.conj(x) * c_dag(*ind_i) * c_dag(*ind_j)
 
@@ -233,15 +227,12 @@ def zeeman(b: np.ndarray,
             for x in it:
                 if x == 0:
                     continue
-
                 ind_up, ind_dn = indices_up[it.index], indices_dn[it.index]
-
                 H += x * (n(*ind_up) - n(*ind_dn))
     else:
         for i, h_i in enumerate(b):
             ind_up = indices_up[i]
             ind_dn = indices_dn[i]
-
             H += h_i[0] * (c_dag(*ind_dn) * c(*ind_up)
                            + c_dag(*ind_up) * c(*ind_dn))
             H += 1j * h_i[1] * (c_dag(*ind_dn) * c(*ind_up)
@@ -288,9 +279,7 @@ def hubbard_int(
         for x in it:
             if x == 0:
                 continue
-
             ind_up, ind_dn = indices_up[it.index], indices_dn[it.index]
-
             H += x * n(*ind_up) * n(*ind_dn)
 
     return H
@@ -326,9 +315,7 @@ def bose_hubbard_int(U: np.ndarray,
         for x in it:
             if x == 0:
                 continue
-
             index = indices[it.index]
-
             H += x * a_dag(*index) * a(*index) * (a_dag(*index) * a(*index) - 1)
 
     return H
@@ -376,12 +363,10 @@ def extended_hubbard_int(
         for x in it:
             if x == 0:
                 continue
-
             ind_i_up = indices_up[it.multi_index[0]]
             ind_i_dn = indices_dn[it.multi_index[0]]
             ind_j_up = indices_up[it.multi_index[1]]
             ind_j_dn = indices_dn[it.multi_index[1]]
-
             H += 0.5 * x * (n(*ind_i_up) + n(*ind_i_dn)) * \
                            (n(*ind_j_up) + n(*ind_j_dn))
 
@@ -519,15 +504,12 @@ def kondo_int(
         for x in it:
             if x == 0:
                 continue
-
             ind_up = indices_up[it.index]
             ind_dn = indices_dn[it.index]
             ind_spin = indices_spin[it.index]
-
             sp = c_dag(*ind_up) * c(*ind_dn)
             sm = c_dag(*ind_dn) * c(*ind_up)
             sz = 0.5 * (n(*ind_up) - n(*ind_dn))
-
             H += x * (0.5 * (sp * S_m(*ind_spin, spin=spin)
                              + sm * S_p(*ind_spin, spin=spin))
                       + sz * S_z(*ind_spin, spin=spin))
@@ -577,11 +559,9 @@ def holstein_int(
         for x in it:
             if x == 0:
                 continue
-
             ind_up = indices_up[it.index]
             ind_dn = indices_dn[it.index]
             ind_boson = indices_boson[it.index]
-
             H += x * (n(*ind_up) + n(*ind_dn)) \
                 * (a_dag(*ind_boson) + a(*ind_boson))
 
@@ -594,7 +574,7 @@ def ising(J: np.ndarray,
           *,
           indices: Sequence[IndicesType] = None,
           spin: float = 1 / 2
-          ) -> ExpressionR:
+          ) -> Union[ExpressionR, ExpressionC]:
     r"""
     Constructs Hamiltonian of the quantum Ising model on a finite lattice
     (collection of sites :math:`i = 0, \ldots, N-1`),
@@ -629,10 +609,8 @@ def ising(J: np.ndarray,
         for x in it:
             if x == 0:
                 continue
-
             ind_i = indices[it.multi_index[0]]
             ind_j = indices[it.multi_index[1]]
-
             H += -x * S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
 
     if h_l is not None:
@@ -688,10 +666,8 @@ def heisenberg(J: np.ndarray,
         for x in it:
             if x == 0:
                 continue
-
             ind_i = indices[it.multi_index[0]]
             ind_j = indices[it.multi_index[1]]
-
             H += -x * (
                 S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
                 + 0.5 * S_p(*ind_i, spin=spin) * S_p(*ind_j, spin=spin)
@@ -807,10 +783,8 @@ def biquadratic_spin_int(J: np.ndarray,
         for x in it:
             if x == 0:
                 continue
-
             ind_i = indices[it.multi_index[0]]
             ind_j = indices[it.multi_index[1]]
-
             SS = (S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
                   + 0.5 * S_p(*ind_i, spin=spin) * S_p(*ind_j, spin=spin)
                   + 0.5 * S_m(*ind_i, spin=spin) * S_m(*ind_j, spin=spin))
@@ -851,14 +825,103 @@ def dzyaloshinskii_moriya(D: np.ndarray,
     for (i, ind_i), (j, ind_j) in product(enumerate(indices),
                                           enumerate(indices)):
         D_vec = D[i, j, :]
-        if (D_vec == 0).all():
+        if np.all((D_vec == 0)):
             continue
-
         H += D_vec[0] * (S_y(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
                          - S_z(*ind_i, spin=spin) * S_y(*ind_j, spin=spin))
         H += D_vec[1] * (S_z(*ind_i, spin=spin) * S_x(*ind_j, spin=spin)
                          - S_x(*ind_i, spin=spin) * S_z(*ind_j, spin=spin))
         H += D_vec[2] * (S_x(*ind_i, spin=spin) * S_y(*ind_j, spin=spin)
                          - S_y(*ind_i, spin=spin) * S_x(*ind_j, spin=spin))
+
+    return H
+
+
+def spin_boson(eps: np.ndarray,
+               delta: np.ndarray,
+               omega: np.ndarray,
+               lambda_: np.ndarray,
+               *,
+               indices_spin: Sequence[IndicesType] = None,
+               indices_boson: Sequence[IndicesType] = None,
+               spin: float = 1 / 2
+    ):
+    r"""
+    Constructs Hamiltonian of the general multi-spin-boson model with :math:`N`
+    spin degrees of freedom and :math:`M` bosonic modes,
+
+    .. math::
+
+        \hat H = \sum_{i=0}^{N-1}
+            \left(
+            -\epsilon_i \hat S^z_i
+            +\Delta_i \hat S^x_i
+            \right) +
+            \sum_{m=0}^{M-1}
+            \omega_m \hat a^\dagger_m \hat a_m +
+            \sum_{i=0}^{N-1} \sum_{m=0}^{M-1}
+            \hat S^z_i (\lambda_{im}\hat a^\dagger_m + \lambda^*_{im}\hat a_m).
+
+    :param eps: A length-:math:`N` vector of energy biases :math:`\epsilon_i`.
+    :param delta: A length-:math:`N` vector of tunneling amplitudes
+                  :math:`\Delta_i`.
+    :param omega: A length-:math:`M` vector of bosonic frequencies
+                  :math:`\omega_m`.
+    :param lambda_: An :math:`N \times M` matrix of spin-boson coupling
+                    constants :math:`\lambda_{im}`.
+    :param indices_spin:  An optional list of :math:`N` (multi-)indices to be
+                          used instead of the simple numeric indices :math:`i`.
+    :param indices_boson:  An optional list of :math:`M` (multi-)indices to be
+                           used instead of the simple numeric indices :math:`m`.
+    :param spin: Spin of operators :math:`\hat{S}^\alpha_i`, 1/2 by default.
+    :return: Spin-boson Hamiltonian :math:`\hat H`.
+    """
+    assert eps.ndim == 1
+    assert delta.ndim == 1
+    assert omega.ndim == 1
+    assert lambda_.ndim == 2
+    N, M = lambda_.shape
+    assert eps.shape == (N,)
+    assert delta.shape == (N,)
+    assert omega.shape == (M,)
+
+    indices_spin = _make_default_indices(indices_spin, N)
+    indices_boson = _make_default_indices(indices_boson, M)
+
+    is_complex = np.iscomplexobj(eps) \
+                 or (not np.all((delta == 0))) \
+                 or np.iscomplexobj(omega) \
+                 or np.iscomplexobj(lambda_)
+    H = ExpressionC() if is_complex else ExpressionR()
+
+    with np.nditer(eps, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind = indices_spin[it.index]
+            H += -x * S_z(*ind, spin=spin)
+
+    with np.nditer(delta, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind = indices_spin[it.index]
+            H += x * S_x(*ind, spin=spin)
+
+    with np.nditer(omega, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind = indices_boson[it.index]
+            H += x * a_dag(*ind) * a(*ind)
+
+    with np.nditer(lambda_, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind_spin = indices_spin[it.multi_index[0]]
+            ind_boson = indices_boson[it.multi_index[1]]
+            H += S_z(*ind_spin, spin=spin) \
+                * (x * a_dag(*ind_boson) + np.conj(x) * a(*ind_boson))
 
     return H
