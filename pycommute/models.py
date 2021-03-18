@@ -959,7 +959,7 @@ def rabi(eps: np.ndarray,
     :param indices_boson: An optional list of :math:`M` (multi-)indices to be
                           used instead of the simple numeric indices :math:`m`.
     :param spin: Pseudo-spin of operators :math:`\hat{S}^\alpha_i`,
-                 1/2 by default.
+                 1/2 by default (two-level atoms).
     :return: Spin-boson Hamiltonian :math:`\hat H`.
     """
     assert eps.ndim == 1
@@ -1000,5 +1000,82 @@ def rabi(eps: np.ndarray,
             ind_boson = indices_boson[it.multi_index[1]]
             H += x * S_x(*ind_atom, spin=spin) \
                 * (a_dag(*ind_boson) + a(*ind_boson))
+
+    return H
+
+
+def jaynes_cummings(eps: np.ndarray,
+                    omega: np.ndarray,
+                    g: np.ndarray,
+                    *,
+                    indices_atom: Sequence[IndicesType] = None,
+                    indices_boson: Sequence[IndicesType] = None,
+                    spin: float = 1 / 2
+                    ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Constructs Hamiltonian of the multi-mode multi-atom Jaynes-Cummings model
+    (Tavis-Cummings model) with :math:`N` atomic degrees of freedom and
+    :math:`M` cavity modes,
+
+    .. math::
+
+        \hat H = \sum_{i=0}^{N-1}
+            \epsilon_i \hat S^z_i +
+            \sum_{m=0}^{M-1}
+            \omega_m \hat a^\dagger_m \hat a_m +
+            \sum_{i=0}^{N-1} \sum_{m=0}^{M-1}
+            (g_{im} \hat a^\dagger_m \hat S^-_i + g^*_{im} \hat a_m \hat S^+_i).
+
+    :param eps: A length-:math:`N` vector of atomic transition frequencies
+                :math:`\epsilon_i`.
+    :param omega: A length-:math:`M` vector of cavity frequencies
+                  :math:`\omega_m`.
+    :param g: An :math:`N \times M` matrix of atom-cavity coupling
+              constants :math:`g_{im}`.
+    :param indices_atom: An optional list of :math:`N` (multi-)indices to be
+                         used instead of the simple numeric indices :math:`i`.
+    :param indices_boson: An optional list of :math:`M` (multi-)indices to be
+                          used instead of the simple numeric indices :math:`m`.
+    :param spin: Pseudo-spin of operators :math:`\hat{S}^\alpha_i`,
+                 1/2 by default (two-level atoms).
+    :return: Spin-boson Hamiltonian :math:`\hat H`.
+    """
+    assert eps.ndim == 1
+    assert omega.ndim == 1
+    assert g.ndim == 2
+    N, M = g.shape
+    assert eps.shape == (N,)
+    assert omega.shape == (M,)
+
+    indices_atom = _make_default_indices(indices_atom, N)
+    indices_boson = _make_default_indices(indices_boson, M)
+
+    is_complex = np.iscomplexobj(eps) \
+        or np.iscomplexobj(omega) \
+        or np.iscomplexobj(g)
+    H = ExpressionC() if is_complex else ExpressionR()
+
+    with np.nditer(eps, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind = indices_atom[it.index]
+            H += x * S_z(*ind, spin=spin)
+
+    with np.nditer(omega, flags=['c_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind = indices_boson[it.index]
+            H += x * a_dag(*ind) * a(*ind)
+
+    with np.nditer(g, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind_atom = indices_atom[it.multi_index[0]]
+            ind_boson = indices_boson[it.multi_index[1]]
+            H += x * a_dag(*ind_boson) * S_m(*ind_atom, spin=spin) \
+                + np.conj(x) * a(*ind_boson) * S_p(*ind_atom, spin=spin)
 
     return H

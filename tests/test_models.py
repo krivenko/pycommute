@@ -32,7 +32,8 @@ from pycommute.models import (
     biquadratic_spin_int,
     dzyaloshinskii_moriya,
     spin_boson,
-    rabi
+    rabi,
+    jaynes_cummings
 )
 
 import numpy as np
@@ -737,7 +738,7 @@ class TestModels(TestCase):
         self.assertIsInstance(rabi(eps, omega, g), ExpressionC)
         self.assertIsInstance(rabi(1j * eps, omega, g), ExpressionC)
         self.assertIsInstance(rabi(eps, 1j * omega, g), ExpressionC)
-        self.assertIsInstance(rabi(eps, 1j * omega, 1j * g), ExpressionC)
+        self.assertIsInstance(rabi(eps, omega, 1j * g), ExpressionC)
 
         H1 = rabi(eps, omega, g)
         ref1 = S_z(0) + 2.0 * S_z(1) + 3.0 * S_z(2)
@@ -774,4 +775,62 @@ class TestModels(TestCase):
         ref3 += 0.4 * S1_x(1) * (a_dag(1) + a(1))
         ref3 += 0.5 * S1_x(2) * (a_dag(0) + a(0))
         ref3 += 0.6 * S1_x(2) * (a_dag(1) + a(1))
+        self.assertEqual(H3, ref3)
+
+    def test_jaynes_cummings(self):
+        eps = np.array([1, 2, 3], dtype=float)
+        omega = np.array([4, 5], dtype=float)
+        g = np.array([[0.1, 0.2],
+                      [0.3, 0.4],
+                      [0.5, 0.6]], dtype=float)
+        indices_atom = [('a', 0), ('b', 1), ('c', 2)]
+        indices_boson = [('x', 0), ('y', 1)]
+
+        self.assertIsInstance(jaynes_cummings(eps, omega, g), ExpressionR)
+        self.assertIsInstance(jaynes_cummings(1j * eps, omega, g), ExpressionC)
+        self.assertIsInstance(jaynes_cummings(eps, 1j * omega, g), ExpressionC)
+        self.assertIsInstance(jaynes_cummings(eps, omega, 1j * g), ExpressionC)
+
+        H1 = jaynes_cummings(eps, omega, 1j * g)
+        ref1 = S_z(0) + 2.0 * S_z(1) + 3.0 * S_z(2)
+        ref1 += 4.0 * a_dag(0) * a(0) + 5.0 * a_dag(1) * a(1)
+        ref1 += 0.1j * a_dag(0) * S_m(0) - 0.1j * a(0) * S_p(0)
+        ref1 += 0.2j * a_dag(1) * S_m(0) - 0.2j * a(1) * S_p(0)
+        ref1 += 0.3j * a_dag(0) * S_m(1) - 0.3j * a(0) * S_p(1)
+        ref1 += 0.4j * a_dag(1) * S_m(1) - 0.4j * a(1) * S_p(1)
+        ref1 += 0.5j * a_dag(0) * S_m(2) - 0.5j * a(0) * S_p(2)
+        ref1 += 0.6j * a_dag(1) * S_m(2) - 0.6j * a(1) * S_p(2)
+        self.assertEqual(H1, ref1)
+
+        H2 = jaynes_cummings(eps,
+                             omega,
+                             1j * g,
+                             indices_atom=indices_atom,
+                             indices_boson=indices_boson)
+        ref2 = S_z('a', 0) + 2.0 * S_z('b', 1) + 3.0 * S_z('c', 2)
+        ref2 += 4.0 * a_dag('x', 0) * a('x', 0) \
+            + 5.0 * a_dag('y', 1) * a('y', 1)
+        ref2 += 0.1j * a_dag('x', 0) * S_m('a', 0) \
+            - 0.1j * a('x', 0) * S_p('a', 0)
+        ref2 += 0.2j * a_dag('y', 1) * S_m('a', 0) \
+            - 0.2j * a('y', 1) * S_p('a', 0)
+        ref2 += 0.3j * a_dag('x', 0) * S_m('b', 1) \
+            - 0.3j * a('x', 0) * S_p('b', 1)
+        ref2 += 0.4j * a_dag('y', 1) * S_m('b', 1) \
+            - 0.4j * a('y', 1) * S_p('b', 1)
+        ref2 += 0.5j * a_dag('x', 0) * S_m('c', 2) \
+            - 0.5j * a('x', 0) * S_p('c', 2)
+        ref2 += 0.6j * a_dag('y', 1) * S_m('c', 2) \
+            - 0.6j * a('y', 1) * S_p('c', 2)
+        self.assertEqual(H2, ref2)
+
+        H3 = jaynes_cummings(eps, omega, 1j * g, spin=1)
+        ref3 = S1_z(0) + 2.0 * S1_z(1) + 3.0 * S1_z(2)
+        ref3 += 4.0 * a_dag(0) * a(0) + 5.0 * a_dag(1) * a(1)
+        ref3 += 0.1j * a_dag(0) * S1_m(0) - 0.1j * a(0) * S1_p(0)
+        ref3 += 0.2j * a_dag(1) * S1_m(0) - 0.2j * a(1) * S1_p(0)
+        ref3 += 0.3j * a_dag(0) * S1_m(1) - 0.3j * a(0) * S1_p(1)
+        ref3 += 0.4j * a_dag(1) * S1_m(1) - 0.4j * a(1) * S1_p(1)
+        ref3 += 0.5j * a_dag(0) * S1_m(2) - 0.5j * a(0) * S1_p(2)
+        ref3 += 0.6j * a_dag(1) * S1_m(2) - 0.6j * a(1) * S1_p(2)
         self.assertEqual(H3, ref3)
