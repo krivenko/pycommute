@@ -26,6 +26,7 @@ from pycommute.models import (
     t_j_int,
     kondo_int,
     holstein_int,
+    quartic_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -394,6 +395,56 @@ class TestModels(TestCase):
         ref3 += 3.0 * (n("up", 2) + n("dn", 2)) * (a_dag('c', 2) + a('c', 2))
         ref3 += 4.0 * (n("up", 3) + n("dn", 3)) * (a_dag('d', 3) + a('d', 3))
         self.assertEqual(H3, ref3)
+
+    def test_quartic_int(self):
+        U = np.zeros((3, 3, 3, 3), dtype=float)
+        U[0, 1, 0, 1] = U[1, 0, 1, 0] = 3
+        U[0, 1, 1, 0] = U[1, 0, 0, 1] = -3
+        U[0, 2, 0, 2] = U[2, 0, 2, 0] = 4
+        U[0, 2, 2, 0] = U[2, 0, 0, 2] = -4
+        U[1, 2, 1, 2] = U[2, 1, 2, 1] = 5
+        U[2, 1, 1, 2] = U[1, 2, 2, 1] = -5
+        indices = [('a', 0), ('b', 1), ('c', 2)]
+
+        H1 = quartic_int(U)
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = 6.0 * c_dag(0) * c_dag(1) * c(1) * c(0)
+        ref1 += 8.0 * c_dag(0) * c_dag(2) * c(2) * c(0)
+        ref1 += 10.0 * c_dag(1) * c_dag(2) * c(2) * c(1)
+        self.assertEqual(H1, ref1)
+
+        H2 = quartic_int(1j * U)
+        self.assertIsInstance(H2, ExpressionC)
+        ref2 = 1j * ref1
+        self.assertEqual(H2, ref2)
+
+        H3 = quartic_int(U, indices=indices)
+        self.assertIsInstance(H3, ExpressionR)
+        ref3 = 6.0 * c_dag('a', 0) * c_dag('b', 1) * c('b', 1) * c('a', 0)
+        ref3 += 8.0 * c_dag('a', 0) * c_dag('c', 2) * c('c', 2) * c('a', 0)
+        ref3 += 10.0 * c_dag('b', 1) * c_dag('c', 2) * c('c', 2) * c('b', 1)
+        self.assertEqual(H3, ref3)
+
+        U = 2 * np.array(range(1, 17), dtype=float).reshape((2, 2, 2, 2))
+        H4 = quartic_int(U, statistics=BOSON)
+        self.assertIsInstance(H4, ExpressionR)
+        ref4 = a_dag(0) * a_dag(0) * a(0) * a(0)
+        ref4 += 2 * a_dag(0) * a_dag(0) * a(1) * a(0)
+        ref4 += 3 * a_dag(0) * a_dag(0) * a(0) * a(1)
+        ref4 += 4 * a_dag(0) * a_dag(0) * a(1) * a(1)
+        ref4 += 5 * a_dag(0) * a_dag(1) * a(0) * a(0)
+        ref4 += 6 * a_dag(0) * a_dag(1) * a(1) * a(0)
+        ref4 += 7 * a_dag(0) * a_dag(1) * a(0) * a(1)
+        ref4 += 8 * a_dag(0) * a_dag(1) * a(1) * a(1)
+        ref4 += 9 * a_dag(1) * a_dag(0) * a(0) * a(0)
+        ref4 += 10 * a_dag(1) * a_dag(0) * a(1) * a(0)
+        ref4 += 11 * a_dag(1) * a_dag(0) * a(0) * a(1)
+        ref4 += 12 * a_dag(1) * a_dag(0) * a(1) * a(1)
+        ref4 += 13 * a_dag(1) * a_dag(1) * a(0) * a(0)
+        ref4 += 14 * a_dag(1) * a_dag(1) * a(1) * a(0)
+        ref4 += 15 * a_dag(1) * a_dag(1) * a(0) * a(1)
+        ref4 += 16 * a_dag(1) * a_dag(1) * a(1) * a(1)
+        self.assertEqual(H4, ref4)
 
     def test_ising(self):
         J = np.array([[0, 1, 0, 0],

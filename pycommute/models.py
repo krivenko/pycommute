@@ -38,6 +38,10 @@ def _make_default_indices_with_spin(indices, N, spin_name):
         return [((i,) if isinstance(i, (int, str)) else i) for i in indices]
 
 
+##############################
+## Quantum many-body theory ##
+##############################
+
 def tight_binding(t: np.ndarray,
                   *,
                   indices: Sequence[IndicesType] = None,
@@ -568,6 +572,59 @@ def holstein_int(
     return H
 
 
+def quartic_int(U: np.ndarray,
+                *,
+                indices: Sequence[IndicesType] = None,
+                statistics: int = FERMION
+                ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Constructs a general 4-fermion or 4-boson interaction Hamiltonian
+
+    .. math::
+
+        \hat H = \frac{1}{2}\sum_{ijkl=0}^{N-1} U_{ijkl}
+            \hat O^\dagger_i \hat O^\dagger_j \hat O_l \hat O_k.
+
+    Operators :math:`\hat O^\dagger_i` and :math:`\hat O_j` can be fermionic
+    or bosonic creation/annihilation operators.
+
+    :param U: An :math:`N\times N\times N\times N` tensor of interaction matrix
+              elements :math:`U_{ijkl}`.
+    :param indices: An optional list of :math:`N` (multi-)indices to be used
+                    instead of the simple numeric indices :math:`i`.
+    :param statistics: Statistics of the particles in question, either
+                       :attr:`pycommute.expression.FERMION` or
+                       :attr:`pycommute.expression.BOSON`.
+    :return: Interaction Hamiltonian :math:`\hat H`.
+    """
+    assert U.ndim == 4
+    N = U.shape[0]
+    assert U.shape == (N, N, N, N)
+    assert statistics in (FERMION, BOSON)
+
+    indices = _make_default_indices(indices, N)
+
+    H = ExpressionC() if np.iscomplexobj(U) else ExpressionR()
+
+    O, O_dag = (c, c_dag) if statistics == FERMION else (a, a_dag)
+
+    with np.nditer(U, flags=['multi_index']) as it:
+        for x in it:
+            if x == 0:
+                continue
+            ind_i = indices[it.multi_index[0]]
+            ind_j = indices[it.multi_index[1]]
+            ind_k = indices[it.multi_index[2]]
+            ind_l = indices[it.multi_index[3]]
+            H += 0.5 * x * O_dag(*ind_i) * O_dag(*ind_j) * O(*ind_l) * O(*ind_k)
+
+    return H
+
+#########################
+## Spin lattice models ##
+#########################
+
+
 def ising(J: np.ndarray,
           h_l: np.ndarray = None,
           h_t: np.ndarray = None,
@@ -835,6 +892,10 @@ def dzyaloshinskii_moriya(D: np.ndarray,
                          - S_y(*ind_i, spin=spin) * S_x(*ind_j, spin=spin))
 
     return H
+
+############################################
+## Quantum optics and quantum dissipation ##
+############################################
 
 
 def spin_boson(eps: np.ndarray,
