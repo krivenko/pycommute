@@ -27,6 +27,7 @@ from pycommute.models import (
     kondo_int,
     holstein_int,
     quartic_int,
+    kanamori_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -445,6 +446,60 @@ class TestModels(TestCase):
         ref4 += 15 * a_dag(1) * a_dag(1) * a(0) * a(1)
         ref4 += 16 * a_dag(1) * a_dag(1) * a(1) * a(1)
         self.assertEqual(H4, ref4)
+
+    def test_kanamori_int(self):
+        U = 4.0
+        J = 0.5
+        Up = 2.0
+        Jx = 0.5
+        Jp = 0.25
+        indices_up = [("up", 0), ("up", 1)]
+        indices_dn = [("dn", 0), ("dn", 1)]
+
+        self.assertIsInstance(kanamori_int(2, U, J), ExpressionR)
+        self.assertIsInstance(kanamori_int(2, 1j * U, J), ExpressionC)
+        self.assertIsInstance(kanamori_int(2, 1j * U, 1j * J), ExpressionC)
+        self.assertIsInstance(kanamori_int(2, U, J, Up), ExpressionR)
+        self.assertIsInstance(kanamori_int(2, U, J, 1j * Up), ExpressionC)
+        self.assertIsInstance(kanamori_int(2, U, J, Up, Jx, Jp), ExpressionR)
+        self.assertIsInstance(kanamori_int(2, U, J, Up, 1j * Jx, Jp),
+                              ExpressionC)
+        self.assertIsInstance(kanamori_int(2, U, J, Up, Jx, 1j * Jp),
+                              ExpressionC)
+
+        H1 = kanamori_int(2, U, J, Up, Jx, Jp)
+        ref1 = 4.0 * (n(0, "up") * n(0, "dn") + n(1, "up") * n(1, "dn"))
+        ref1 += 2.0 * (n(0, "up") * n(1, "dn") + n(1, "up") * n(0, "dn"))
+        ref1 += 1.5 * (n(0, "up") * n(1, "up") + n(1, "dn") * n(0, "dn"))
+        ref1 += 0.5 * (c_dag(0, "up") * c_dag(1, "dn")
+                       * c(0, "dn") * c(1, "up"))
+        ref1 += 0.5 * (c_dag(1, "up") * c_dag(0, "dn")
+                       * c(1, "dn") * c(0, "up"))
+        ref1 += 0.25 * (c_dag(0, "up") * c_dag(0, "dn")
+                        * c(1, "dn") * c(1, "up"))
+        ref1 += 0.25 * (c_dag(1, "up") * c_dag(1, "dn")
+                        * c(0, "dn") * c(0, "up"))
+        self.assertEqual(H1, ref1)
+
+        H2 = kanamori_int(2, U, J, Up, Jx, Jp,
+                          indices_up=indices_up, indices_dn=indices_dn)
+        ref2 = 4.0 * (n("up", 0) * n("dn", 0) + n("up", 1) * n("dn", 1))
+        ref2 += 2.0 * (n("up", 0) * n("dn", 1) + n("up", 1) * n("dn", 0))
+        ref2 += 1.5 * (n("up", 0) * n("up", 1) + n("dn", 1) * n("dn", 0))
+        ref2 += 0.5 * (c_dag("up", 0) * c_dag("dn", 1)
+                       * c("dn", 0) * c("up", 1))
+        ref2 += 0.5 * (c_dag("up", 1) * c_dag("dn", 0)
+                       * c("dn", 1) * c("up", 0))
+        ref2 += 0.25 * (c_dag("up", 0) * c_dag("dn", 0)
+                        * c("dn", 1) * c("up", 1))
+        ref2 += 0.25 * (c_dag("up", 1) * c_dag("dn", 1)
+                        * c("dn", 0) * c("up", 0))
+        self.assertEqual(H2, ref2)
+
+        self.assertEqual(kanamori_int(2, U, J),
+                         kanamori_int(2, U, J, U - 2 * J, J, J))
+        self.assertEqual(kanamori_int(2, U, J, Up),
+                         kanamori_int(2, U, J, Up, J, J))
 
     def test_ising(self):
         J = np.array([[0, 1, 0, 0],

@@ -620,6 +620,114 @@ def quartic_int(U: np.ndarray,
 
     return H
 
+
+def kanamori_int(M: int,
+                 U: Union[float, complex],
+                 J: Union[float, complex],
+                 Up: Union[float, complex] = None,
+                 Jx: Union[float, complex] = None,
+                 Jp: Union[float, complex] = None,
+                 *,
+                 indices_up: Sequence[IndicesType] = None,
+                 indices_dn: Sequence[IndicesType] = None
+                 ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Constructs a generalized Kanamori multiorbital Hamiltonian with :math:`M`
+    orbitals,
+
+    .. math::
+
+        \hat H = U \sum_{m=0}^{M-1} \hat n_{m,\uparrow} \hat n_{m,\downarrow}
+            + U' \sum_{m\neq m'=0}^{M-1}
+                \hat n_{m,\uparrow} \hat n_{m',\downarrow}
+            + (U'-J) \sum_{m<m'}^{M-1} \sum_\sigma
+                \hat n_{m,\sigma} \hat n_{m',\sigma}\\
+            + J_X \sum_{m\neq m'=0}^{M-1}
+                \hat d^\dagger_{m,\uparrow} \hat d^\dagger_{m',\downarrow}
+                \hat d_{m,\downarrow} \hat d_{m',\uparrow}
+            + J_P \sum_{m\neq m'=0}^{M-1}
+                \hat d^\dagger_{m,\uparrow} \hat d^\dagger_{m,\downarrow}
+                \hat d_{m',\downarrow} \hat d_{m',\uparrow}.
+
+    This function will derive values of the optional parameters according to the
+    following rules.
+
+    - If only :math:`U` and :math:`J` are provided, then the rest of parameters
+      will be defined according to :math:`U'=U-2J` and :math:`J_X=J_P=J` (this
+      choice results in a rotationally invariant form of the model).
+    - If :math:`U`, :math:`J` and :math:`U'` are provided, then
+      :math:`J_X = J_P = J`.
+    - If :math:`J_X` is provided, then :math:`J_P` must also be provided
+      (and vice versa).
+
+    :param M: Number of orbitals :math:`M`.
+    :param U: Intra-orbital Coulomb repulsion :math:`U`.
+    :param J: Hund coupling constant :math:`J`.
+    :param Up: Inter-orbital Coulomb repulsion :math:`U'`.
+    :param Jx: Spin-flip coupling constant :math:`J_X`.
+    :param Jp: Pair-hopping coupling constant :math:`J_P`.
+    :param indices_up: An optional list of :math:`M` (multi-)indices to label
+                       the spin-up operators. By default, the spin-up operators
+                       carry indices ``(0, "up"), (1, "up"), ...``.
+    :param indices_dn: An optional list of :math:`M` (multi-)indices to label
+                       the spin-down operators. By default, the spin-down
+                       operators carry indices ``(0, "dn"), (1, "dn"), ...``.
+    :return: Kanamori Hamiltonian :math:`\hat H`.
+    """
+
+    if Up is None:
+        Up = U - 2 * J
+    if (Jx is None) or (Jp is None):
+        assert (Jx is None) and (Jp is None)
+        Jx = Jp = J
+
+    indices_up = _make_default_indices_with_spin(indices_up, M, "up")
+    indices_dn = _make_default_indices_with_spin(indices_dn, M, "dn")
+
+    is_complex = np.iscomplexobj(U) \
+        or np.iscomplexobj(Up) \
+        or np.iscomplexobj(J) \
+        or np.iscomplexobj(Jx) \
+        or np.iscomplexobj(Jp)
+
+    H = ExpressionC() if is_complex else ExpressionR()
+
+    orbs = range(M)
+
+    # Intra-orbital interactions
+    if U != 0:
+        for m in orbs:
+            H += U * n(*indices_up[m]) * n(*indices_dn[m])
+    # Inter-orbital interactions, different spins
+    if Up != 0:
+        for m, mp in product(orbs, repeat=2):
+            if m == mp:
+                continue
+            H += Up * n(*indices_up[m]) * n(*indices_dn[mp])
+    # Inter-orbital interactions, equal spins
+    if Up - J != 0:
+        for m, mp in product(orbs, repeat=2):
+            if m >= mp:
+                continue
+            H += (Up - J) * n(*indices_up[m]) * n(*indices_up[mp])
+            H += (Up - J) * n(*indices_dn[m]) * n(*indices_dn[mp])
+    # Spin flips
+    if Jx != 0:
+        for m, mp in product(orbs, repeat=2):
+            if m == mp:
+                continue
+            H += Jx * c_dag(*indices_up[m]) * c_dag(*indices_dn[mp]) \
+                    * c(*indices_dn[m]) * c(*indices_up[mp])
+    # Pair hopping
+    if Jp != 0:
+        for m, mp in product(orbs, repeat=2):
+            if m == mp:
+                continue
+            H += Jp * c_dag(*indices_up[m]) * c_dag(*indices_dn[m]) \
+                    * c(*indices_dn[mp]) * c(*indices_up[mp])
+
+    return H
+
 #########################
 ## Spin lattice models ##
 #########################

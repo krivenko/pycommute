@@ -36,6 +36,7 @@ Quantum many-body theory
 .. autofunction:: pycommute.models.kondo_int
 .. autofunction:: pycommute.models.holstein_int
 .. autofunction:: pycommute.models.quartic_int
+.. autofunction:: pycommute.models.kanamori_int
 
 Spin lattice models
 -------------------

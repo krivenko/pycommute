@@ -10,9 +10,7 @@
 
 from unittest import TestCase
 
-from itertools import product
-
-from pycommute.expression import (Indices, ExpressionR, c, c_dag, n)
+from pycommute.expression import (Indices, c, c_dag)
 from pycommute.loperator import (
     ESpaceFermion,
     HilbertSpace,
@@ -20,6 +18,7 @@ from pycommute.loperator import (
     make_space_partition,
     foreach
 )
+from pycommute.models import (dispersion, kanamori_int)
 
 import numpy as np
 
@@ -35,38 +34,18 @@ class TestSpacePartition(TestCase):
         cls.U = 3.0
         cls.J = 0.3
 
-        orbs = range(cls.n_orbs)
+        indices_up = [("up", o) for o in range(cls.n_orbs)]
+        indices_dn = [("dn", o) for o in range(cls.n_orbs)]
 
         # Hamiltonian
-        cls.H = ExpressionR()
+        cls.H = dispersion(-cls.mu * np.ones(cls.n_orbs), indices=indices_up)
+        cls.H += dispersion(-cls.mu * np.ones(cls.n_orbs), indices=indices_dn)
+        cls.H += kanamori_int(cls.n_orbs,
+                              cls.U,
+                              cls.J,
+                              indices_up=indices_up,
+                              indices_dn=indices_dn)
 
-        # Chemical potential
-        cls.H += sum(-cls.mu * (n("up", o) + n("dn", o)) for o in orbs)
-
-        # Intraorbital interactions
-        cls.H += sum(cls.U * n("up", o) * n("dn", o) for o in orbs)
-
-        # Interorbital interactions, different spins
-        for o1, o2 in product(orbs, orbs):
-            if o1 == o2:
-                continue
-            cls.H += (cls.U - 2 * cls.J) * n("up", o1) * n("dn", o2)
-
-        # Interorbital interactions, equal spins
-        for o1, o2 in product(orbs, orbs):
-            if o2 >= o1:
-                continue
-            cls.H += (cls.U - 3 * cls.J) * n("up", o1) * n("up", o2)
-            cls.H += (cls.U - 3 * cls.J) * n("dn", o1) * n("dn", o2)
-
-        # Spin flips and pair hoppings
-        for o1, o2 in product(orbs, orbs):
-            if o1 == o2:
-                continue
-            cls.H += -cls.J * c_dag("up", o1) * c_dag("dn", o1) \
-                            * c("up", o2) * c("dn", o2)
-            cls.H += -cls.J * c_dag("up", o1) * c_dag("dn", o2) \
-                            * c("up", o2) * c("dn", o1)
         # Hilbert space
         cls.hs = HilbertSpace(cls.H)
         # Linear operator form of the Hamiltonian
