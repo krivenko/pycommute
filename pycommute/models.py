@@ -16,26 +16,65 @@ from .expression import (
 
 from typing import Union, Tuple, Sequence
 from itertools import product
+from math import sqrt
 import numpy as np
-
 
 IndicesType = Union[int, str, Tuple[Union[int, str], ...]]
 
 
-def _make_default_indices(indices, N):
+def _make_default_indices(indices, N, i_min=0):
     if indices is None:
-        return list(map(lambda i: (i,), range(N)))
+        return list(map(lambda i: (i,), range(i_min, N)))
     else:
         assert len(indices) == N
         return [((i,) if isinstance(i, (int, str)) else i) for i in indices]
 
 
-def _make_default_indices_with_spin(indices, N, spin_name):
+def _make_default_indices_with_spin(indices, N, spin_name, i_min=0):
     if indices is None:
-        return list(map(lambda i: (i, spin_name), range(N)))
+        return list(map(lambda i: (i, spin_name), range(i_min, N)))
     else:
         assert len(indices) == N
         return [((i,) if isinstance(i, (int, str)) else i) for i in indices]
+
+
+# Wigner 3-j symbols
+def _three_j_symbol(j1, m1, j2, m2, j3, m3):
+    if not (m1 + m2 + m3 == 0
+            and -j1 <= m1 <= j1
+            and -j2 <= m2 <= j2
+            and -j3 <= m3 <= j3
+            and abs(j1 - j2) <= j3 <= j1 + j2):
+        return 0
+
+    fact = np.math.factorial
+
+    three_j_sym = -1.0 if (j1 - j2 - m3) % 2 else 1.0
+    three_j_sym *= sqrt(fact(j1 + j2 - j3)
+                        * fact(j1 - j2 + j3)
+                        * fact(-j1 + j2 + j3)
+                        / fact(j1 + j2 + j3 + 1))
+    three_j_sym *= sqrt(fact(j1 - m1)
+                        * fact(j1 + m1)
+                        * fact(j2 - m2)
+                        * fact(j2 + m2)
+                        * fact(j3 - m3)
+                        * fact(j3 + m3))
+
+    t_min = max(j2 - j3 - m1, j1 - j3 + m2, 0)
+    t_max = min(j1 - m1, j2 + m2, j1 + j2 - j3)
+
+    t_sum = 0
+    for t in np.arange(t_min, t_max + 1):
+        t_sum += (-1.0 if t % 2 else 1.0) \
+            / (fact(t) * fact(j3 - j2 + m1 + t)
+                * fact(j3 - j1 - m2 + t)
+                * fact(j1 + j2 - j3 - t)
+                * fact(j1 - m1 - t)
+                * fact(j2 + m2 - t))
+
+    three_j_sym *= t_sum
+    return three_j_sym
 
 
 ##############################
@@ -725,6 +764,120 @@ def kanamori_int(M: int,
                 continue
             H += Jp * c_dag(*indices_up[m]) * c_dag(*indices_dn[m]) \
                     * c(*indices_dn[mp]) * c(*indices_up[mp])
+
+    return H
+
+
+def slater_int(F: np.ndarray,
+               *,
+               indices_up: Sequence[IndicesType] = None,
+               indices_dn: Sequence[IndicesType] = None
+               ) -> Union[ExpressionR, ExpressionC]:
+    r"""
+    Constructs a :math:`(2L+1)`-orbital fully rotationally-invariant electron
+    interaction Hamiltonian using Slater parametrization,
+
+    .. math::
+
+        \hat H = \frac{1}{2}
+            \sum_{m_1, m_2, m_3, m_4 = -L}^{L} \sum_{\sigma, \sigma'}
+            U^{\sigma, \sigma'}_{m_1, m_2, m_3, m_4}
+            \hat c^\dagger_{m_1, \sigma} \hat c^\dagger_{m_2, \sigma'}
+            \hat c_{m_4, \sigma'} \hat c_{m_3, \sigma}.
+
+    The interaction tensor :math:`U` is a linear combination of :math:`L+1`
+    radial integrals :math:`F_0, F_2, F_4, \ldots, F_{2L}` with coefficients
+    given by the angular interaction matrix elements
+    :math:`A_k(m_1, m_2, m_3, m_4)`,
+
+    .. math::
+
+        U^{\sigma, \sigma'}_{m_1, m_2, m_3, m_4} =
+        \sum_{k=0}^{2L} F_k A_k(m_1, m_2, m_3, m_4).
+
+    All odd-:math:`k` angular matrix elements vanish, while for the even
+    :math:`k`
+
+    .. math::
+
+        \begin{multline}
+        A_k(m_1, m_2, m_3, m_4) =\\= (2l+1)^2
+        \begin{pmatrix}
+            l & k & l \\
+            0 & 0 & 0
+        \end{pmatrix}^2
+        \sum_{q=-k}^k (-1)^{m_1+m_2+q}
+        \begin{pmatrix}
+            l & k & l \\
+         -m_1 & q & m_3
+        \end{pmatrix}
+        \begin{pmatrix}
+            l & k  & l \\
+         -m_2 & -q & m_4
+        \end{pmatrix}.
+        \end{multline}
+
+    :param F: List of :math:`L+1` radial Slater integrals
+              :math:`F_0, F_2, F_4, \ldots`.
+    :param indices_up: An optional list of :math:`2L+1` (multi-)indices to label
+                       the spin-up operators. By default, the spin-up operators
+                       carry indices
+                       ``(-L, "up"), (-L+1, "up"), ..., (L, "up")``.
+    :param indices_dn: An optional list of :math:`2L+1` (multi-)indices to label
+                       the spin-down operators. By default, the spin-down
+                       operators carry indices
+                       ``(-L, "dn"), (-L+1, "dn"), ..., (L, "dn")``.
+    :return: Slater interaction Hamiltonian :math:`\hat H`.
+    """
+    assert F.ndim == 1
+    L = F.shape[0] - 1
+
+    indices_up = _make_default_indices_with_spin(indices_up,
+                                                 2 * L + 1,
+                                                 "up",
+                                                 i_min=-L)
+    indices_dn = _make_default_indices_with_spin(indices_dn,
+                                                 2 * L + 1,
+                                                 "dn",
+                                                 i_min=-L)
+
+    H = ExpressionC() if np.iscomplexobj(F) else ExpressionR()
+
+    # Angular matrix element
+    def A(k, m1, m2, m3, m4):
+        res = 0
+        for q in range(-k, k + 1):
+            res += _three_j_symbol(L, -m1, k, q, L, m3) \
+                * _three_j_symbol(L, -m2, k, -q, L, m4) \
+                * (-1.0 if (m1 + q + m2) % 2 else 1.0)
+        res *= (2 * L + 1)**2 * _three_j_symbol(L, 0, k, 0, L, 0) ** 2
+        return res
+
+    U = np.zeros((2 * L + 1,) * 4,
+                 dtype=complex if np.iscomplexobj(F) else float)
+    for i, f in enumerate(F):
+        k = 2 * i
+        for m1, m2, m3, m4 in product(range(-L, L + 1), repeat=4):
+            U[m1 + L, m2 + L, m3 + L, m4 + L] += f * A(k, m1, m2, m3, m4)
+
+    with np.nditer(U, flags=['multi_index']) as it:
+        def take_ind(indices, c):
+            return indices[it.multi_index[c]]
+
+        for x in it:
+            if x == 0:
+                continue
+            ind_up = list(map(lambda i: take_ind(indices_up, i), range(4)))
+            ind_dn = list(map(lambda i: take_ind(indices_dn, i), range(4)))
+
+            H += 0.5 * x * c_dag(*ind_up[0]) * c_dag(*ind_up[1]) \
+                * c(*ind_up[3]) * c(*ind_up[2])
+            H += 0.5 * x * c_dag(*ind_up[0]) * c_dag(*ind_dn[1]) \
+                * c(*ind_dn[3]) * c(*ind_up[2])
+            H += 0.5 * x * c_dag(*ind_dn[0]) * c_dag(*ind_up[1]) \
+                * c(*ind_up[3]) * c(*ind_dn[2])
+            H += 0.5 * x * c_dag(*ind_dn[0]) * c_dag(*ind_dn[1]) \
+                * c(*ind_dn[3]) * c(*ind_dn[2])
 
     return H
 

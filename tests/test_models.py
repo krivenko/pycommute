@@ -13,9 +13,11 @@ from unittest import TestCase
 from pycommute.expression import (
     ExpressionR, ExpressionC,
     FERMION, BOSON,
-    c, c_dag, n, a, a_dag, S_p, S_m, S_x, S_y, S_z
+    c, c_dag, n, a, a_dag, S_p, S_m, S_x, S_y, S_z,
+    conj
 )
 from pycommute.models import (
+    _three_j_symbol,
     tight_binding,
     dispersion,
     pairing,
@@ -28,6 +30,7 @@ from pycommute.models import (
     holstein_int,
     quartic_int,
     kanamori_int,
+    slater_int,
     ising,
     heisenberg,
     anisotropic_heisenberg,
@@ -39,6 +42,7 @@ from pycommute.models import (
 )
 
 import numpy as np
+from itertools import product
 from functools import partial
 
 S1_p, S1_m = partial(S_p, spin=1), partial(S_m, spin=1)
@@ -48,6 +52,105 @@ S1_z = partial(S_z, spin=1)
 
 
 class TestModels(TestCase):
+
+    def test_three_j_symbol(self):
+        sqrt2, sqrt3, sqrt5, sqrt6, sqrt10, sqrt15 = \
+            map(np.sqrt, [2.0, 3.0, 5.0, 6.0, 10.0, 15.0])
+        three_j_symbol_ref = {
+            (0.5, -0.5, 0.5, -0.5, 1., 1.): -1 / sqrt3,
+            (0.5, -0.5, 0.5, 0.5, 1., 0.): 1 / sqrt6,
+            (0.5, 0.5, 0.5, -0.5, 1., 0.): 1 / sqrt6,
+            (0.5, 0.5, 0.5, 0.5, 1., -1.): -1 / sqrt3,
+            (0.5, -0.5, 1., 0., 0.5, 0.5): 1 / sqrt6,
+            (0.5, -0.5, 1., 1., 0.5, -0.5): -1 / sqrt3,
+            (0.5, 0.5, 1., -1., 0.5, 0.5): -1 / sqrt3,
+            (0.5, 0.5, 1., 0., 0.5, -0.5): 1 / sqrt6,
+            (0.5, -0.5, 1., -1., 1.5, 1.5): 0.5,
+            (0.5, -0.5, 1., 0., 1.5, 0.5): -1 / sqrt6,
+            (0.5, -0.5, 1., 1., 1.5, -0.5): 0.5 / sqrt3,
+            (0.5, 0.5, 1., -1., 1.5, 0.5): -0.5 / sqrt3,
+            (0.5, 0.5, 1., 0., 1.5, -0.5): 1 / sqrt6,
+            (0.5, 0.5, 1., 1., 1.5, -1.5): -0.5,
+            (0.5, -0.5, 1.5, -0.5, 1., 1.): -0.5 / sqrt3,
+            (0.5, -0.5, 1.5, 0.5, 1., 0.): 1 / sqrt6,
+            (0.5, -0.5, 1.5, 1.5, 1., -1.): -0.5,
+            (0.5, 0.5, 1.5, -1.5, 1., 1.): 0.5,
+            (0.5, 0.5, 1.5, -0.5, 1., 0.): -1 / sqrt6,
+            (0.5, 0.5, 1.5, 0.5, 1., -1.): 0.5 / sqrt3,
+            (1., -1., 0.5, 0.5, 0.5, 0.5): -1 / sqrt3,
+            (1., 0., 0.5, -0.5, 0.5, 0.5): 1 / sqrt6,
+            (1., 0., 0.5, 0.5, 0.5, -0.5): 1 / sqrt6,
+            (1., 1., 0.5, -0.5, 0.5, -0.5): -1 / sqrt3,
+            (1., -1., 0.5, -0.5, 1.5, 1.5): -0.5,
+            (1., -1., 0.5, 0.5, 1.5, 0.5): 0.5 / sqrt3,
+            (1., 0., 0.5, -0.5, 1.5, 0.5): 1 / sqrt6,
+            (1., 0., 0.5, 0.5, 1.5, -0.5): -1 / sqrt6,
+            (1., 1., 0.5, -0.5, 1.5, -0.5): -0.5 / sqrt3,
+            (1., 1., 0.5, 0.5, 1.5, -1.5): 0.5,
+            (1., -1., 1., 0., 1., 1.): 1 / sqrt6,
+            (1., -1., 1., 1., 1., 0.): -1 / sqrt6,
+            (1., 0., 1., -1., 1., 1.): -1 / sqrt6,
+            (1., 0., 1., 1., 1., -1.): 1 / sqrt6,
+            (1., 1., 1., -1., 1., 0.): 1 / sqrt6,
+            (1., 1., 1., 0., 1., -1.): -1 / sqrt6,
+            (1., -1., 1.5, 0.5, 0.5, 0.5): -0.5 / sqrt3,
+            (1., -1., 1.5, 1.5, 0.5, -0.5): 0.5,
+            (1., 0., 1.5, -0.5, 0.5, 0.5): 1 / sqrt6,
+            (1., 0., 1.5, 0.5, 0.5, -0.5): -1 / sqrt6,
+            (1., 1., 1.5, -1.5, 0.5, 0.5): -0.5,
+            (1., 1., 1.5, -0.5, 0.5, -0.5): 0.5 / sqrt3,
+            (1., -1., 1.5, -0.5, 1.5, 1.5): -1 / sqrt10,
+            (1., -1., 1.5, 0.5, 1.5, 0.5): sqrt2 / sqrt15,
+            (1., -1., 1.5, 1.5, 1.5, -0.5): -1 / sqrt10,
+            (1., 0., 1.5, -1.5, 1.5, 1.5): 0.5 * sqrt3 / sqrt5,
+            (1., 0., 1.5, -0.5, 1.5, 0.5): -0.5 / sqrt15,
+            (1., 0., 1.5, 0.5, 1.5, -0.5): -0.5 / sqrt15,
+            (1., 0., 1.5, 1.5, 1.5, -1.5): 0.5 * sqrt3 / sqrt5,
+            (1., 1., 1.5, -1.5, 1.5, 0.5): -1 / sqrt10,
+            (1., 1., 1.5, -0.5, 1.5, -0.5): sqrt2 / sqrt15,
+            (1., 1., 1.5, 0.5, 1.5, -1.5): -1 / sqrt10,
+            (1.5, -1.5, 0.5, 0.5, 1., 1.): -0.5,
+            (1.5, -0.5, 0.5, -0.5, 1., 1.): 0.5 / sqrt3,
+            (1.5, -0.5, 0.5, 0.5, 1., 0.): 1 / sqrt6,
+            (1.5, 0.5, 0.5, -0.5, 1., 0.): -1 / sqrt6,
+            (1.5, 0.5, 0.5, 0.5, 1., -1.): -0.5 / sqrt3,
+            (1.5, 1.5, 0.5, -0.5, 1., -1.): 0.5,
+            (1.5, -1.5, 1., 1., 0.5, 0.5): 0.5,
+            (1.5, -0.5, 1., 0., 0.5, 0.5): -1 / sqrt6,
+            (1.5, -0.5, 1., 1., 0.5, -0.5): -0.5 / sqrt3,
+            (1.5, 0.5, 1., -1., 0.5, 0.5): 0.5 / sqrt3,
+            (1.5, 0.5, 1., 0., 0.5, -0.5): 1 / sqrt6,
+            (1.5, 1.5, 1., -1., 0.5, -0.5): -0.5,
+            (1.5, -1.5, 1., 0., 1.5, 1.5): 0.5 * sqrt3 / sqrt5,
+            (1.5, -1.5, 1., 1., 1.5, 0.5): -1 / sqrt10,
+            (1.5, -0.5, 1., -1., 1.5, 1.5): -1 / sqrt10,
+            (1.5, -0.5, 1., 0., 1.5, 0.5): -0.5 / sqrt15,
+            (1.5, -0.5, 1., 1., 1.5, -0.5): sqrt2 / sqrt15,
+            (1.5, 0.5, 1., -1., 1.5, 0.5): sqrt2 / sqrt15,
+            (1.5, 0.5, 1., 0., 1.5, -0.5): -0.5 / sqrt15,
+            (1.5, 0.5, 1., 1., 1.5, -1.5): -1 / sqrt10,
+            (1.5, 1.5, 1., -1., 1.5, -0.5): -1 / sqrt10,
+            (1.5, 1.5, 1., 0., 1.5, -1.5): 0.5 * sqrt3 / sqrt5,
+            (1.5, -1.5, 1.5, 0.5, 1., 1.): -1 / sqrt10,
+            (1.5, -1.5, 1.5, 1.5, 1., 0.): 0.5 * sqrt3 / sqrt5,
+            (1.5, -0.5, 1.5, -0.5, 1., 1.): sqrt2 / sqrt15,
+            (1.5, -0.5, 1.5, 0.5, 1., 0.): -0.5 / sqrt15,
+            (1.5, -0.5, 1.5, 1.5, 1., -1.): -1 / sqrt10,
+            (1.5, 0.5, 1.5, -1.5, 1., 1.): -1 / sqrt10,
+            (1.5, 0.5, 1.5, -0.5, 1., 0.): -0.5 / sqrt15,
+            (1.5, 0.5, 1.5, 0.5, 1., -1.): sqrt2 / sqrt15,
+            (1.5, 1.5, 1.5, -1.5, 1., 0.): 0.5 * sqrt3 / sqrt5,
+            (1.5, 1.5, 1.5, -0.5, 1., -1.): -1 / sqrt10
+        }
+        for j1, j2, j3 in product((0.5, 1.0, 1.5), repeat=3):
+            for m1, m2, m3 in product(np.arange(-j1, j1 + 1),
+                                      np.arange(-j2, j2 + 1),
+                                      np.arange(-j3, j3 + 1)):
+                three_j_symbol_val = _three_j_symbol(j1, m1, j2, m2, j3, m3)
+                self.assertAlmostEqual(
+                    three_j_symbol_val,
+                    three_j_symbol_ref.get((j1, m1, j2, m2, j3, m3), 0)
+                )
 
     def test_tight_binding(self):
         indices = [("a", 0), ("b", 1), ("c", 2)]
@@ -500,6 +603,57 @@ class TestModels(TestCase):
                          kanamori_int(2, U, J, U - 2 * J, J, J))
         self.assertEqual(kanamori_int(2, U, J, Up),
                          kanamori_int(2, U, J, Up, J, J))
+
+    def test_slater_int(self):
+        spins = ("up", "dn")
+        F0 = 400
+        F2 = 100
+
+        U = F0 + 4 * F2 / 25
+        J = 3 * F2 / 25
+
+        # L = 0
+        H1 = slater_int(np.array([F0]))
+        self.assertIsInstance(H1, ExpressionR)
+        ref1 = F0 * n(0, "up") * n(0, "dn")
+        self.assertEqual(H1, ref1)
+
+        # L = 1
+        orbs = (-1, 0, 1)
+        H2 = slater_int(np.array([F0, F2]))
+        self.assertIsInstance(H2, ExpressionR)
+        N = sum(n(m, "up") + n(m, "dn") for m in orbs)
+        sp = sum(c_dag(m, "up") * c(m, "dn") for m in orbs)
+        sz = sum(0.5 * (n(m, "up") - n(m, "dn")) for m in orbs)
+        s2 = 0.5 * (sp * conj(sp) + conj(sp) * sp) + sz * sz
+        lp = np.sqrt(2) * sum(c_dag(1, s) * c(0, s) + c_dag(0, s) * c(-1, s)
+                              for s in spins)
+        lz = sum(n(1, s) - n(-1, s) for s in spins)
+        l2 = 0.5 * (lp * conj(lp) + conj(lp) * lp) + lz * lz
+        ref2 = (4 * J - U / 2) * N + 0.5 * (U - 3 * J) * N * N
+        ref2 += -J * (2 * s2 + 0.5 * l2)
+        self.assertEqual(H2 - ref2, ExpressionR())
+
+        H3 = slater_int(1j * np.array([F0, F2]))
+        self.assertIsInstance(H3, ExpressionC)
+        ref3 = 1j * ref2
+        self.assertEqual(H3 - ref3, ExpressionC())
+
+        H4 = slater_int(np.array([F0, F2]),
+                        indices_up=[("up", -1), ("up", 0), ("up", 1)],
+                        indices_dn=[("dn", -1), ("dn", 0), ("dn", 1)])
+        self.assertIsInstance(H4, ExpressionR)
+        N = sum(n("up", m) + n("dn", m) for m in orbs)
+        sp = sum(c_dag("up", m) * c("dn", m) for m in orbs)
+        sz = sum(0.5 * (n("up", m) - n("dn", m)) for m in orbs)
+        s2 = 0.5 * (sp * conj(sp) + conj(sp) * sp) + sz * sz
+        lp = np.sqrt(2) * sum(c_dag(s, 1) * c(s, 0) + c_dag(s, 0) * c(s, -1)
+                              for s in spins)
+        lz = sum(n(s, 1) - n(s, -1) for s in spins)
+        l2 = 0.5 * (lp * conj(lp) + conj(lp) * lp) + lz * lz
+        ref4 = (4 * J - U / 2) * N + 0.5 * (U - 3 * J) * N * N
+        ref4 += -J * (2 * s2 + 0.5 * l2)
+        self.assertEqual(H4 - ref4, ExpressionR())
 
     def test_ising(self):
         J = np.array([[0, 1, 0, 0],
