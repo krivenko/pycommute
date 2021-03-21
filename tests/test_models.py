@@ -727,14 +727,14 @@ class TestModels(TestCase):
 
         H1 = heisenberg(J)
         self.assertIsInstance(H1, ExpressionR)
-        ref1 = - 0.5 * S_p(0) * S_p(1) \
-               - 0.5 * S_m(0) * S_m(1) \
+        ref1 = - 0.5 * S_p(0) * S_m(1) \
+               - 0.5 * S_m(0) * S_p(1) \
                - 1.0 * S_z(0) * S_z(1) \
-               - 1.0 * S_p(1) * S_p(2) \
-               - 1.0 * S_m(1) * S_m(2) \
+               - 1.0 * S_p(1) * S_m(2) \
+               - 1.0 * S_m(1) * S_p(2) \
                - 2.0 * S_z(1) * S_z(2) \
-               - 1.5 * S_p(2) * S_p(3) \
-               - 1.5 * S_m(2) * S_m(3) \
+               - 1.5 * S_p(2) * S_m(3) \
+               - 1.5 * S_m(2) * S_p(3) \
                - 3.0 * S_z(2) * S_z(3)
         self.assertEqual(H1, ref1)
 
@@ -750,28 +750,28 @@ class TestModels(TestCase):
 
         H4 = heisenberg(J, h, indices=indices)
         self.assertIsInstance(H4, ExpressionC)
-        ref4 = - 0.5 * S_p('a', 0) * S_p('b', 1) \
-               - 0.5 * S_m('a', 0) * S_m('b', 1) \
+        ref4 = - 0.5 * S_p('a', 0) * S_m('b', 1) \
+               - 0.5 * S_m('a', 0) * S_p('b', 1) \
                - 1.0 * S_z('a', 0) * S_z('b', 1) \
-               - 1.0 * S_p('b', 1) * S_p('c', 2) \
-               - 1.0 * S_m('b', 1) * S_m('c', 2) \
+               - 1.0 * S_p('b', 1) * S_m('c', 2) \
+               - 1.0 * S_m('b', 1) * S_p('c', 2) \
                - 2.0 * S_z('b', 1) * S_z('c', 2) \
-               - 1.5 * S_p('c', 2) * S_p('d', 3) \
-               - 1.5 * S_m('c', 2) * S_m('d', 3) \
+               - 1.5 * S_p('c', 2) * S_m('d', 3) \
+               - 1.5 * S_m('c', 2) * S_p('d', 3) \
                - 3.0 * S_z('c', 2) * S_z('d', 3) \
                - 0.3 * S_x('a', 0) - 0.4 * S_y('b', 1) - 0.5 * S_z('c', 2)
         self.assertEqual(H4, ref4)
 
         H5 = heisenberg(J, h, indices=indices, spin=1)
         self.assertIsInstance(H5, ExpressionC)
-        ref5 = - 0.5 * S1_p('a', 0) * S1_p('b', 1) \
-               - 0.5 * S1_m('a', 0) * S1_m('b', 1) \
+        ref5 = - 0.5 * S1_p('a', 0) * S1_m('b', 1) \
+               - 0.5 * S1_m('a', 0) * S1_p('b', 1) \
                - 1.0 * S1_z('a', 0) * S1_z('b', 1) \
-               - 1.0 * S1_p('b', 1) * S1_p('c', 2) \
-               - 1.0 * S1_m('b', 1) * S1_m('c', 2) \
+               - 1.0 * S1_p('b', 1) * S1_m('c', 2) \
+               - 1.0 * S1_m('b', 1) * S1_p('c', 2) \
                - 2.0 * S1_z('b', 1) * S1_z('c', 2) \
-               - 1.5 * S1_p('c', 2) * S1_p('d', 3) \
-               - 1.5 * S1_m('c', 2) * S1_m('d', 3) \
+               - 1.5 * S1_p('c', 2) * S1_m('d', 3) \
+               - 1.5 * S1_m('c', 2) * S1_p('d', 3) \
                - 3.0 * S1_z('c', 2) * S1_z('d', 3) \
                - 0.3 * S1_x('a', 0) - 0.4 * S1_y('b', 1) - 0.5 * S1_z('c', 2)
         self.assertEqual(H5, ref5)
@@ -848,11 +848,11 @@ class TestModels(TestCase):
                       [0, 0, 0, 0]], dtype=float)
         indices = [('a', 0), ('b', 1), ('c', 2), ('d', 3)]
 
-        S0S1 = 0.5 * (S1_p(0) * S1_p(1) + S1_m(0) * S1_m(1)) \
+        S0S1 = 0.5 * (S1_p(0) * S1_m(1) + S1_m(0) * S1_p(1)) \
             + S1_z(0) * S1_z(1)
-        S1S2 = 0.5 * (S1_p(1) * S1_p(2) + S1_m(1) * S1_m(2)) \
+        S1S2 = 0.5 * (S1_p(1) * S1_m(2) + S1_m(1) * S1_p(2)) \
             + S1_z(1) * S1_z(2)
-        S2S3 = 0.5 * (S1_p(2) * S1_p(3) + S1_m(2) * S1_m(3)) \
+        S2S3 = 0.5 * (S1_p(2) * S1_m(3) + S1_m(2) * S1_p(3)) \
             + S1_z(2) * S1_z(3)
 
         H1 = biquadratic_spin_int(J)
@@ -868,14 +868,14 @@ class TestModels(TestCase):
         H3 = biquadratic_spin_int(J, indices=indices)
         self.assertIsInstance(H3, ExpressionR)
 
-        S0S1 = 0.5 * (S1_p('a', 0) * S1_p('b', 1)
-                      + S1_m('a', 0) * S1_m('b', 1)) \
+        S0S1 = 0.5 * (S1_p('a', 0) * S1_m('b', 1)
+                      + S1_m('a', 0) * S1_p('b', 1)) \
             + S1_z('a', 0) * S1_z('b', 1)
-        S1S2 = 0.5 * (S1_p('b', 1) * S1_p('c', 2)
-                      + S1_m('b', 1) * S1_m('c', 2)) \
+        S1S2 = 0.5 * (S1_p('b', 1) * S1_m('c', 2)
+                      + S1_m('b', 1) * S1_p('c', 2)) \
             + S1_z('b', 1) * S1_z('c', 2)
-        S2S3 = 0.5 * (S1_p('c', 2) * S1_p('d', 3)
-                      + S1_m('c', 2) * S1_m('d', 3)) \
+        S2S3 = 0.5 * (S1_p('c', 2) * S1_m('d', 3)
+                      + S1_m('c', 2) * S1_p('d', 3)) \
             + S1_z('c', 2) * S1_z('d', 3)
 
         ref3 = 1.0 * S0S1 * S0S1 + 2.0 * S1S2 * S1S2 + 3.0 * S2S3 * S2S3
@@ -884,12 +884,12 @@ class TestModels(TestCase):
         H4 = biquadratic_spin_int(J, indices=indices, spin=1 / 2)
         self.assertIsInstance(H4, ExpressionR)
 
-        S0S1 = 0.5 * (S_p('a', 0) * S_p('b', 1)
-                      + S_m('a', 0) * S_m('b', 1)) + S_z('a', 0) * S_z('b', 1)
-        S1S2 = 0.5 * (S_p('b', 1) * S_p('c', 2)
-                      + S_m('b', 1) * S_m('c', 2)) + S_z('b', 1) * S_z('c', 2)
-        S2S3 = 0.5 * (S_p('c', 2) * S_p('d', 3)
-                      + S_m('c', 2) * S_m('d', 3)) + S_z('c', 2) * S_z('d', 3)
+        S0S1 = 0.5 * (S_p('a', 0) * S_m('b', 1)
+                      + S_m('a', 0) * S_p('b', 1)) + S_z('a', 0) * S_z('b', 1)
+        S1S2 = 0.5 * (S_p('b', 1) * S_m('c', 2)
+                      + S_m('b', 1) * S_p('c', 2)) + S_z('b', 1) * S_z('c', 2)
+        S2S3 = 0.5 * (S_p('c', 2) * S_m('d', 3)
+                      + S_m('c', 2) * S_p('d', 3)) + S_z('c', 2) * S_z('d', 3)
 
         ref4 = 1.0 * S0S1 * S0S1 + 2.0 * S1S2 * S1S2 + 3.0 * S2S3 * S2S3
         self.assertEqual(H4, ref4)

@@ -988,8 +988,8 @@ def heisenberg(J: np.ndarray,
             ind_j = indices[it.multi_index[1]]
             H += -x * (
                 S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
-                + 0.5 * S_p(*ind_i, spin=spin) * S_p(*ind_j, spin=spin)
-                + 0.5 * S_m(*ind_i, spin=spin) * S_m(*ind_j, spin=spin)
+                + 0.5 * S_p(*ind_i, spin=spin) * S_m(*ind_j, spin=spin)
+                + 0.5 * S_m(*ind_i, spin=spin) * S_p(*ind_j, spin=spin)
             )
 
     if h is not None:
@@ -1104,8 +1104,8 @@ def biquadratic_spin_int(J: np.ndarray,
             ind_i = indices[it.multi_index[0]]
             ind_j = indices[it.multi_index[1]]
             SS = (S_z(*ind_i, spin=spin) * S_z(*ind_j, spin=spin)
-                  + 0.5 * S_p(*ind_i, spin=spin) * S_p(*ind_j, spin=spin)
-                  + 0.5 * S_m(*ind_i, spin=spin) * S_m(*ind_j, spin=spin))
+                  + 0.5 * S_p(*ind_i, spin=spin) * S_m(*ind_j, spin=spin)
+                  + 0.5 * S_m(*ind_i, spin=spin) * S_p(*ind_j, spin=spin))
             H += x * SS * SS
 
     return H
