@@ -65,8 +65,9 @@ conserves three projections of the total spin
 as well as a series of higher order charges :math:`Q_n`. Existence of these
 charges can be derived from the transfer matrix theory. Explicit expressions
 for :math:`Q_n` were obtained in [GM94]_. The following script constructs
-Hamiltonian of the Heisenberg chain with periodic boundary conditions and
-checks that :math:`[\hat H, \mathbf{S}] = 0`, :math:`[\hat H, Q_n] = 0` and
+Hamiltonian of the Heisenberg chain with periodic boundary conditions
+(see :func:`heisenberg() <pycommute.models.heisenberg>`)
+and checks that :math:`[\hat H, \mathbf{S}] = 0`, :math:`[\hat H, Q_n] = 0` and
 :math:`[Q_n, Q_m] = 0` for :math:`m,n = 3,4,5`.
 
 .. literalinclude:: heisenberg_chain.py

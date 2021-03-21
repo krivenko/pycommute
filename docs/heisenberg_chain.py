@@ -19,8 +19,9 @@
 #   https://doi.org/10.1142/S0217732394002057
 #
 
-from numpy import array, dot, cross
+from numpy import array, zeros, dot, cross
 from pycommute.expression import S_x, S_y, S_z
+from pycommute.models import heisenberg
 
 # Number of spins in the chain
 N = 20
@@ -30,9 +31,15 @@ g = 2
 # List of 3-component spin vectors {S_0, S_1, ..., S_{N-1}}
 S = [array([S_x(i), S_y(i), S_z(i)]) for i in range(N)]
 
+# Matrix of exchange constants between spins i and j
+exchange_matrix = zeros((N, N))
+# Set elements corresponding to the nearest neighbors to -g
+# (index shift modulo N ensures periodic boundary conditions).
+for i in range(N):
+    exchange_matrix[i, (i + 1) % N] = -g
+
 # Hamiltonian of the spin-1/2 Heisenberg chain.
-# Index shift modulo N ensures periodic boundary conditions.
-H = sum(g * dot(S[i], S[(i + 1) % N]) for i in range(N))
+H = heisenberg(exchange_matrix)
 
 # Total spin of the chain.
 S_tot = array(sum(S))
