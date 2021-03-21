@@ -1,0 +1,63 @@
+name: pycommute
+
+on:
+  push:
+    branches:
+      - master
+      - ci
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        python-version: [3.6, 3.7, 3.8, 3.9]
+        cxx_compiler:
+        - { name: "gcc", cc: "gcc", cxx: "g++" }
+        - { name: "clang", cc: "clang-10", cxx: "clang++-10" }
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install clang
+      if: matrix.cxx_compiler.name == 'clang'
+      run: |
+           sudo apt-get update -q
+           sudo apt-get install clang-10
+
+    - name: Install libcommute
+      run: |
+           git clone https://github.com/krivenko/libcommute
+           mkdir libcommute.build && pushd libcommute.build
+           cmake ../libcommute                                                \
+              -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/libcommute.installed \
+              -DTESTS=OFF                                                     \
+              -DEXAMPLES=OFF
+           make install
+           popd
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Python dependencies
+      run: |
+           python -m pip install --upgrade pip
+           pip install pybind11 numpy tox sphinx sphinx-rtd-theme
+
+    - name: Test with tox
+      run: |
+           export LIBCOMMUTE_DIR=${GITHUB_WORKSPACE}/libcommute.installed
+           export LIBCOMMUTE_INCLUDEDIR=${LIBCOMMUTE_DIR}/include
+           export CC="${{ matrix.cxx_compiler.cc }}"
+           export CXX="${{ matrix.cxx_compiler.cxx }}"
+           tox -e py
+
+    - name: Lint with flake8
+      run: |
+           pip install flake8
+           flake8 .

@@ -3,10 +3,11 @@
 Prerequisites
 =============
 
-- A `libcommute <https://github.com/krivenko/libcommute>`_ installation.
-- pybind11 >= 2.6.0.
-- NumPy.
-- Sphinx >= 2.0.0 and sphinx-rtd-theme to build documentation.
+- A `libcommute <https://github.com/krivenko/libcommute>`_ installation
+- pybind11 >= 2.6.0
+- NumPy
+- Sphinx >= 2.0.0
+- sphinx-rtd-theme
 
 Installation
 ============
