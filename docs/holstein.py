@@ -9,12 +9,18 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #
-# Holstein model on a square lattice.
+# Holstein model on a square lattice with periodic boundary conditions.
 #
 
 from itertools import product
-from pycommute.expression import ExpressionR, conj
-from pycommute.expression import c_dag, c, a_dag, a, n
+import numpy as np
+
+from pycommute.expression import ExpressionR, conj, BOSON
+from pycommute.expression import n
+from pycommute.models import tight_binding, dispersion, holstein_int
+
+from networkx.generators.lattice import grid_2d_graph
+from networkx.linalg.graphmatrix import adjacency_matrix
 
 #
 # Let us define Hamiltonian of an electronic tight-binding model
@@ -28,56 +34,46 @@ N = 10
 # Electron hopping constant - energy parameter of the TB model.
 t = 2.0
 
-# TB Hamiltonian as an expression with real coefficients.
-H_e = ExpressionR()
+# Use NetworkX to construct the periodic square lattice (graph)
+lat = grid_2d_graph(N, N, periodic=True)
 
-# Iterate over spin projections.
-for spin in ("up", "down"):
-    # Iterate over all lattice sites with coordinates i = (ix, iy).
-    for ix, iy in product(range(N), range(N)):
-        # Iterate over all lattice sites with coordinates j = (jx, jy).
-        for jx, jy in product(range(N), range(N)):
-            # Skip all pairs of lattice sites i and j that are not
-            # nearest-neighbors. The modulus operation accounts for
-            # periodic boundary conditions on the lattice.
-            if (abs(ix - jx) % N == 1 and iy == jy) or \
-               (ix == jx and abs(iy - jy) % N == 1):
-                # Add a hopping term.
-                # Functions c_dag() and c() that return fermionic
-                # creation/annihilation operators.
-                H_e += -t * c_dag(ix, iy, spin) * c(jx, jy, spin)
+# Create lists of indices for electronic spin-up and spin-down operators.
+# lat.nodes() returns a list of N^2 pairs of site indices (x, y).
+indices_up = [(x, y, "up") for x, y in lat.nodes()]
+indices_dn = [(x, y, "down") for x, y in lat.nodes()]
+
+# A sum of tight-binding Hamiltonians for both spins.
+# The hopping matrix passed to tight_binding() is proportional to the
+# adjacency matrix of the lattice.
+hopping_matrix = -t * adjacency_matrix(lat).todense()
+H_e = tight_binding(hopping_matrix, indices=indices_up) \
+    + tight_binding(hopping_matrix, indices=indices_dn)
+
+#
+# Hamiltonian of phonons localized at lattice sites.
+#
 
 # Frequency of the localized phonon.
 w0 = 0.5
 
-#
-# Hamiltonian of phonons localized at lattice sites.
-# We want this object to have the same type as H_e.
-#
-H_ph = ExpressionR()
+# A lists of indices for bosonic operators, simply the (x, y) pairs
+indices_phonon = lat.nodes()
 
-# Iterate over all lattice sites.
-for ix, iy in product(range(N), range(N)):
-    # Energy of the localized phonon at site (ix, iy).
-    # Functions a_dag() and a() that return bosonic creation/annihilation
-    # operators.
-    H_ph += w0 * a_dag(ix, iy) * a(ix, iy)
-
-# Electron-phonon coupling constant.
-g = 0.1
+# All N^2 phonons have the same frequency
+phonon_freqs = w0 * np.ones(N ** 2)
+H_ph = dispersion(phonon_freqs, indices=indices_phonon, statistics=BOSON)
 
 #
 # Hamiltonian of electron-phonon coupling.
 #
-H_e_ph = ExpressionR()
 
-# Iterate over spin projections.
-for spin in ("up", "down"):
-    # Iterate over all lattice sites.
-    for ix, iy in product(range(N), range(N)):
-        # Electron-phonon coupling at site (ix, iy).
-        # Function n() returns the fermionic number operator n = c_dag * c.
-        H_e_ph += g * n(ix, iy, spin) * (a_dag(ix, iy) + a(ix, iy))
+# Electron-phonon coupling constant.
+g = 0.1
+
+H_e_ph = holstein_int(g * np.ones(N ** 2),
+                      indices_up=indices_up,
+                      indices_dn=indices_dn,
+                      indices_boson=indices_phonon)
 
 # Complete Holstein Hamiltonian.
 H_H = H_e + H_ph + H_e_ph
@@ -86,12 +82,12 @@ H_H = H_e + H_ph + H_e_ph
 print("H_H =", H_H)
 
 # Check hermiticity of H_H.
-print("H_H - H_H^\\dagger =", H_H - conj(H_H))
+print(r"H_H - H_H^\dagger =", H_H - conj(H_H))
 
 # Check that H_H commutes with the total number of electrons N_e.
 N_e = ExpressionR()
 for spin in ("up", "down"):
-    for ix, iy in product(range(N), range(N)):
-        N_e += n(ix, iy, spin)
+    for x, y in product(range(N), range(N)):
+        N_e += n(x, y, spin)
 
 print("[H_H, N_e] =", H_H * N_e - N_e * H_H)

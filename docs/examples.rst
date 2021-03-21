@@ -33,6 +33,12 @@ The Hamiltonian considered here is a sum of three terms.
 
     \hat H_\text{e-ph} = g \sum_\sigma \sum_i n_{i,\sigma}(a^\dagger_i + a_i).
 
+Instead of writing the sums over lattice sites explicitly, we call library
+functions :func:`tight_binding() <pycommute.models.tight_binding>`,
+:func:`dispersion() <pycommute.models.dispersion>` and
+:func:`holstein_int() <pycommute.models.holstein_int>`.
+We also make use of the `NetworkX <https://networkx.org/>`_ package
+to easily generate the adjacency matrix of the periodic square lattice.
 
 .. literalinclude:: holstein.py
   :language: python
