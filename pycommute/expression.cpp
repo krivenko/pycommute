@@ -481,8 +481,6 @@ auto register_expression(py::module_ & m,
   using expr_t = expression<ScalarType, dyn_indices>;
   py::class_<expr_t> c(m, class_name.c_str(), docstring.c_str());
 
-  using monomials_map_t = typename expr_t::monomials_map_t;
-
   // Constructors
   c
   .def(py::init<>(), "Construct a zero expression.")
