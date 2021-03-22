@@ -6,5 +6,3 @@ TODO list
   related issues are ever resolved.
   See also https://github.com/pybind/pybind11/pull/1566.
 * README.md
-* Documentation web-site
-* Travis CI
