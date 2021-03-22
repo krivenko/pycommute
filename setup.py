@@ -16,7 +16,7 @@ from setuptools import setup
 from sphinx.setup_command import BuildDoc
 from pybind11.setup_helpers import Pybind11Extension, build_ext
 
-__version__ = "0.5"
+__version__ = "0.6"
 
 ext_modules = [
     Pybind11Extension("pycommute/expression", ["pycommute/expression.cpp"]),
