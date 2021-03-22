@@ -102,7 +102,7 @@ class es_type_trampoline : public es_type {
 
   using es_type::es_type;
 
-  es_type_trampoline(py::args args) : es_type(std::move(init(args))) {}
+  es_type_trampoline(py::args args) : es_type(init(args)) {}
 
   int algebra_id() const override {
     PYBIND11_OVERRIDE_PURE(int, es_type, algebra_id, );

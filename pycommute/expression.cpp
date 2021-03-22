@@ -135,7 +135,7 @@ class gen_type_trampoline : public gen_type {
 
   using gen_type::gen_type;
 
-  gen_type_trampoline(py::args args) : gen_type(std::move(init(args))) {}
+  gen_type_trampoline(py::args args) : gen_type(init(args)) {}
 
   int algebra_id() const override {
     PYBIND11_OVERRIDE_PURE(int, gen_type, algebra_id, );
