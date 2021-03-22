@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>pycommute &mdash; pycommute 0.6 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Prerequisites" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="#" class="icon icon-home"> pycommute
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#id1">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">pycommute</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="#" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>pycommute</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pycommute">
+<h1>pycommute<a class="headerlink" href="#pycommute" title="Permalink to this headline">¶</a></h1>
+<p>Python bindings for the <a class="reference external" href="https://github.com/krivenko/libcommute">libcommute</a>
+quantum operator algebra DSL and exact diagonalization toolkit for C++.</p>
+<p>These bindings inherit a subset of functionality supported by the C++ template
+library: They expose polynomial expression and linear operator types with
+real and complex coefficients built out of fermionic, bosonic and spin
+operators <a class="footnote-reference brackets" href="#id2" id="id1">1</a>. To learn more about basic concepts and features of this library,
+please, refer to
+<a class="reference external" href="https://krivenko.github.io/libcommute/">libcommute’s documentation</a>.
+As a bonus, <em>pycommute</em> features a handful of Python functions to easily
+construct Hamiltonians of some models widely used in the theory of quantum
+many-body systems, quantum optics and the theory of spin lattices.</p>
+<p>For now, there are a few <a class="reference internal" href="examples.html#examples"><span class="std std-ref">usage examples</span></a> and an API reference
+for the <a class="reference internal" href="expression_ref.html#expression-ref"><span class="std std-ref">pycommute.expression</span></a>
+<a class="reference internal" href="loperator_ref.html#loperator-ref"><span class="std std-ref">pycommute.loperator</span></a>, and
+<a class="reference internal" href="models_ref.html#models-ref"><span class="std std-ref">pycommute.models</span></a> modules.</p>
+</div>
+<div class="section" id="contents">
+<h1>Contents<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound" id="mastertoc">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#id1">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#holstein-model">Holstein model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#spin-1-2-heisenberg-chain">Spin-1/2 Heisenberg chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#spectrum-of-tavis-cummings-model">Spectrum of Tavis-Cummings model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#sectors-of-a-multi-orbital-interaction-hamiltonian">Sectors of a multi-orbital interaction Hamiltonian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples.html#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="expression_ref.html"><code class="docutils literal notranslate"><span class="pre">pycommute.expression</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="expression_ref.html#index-sequence">Index sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expression_ref.html#algebra-id-constants">Algebra ID constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expression_ref.html#algebra-generator-objects">Algebra generator objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expression_ref.html#monomial-object">Monomial object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expression_ref.html#expression-objects">Expression objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expression_ref.html#expression-factory-functions">Expression factory functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="expression_ref.html#hermitian-conjugate-placeholder">Hermitian conjugate placeholder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="loperator_ref.html"><code class="docutils literal notranslate"><span class="pre">pycommute.loperator</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="loperator_ref.html#elementary-spaces">Elementary spaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loperator_ref.html#full-hilbert-spaces">Full Hilbert spaces</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loperator_ref.html#linear-operators">Linear operators</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loperator_ref.html#hilbert-space-partition">Hilbert space partition</a></li>
+<li class="toctree-l3"><a class="reference internal" href="loperator_ref.html#views-of-state-vectors">Views of state vectors</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="models_ref.html"><code class="docutils literal notranslate"><span class="pre">pycommute.models</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="models_ref.html#quantum-many-body-theory">Quantum many-body theory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_ref.html#spin-lattice-models">Spin lattice models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models_ref.html#quantum-optics-and-quantum-dissipation">Quantum optics and quantum dissipation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+</ul>
+</div>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Support for user-defined operator algebras in Python code may be added in
+a later release.</p>
+</dd>
+</dl>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Prerequisites" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020-2021, Igor Krivenko.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

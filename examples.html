@@ -1,0 +1,920 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Usage examples &mdash; pycommute 0.6 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="reference.html" />
+    <link rel="prev" title="Prerequisites" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pycommute
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html#id1">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#holstein-model">Holstein model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spin-1-2-heisenberg-chain">Spin-1/2 Heisenberg chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spectrum-of-tavis-cummings-model">Spectrum of Tavis-Cummings model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sectors-of-a-multi-orbital-interaction-hamiltonian">Sectors of a multi-orbital interaction Hamiltonian</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycommute</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Usage examples</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="usage-examples">
+<span id="examples"></span><h1>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="holstein-model">
+<h2>Holstein model<a class="headerlink" href="#holstein-model" title="Permalink to this headline">¶</a></h2>
+<p>This example shows how to construct Hamiltonian of the
+<a class="reference external" href="https://arxiv.org/abs/cond-mat/9812252">Holstein model</a> on a
+square lattice and to check that the total number of electrons is a conserved
+quantity of the model.</p>
+<p>The Hamiltonian considered here is a sum of three terms.</p>
+<ul>
+<li><p>An electronic tight-binding model on a square lattice with only
+nearest-neighbour hopping allowed,</p>
+<div class="math notranslate nohighlight">
+\[\hat H_\text{e} = -t \sum_\sigma \sum_{\langle i,j\rangle}
+                  c^\dagger_{i,\sigma} c_{j,\sigma}.\]</div>
+</li>
+<li><p>A harmonic oscillator at each lattice site (a localized phonon),</p>
+<div class="math notranslate nohighlight">
+\[\hat H_\text{ph} = \omega_0 \sum_i a^\dagger_i a_i.\]</div>
+</li>
+<li><p>A coupling between the electrons and the phonons.</p>
+<div class="math notranslate nohighlight">
+\[\hat H_\text{e-ph} = g \sum_\sigma \sum_i n_{i,\sigma}(a^\dagger_i + a_i).\]</div>
+</li>
+</ul>
+<p>Instead of writing the sums over lattice sites explicitly, we call library
+functions <a class="reference internal" href="models_ref.html#pycommute.models.tight_binding" title="pycommute.models.tight_binding"><code class="xref py py-func docutils literal notranslate"><span class="pre">tight_binding()</span></code></a>,
+<a class="reference internal" href="models_ref.html#pycommute.models.dispersion" title="pycommute.models.dispersion"><code class="xref py py-func docutils literal notranslate"><span class="pre">dispersion()</span></code></a> and
+<a class="reference internal" href="models_ref.html#pycommute.models.holstein_int" title="pycommute.models.holstein_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">holstein_int()</span></code></a>.
+We also make use of the <a class="reference external" href="https://networkx.org/">NetworkX</a> package
+to easily generate the adjacency matrix of the periodic square lattice.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># Holstein model on a square lattice with periodic boundary conditions.</span>
+<span class="c1">#</span>
+
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">pycommute.expression</span> <span class="kn">import</span> <span class="n">ExpressionR</span><span class="p">,</span> <span class="n">conj</span><span class="p">,</span> <span class="n">BOSON</span>
+<span class="kn">from</span> <span class="nn">pycommute.expression</span> <span class="kn">import</span> <span class="n">n</span>
+<span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">tight_binding</span><span class="p">,</span> <span class="n">dispersion</span><span class="p">,</span> <span class="n">holstein_int</span>
+
+<span class="kn">from</span> <span class="nn">networkx.generators.lattice</span> <span class="kn">import</span> <span class="n">grid_2d_graph</span>
+<span class="kn">from</span> <span class="nn">networkx.linalg.graphmatrix</span> <span class="kn">import</span> <span class="n">adjacency_matrix</span>
+
+<span class="c1">#</span>
+<span class="c1"># Let us define Hamiltonian of an electronic tight-binding model</span>
+<span class="c1"># on a square lattice.</span>
+<span class="c1">#</span>
+
+<span class="c1"># Number of lattice sites in each direction</span>
+<span class="c1"># (the total number of sites is N*N).</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="c1"># Electron hopping constant - energy parameter of the TB model.</span>
+<span class="n">t</span> <span class="o">=</span> <span class="mf">2.0</span>
+
+<span class="c1"># Use NetworkX to construct the periodic square lattice (graph)</span>
+<span class="n">lat</span> <span class="o">=</span> <span class="n">grid_2d_graph</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="c1"># Create lists of indices for electronic spin-up and spin-down operators.</span>
+<span class="c1"># lat.nodes() returns a list of N^2 pairs of site indices (x, y).</span>
+<span class="n">indices_up</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+<span class="n">indices_dn</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+
+<span class="c1"># A sum of tight-binding Hamiltonians for both spins.</span>
+<span class="c1"># The hopping matrix passed to tight_binding() is proportional to the</span>
+<span class="c1"># adjacency matrix of the lattice.</span>
+<span class="n">hopping_matrix</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">adjacency_matrix</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+<span class="n">H_e</span> <span class="o">=</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_up</span><span class="p">)</span> \
+    <span class="o">+</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># Hamiltonian of phonons localized at lattice sites.</span>
+<span class="c1">#</span>
+
+<span class="c1"># Frequency of the localized phonon.</span>
+<span class="n">w0</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="c1"># A lists of indices for bosonic operators, simply the (x, y) pairs</span>
+<span class="n">indices_phonon</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+
+<span class="c1"># All N^2 phonons have the same frequency</span>
+<span class="n">phonon_freqs</span> <span class="o">=</span> <span class="n">w0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">H_ph</span> <span class="o">=</span> <span class="n">dispersion</span><span class="p">(</span><span class="n">phonon_freqs</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_phonon</span><span class="p">,</span> <span class="n">statistics</span><span class="o">=</span><span class="n">BOSON</span><span class="p">)</span>
+
+<span class="c1">#</span>
+<span class="c1"># Hamiltonian of electron-phonon coupling.</span>
+<span class="c1">#</span>
+
+<span class="c1"># Electron-phonon coupling constant.</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="n">H_e_ph</span> <span class="o">=</span> <span class="n">holstein_int</span><span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
+                      <span class="n">indices_up</span><span class="o">=</span><span class="n">indices_up</span><span class="p">,</span>
+                      <span class="n">indices_dn</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">,</span>
+                      <span class="n">indices_boson</span><span class="o">=</span><span class="n">indices_phonon</span><span class="p">)</span>
+
+<span class="c1"># Complete Holstein Hamiltonian.</span>
+<span class="n">H_H</span> <span class="o">=</span> <span class="n">H_e</span> <span class="o">+</span> <span class="n">H_ph</span> <span class="o">+</span> <span class="n">H_e_ph</span>
+
+<span class="c1"># Print H_H. There will be quite a lot of terms for the 100-site lattice!</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;H_H =&quot;</span><span class="p">,</span> <span class="n">H_H</span><span class="p">)</span>
+
+<span class="c1"># Check hermiticity of H_H.</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;H_H - H_H^\dagger =&quot;</span><span class="p">,</span> <span class="n">H_H</span> <span class="o">-</span> <span class="n">conj</span><span class="p">(</span><span class="n">H_H</span><span class="p">))</span>
+
+<span class="c1"># Check that H_H commutes with the total number of electrons N_e.</span>
+<span class="n">N_e</span> <span class="o">=</span> <span class="n">ExpressionR</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;up&quot;</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)):</span>
+        <span class="n">N_e</span> <span class="o">+=</span> <span class="n">n</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H_H, N_e] =&quot;</span><span class="p">,</span> <span class="n">H_H</span> <span class="o">*</span> <span class="n">N_e</span> <span class="o">-</span> <span class="n">N_e</span> <span class="o">*</span> <span class="n">H_H</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="spin-1-2-heisenberg-chain">
+<h2>Spin-1/2 Heisenberg chain<a class="headerlink" href="#spin-1-2-heisenberg-chain" title="Permalink to this headline">¶</a></h2>
+<p>The spin-1/2 Heisenberg chain is a textbook example of an integrable quantum
+system. Its Hamiltonian</p>
+<div class="math notranslate nohighlight">
+\[\hat H = g \sum_i \mathbf{S}_i \cdot \mathbf{S}_{i+1}\]</div>
+<p>conserves three projections of the total spin</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{S} = \sum_i \mathbf{S}_i\]</div>
+<p>as well as a series of higher order charges <span class="math notranslate nohighlight">\(Q_n\)</span>. Existence of these
+charges can be derived from the transfer matrix theory. Explicit expressions
+for <span class="math notranslate nohighlight">\(Q_n\)</span> were obtained in <a class="reference internal" href="#gm94" id="id2"><span>[GM94]</span></a>. The following script constructs
+Hamiltonian of the Heisenberg chain with periodic boundary conditions
+(see <a class="reference internal" href="models_ref.html#pycommute.models.heisenberg" title="pycommute.models.heisenberg"><code class="xref py py-func docutils literal notranslate"><span class="pre">heisenberg()</span></code></a>)
+and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}] = 0\)</span>, <span class="math notranslate nohighlight">\([\hat H, Q_n] = 0\)</span> and
+<span class="math notranslate nohighlight">\([Q_n, Q_m] = 0\)</span> for <span class="math notranslate nohighlight">\(m,n = 3,4,5\)</span>.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># Periodic spin-1/2 Heisenberg chain and its integrals of motion</span>
+<span class="c1">#</span>
+<span class="c1"># Expressions for the integrals of motion are taken from</span>
+<span class="c1">#</span>
+<span class="c1">#   &quot;Quantum Integrals of Motion for the Heisenberg Spin Chain&quot;,</span>
+<span class="c1">#   M. P. Grabowski and P. Mathieu</span>
+<span class="c1">#   Mod. Phys. Lett. A, Vol. 09, No. 24, pp. 2197-2206 (1994),</span>
+<span class="c1">#   https://doi.org/10.1142/S0217732394002057</span>
+<span class="c1">#</span>
+
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">cross</span>
+<span class="kn">from</span> <span class="nn">pycommute.expression</span> <span class="kn">import</span> <span class="n">S_x</span><span class="p">,</span> <span class="n">S_y</span><span class="p">,</span> <span class="n">S_z</span>
+<span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">heisenberg</span>
+
+<span class="c1"># Number of spins in the chain</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="c1"># Heisenberg exchange constant</span>
+<span class="n">g</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="c1"># List of 3-component spin vectors {S_0, S_1, ..., S_{N-1}}</span>
+<span class="n">S</span> <span class="o">=</span> <span class="p">[</span><span class="n">array</span><span class="p">([</span><span class="n">S_x</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">S_y</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">S_z</span><span class="p">(</span><span class="n">i</span><span class="p">)])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+
+<span class="c1"># Matrix of exchange constants between spins i and j</span>
+<span class="n">exchange_matrix</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">((</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">))</span>
+<span class="c1"># Set elements corresponding to the nearest neighbors to -g</span>
+<span class="c1"># (index shift modulo N ensures periodic boundary conditions).</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">exchange_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">g</span>
+
+<span class="c1"># Hamiltonian of the spin-1/2 Heisenberg chain.</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">heisenberg</span><span class="p">(</span><span class="n">exchange_matrix</span><span class="p">)</span>
+
+<span class="c1"># Total spin of the chain.</span>
+<span class="n">S_tot</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
+
+<span class="c1"># All three components of S commute with the Hamiltonian.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, S_x] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, S_y] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, S_z] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
+
+<span class="c1"># Higher charge Q_3 (1st line of Eq. (10)).</span>
+<span class="n">Q3</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">cross</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]),</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, Q3] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">Q3</span> <span class="o">-</span> <span class="n">Q3</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
+
+<span class="c1"># Higher charge Q_4 (2nd line of Eq. (10)).</span>
+<span class="n">Q4</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">dot</span><span class="p">(</span>
+    <span class="n">cross</span><span class="p">(</span>
+        <span class="n">cross</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]),</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]</span>
+    <span class="p">),</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="n">Q4</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, Q4] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">Q4</span> <span class="o">-</span> <span class="n">Q4</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
+
+<span class="c1"># Higher charge Q_5 (3rd line of Eq. (10)).</span>
+<span class="n">Q5</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mf">4.0</span> <span class="o">*</span> <span class="n">dot</span><span class="p">(</span>
+    <span class="n">cross</span><span class="p">(</span>
+        <span class="n">cross</span><span class="p">(</span>
+            <span class="n">cross</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]),</span>
+            <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]</span>
+        <span class="p">),</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]),</span>
+    <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="n">Q5</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">cross</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]),</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="n">Q5</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dot</span><span class="p">(</span><span class="n">cross</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">]),</span> <span class="n">S</span><span class="p">[(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, Q5] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">Q5</span> <span class="o">-</span> <span class="n">Q5</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
+
+<span class="c1"># Check that the higher charges pairwise commute.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Q3, Q4] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Q3</span> <span class="o">*</span> <span class="n">Q4</span> <span class="o">-</span> <span class="n">Q4</span> <span class="o">*</span> <span class="n">Q3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Q3, Q5] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Q3</span> <span class="o">*</span> <span class="n">Q5</span> <span class="o">-</span> <span class="n">Q5</span> <span class="o">*</span> <span class="n">Q3</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Q4, Q5] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Q4</span> <span class="o">*</span> <span class="n">Q5</span> <span class="o">-</span> <span class="n">Q5</span> <span class="o">*</span> <span class="n">Q4</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="spectrum-of-tavis-cummings-model">
+<h2>Spectrum of Tavis-Cummings model<a class="headerlink" href="#spectrum-of-tavis-cummings-model" title="Permalink to this headline">¶</a></h2>
+<p>In this example we demonstrate how to use tools from the
+<a class="reference internal" href="loperator_ref.html#module-pycommute.loperator" title="pycommute.loperator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">loperator</span></code></a> module along with NumPy’s eigensolvers to
+diagonalize Hamiltonians of simple quantum models.</p>
+<p>We will consider a two-atom Jaynes-Cummings (Tavis-Cummings) Hamiltonian
+<a class="reference internal" href="#tc68" id="id3"><span>[TC68]</span></a>, which models a system of two qubits coherently coupled via a bosonic
+degree of freedom (quantum oscillator),</p>
+<div class="math notranslate nohighlight">
+\[\hat H = \epsilon (\hat S_{z,0} + \hat S_{z,1}) +
+         \omega \hat a^\dagger \hat a
+         + g_0 (\hat a^\dagger \hat S_{-,0} + \hat a \hat S_{+,0})
+         + g_1 (\hat a^\dagger \hat S_{-,1} + \hat a \hat S_{+,1}).\]</div>
+<p>An expression of this form can be conveniently generated by a single call to
+<a class="reference internal" href="models_ref.html#pycommute.models.jaynes_cummings" title="pycommute.models.jaynes_cummings"><code class="xref py py-func docutils literal notranslate"><span class="pre">jaynes_cummings()</span></code></a>.</p>
+<p>Since the occupation number of the bosonic mode can formally grow
+to <span class="math notranslate nohighlight">\(+\infty\)</span>, we have to artificially restrict the dimension of the
+bosonic Hilbert space in order to be able to construct a finite matrix
+representation of our problem.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># Diagonalization of a two-qubit Tavis-Cummings model.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Utility function used to construct the generalized Jaynes-Cummings model.</span>
+<span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">jaynes_cummings</span>
+
+<span class="c1"># Hilbert spaces.</span>
+<span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">HilbertSpace</span><span class="p">,</span> <span class="n">make_space_boson</span><span class="p">,</span> <span class="n">make_space_spin</span>
+
+<span class="c1"># Real-valued linear operator object.</span>
+<span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
+
+<span class="c1"># Transition frequencies of qubits.</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
+
+<span class="c1"># Oscillator frequency.</span>
+<span class="c1"># (In a more general case of M oscillators, omega would be a length-M array).</span>
+<span class="n">omega</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.8</span><span class="p">])</span>
+
+<span class="c1"># Qubit-oscillator coupling constants as a 2x1 array.</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">]])</span>
+
+<span class="c1"># Create the Tavis-Cummings Hamiltonian</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">jaynes_cummings</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
+
+<span class="c1"># Construct state space of our problem as a direct product of two</span>
+<span class="c1"># two-dimensional Hilbert spaces (qubits) and one truncated bosonic Hilbert</span>
+<span class="c1"># space.</span>
+<span class="c1"># make_space_boson(4) returns the truncated bosonic space with allowed</span>
+<span class="c1"># occupation numbers N = 0, 1, ..., (2^4-1).</span>
+<span class="n">hs</span> <span class="o">=</span> <span class="n">HilbertSpace</span><span class="p">([</span>
+    <span class="n">make_space_spin</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># Qubit 1: spin-1/2, index 0</span>
+    <span class="n">make_space_spin</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>  <span class="c1"># Qubit 2: spin-1/2, index 1</span>
+    <span class="n">make_space_boson</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>      <span class="c1"># Oscillator, index 0</span>
+<span class="p">])</span>
+
+<span class="c1"># Construct a linear operator corresponding to H and acting in the Hilbert</span>
+<span class="c1"># space hs.</span>
+<span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
+
+<span class="c1"># Prepare a matrix representation of H_op</span>
+<span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
+    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="c1"># Act with H_op on psi and store the result the i-th column of H_mat</span>
+    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">H_op</span> <span class="o">*</span> <span class="n">psi</span>
+
+<span class="c1"># Use NumPy to compute eigenvalues of H_mat</span>
+<span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="sectors-of-a-multi-orbital-interaction-hamiltonian">
+<h2>Sectors of a multi-orbital interaction Hamiltonian<a class="headerlink" href="#sectors-of-a-multi-orbital-interaction-hamiltonian" title="Permalink to this headline">¶</a></h2>
+<p>When implementing an exact diagonalization algorithm, it is usually advantageous
+to take an extra preparatory step and split the Hilbert space of the problem
+into subspaces (sectors) characterized by a set of quantum numbers.
+In many situations, it is possible to find the sectors even without knowing
+the quantities conserved by the Hamiltonian (see, for instance, <a class="reference internal" href="#skfp16" id="id4"><span>[SKFP16]</span></a>).</p>
+<p>In the script shown below we construct an electron-electron interaction
+Hamiltonian of an atomic <span class="math notranslate nohighlight">\(d\)</span>-shell using
+<a class="reference internal" href="models_ref.html#pycommute.models.slater_int" title="pycommute.models.slater_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">Slater</span></code></a> parametrization. Then, we employ
+the <a class="reference internal" href="loperator_ref.html#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpacePartition</span></code></a> and
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.BasisMapper" title="pycommute.loperator.BasisMapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisMapper</span></code></a> utility classes to
+independently diagonalize the Hamiltonian within each sector.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span>
+<span class="normal">74</span>
+<span class="normal">75</span>
+<span class="normal">76</span>
+<span class="normal">77</span>
+<span class="normal">78</span>
+<span class="normal">79</span>
+<span class="normal">80</span>
+<span class="normal">81</span>
+<span class="normal">82</span>
+<span class="normal">83</span>
+<span class="normal">84</span>
+<span class="normal">85</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="c1"># Sector-wise diagonalization of the Slater interaction Hamiltonian.</span>
+<span class="c1">#</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Utility function used to construct the Slater interaction Hamiltonian.</span>
+<span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">slater_int</span>
+
+<span class="c1"># Hilbert space.</span>
+<span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">HilbertSpace</span>
+
+<span class="c1"># Real-valued linear operator object.</span>
+<span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
+<span class="c1"># Automatic space partition and basis state mapper</span>
+<span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_space_partition</span><span class="p">,</span> <span class="n">foreach</span><span class="p">,</span> <span class="n">BasisMapper</span>
+
+<span class="c1"># Values of Slater radial integrals F_0, F_2, F_4</span>
+<span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
+
+<span class="c1"># Slater Hamiltonian.</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">slater_int</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
+
+<span class="c1"># Analyze structure of H and construct a suitable Hilbert space.</span>
+<span class="n">hs</span> <span class="o">=</span> <span class="n">HilbertSpace</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+
+<span class="c1"># Construct a linear operator corresponding to H and acting in the Hilbert</span>
+<span class="c1"># space hs.</span>
+<span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
+
+<span class="c1"># The first value returned by make_space_partition() is a SpacePartition object.</span>
+<span class="c1"># It represents a partition of the full Hilbert space into sectors,</span>
+<span class="c1"># i.e. subspaces invariant under action of H_op.</span>
+<span class="c1">#</span>
+<span class="c1"># The second returned value is a dictionary {(i, j): value} of all non-vanishing</span>
+<span class="c1"># matrix elements of H_op. By construction, all matrix elements of H_op between</span>
+<span class="c1"># different sectors vanish.</span>
+<span class="n">sp</span><span class="p">,</span> <span class="n">matrix_elements</span> <span class="o">=</span> <span class="n">make_space_partition</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
+
+<span class="c1"># Print out information about the revealed sectors.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Dimension of full Hilbert space:&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Total number of sectors:&quot;</span><span class="p">,</span> <span class="n">sp</span><span class="o">.</span><span class="n">n_subspaces</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Many-body basis state </span><span class="si">%d</span><span class="s2"> belongs to sector </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">sp</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+
+<span class="c1"># Use foreach() to compile lists of basis states spanning each sector.</span>
+<span class="n">sectors</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">n_subspaces</span><span class="p">)]</span>
+<span class="n">foreach</span><span class="p">(</span><span class="n">sp</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">basis_state</span><span class="p">,</span> <span class="n">sector</span><span class="p">:</span> <span class="n">sectors</span><span class="p">[</span><span class="n">sector</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">basis_state</span><span class="p">))</span>
+
+<span class="c1"># Diagonalize H_op within each sector</span>
+<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">sector</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sectors</span><span class="p">):</span>
+    <span class="n">sector_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diagonalizing sector </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> of H_op, sector size is </span><span class="si">{</span><span class="n">sector_dim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># A BasisMapper object translates indices of basis states from the full</span>
+    <span class="c1"># Hilbert space to a given sector.</span>
+    <span class="n">basis_mapper</span> <span class="o">=</span> <span class="n">BasisMapper</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
+
+    <span class="c1"># Prepare a matrix representation of H_op within current sector.</span>
+    <span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sector_dim</span><span class="p">,</span> <span class="n">sector_dim</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">):</span>
+        <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
+        <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">)</span>
+        <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="c1"># This vector will receive the result of H_op * psi</span>
+        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">)</span>
+
+        <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
+        <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
+        <span class="c1"># size hs.dim.</span>
+        <span class="c1"># Instead, we are going to use our basis mapper object to construct</span>
+        <span class="c1"># special views of psi and phi.</span>
+        <span class="n">psi_view</span> <span class="o">=</span> <span class="n">basis_mapper</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span>
+        <span class="n">phi_view</span> <span class="o">=</span> <span class="n">basis_mapper</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+
+        <span class="c1"># Now, H_op can act on the mapped views.</span>
+        <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
+
+        <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
+        <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
+
+    <span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
+    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="citation">
+<dt class="label" id="gm94"><span class="brackets"><a class="fn-backref" href="#id2">GM94</a></span></dt>
+<dd><p>“Quantum Integrals of Motion for the Heisenberg Spin Chain”,
+M. P. Grabowski and P. Mathieu,
+Mod. Phys. Lett. A, Vol. 09, No. 24, pp. 2197-2206 (1994),
+<a class="reference external" href="https://doi.org/10.1142/S0217732394002057">https://doi.org/10.1142/S0217732394002057</a></p>
+</dd>
+<dt class="label" id="tc68"><span class="brackets"><a class="fn-backref" href="#id3">TC68</a></span></dt>
+<dd><p>“Exact Solution for an N-Molecule-Radiation-Field Hamiltonian”,
+M. Tavis and F. W. Cummings
+Phys. Rev. 170, 379 (1968)
+<a class="reference external" href="https://doi.org/10.1103/PhysRev.170.379">https://doi.org/10.1103/PhysRev.170.379</a></p>
+</dd>
+<dt class="label" id="skfp16"><span class="brackets"><a class="fn-backref" href="#id4">SKFP16</a></span></dt>
+<dd><p>“TRIQS/CTHYB: A continuous-time quantum Monte Carlo
+hybridisation expansion solver for quantum impurity problems”,
+P. Seth, I. Krivenko, M. Ferrero and O. Parcollet,
+Comp. Phys. Comm. 200, March 2016, 274-284,
+<a class="reference external" href="http://dx.doi.org/10.1016/j.cpc.2015.10.023">http://dx.doi.org/10.1016/j.cpc.2015.10.023</a> (section 4.2)</p>
+</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="reference.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="installation.html" class="btn btn-neutral float-left" title="Prerequisites" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020-2021, Igor Krivenko.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
