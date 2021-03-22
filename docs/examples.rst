@@ -106,6 +106,27 @@ representation of our problem.
   :lines: 11-
   :linenos:
 
+Sectors of a multi-orbital interaction Hamiltonian
+--------------------------------------------------
+
+When implementing an exact diagonalization algorithm, it is usually advantageous
+to take an extra preparatory step and split the Hilbert space of the problem
+into subspaces (sectors) characterized by a set of quantum numbers.
+In many situations, it is possible to find the sectors even without knowing
+the quantities conserved by the Hamiltonian (see, for instance, [SKFP16]_).
+
+In the script shown below we construct an electron-electron interaction
+Hamiltonian of an atomic :math:`d`-shell using
+:func:`Slater <pycommute.models.slater_int>` parametrization. Then, we employ
+the :class:`SpacePartition <pycommute.loperator.SpacePartition>` and
+:class:`BasisMapper <pycommute.loperator.BasisMapper>` utility classes to
+independently diagonalize the Hamiltonian within each sector.
+
+.. literalinclude:: space_partition.py
+  :language: python
+  :lines: 11-
+  :linenos:
+
 Literature
 ----------
 
@@ -118,3 +139,9 @@ Literature
   M. Tavis and F. W. Cummings
   Phys. Rev. 170, 379 (1968)
   https://doi.org/10.1103/PhysRev.170.379
+
+.. [SKFP16] "TRIQS/CTHYB: A continuous-time quantum Monte Carlo
+  hybridisation expansion solver for quantum impurity problems",
+  P. Seth, I. Krivenko, M. Ferrero and O. Parcollet,
+  Comp. Phys. Comm. 200, March 2016, 274-284,
+  http://dx.doi.org/10.1016/j.cpc.2015.10.023 (section 4.2)

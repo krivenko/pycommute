@@ -48,7 +48,7 @@ hs = HilbertSpace([
 ])
 
 # Construct a linear operator corresponding to H and acting in the Hilbert
-# space 'hs'
+# space hs.
 H_op = LOperatorR(H, hs)
 
 # Prepare a matrix representation of H_op
