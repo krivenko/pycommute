@@ -127,7 +127,7 @@ independently diagonalize the Hamiltonian within each sector.
   :lines: 11-
   :linenos:
 
-Literature
+References
 ----------
 
 .. [GM94] "Quantum Integrals of Motion for the Heisenberg Spin Chain",
