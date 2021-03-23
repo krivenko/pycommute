@@ -90,8 +90,8 @@
             
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Prerequisites</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#installation-using-pip">Installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="#installation-from-sources">Installation from sources</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#automated-installation-using-pip">Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
@@ -173,12 +173,6 @@
 <li><p>sphinx-rtd-theme</p></li>
 </ul>
 </div>
-<div class="section" id="installation-using-pip">
-<h1>Installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#installation-using-pip" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pycommute</span>
-</pre></div>
-</div>
-</div>
 <div class="section" id="installation-from-sources">
 <h1>Installation from sources<a class="headerlink" href="#installation-from-sources" title="Permalink to this headline">¶</a></h1>
 <p>Installing <em>pycommute</em> from sources is as easy as running</p>
@@ -188,6 +182,12 @@
 <p>in the unpacked source directory.</p>
 <p>If you need to build the documentation locally, you should additionally run</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_sphinx</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="automated-installation-using-pip">
+<h1>Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#automated-installation-using-pip" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pycommute</span>
 </pre></div>
 </div>
 </div>
