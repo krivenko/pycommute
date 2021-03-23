@@ -1,7 +1,9 @@
 # pycommute
 
-[![Build status](https://github.com/krivenko/pycommute/actions/workflows/pycommute.yml/badge.svg)](
-https://github.com/krivenko/pycommute/actions/workflows/pycommute.yml)
+[![Package on PyPI](https://img.shields.io/pypi/v/pycommute.svg)](
+https://pypi.org/project/pycommute)
+[![Build and test](https://github.com/krivenko/pycommute/actions/workflows/build-and-test.yml/badge.svg)](
+https://github.com/krivenko/pycommute/actions/workflows/build-and-test.yml)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-red)](
 https://krivenko.github.io/pycommute)
 
@@ -17,11 +19,14 @@ You can find a few
 Installation from sources
 -------------------------
 
-* Install prerequisites:
+* [Download](https://github.com/krivenko/libcommute/releases) source code of
+  *libcommute* and optionally
+  [install](https://krivenko.github.io/libcommute/installation.html) it.
 
-  - [libcommute](https://krivenko.github.io/libcommute/installation.html)
+* Install Python prerequisites:
+
   - [pybind11 >= 2.6.0](https://pypi.org/project/pybind11/)
-  - [NumPy](https://pypi.org/project/numpy/)
+  - [numpy >= 1.12.0](https://pypi.org/project/numpy/)
   - [Sphinx >= 2.0.0](https://pypi.org/project/sphinx/)
   - [sphinx-rtd-theme](https://pypi.org/project/sphinx-rtd-theme/)
 
@@ -29,6 +34,16 @@ Installation from sources
 
 ```
 LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" python setup.py install
+```
+
+``<path_to_libcommute>`` must be either installation or source directory of
+*libcommute*.
+
+Automated installation using ``pip``
+------------------------------------
+
+```
+LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" pip install pycommute
 ```
 
 License

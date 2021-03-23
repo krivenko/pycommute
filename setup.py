@@ -12,6 +12,7 @@
 # Based on code in https://github.com/pybind/python_example
 #
 
+import os
 from setuptools import setup
 from sphinx.setup_command import BuildDoc
 from pybind11.setup_helpers import Pybind11Extension, build_ext
@@ -85,16 +86,28 @@ class run_build_before_doc(BuildDoc):
         super(run_build_before_doc, self).run()
 
 
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+
+
 setup(
     name="pycommute",
     version=__version__,
     author="Igor Krivenko",
     author_email="igor.s.krivenko@gmail.com",
     description="Python bindings for the libcommute C++ library",
+    long_description=read("README.md"),
+    long_description_content_type="text/markdown",
+    url="https://krivenko.github.io/pycommute",
     keywords="libcommute dsl computer algebra quantum",
     license="MPL-2",
+    project_urls={
+        "Bug Tracker": "https://github.com/krivenko/pycommute/issues",
+        "Documentation": "https://krivenko.github.io/pycommute",
+        "Source Code": "https://github.com/krivenko/pycommute"
+    },
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
@@ -105,6 +118,7 @@ setup(
         'Topic :: Scientific/Engineering :: Physics'
     ],
     python_requires=">=3.6",
+    install_requires=["numpy>=1.12.0"],
     packages=['pycommute'],
     ext_modules=ext_modules,
     include_package_data=True,

@@ -1,4 +1,4 @@
-name: pycommute
+name: Build and test
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
@@ -61,27 +61,3 @@ jobs:
       run: |
            pip install flake8
            flake8 .
-
-    - name: Build documentation
-      if: |
-          github.ref == 'refs/heads/master' &&
-          matrix.cxx_compiler.name == 'clang' &&
-          matrix.python-version == 3.9
-      run: |
-           export LIBCOMMUTE_DIR=${GITHUB_WORKSPACE}/libcommute.installed
-           export LIBCOMMUTE_INCLUDEDIR=${LIBCOMMUTE_DIR}/include
-           export CC="${{ matrix.cxx_compiler.cc }}"
-           export CXX="${{ matrix.cxx_compiler.cxx }}"
-           python setup.py build_sphinx
-           touch build/sphinx/html/.nojekyll
-
-    - name: Deploy documentation
-      if: |
-          github.ref == 'refs/heads/master' &&
-          matrix.cxx_compiler.name == 'clang' &&
-          matrix.python-version == 3.9
-      uses: JamesIves/github-pages-deploy-action@4.1.0
-      with:
-        branch: gh-pages
-        token: ${{ secrets.GITHUB_TOKEN }}
-        folder: build/sphinx/html

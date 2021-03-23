@@ -1,10 +1,9 @@
 [build-system]
 requires = [
-    "setuptools>=42",
+    "setuptools>=42.0.0",
     "wheel",
     "pybind11>=2.6.0",
-    "Sphinx>=2.0.0",
-    "numpy"
+    "Sphinx>=2.0.0"
 ]
 
 build-backend = "setuptools.build_meta"

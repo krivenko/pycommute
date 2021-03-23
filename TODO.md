@@ -1,7 +1,6 @@
 TODO list
 =========
 
-* Publish on PyPi.
 * Remove the workaround for pybind11 issue #2516 when it is fixed.
 * Try to allow inheriting from `Generator` in Python if pybind11 issue #1546 and
   related issues are ever resolved.
