@@ -9,8 +9,15 @@ Prerequisites
 - Sphinx >= 2.0.0
 - sphinx-rtd-theme
 
-Installation
-============
+Installation using ``pip``
+==========================
+
+.. code::
+
+  pip install pycommute
+
+Installation from sources
+=========================
 
 Installing *pycommute* from sources is as easy as running
 
