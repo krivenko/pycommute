@@ -595,6 +595,16 @@ degree of freedom (quantum oscillator),</p>
 to <span class="math notranslate nohighlight">\(+\infty\)</span>, we have to artificially restrict the dimension of the
 bosonic Hilbert space in order to be able to construct a finite matrix
 representation of our problem.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Performance of repeated calls to
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorR</span></code></a> or
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorC</span></code></a> to construct a matrix
+representation of a linear operator is limited by Python method
+call overhead. For large-scale problems it is advised to construct the matrix
+in the C++ code using <em>libcommute</em>’s
+<a class="reference external" href="https://krivenko.github.io/libcommute/loperator/index.html">ED tools</a>.</p>
+</div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
