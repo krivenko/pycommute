@@ -15,7 +15,7 @@
 from itertools import product
 import numpy as np
 
-from pycommute.expression import ExpressionR, conj, BOSON
+from pycommute.expression import ExpressionR, conj, FERMION, BOSON
 from pycommute.expression import n
 from pycommute.models import tight_binding, dispersion, holstein_int
 
@@ -91,3 +91,29 @@ for spin in ("up", "down"):
         N_e += n(x, y, spin)
 
 print("[H_H, N_e] =", H_H * N_e - N_e * H_H)
+
+#
+# Iteration interface
+#
+
+# Iterate over monomial-coefficient pairs in polynomial expression H_H
+for monomial, coeff in H_H:
+    print("Coefficient:", coeff)
+    # Iterate over algebra generators (creation/annihilation operators)
+    # in the monomial
+    for generator in monomial:
+        # Detect what algebra this generator belongs to
+        if generator.algebra_id == FERMION:
+            print("\tFermionic", end=' ')
+        elif generator.algebra_id == BOSON:
+            print("\tBosonic", end=' ')
+        # Creation or annihilation operator?
+        if generator.dagger:
+            print("creation operator", end=' ')
+        else:
+            print("annihilation operator", end=' ')
+        # Extract indices carried by the generator
+        print("with indices", generator.indices.indices)
+        # N.B. generator.indices is an instance of a special sequence type
+        # `pycommute.expression.Indices`. The underlying list of indices has
+        # to be accessed as `generator.indices.indices`.
