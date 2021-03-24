@@ -166,20 +166,22 @@
   <div class="section" id="prerequisites">
 <span id="installation"></span><h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
-<li><p>A <a class="reference external" href="https://github.com/krivenko/libcommute">libcommute</a> installation</p></li>
+<li><p><a class="reference external" href="https://github.com/krivenko/libcommute">libcommute</a> (either installed or
+as a directory with unpacked source code)</p></li>
 <li><p>pybind11 &gt;= 2.6.0</p></li>
-<li><p>NumPy</p></li>
+<li><p>numpy &gt;= 1.12.0</p></li>
 <li><p>Sphinx &gt;= 2.0.0</p></li>
-<li><p>sphinx-rtd-theme</p></li>
+<li><p>sphinx-rtd-theme &gt;= 0.5.0</p></li>
 </ul>
 </div>
 <div class="section" id="installation-from-sources">
 <h1>Installation from sources<a class="headerlink" href="#installation-from-sources" title="Permalink to this headline">¶</a></h1>
 <p>Installing <em>pycommute</em> from sources is as easy as running</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=&lt;</span><span class="n">path_to_libcommute_include_dir</span><span class="o">&gt;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 </pre></div>
 </div>
-<p>in the unpacked source directory.</p>
+<p>in the unpacked source directory. <code class="docutils literal notranslate"><span class="pre">&lt;path_to_libcommute&gt;</span></code> must be either
+installation or source directory of <em>libcommute</em>.</p>
 <p>If you need to build the documentation locally, you should additionally run</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_sphinx</span>
 </pre></div>
