@@ -45,7 +45,6 @@ to easily generate the adjacency matrix of the periodic square lattice.
   :lines: 11-
   :linenos:
 
-
 Spin-1/2 Heisenberg chain
 -------------------------
 
@@ -100,6 +99,16 @@ Since the occupation number of the bosonic mode can formally grow
 to :math:`+\infty`, we have to artificially restrict the dimension of the
 bosonic Hilbert space in order to be able to construct a finite matrix
 representation of our problem.
+
+.. note::
+
+  Performance of repeated calls to
+  :class:`LOperatorR <pycommute.loperator.LOperatorR>` or
+  :class:`LOperatorC <pycommute.loperator.LOperatorC>` to construct a matrix
+  representation of a linear operator is limited by Python method
+  call overhead. For large-scale problems it is advised to construct the matrix
+  in the C++ code using *libcommute*'s
+  `ED tools <https://krivenko.github.io/libcommute/loperator/index.html>`_.
 
 .. literalinclude:: tavis_cummings.py
   :language: python
