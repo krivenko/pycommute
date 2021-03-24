@@ -1,7 +1,10 @@
 .. _installation:
 
+Installation
+============
+
 Prerequisites
-=============
+-------------
 
 - `libcommute <https://github.com/krivenko/libcommute>`_ (either installed or
   as a directory with unpacked source code)
@@ -11,7 +14,7 @@ Prerequisites
 - sphinx-rtd-theme >= 0.5.0
 
 Installation from sources
-=========================
+-------------------------
 
 Installing *pycommute* from sources is as easy as running
 
@@ -29,7 +32,7 @@ If you need to build the documentation locally, you should additionally run
   python setup.py build_sphinx
 
 Automated installation using ``pip``
-====================================
+------------------------------------
 
 .. code::
 
