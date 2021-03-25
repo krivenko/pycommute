@@ -185,8 +185,8 @@
 <h2>Index sequence<a class="headerlink" href="#index-sequence" title="Permalink to this headline">¶</a></h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> objects are not the same thing as Python tuples, because
-they follow a different ordering rule. Unlike with the Python tuples, two
+<p><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> objects are not the same thing as Python tuples because
+they follow a different ordering rule. Unlike the Python tuples, two
 index sequences <code class="docutils literal notranslate"><span class="pre">I1</span></code> and <code class="docutils literal notranslate"><span class="pre">I2</span></code> always compare as <code class="docutils literal notranslate"><span class="pre">I1</span> <span class="pre">&lt;</span> <span class="pre">I2</span></code> if
 <code class="docutils literal notranslate"><span class="pre">len(I1)</span> <span class="pre">&lt;</span> <span class="pre">len(I2)</span></code>.</p>
 </div>
@@ -198,6 +198,12 @@ index sequences <code class="docutils literal notranslate"><span class="pre">I1<
 <dt id="pycommute.expression.Indices.__eq__">
 <code class="sig-name descname"><span class="pre">__eq__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt id="pycommute.expression.Indices.__getitem__">
+<code class="sig-name descname"><span class="pre">__getitem__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pycommute.expression.Indices.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Individual index access.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="pycommute.expression.Indices.__gt__">
@@ -218,7 +224,7 @@ index sequences <code class="docutils literal notranslate"><span class="pre">I1<
 <dl class="py method">
 <dt id="pycommute.expression.Indices.__len__">
 <code class="sig-name descname"><span class="pre">__len__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.Indices.__len__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Index sequence length</p>
+<dd><p>Index sequence length.</p>
 </dd></dl>
 
 <dl class="py method">

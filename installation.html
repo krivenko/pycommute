@@ -171,12 +171,13 @@
 <div class="section" id="prerequisites">
 <h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p><a class="reference external" href="https://github.com/krivenko/libcommute">libcommute</a> (either installed or
-as a directory with unpacked source code)</p></li>
+<li><p><a class="reference external" href="https://github.com/krivenko/libcommute">libcommute</a> 0.6 or newer (either
+installed or as a directory with unpacked source code)</p></li>
+<li><p>packaging &gt;= 17.0</p></li>
 <li><p>pybind11 &gt;= 2.6.0</p></li>
 <li><p>numpy &gt;= 1.12.0</p></li>
-<li><p>Sphinx &gt;= 2.0.0</p></li>
-<li><p>sphinx-rtd-theme &gt;= 0.5.0</p></li>
+<li><p>Sphinx &gt;= 2.0.0 (optional, to build documentation)</p></li>
+<li><p>sphinx-rtd-theme (optional, to build documentation)</p></li>
 </ul>
 </div>
 <div class="section" id="installation-from-sources">
@@ -187,7 +188,7 @@ as a directory with unpacked source code)</p></li>
 </div>
 <p>in the unpacked source directory. <code class="docutils literal notranslate"><span class="pre">&lt;path_to_libcommute&gt;</span></code> must be either
 installation or source directory of <em>libcommute</em>.</p>
-<p>If you need to build the documentation locally, you should additionally run</p>
+<p>If you need to build documentation locally, you should additionally run</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">build_sphinx</span>
 </pre></div>
 </div>
