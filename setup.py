@@ -14,10 +14,13 @@
 
 import os
 from setuptools import setup
-from sphinx.setup_command import BuildDoc
+from packaging.specifiers import SpecifierSet
+from packaging.version import Version
 from pybind11.setup_helpers import Pybind11Extension, build_ext
+from sphinx.setup_command import BuildDoc
 
-__version__ = "0.6"
+__version__ = "0.6.1"
+comp_libcommute_versions = ">=0.6"
 
 ext_modules = [
     Pybind11Extension("pycommute/expression", ["pycommute/expression.cpp"]),
@@ -71,6 +74,14 @@ class pycommute_build_ext(build_ext):
                 "Could not find libcommute headers. "
                 "Use the LIBCOMMUTE_INCLUDEDIR environment variable "
                 "to specify location of libcommute include directory."
+            )
+
+        if Version(libcommute_version) not in \
+           SpecifierSet(comp_libcommute_versions):
+            raise RuntimeError(
+                "Incompatible libcommute version %s (required %s)." % (
+                    libcommute_version, comp_libcommute_versions
+                )
             )
 
         for ext in self.extensions:

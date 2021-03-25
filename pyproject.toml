@@ -2,6 +2,7 @@
 requires = [
     "setuptools>=42.0.0",
     "wheel",
+    "packaging>=17.0",
     "pybind11>=2.6.0",
     "Sphinx>=2.0.0"
 ]

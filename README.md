@@ -20,11 +20,12 @@ Installation from sources
 -------------------------
 
 * [Download](https://github.com/krivenko/libcommute/releases) source code of
-  *libcommute* and optionally
+  *libcommute* 0.6 or newer and optionally
   [install](https://krivenko.github.io/libcommute/installation.html) it.
 
 * Install Python prerequisites:
 
+  - [packaging >= 17.0](https://pypi.org/project/packaging/)
   - [pybind11 >= 2.6.0](https://pypi.org/project/pybind11/)
   - [numpy >= 1.12.0](https://pypi.org/project/numpy/)
   - [Sphinx >= 2.0.0](https://pypi.org/project/sphinx/)

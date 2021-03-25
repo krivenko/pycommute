@@ -6,8 +6,9 @@ Installation
 Prerequisites
 -------------
 
-- `libcommute <https://github.com/krivenko/libcommute>`_ (either installed or
-  as a directory with unpacked source code)
+- `libcommute <https://github.com/krivenko/libcommute>`_ 0.6 or newer (either
+  installed or as a directory with unpacked source code)
+- packaging >= 17.0
 - pybind11 >= 2.6.0
 - numpy >= 1.12.0
 - Sphinx >= 2.0.0
