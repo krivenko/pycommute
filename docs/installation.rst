@@ -11,8 +11,8 @@ Prerequisites
 - packaging >= 17.0
 - pybind11 >= 2.6.0
 - numpy >= 1.12.0
-- Sphinx >= 2.0.0
-- sphinx-rtd-theme >= 0.5.0
+- Sphinx >= 2.0.0 (optional, to build documentation)
+- sphinx-rtd-theme (optional, to build documentation)
 
 Installation from sources
 -------------------------
@@ -26,7 +26,7 @@ Installing *pycommute* from sources is as easy as running
 in the unpacked source directory. ``<path_to_libcommute>`` must be either
 installation or source directory of *libcommute*.
 
-If you need to build the documentation locally, you should additionally run
+If you need to build documentation locally, you should additionally run
 
 .. code::
 

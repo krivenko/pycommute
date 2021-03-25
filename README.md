@@ -28,8 +28,6 @@ Installation from sources
   - [packaging >= 17.0](https://pypi.org/project/packaging/)
   - [pybind11 >= 2.6.0](https://pypi.org/project/pybind11/)
   - [numpy >= 1.12.0](https://pypi.org/project/numpy/)
-  - [Sphinx >= 2.0.0](https://pypi.org/project/sphinx/)
-  - [sphinx-rtd-theme](https://pypi.org/project/sphinx-rtd-theme/)
 
 * Run the following command in the unpacked source archive of *pycommute*,
 

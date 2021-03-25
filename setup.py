@@ -17,7 +17,6 @@ from setuptools import setup
 from packaging.specifiers import SpecifierSet
 from packaging.version import Version
 from pybind11.setup_helpers import Pybind11Extension, build_ext
-from sphinx.setup_command import BuildDoc
 
 __version__ = "0.6.1"
 comp_libcommute_versions = ">=0.6"
@@ -91,10 +90,23 @@ class pycommute_build_ext(build_ext):
         build_ext.build_extensions(self)
 
 
-class run_build_before_doc(BuildDoc):
-    def run(self):
-        self.run_command("build")
-        super(run_build_before_doc, self).run()
+cmdclass = {'build_ext': pycommute_build_ext}
+
+# Detect Sphinx/sphinx_rtd_theme and enable documentation build
+try:
+    from sphinx.setup_command import BuildDoc
+except ImportError:
+    BuildDoc = None
+if BuildDoc:
+    class run_build_before_doc(BuildDoc):
+        def run(self):
+            self.run_command("build")
+            super(run_build_before_doc, self).run()
+
+    cmdclass['build_sphinx'] = run_build_before_doc
+else:
+    print("Note: "
+          "Install Sphinx>=2.0.0 and sphinx_rtd_theme to build documentation")
 
 
 def read(fname):
@@ -133,7 +145,6 @@ setup(
     packages=['pycommute'],
     ext_modules=ext_modules,
     include_package_data=True,
-    cmdclass={'build_ext': pycommute_build_ext,
-              'build_sphinx': run_build_before_doc},
+    cmdclass=cmdclass,
     zip_safe=False
 )
