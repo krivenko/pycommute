@@ -74,7 +74,7 @@ dyn_indices::indices_t args2indices_t(py::args args) {
 //
 // Register dynamic_indices::dyn_indices
 //
-// The 'Indices' objects are not the same thing as Python tuples, because
+// The 'Indices' objects are not the same thing as Python tuples because
 // they follow a different ordering rule. Unlike with the Python tuples, two
 // index sequences I1 and I2 always compare as I1 < I2 if len(I1) < len(I2).
 //
@@ -88,7 +88,7 @@ void register_dyn_indices(py::module_ & m) {
     }),
     "Construct an index sequence from positional integer/string arguments."
    )
-  .def("__len__", &dyn_indices::size, "Index sequence length")
+  .def("__len__", &dyn_indices::size, "Index sequence length.")
   .def(py::self == py::self)
   .def(py::self != py::self)
   .def(py::self < py::self)
@@ -107,6 +107,16 @@ void register_dyn_indices(py::module_ & m) {
     }
     return s;
   })
+  .def("__getitem__", [](dyn_indices const& indices, std::size_t n)
+      -> std::variant<int, std::string> const& {
+      if(n >= indices.size())
+        throw py::index_error();
+      auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
+      return ind[n];
+    },
+    "Individual index access.",
+    py::return_value_policy::reference
+  )
   .def("__iter__", [](const dyn_indices &indices) {
       auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
       return py::make_iterator(ind.begin(), ind.end());

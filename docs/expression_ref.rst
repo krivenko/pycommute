@@ -20,8 +20,8 @@ Index sequence
 
 .. note::
 
-  :py:class:`Indices` objects are not the same thing as Python tuples, because
-  they follow a different ordering rule. Unlike with the Python tuples, two
+  :py:class:`Indices` objects are not the same thing as Python tuples because
+  they follow a different ordering rule. Unlike the Python tuples, two
   index sequences ``I1`` and ``I2`` always compare as ``I1 < I2`` if
   ``len(I1) < len(I2)``.
 

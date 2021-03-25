@@ -34,6 +34,8 @@ class TestIndices(TestCase):
         self.assertEqual(str(all_ind[-1]), "")
         self.assertEqual([i for i in all_ind[-1]], [])
         self.assertEqual(all_ind[-1].indices, [])
+        with self.assertRaises(IndexError):
+            all_ind[-1][0]
 
         for i in (0, 1, "xxx", "yyy"):
             all_ind.append(Indices(i))
@@ -41,6 +43,9 @@ class TestIndices(TestCase):
             self.assertEqual(str(all_ind[-1]), str(i))
             self.assertEqual([n for n in all_ind[-1]], [i])
             self.assertEqual(all_ind[-1].indices, [i])
+            self.assertEqual(all_ind[-1].indices[0], i)
+            with self.assertRaises(IndexError):
+                all_ind[-1][1]
 
         for i, j in product((0, 1, "xxx", "yyy"), (0, 1, "xxx", "yyy")):
             all_ind.append(Indices(i, j))
@@ -48,6 +53,10 @@ class TestIndices(TestCase):
             self.assertEqual(str(all_ind[-1]), "%s,%s" % (i, j))
             self.assertEqual([n for n in all_ind[-1]], [i, j])
             self.assertEqual(all_ind[-1].indices, [i, j])
+            self.assertEqual(all_ind[-1].indices[0], i)
+            self.assertEqual(all_ind[-1].indices[1], j)
+            with self.assertRaises(IndexError):
+                all_ind[-1][2]
 
         self.check_equality(all_ind)
         self.check_less_greater(all_ind)

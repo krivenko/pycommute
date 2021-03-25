@@ -113,7 +113,9 @@ for monomial, coeff in H_H:
         else:
             print("annihilation operator", end=' ')
         # Extract indices carried by the generator
-        print("with indices", generator.indices.indices)
-        # N.B. generator.indices is an instance of a special sequence type
-        # `pycommute.expression.Indices`. The underlying list of indices has
-        # to be accessed as `generator.indices.indices`.
+        print("with indices", list(generator.indices))
+        # N.B. generator.indices is an instance of a special tuple-like type
+        # `pycommute.expression.Indices`. Types of its elements are restricted
+        # to integer and string, and its comparison operators behave differently
+        # from those of the Python tuple. Otherwise, it supports `len()`,
+        # indexed element access and iteration protocol.
