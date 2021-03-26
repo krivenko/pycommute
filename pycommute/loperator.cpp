@@ -342,6 +342,11 @@ Add a new elementary space into the direct product.
     "Is a given elementary space part of the direct product?",
     py::arg("es")
   )
+  .def("index",
+    &hs_type::index,
+    "Position of a given elementary space in the product.",
+    py::arg("es")
+  )
   .def("__len__",
     &hs_type::size,
     "Number of elementary spaces in the direct product."
