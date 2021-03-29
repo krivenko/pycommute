@@ -7,7 +7,7 @@ https://github.com/krivenko/pycommute/actions/workflows/build-and-test.yml)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-red)](
 https://krivenko.github.io/pycommute)
 
-*pycommute* is a Python module providing bindings for the
+*pycommute* is a Python package providing bindings for the
 [libcommute](https://github.com/krivenko/libcommute) quantum operator algerba
 library.
 
