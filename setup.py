@@ -19,7 +19,7 @@ from packaging.version import Version
 from pybind11.setup_helpers import Pybind11Extension, build_ext
 
 __version__ = "0.6.1"
-comp_libcommute_versions = ">=0.6"
+comp_libcommute_versions = ">=0.6.1"
 
 ext_modules = [
     Pybind11Extension("pycommute/expression", ["pycommute/expression.cpp"]),
