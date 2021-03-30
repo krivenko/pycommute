@@ -15,6 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     coreutils \
     cmake \
     python3 \
+    libpython3-dev \
     python3-setuptools \
     python3-wheel \
     python3-pip
