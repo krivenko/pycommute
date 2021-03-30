@@ -45,6 +45,21 @@ Automated installation using ``pip``
 LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" pip install pycommute
 ```
 
+Docker images
+-------------
+
+Docker images of tagged releases of *pycommute* are available from
+[Docker Hub](https://hub.docker.com/repository/docker/ikrivenko/pycommute).
+
+```
+docker run --rm -p 8888:8888 ikrivenko/pycommute:latest
+```
+
+This command will pull the most recent image and launch a
+[Jupyter](https://jupyter.org/) notebook server accessible at
+[http://127.0.0.1:8888/](http://127.0.0.1:8888/). The server is run in a
+directory with a few interactive example notebooks.
+
 License
 -------
 
