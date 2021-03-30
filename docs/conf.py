@@ -27,7 +27,7 @@ project = 'pycommute'
 copyright = '2020-2021, Igor Krivenko'
 author = 'Igor Krivenko'
 version = '0.6'
-release = '0.6'
+release = '0.6.1'
 
 # -- General configuration ---------------------------------------------------
 
