@@ -93,6 +93,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-from-sources">Installation from sources</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#automated-installation-using-pip">Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#docker-images">Docker images</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
@@ -198,6 +199,18 @@ installation or source directory of <em>libcommute</em>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pycommute</span>
 </pre></div>
 </div>
+</div>
+<div class="section" id="docker-images">
+<h2>Docker images<a class="headerlink" href="#docker-images" title="Permalink to this headline">¶</a></h2>
+<p>Docker images of tagged releases of <em>pycommute</em> are available from
+<a class="reference external" href="https://hub.docker.com/repository/docker/ikrivenko/pycommute">Docker Hub</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8888</span><span class="p">:</span><span class="mi">8888</span> <span class="n">ikrivenko</span><span class="o">/</span><span class="n">pycommute</span><span class="p">:</span><span class="n">latest</span>
+</pre></div>
+</div>
+<p>This command will pull the most recent image and launch a
+<a class="reference external" href="https://jupyter.org/">Jupyter</a> notebook server accessible at
+<a class="reference external" href="http://127.0.0.1:8888/">http://127.0.0.1:8888/</a>. The server is run in a
+directory with a few interactive example notebooks.</p>
 </div>
 </div>
 

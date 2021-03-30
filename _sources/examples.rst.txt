@@ -40,7 +40,7 @@ functions :func:`tight_binding() <pycommute.models.tight_binding>`,
 We also make use of the `NetworkX <https://networkx.org/>`_ package
 to easily generate the adjacency matrix of the periodic square lattice.
 
-.. literalinclude:: holstein.py
+.. literalinclude:: examples/holstein.py
   :language: python
   :lines: 11-
   :linenos:
@@ -69,7 +69,7 @@ Hamiltonian of the Heisenberg chain with periodic boundary conditions
 and checks that :math:`[\hat H, \mathbf{S}] = 0`, :math:`[\hat H, Q_n] = 0` and
 :math:`[Q_n, Q_m] = 0` for :math:`m,n = 3,4,5`.
 
-.. literalinclude:: heisenberg_chain.py
+.. literalinclude:: examples/heisenberg_chain.py
   :language: python
   :lines: 11-
   :linenos:
@@ -110,7 +110,7 @@ representation of our problem.
   in the C++ code using *libcommute*'s
   `ED tools <https://krivenko.github.io/libcommute/loperator/index.html>`_.
 
-.. literalinclude:: tavis_cummings.py
+.. literalinclude:: examples/tavis_cummings.py
   :language: python
   :lines: 11-
   :linenos:
@@ -131,7 +131,7 @@ the :class:`SpacePartition <pycommute.loperator.SpacePartition>` and
 :class:`BasisMapper <pycommute.loperator.BasisMapper>` utility classes to
 independently diagonalize the Hamiltonian within each sector.
 
-.. literalinclude:: space_partition.py
+.. literalinclude:: examples/space_partition.py
   :language: python
   :lines: 11-
   :linenos:
