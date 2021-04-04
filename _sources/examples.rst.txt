@@ -103,12 +103,11 @@ representation of our problem.
 .. note::
 
   Performance of repeated calls to
-  :class:`LOperatorR <pycommute.loperator.LOperatorR>` or
-  :class:`LOperatorC <pycommute.loperator.LOperatorC>` to construct a matrix
-  representation of a linear operator is limited by Python method
-  call overhead. For large-scale problems it is advised to construct the matrix
-  in the C++ code using *libcommute*'s
-  `ED tools <https://krivenko.github.io/libcommute/loperator/index.html>`_.
+  :class:`LOperatorR <pycommute.loperator.LOperatorR>` or to
+  :class:`LOperatorC <pycommute.loperator.LOperatorC>` in order to construct
+  a matrix representation of a linear operator is limited by Python method
+  call overhead. For large-scale problems it is advised to call the utility
+  function :func:`make_matrix() <pycommute.loperator.make_matrix>`.
 
 .. literalinclude:: examples/tavis_cummings.py
   :language: python

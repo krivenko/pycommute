@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>pycommute.loperator &mdash; pycommute 0.6.1 documentation</title>
+  <title>pycommute.loperator &mdash; pycommute 0.6.2 documentation</title>
   
 
   
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.6.1
+                0.6.2
               </div>
             
           
@@ -100,6 +101,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#linear-operators">Linear operators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hilbert-space-partition">Hilbert space partition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#views-of-state-vectors">Views of state vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matrix-representation-of-linear-operators">Matrix representation of linear operators</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="models_ref.html"><code class="docutils literal notranslate"><span class="pre">pycommute.models</span></code></a></li>
@@ -176,10 +178,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-pycommute.loperator">
+  <section id="module-pycommute.loperator">
 <span id="pycommute-loperator"></span><span id="loperator-ref"></span><h1><code class="docutils literal notranslate"><span class="pre">pycommute.loperator</span></code><a class="headerlink" href="#module-pycommute.loperator" title="Permalink to this headline">¶</a></h1>
 <p>Linear operators in finite-dimensional Hilbert spaces</p>
-<div class="section" id="elementary-spaces">
+<section id="elementary-spaces">
 <h2>Elementary spaces<a class="headerlink" href="#elementary-spaces" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pycommute.loperator.ElementarySpace">
@@ -326,8 +328,8 @@ creation/annihilation operator acts in.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="full-hilbert-spaces">
+</section>
+<section id="full-hilbert-spaces">
 <h2>Full Hilbert spaces<a class="headerlink" href="#full-hilbert-spaces" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pycommute.loperator.HilbertSpace">
@@ -502,8 +504,8 @@ the subspace this basis state belongs to.</p>
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="linear-operators">
+</section>
+<section id="linear-operators">
 <h2>Linear operators<a class="headerlink" href="#linear-operators" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pycommute.loperator.LOperatorR">
@@ -707,8 +709,8 @@ expression on a Hilbert space.</p>
 
 </dd></dl>
 
-</div>
-<div class="section" id="hilbert-space-partition">
+</section>
+<section id="hilbert-space-partition">
 <h2>Hilbert space partition<a class="headerlink" href="#hilbert-space-partition" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pycommute.loperator.SpacePartition">
@@ -879,8 +881,8 @@ dictionary when <code class="docutils literal notranslate"><span class="pre">sto
 </dl>
 </dd></dl>
 
-</div>
-<div class="section" id="views-of-state-vectors">
+</section>
+<section id="views-of-state-vectors">
 <h2>Views of state vectors<a class="headerlink" href="#views-of-state-vectors" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="pycommute.loperator.MappedBasisViewR">
@@ -1062,8 +1064,119 @@ Mapped values are assigned continuously but without any specific order.</p>
 
 </dd></dl>
 
-</div>
-</div>
+</section>
+<section id="matrix-representation-of-linear-operators">
+<h2>Matrix representation of linear operators<a class="headerlink" href="#matrix-representation-of-linear-operators" title="Permalink to this headline">¶</a></h2>
+<dl class="py method">
+<dt id="pycommute.loperator.make_matrix">
+<code class="sig-prename descclassname"><span class="pre">loperator.</span></code><code class="sig-name descname"><span class="pre">make_matrix</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.loperator.make_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>make_matrix(lop: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>) -&gt; numpy.ndarray[numpy.float64]</p></li>
+</ol>
+<p>Make a matrix representation of a given real linear operator acting in a Hilbert
+space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lop</strong> – Linear operator.</p></li>
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix representation as a two-dimensional NumPy array.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="2">
+<li><p>make_matrix(lop: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, basis_state_indices: List[int]) -&gt; numpy.ndarray[numpy.float64]</p></li>
+</ol>
+<p>Make a matrix representation of a given real linear operator acting in a subspace of a Hilbert space spanned by a list
+of basis states.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lop</strong> – Linear operator.</p></li>
+<li><p><strong>basis_state_indices</strong> – Indices of basis states spanning the subspace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix representation as a two-dimensional NumPy array.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="3">
+<li><p>make_matrix(lop: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, left_basis_state_indices: List[int], right_basis_state_indices: List[int]) -&gt; numpy.ndarray[numpy.float64]</p></li>
+</ol>
+<p>Make a matrix representation of a given real linear operator (mapping) transforming
+states from a subspace of a Hilbert space into states from its other subspace.
+Both subspaces are specified by lists of basis states spanning them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lop</strong> – Linear operator.</p></li>
+<li><p><strong>left_basis_state_indices</strong> – Indices of basis states spanning the
+target subspace.</p></li>
+<li><p><strong>right_basis_state_indices</strong> – Indices of basis states spanning the domain.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix representation as a two-dimensional NumPy array.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="4">
+<li><p>make_matrix(lop: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>) -&gt; numpy.ndarray[numpy.complex128]</p></li>
+</ol>
+<p>Make a matrix representation of a given complex linear operator acting in a Hilbert
+space.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lop</strong> – Linear operator.</p></li>
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix representation as a two-dimensional NumPy array.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="5">
+<li><p>make_matrix(lop: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, basis_state_indices: List[int]) -&gt; numpy.ndarray[numpy.complex128]</p></li>
+</ol>
+<p>Make a matrix representation of a given complex linear operator acting in a subspace of a Hilbert space spanned by a list
+of basis states.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lop</strong> – Linear operator.</p></li>
+<li><p><strong>basis_state_indices</strong> – Indices of basis states spanning the subspace.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix representation as a two-dimensional NumPy array.</p>
+</dd>
+</dl>
+<ol class="arabic simple" start="6">
+<li><p>make_matrix(lop: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, left_basis_state_indices: List[int], right_basis_state_indices: List[int]) -&gt; numpy.ndarray[numpy.complex128]</p></li>
+</ol>
+<p>Make a matrix representation of a given complex linear operator (mapping) transforming
+states from a subspace of a Hilbert space into states from its other subspace.
+Both subspaces are specified by lists of basis states spanning them.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lop</strong> – Linear operator.</p></li>
+<li><p><strong>left_basis_state_indices</strong> – Indices of basis states spanning the
+target subspace.</p></li>
+<li><p><strong>right_basis_state_indices</strong> – Indices of basis states spanning the domain.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Matrix representation as a two-dimensional NumPy array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
 
 
            </div>

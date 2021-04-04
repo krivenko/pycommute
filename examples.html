@@ -4,10 +4,11 @@
 <html class="writer-html5" lang="en" >
 <head>
   <meta charset="utf-8" />
-  
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Usage examples &mdash; pycommute 0.6.1 documentation</title>
+  <title>Usage examples &mdash; pycommute 0.6.2 documentation</title>
   
 
   
@@ -64,7 +65,7 @@
             
             
               <div class="version">
-                0.6.1
+                0.6.2
               </div>
             
           
@@ -169,9 +170,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="usage-examples">
+  <section id="usage-examples">
 <span id="examples"></span><h1>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="holstein-model">
+<section id="holstein-model">
 <h2>Holstein model<a class="headerlink" href="#holstein-model" title="Permalink to this headline">¶</a></h2>
 <p>This example shows how to construct Hamiltonian of the
 <a class="reference external" href="https://arxiv.org/abs/cond-mat/9812252">Holstein model</a> on a
@@ -423,8 +424,8 @@ to easily generate the adjacency matrix of the periodic square lattice.</p>
         <span class="c1"># indexed element access and iteration protocol.</span>
 </pre></div>
 </td></tr></table></div>
-</div>
-<div class="section" id="spin-1-2-heisenberg-chain">
+</section>
+<section id="spin-1-2-heisenberg-chain">
 <h2>Spin-1/2 Heisenberg chain<a class="headerlink" href="#spin-1-2-heisenberg-chain" title="Permalink to this headline">¶</a></h2>
 <p>The spin-1/2 Heisenberg chain is a textbook example of an integrable quantum
 system. Its Hamiltonian</p>
@@ -579,8 +580,8 @@ and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Q4, Q5] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Q4</span> <span class="o">*</span> <span class="n">Q5</span> <span class="o">-</span> <span class="n">Q5</span> <span class="o">*</span> <span class="n">Q4</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
-</div>
-<div class="section" id="spectrum-of-tavis-cummings-model">
+</section>
+<section id="spectrum-of-tavis-cummings-model">
 <h2>Spectrum of Tavis-Cummings model<a class="headerlink" href="#spectrum-of-tavis-cummings-model" title="Permalink to this headline">¶</a></h2>
 <p>In this example we demonstrate how to use tools from the
 <a class="reference internal" href="loperator_ref.html#module-pycommute.loperator" title="pycommute.loperator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">loperator</span></code></a> module along with NumPy’s eigensolvers to
@@ -602,12 +603,11 @@ representation of our problem.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Performance of repeated calls to
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorR</span></code></a> or
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorC</span></code></a> to construct a matrix
-representation of a linear operator is limited by Python method
-call overhead. For large-scale problems it is advised to construct the matrix
-in the C++ code using <em>libcommute</em>’s
-<a class="reference external" href="https://krivenko.github.io/libcommute/loperator/index.html">ED tools</a>.</p>
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorR</span></code></a> or to
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorC</span></code></a> in order to construct
+a matrix representation of a linear operator is limited by Python method
+call overhead. For large-scale problems it is advised to call the utility
+function <a class="reference internal" href="loperator_ref.html#pycommute.loperator.make_matrix" title="pycommute.loperator.make_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code></a>.</p>
 </div>
 <div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -664,7 +664,14 @@ in the C++ code using <em>libcommute</em>’s
 <span class="normal">53</span>
 <span class="normal">54</span>
 <span class="normal">55</span>
-<span class="normal">56</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
 <span class="c1"># Diagonalization of a two-qubit Tavis-Cummings model.</span>
 <span class="c1">#</span>
 
@@ -678,6 +685,9 @@ in the C++ code using <em>libcommute</em>’s
 
 <span class="c1"># Real-valued linear operator object.</span>
 <span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
+
+<span class="c1"># Build the matrix form of a linear operator</span>
+<span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_matrix</span>
 
 <span class="c1"># Transition frequencies of qubits.</span>
 <span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
@@ -716,14 +726,18 @@ in the C++ code using <em>libcommute</em>’s
     <span class="c1"># Act with H_op on psi and store the result the i-th column of H_mat</span>
     <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">H_op</span> <span class="o">*</span> <span class="n">psi</span>
 
+<span class="c1"># An equivalent but faster way to build the matrix representation</span>
+<span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
+
 <span class="c1"># Use NumPy to compute eigenvalues of H_mat</span>
 <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
-</div>
-<div class="section" id="sectors-of-a-multi-orbital-interaction-hamiltonian">
+</section>
+<section id="sectors-of-a-multi-orbital-interaction-hamiltonian">
 <h2>Sectors of a multi-orbital interaction Hamiltonian<a class="headerlink" href="#sectors-of-a-multi-orbital-interaction-hamiltonian" title="Permalink to this headline">¶</a></h2>
 <p>When implementing an exact diagonalization algorithm, it is usually advantageous
 to take an extra preparatory step and split the Hilbert space of the problem
@@ -820,7 +834,13 @@ independently diagonalize the Hamiltonian within each sector.</p>
 <span class="normal">82</span>
 <span class="normal">83</span>
 <span class="normal">84</span>
-<span class="normal">85</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
+<span class="normal">85</span>
+<span class="normal">86</span>
+<span class="normal">87</span>
+<span class="normal">88</span>
+<span class="normal">89</span>
+<span class="normal">90</span>
+<span class="normal">91</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">#</span>
 <span class="c1"># Sector-wise diagonalization of the Slater interaction Hamiltonian.</span>
 <span class="c1">#</span>
 
@@ -836,6 +856,8 @@ independently diagonalize the Hamiltonian within each sector.</p>
 <span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
 <span class="c1"># Automatic space partition and basis state mapper</span>
 <span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_space_partition</span><span class="p">,</span> <span class="n">foreach</span><span class="p">,</span> <span class="n">BasisMapper</span>
+<span class="c1"># Build the matrix form of a linear operator</span>
+<span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_matrix</span>
 
 <span class="c1"># Values of Slater radial integrals F_0, F_2, F_4</span>
 <span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
@@ -902,13 +924,17 @@ independently diagonalize the Hamiltonian within each sector.</p>
         <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
         <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
 
+    <span class="c1"># An equivalent but faster way to build the matrix representation</span>
+    <span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">sector</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
+
     <span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
     <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
-</div>
-<div class="section" id="references">
+</section>
+<section id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <dl class="citation">
 <dt class="label" id="gm94"><span class="brackets"><a class="fn-backref" href="#id2">GM94</a></span></dt>
@@ -931,8 +957,8 @@ Comp. Phys. Comm. 200, March 2016, 274-284,
 <a class="reference external" href="http://dx.doi.org/10.1016/j.cpc.2015.10.023">http://dx.doi.org/10.1016/j.cpc.2015.10.023</a> (section 4.2)</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
