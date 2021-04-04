@@ -91,3 +91,9 @@ Views of state vectors
 .. autoclass:: pycommute.loperator.BasisMapper
   :members:
   :special-members:
+
+Matrix representation of linear operators
+-----------------------------------------
+
+.. automethod:: pycommute.loperator.make_matrix
+

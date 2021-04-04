@@ -23,6 +23,9 @@ from pycommute.loperator import HilbertSpace, make_space_boson, make_space_spin
 # Real-valued linear operator object.
 from pycommute.loperator import LOperatorR
 
+# Build the matrix form of a linear operator
+from pycommute.loperator import make_matrix
+
 # Transition frequencies of qubits.
 eps = np.array([1.0, 1.0])
 
@@ -59,6 +62,10 @@ for i in range(hs.dim):
     psi[i] = 1.0
     # Act with H_op on psi and store the result the i-th column of H_mat
     H_mat[:, i] = H_op * psi
+
+# An equivalent but faster way to build the matrix representation
+H_mat2 = make_matrix(H_op, hs)
+print("Max difference:", np.max(np.abs(H_mat - H_mat2)))
 
 # Use NumPy to compute eigenvalues of H_mat
 E = np.linalg.eigvals(H_mat)

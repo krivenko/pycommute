@@ -24,6 +24,8 @@ from pycommute.loperator import HilbertSpace
 from pycommute.loperator import LOperatorR
 # Automatic space partition and basis state mapper
 from pycommute.loperator import make_space_partition, foreach, BasisMapper
+# Build the matrix form of a linear operator
+from pycommute.loperator import make_matrix
 
 # Values of Slater radial integrals F_0, F_2, F_4
 F = np.array([4.0, 1.0, 0.2])
@@ -89,6 +91,10 @@ for n, sector in enumerate(sectors):
 
         # Store H_op * psi in the i-th column of H_mat.
         H_mat[:, i] = phi
+
+    # An equivalent but faster way to build the matrix representation
+    H_mat2 = make_matrix(H_op, sector)
+    print("Max difference:", np.max(np.abs(H_mat - H_mat2)))
 
     # Use NumPy to compute eigenvalues of H_mat.
     E = np.linalg.eigvals(H_mat)

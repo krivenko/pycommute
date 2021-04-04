@@ -29,11 +29,13 @@
 #include <libcommute/loperator/space_partition.hpp>
 #include <libcommute/loperator/mapped_basis_view.hpp>
 
+#include <algorithm>
 #include <complex>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
 #include <utility>
+#include <vector>
 
 using namespace libcommute;
 namespace py = pybind11;
@@ -865,6 +867,157 @@ Make a basis mapping view of a complex state vector (1-dimensional NumPy array).
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Define and register make_matrix()
+//
+
+template<typename ScalarType>
+py::array_t<ScalarType> make_matrix(
+  lop_type<ScalarType> const& lop,
+  hs_type const& hs
+) {
+  sv_index_type size = hs.dim();
+
+  auto mat = py::array_t<ScalarType, py::array::f_style>({size, size});
+
+  auto src = py::array_t<ScalarType>(size);
+  auto src_data_ptr = src.mutable_data();
+  std::fill(src_data_ptr, src_data_ptr + size, ScalarType{});
+
+  auto dst = column_view(mat, size);
+
+  for(sv_index_type n = 0; n < size; ++n) {
+    *(src_data_ptr + n) = ScalarType(1);
+    dst.set_column(n);
+    lop(src, dst);
+    *(src_data_ptr + n) = ScalarType(0);
+  }
+
+  return mat;
+}
+
+template<typename ScalarType>
+py::array_t<ScalarType> make_matrix(
+  lop_type<ScalarType> const& lop,
+  std::vector<sv_index_type> const& basis_state_indices
+) {
+  sv_index_type size = basis_state_indices.size();
+
+  auto mat = py::array_t<ScalarType, py::array::f_style>({size, size});
+
+  auto src = py::array_t<ScalarType>(size);
+  auto src_data_ptr = src.mutable_data();
+  std::fill(src_data_ptr, src_data_ptr + size, ScalarType{});
+
+  auto dst = column_view(mat, size);
+
+  auto mapper = basis_mapper(basis_state_indices);
+  auto src_view = mapper.make_const_view(src);
+  auto dst_view = mapper.make_view(dst);
+
+  for(sv_index_type n = 0; n < size; ++n) {
+    *(src_data_ptr + n) = ScalarType(1);
+    dst.set_column(n);
+    lop(src_view, dst_view);
+    *(src_data_ptr + n) = ScalarType(0);
+  }
+
+  return mat;
+}
+
+template<typename ScalarType>
+py::array_t<ScalarType> make_matrix(
+  lop_type<ScalarType> const& lop,
+  std::vector<sv_index_type> const& left_basis_state_indices,
+  std::vector<sv_index_type> const& right_basis_state_indices
+) {
+  sv_index_type size_left = left_basis_state_indices.size();
+  sv_index_type size_right = right_basis_state_indices.size();
+
+  auto mat = py::array_t<ScalarType, py::array::f_style>(
+    {size_left, size_right}
+  );
+
+  auto src = py::array_t<ScalarType>(size_right);
+  auto src_data_ptr = src.mutable_data();
+  std::fill(src_data_ptr, src_data_ptr + size_right, ScalarType{});
+
+  auto dst = column_view(mat, size_left);
+
+  auto mapper_left = basis_mapper(left_basis_state_indices);
+  auto mapper_right = basis_mapper(right_basis_state_indices);
+  auto src_view = mapper_right.make_const_view(src);
+  auto dst_view = mapper_left.make_view(dst);
+
+  for(sv_index_type n = 0; n < size_right; ++n) {
+    *(src_data_ptr + n) = ScalarType(1);
+    dst.set_column(n);
+    lop(src_view, dst_view);
+    *(src_data_ptr + n) = ScalarType(0);
+  }
+
+  return mat;
+}
+
+template<typename ScalarType>
+void register_make_matrix(py::module_ & m) {
+  m.def("make_matrix",
+        [](lop_type<ScalarType> const& lop, hs_type const& hs) ->
+        py::array_t<ScalarType> { return make_matrix(lop, hs); },
+("Make a matrix representation of a given " + scalar_type_name<ScalarType>() +
+R"=( linear operator acting in a Hilbert
+space.
+
+:param lop: Linear operator.
+:param hs: Hilbert space.
+:return: Matrix representation as a two-dimensional NumPy array.
+)=").c_str(),
+    py::arg("lop"), py::arg("hs")
+  )
+  .def("make_matrix",
+       [](lop_type<ScalarType> const& lop,
+          std::vector<sv_index_type> const& basis_state_indices) ->
+       py::array_t<ScalarType> {
+         return make_matrix(lop, basis_state_indices);
+       },
+("Make a matrix representation of a given " + scalar_type_name<ScalarType>() +
+R"=( linear operator acting in a subspace of a Hilbert space spanned by a list
+of basis states.
+
+:param lop: Linear operator.
+:param basis_state_indices: Indices of basis states spanning the subspace.
+:return: Matrix representation as a two-dimensional NumPy array.
+)=").c_str(),
+    py::arg("lop"), py::arg("basis_state_indices")
+  )
+  .def("make_matrix",
+       [](lop_type<ScalarType> const& lop,
+          std::vector<sv_index_type> const& left_basis_state_indices,
+          std::vector<sv_index_type> const& right_basis_state_indices) ->
+       py::array_t<ScalarType> {
+         return make_matrix(lop,
+                            left_basis_state_indices,
+                            right_basis_state_indices);
+       },
+("Make a matrix representation of a given " + scalar_type_name<ScalarType>() +
+R"=( linear operator (mapping) transforming
+states from a subspace of a Hilbert space into states from its other subspace.
+Both subspaces are specified by lists of basis states spanning them.
+
+:param lop: Linear operator.
+:param left_basis_state_indices: Indices of basis states spanning the
+                                 target subspace.
+:param right_basis_state_indices: Indices of basis states spanning the domain.
+:return: Matrix representation as a two-dimensional NumPy array.
+)=").c_str(),
+    py::arg("lop"),
+    py::arg("left_basis_state_indices"),
+    py::arg("right_basis_state_indices")
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // 'loperator' Python module
 //
 
@@ -899,4 +1052,7 @@ PYBIND11_MODULE(loperator, m) {
   register_loperator_call_mbv<dcomplex, dcomplex>(lop_complex);
 
   register_basis_mapper(m);
+
+  register_make_matrix<double>(m);
+  register_make_matrix<dcomplex>(m);
 }
