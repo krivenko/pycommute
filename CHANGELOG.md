@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
   of a linear operator acting (1) in a full Hilbert space, (2) in its subspace
   spanned by a given list of basis vectors or (3) between two subspaces of the
   Hilbert space.
+- New method ``space_partition.find_connections()``.
 
 ## [0.6.1] - 2021-03-30
 

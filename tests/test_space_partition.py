@@ -10,7 +10,7 @@
 
 from unittest import TestCase
 
-from pycommute.expression import (Indices, c, c_dag)
+from pycommute.expression import (Indices, ExpressionR, c, c_dag, n)
 from pycommute.loperator import (
     ESpaceFermion,
     HilbertSpace,
@@ -21,6 +21,7 @@ from pycommute.loperator import (
 from pycommute.models import (dispersion, kanamori_int)
 
 import numpy as np
+from itertools import product
 
 
 class TestSpacePartition(TestCase):
@@ -387,3 +388,34 @@ class TestSpacePartition(TestCase):
                     sum(int(f_sp.issubset(f_sp_ref)) for f_sp_ref in cl),
                     1
                 )
+
+    def test_find_connections(self):
+        expr = [ExpressionR(),
+                c_dag("up", 0) * c("dn", 1),
+                c_dag("up", 0) * c("dn", 1) + c_dag("dn", 0) * c("dn", 1),
+                c_dag("dn", 1) * c_dag("up", 1),
+                n("up", 2)
+                ]
+
+        sp, melem = make_space_partition(self.Hop, self.hs, False)
+        op = LOperatorR(sum(expr[1:]), self.hs)
+        conns = sp.find_connections(op, self.hs)
+
+        conns_ref = set()
+        in_state = np.zeros((sp.dim,), dtype=float)
+        for i in range(sp.dim):
+            in_state[i] = 1.0
+            out_state = op * in_state
+            for f, a in enumerate(out_state):
+                if abs(a) > 1e-10:
+                    conns_ref.add((sp[i], sp[f]))
+            in_state[i] = 0.0
+
+        self.assertEqual(conns, conns_ref)
+
+        for expr1, expr2 in product(expr, expr):
+            conns1 = sp.find_connections(LOperatorR(expr1, self.hs), self.hs)
+            conns2 = sp.find_connections(LOperatorR(expr2, self.hs), self.hs)
+            conns = sp.find_connections(LOperatorR(expr1 + expr2, self.hs),
+                                        self.hs)
+            self.assertEqual(conns, conns1.union(conns2))
