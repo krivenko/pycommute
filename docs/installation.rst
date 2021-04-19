@@ -13,6 +13,7 @@ Prerequisites
 - numpy >= 1.12.0
 - Sphinx >= 2.0.0 (optional, to build documentation)
 - sphinx-rtd-theme (optional, to build documentation)
+- myst-parser (optional, to build documentation)
 
 Installation from sources
 -------------------------

@@ -30,7 +30,7 @@ jobs:
     - name: Install Python dependencies
       run: |
            python -m pip install --upgrade pip
-           pip install pybind11 numpy sphinx sphinx-rtd-theme
+           pip install pybind11 numpy sphinx sphinx-rtd-theme myst-parser
 
     - name: Create a source distribution
       run: python setup.py sdist

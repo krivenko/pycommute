@@ -29,6 +29,7 @@ Contents
     installation
     examples
     reference
+    changelog
     genindex
     search
 
