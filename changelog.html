@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>Python Module Index &mdash; pycommute 0.7.0 documentation</title>
+  <title>Changelog &mdash; pycommute 0.7.0 documentation</title>
   
 
   
@@ -38,9 +38,8 @@
     
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
- 
-
-
+    <link rel="next" title="Index" href="genindex.html" />
+    <link rel="prev" title="pycommute.models" href="models_ref.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,11 +88,21 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#unreleased">[Unreleased]</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">[0.6.1] - 2021-03-30</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">Added</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
 </ul>
@@ -144,10 +153,14 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Python Module Index</li>
+      <li>Changelog</li>
     
     
       <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/changelog.md.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -159,45 +172,46 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-
-   <h1>Python Module Index</h1>
-
-   <div class="modindex-jumpbox">
-   <a href="#cap-p"><strong>p</strong></a>
-   </div>
-
-   <table class="indextable modindextable">
-     <tr class="pcap"><td></td><td>&#160;</td><td></td></tr>
-     <tr class="cap" id="cap-p"><td></td><td>
-       <strong>p</strong></td><td></td></tr>
-     <tr>
-       <td><img src="_static/minus.png" class="toggler"
-              id="toggle-1" style="display: none" alt="-" /></td>
-       <td>
-       <code class="xref">pycommute</code></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="expression_ref.html#module-pycommute.expression"><code class="xref">pycommute.expression</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="loperator_ref.html#module-pycommute.loperator"><code class="xref">pycommute.loperator</code></a></td><td>
-       <em></em></td></tr>
-     <tr class="cg-1">
-       <td></td>
-       <td>&#160;&#160;&#160;
-       <a href="models_ref.html#module-pycommute.models"><code class="xref">pycommute.models</code></a></td><td>
-       <em></em></td></tr>
-   </table>
+  <div class="section" id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline">¶</a></h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<div class="section" id="unreleased">
+<h2>[Unreleased]<a class="headerlink" href="#unreleased" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="added">
+<h3>Added<a class="headerlink" href="#added" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>New function <code class="docutils literal notranslate"><span class="pre">loperator.make_matrix()</span></code> with three overloads. These wrapped
+C++ functions construct and return a matrix representation (2D NumPy array)
+of a linear operator acting (1) in a full Hilbert space, (2) in its subspace
+spanned by a given list of basis vectors or (3) between two subspaces of the
+Hilbert space.</p></li>
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">space_partition.find_connections()</span></code>.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>[0.6.1] - 2021-03-30<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>Added<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">expression.Indices.__getitem__()</span></code>.</p></li>
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.hilbert_space.index()</span></code>.</p></li>
+<li><p>CI: Tagged versions are now built into Docker images and pushed to
+<a class="reference external" href="https://hub.docker.com/repository/docker/ikrivenko/pycommute">Docker Hub</a>.</p></li>
+</ul>
+</div>
+</div>
+</div>
 
 
            </div>
            
           </div>
           <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="genindex.html" class="btn btn-neutral float-right" title="Index" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="models_ref.html" class="btn btn-neutral float-left" title="pycommute.models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
