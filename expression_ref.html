@@ -13,6 +13,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
 
   
   
@@ -29,11 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-        <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+        <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -193,60 +196,60 @@ index sequences <code class="docutils literal notranslate"><span class="pre">I1<
 <code class="docutils literal notranslate"><span class="pre">len(I1)</span> <span class="pre">&lt;</span> <span class="pre">len(I2)</span></code>.</p>
 </div>
 <dl class="py class">
-<dt id="pycommute.expression.Indices">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">Indices</span></code><a class="headerlink" href="#pycommute.expression.Indices" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">Indices</span></span><a class="headerlink" href="#pycommute.expression.Indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mixed sequence of integer/string indices</p>
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__eq__">
-<code class="sig-name descname"><span class="pre">__eq__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__eq__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__getitem__">
-<code class="sig-name descname"><span class="pre">__getitem__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pycommute.expression.Indices.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pycommute.expression.Indices.__getitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Individual index access.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__gt__">
-<code class="sig-name descname"><span class="pre">__gt__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__gt__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__gt__">
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__gt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.Indices.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.Indices.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct an index sequence from positional integer/string arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__iter__">
-<code class="sig-name descname"><span class="pre">__iter__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.Indices.__iter__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.Indices.__iter__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__len__">
-<code class="sig-name descname"><span class="pre">__len__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.Indices.__len__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.Indices.__len__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Index sequence length.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__lt__">
-<code class="sig-name descname"><span class="pre">__lt__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__lt__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__lt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__ne__">
-<code class="sig-name descname"><span class="pre">__ne__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__ne__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Indices.__ne__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Indices.__repr__">
-<code class="sig-name descname"><span class="pre">__repr__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.Indices.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Indices.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.Indices.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.Indices.indices">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">indices</span></code><a class="headerlink" href="#pycommute.expression.Indices.indices" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.Indices.indices">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#pycommute.expression.Indices.indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Index sequence as a list of integers and strings</p>
 </dd></dl>
 
@@ -257,76 +260,76 @@ index sequences <code class="docutils literal notranslate"><span class="pre">I1<
 <h2>Algebra ID constants<a class="headerlink" href="#algebra-id-constants" title="Permalink to this headline">¶</a></h2>
 <p>Fermionic algebra ID</p>
 <dl class="py attribute">
-<dt id="pycommute.expression.FERMION">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">FERMION</span></code><em class="property"> <span class="pre">=</span> <span class="pre">-3</span></em><a class="headerlink" href="#pycommute.expression.FERMION" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.FERMION">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">FERMION</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-3</span></em><a class="headerlink" href="#pycommute.expression.FERMION" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Bosonic algebra ID</p>
 <dl class="py attribute">
-<dt id="pycommute.expression.BOSON">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">BOSON</span></code><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#pycommute.expression.BOSON" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.BOSON">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">BOSON</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-2</span></em><a class="headerlink" href="#pycommute.expression.BOSON" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <p>Spin algebra ID</p>
 <dl class="py attribute">
-<dt id="pycommute.expression.SPIN">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">SPIN</span></code><em class="property"> <span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#pycommute.expression.SPIN" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.SPIN">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">SPIN</span></span><em class="property"> <span class="pre">=</span> <span class="pre">-1</span></em><a class="headerlink" href="#pycommute.expression.SPIN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
 <div class="section" id="algebra-generator-objects">
 <h2>Algebra generator objects<a class="headerlink" href="#algebra-generator-objects" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="pycommute.expression.Generator">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">Generator</span></code><a class="headerlink" href="#pycommute.expression.Generator" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Generator">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">Generator</span></span><a class="headerlink" href="#pycommute.expression.Generator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Abstract algebra generator</p>
 <dl class="py method">
-<dt id="pycommute.expression.Generator.__eq__">
-<code class="sig-name descname"><span class="pre">__eq__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__eq__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Generator.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Generator.__gt__">
-<code class="sig-name descname"><span class="pre">__gt__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__gt__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Generator.__gt__">
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__gt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Generator.__lt__">
-<code class="sig-name descname"><span class="pre">__lt__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__lt__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Generator.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__lt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Generator.__ne__">
-<code class="sig-name descname"><span class="pre">__ne__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__ne__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Generator.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Generator.__ne__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Generator.__repr__">
-<code class="sig-name descname"><span class="pre">__repr__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.Generator.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Generator.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.Generator.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.Generator.algebra_id">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">algebra_id</span></code><a class="headerlink" href="#pycommute.expression.Generator.algebra_id" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.algebra_id">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">algebra_id</span></span><a class="headerlink" href="#pycommute.expression.Generator.algebra_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>ID of the algebra this generator belongs to.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.Generator.indices">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">indices</span></code><a class="headerlink" href="#pycommute.expression.Generator.indices" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.indices">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#pycommute.expression.Generator.indices" title="Permalink to this definition">¶</a></dt>
 <dd><p>Indices carried by this generator.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="pycommute.expression.GeneratorFermion">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">GeneratorFermion</span></code><a class="headerlink" href="#pycommute.expression.GeneratorFermion" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorFermion">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">GeneratorFermion</span></span><a class="headerlink" href="#pycommute.expression.GeneratorFermion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a></p>
 <p>Generator of the fermionic algebra</p>
 <dl class="py method">
-<dt id="pycommute.expression.GeneratorFermion.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.GeneratorFermion" title="pycommute.expression.GeneratorFermion"><span class="pre">pycommute.expression.GeneratorFermion</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.GeneratorFermion.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorFermion.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.GeneratorFermion" title="pycommute.expression.GeneratorFermion"><span class="pre">pycommute.expression.GeneratorFermion</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.GeneratorFermion.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a creation or annihilation fermionic operator with given indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -339,17 +342,17 @@ respectively.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.GeneratorFermion.dagger">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dagger</span></code><a class="headerlink" href="#pycommute.expression.GeneratorFermion.dagger" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorFermion.dagger">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">dagger</span></span><a class="headerlink" href="#pycommute.expression.GeneratorFermion.dagger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is this generator a creation operator?</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.make_fermion">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">make_fermion</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.GeneratorFermion" title="pycommute.expression.GeneratorFermion"><span class="pre">pycommute.expression.GeneratorFermion</span></a><a class="headerlink" href="#pycommute.expression.make_fermion" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.make_fermion">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">make_fermion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.GeneratorFermion" title="pycommute.expression.GeneratorFermion"><span class="pre">pycommute.expression.GeneratorFermion</span></a><a class="headerlink" href="#pycommute.expression.make_fermion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a creation or annihilation fermionic operator with indices passed as
 positional arguments.</p>
 <dl class="field-list simple">
@@ -364,13 +367,13 @@ respectively.</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt id="pycommute.expression.GeneratorBoson">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">GeneratorBoson</span></code><a class="headerlink" href="#pycommute.expression.GeneratorBoson" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorBoson">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">GeneratorBoson</span></span><a class="headerlink" href="#pycommute.expression.GeneratorBoson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a></p>
 <p>Generator of the bosonic algebra</p>
 <dl class="py method">
-<dt id="pycommute.expression.GeneratorBoson.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.GeneratorBoson" title="pycommute.expression.GeneratorBoson"><span class="pre">pycommute.expression.GeneratorBoson</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.GeneratorBoson.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorBoson.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.GeneratorBoson" title="pycommute.expression.GeneratorBoson"><span class="pre">pycommute.expression.GeneratorBoson</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.GeneratorBoson.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a creation or annihilation bosonic operator with given indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -383,17 +386,17 @@ respectively.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.GeneratorBoson.dagger">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dagger</span></code><a class="headerlink" href="#pycommute.expression.GeneratorBoson.dagger" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorBoson.dagger">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">dagger</span></span><a class="headerlink" href="#pycommute.expression.GeneratorBoson.dagger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is this generator a creation operator?</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.make_boson">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">make_boson</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.GeneratorBoson" title="pycommute.expression.GeneratorBoson"><span class="pre">pycommute.expression.GeneratorBoson</span></a><a class="headerlink" href="#pycommute.expression.make_boson" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.make_boson">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">make_boson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.GeneratorBoson" title="pycommute.expression.GeneratorBoson"><span class="pre">pycommute.expression.GeneratorBoson</span></a><a class="headerlink" href="#pycommute.expression.make_boson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a creation or annihilation bosonic operator with indices passed as
 positional arguments.</p>
 <dl class="field-list simple">
@@ -408,8 +411,8 @@ respectively.</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt id="pycommute.expression.SpinComponent">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">SpinComponent</span></code><a class="headerlink" href="#pycommute.expression.SpinComponent" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.SpinComponent">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">SpinComponent</span></span><a class="headerlink" href="#pycommute.expression.SpinComponent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enumeration: spin operator component, <span class="math notranslate nohighlight">\(S_+\)</span>, <span class="math notranslate nohighlight">\(S_-\)</span> or <span class="math notranslate nohighlight">\(S_z\)</span>.</p>
 <p>Members:</p>
 <blockquote>
@@ -420,13 +423,13 @@ respectively.</p></li>
 </dd></dl>
 
 <dl class="py class">
-<dt id="pycommute.expression.GeneratorSpin">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">GeneratorSpin</span></code><a class="headerlink" href="#pycommute.expression.GeneratorSpin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorSpin">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">GeneratorSpin</span></span><a class="headerlink" href="#pycommute.expression.GeneratorSpin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a></p>
 <p>Generator of the spin algebra</p>
 <dl class="py method">
-<dt id="pycommute.expression.GeneratorSpin.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.GeneratorSpin.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorSpin.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.GeneratorSpin.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a>, c: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, indices: <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p></li>
@@ -459,29 +462,29 @@ values.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.GeneratorSpin.component">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">component</span></code><a class="headerlink" href="#pycommute.expression.GeneratorSpin.component" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorSpin.component">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">component</span></span><a class="headerlink" href="#pycommute.expression.GeneratorSpin.component" title="Permalink to this definition">¶</a></dt>
 <dd><p>Whether this generator <span class="math notranslate nohighlight">\(S_+\)</span>, <span class="math notranslate nohighlight">\(S_-\)</span> or <span class="math notranslate nohighlight">\(S_z\)</span>?</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.GeneratorSpin.multiplicity">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">multiplicity</span></code><a class="headerlink" href="#pycommute.expression.GeneratorSpin.multiplicity" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorSpin.multiplicity">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">multiplicity</span></span><a class="headerlink" href="#pycommute.expression.GeneratorSpin.multiplicity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Multiplicity <span class="math notranslate nohighlight">\(2S+1\)</span> of the spin algebra this generator belongs to.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.GeneratorSpin.spin">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">spin</span></code><a class="headerlink" href="#pycommute.expression.GeneratorSpin.spin" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.GeneratorSpin.spin">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">spin</span></span><a class="headerlink" href="#pycommute.expression.GeneratorSpin.spin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Spin <span class="math notranslate nohighlight">\(S\)</span> of the algebra this generator belongs to.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.make_spin">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">make_spin</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.make_spin" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.make_spin">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">make_spin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.make_spin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>make_spin(c: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, *args) -&gt; <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a></p></li>
@@ -518,22 +521,22 @@ values.</p></li>
 <div class="section" id="monomial-object">
 <h2>Monomial object<a class="headerlink" href="#monomial-object" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="pycommute.expression.Monomial">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">Monomial</span></code><a class="headerlink" href="#pycommute.expression.Monomial" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">Monomial</span></span><a class="headerlink" href="#pycommute.expression.Monomial" title="Permalink to this definition">¶</a></dt>
 <dd><p>Monomial: a product of algebra generators</p>
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__contains__">
-<code class="sig-name descname"><span class="pre">__contains__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__contains__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__contains__">
+<span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__contains__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__eq__">
-<code class="sig-name descname"><span class="pre">__eq__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__eq__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__getitem__">
-<code class="sig-name descname"><span class="pre">__getitem__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.Monomial.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.Monomial.__getitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__getitem__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, arg0: int) -&gt; <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a></p></li>
@@ -546,13 +549,13 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__gt__">
-<code class="sig-name descname"><span class="pre">__gt__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__gt__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__gt__">
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__gt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.Monomial.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.Monomial.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>) -&gt; None</p></li>
@@ -565,24 +568,24 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__iter__">
-<code class="sig-name descname"><span class="pre">__iter__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.Monomial.__iter__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.Monomial.__iter__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__len__">
-<code class="sig-name descname"><span class="pre">__len__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.Monomial.__len__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.Monomial.__len__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of generators in this monomial.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__lt__">
-<code class="sig-name descname"><span class="pre">__lt__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__lt__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__lt__">
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__lt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__mul__">
-<code class="sig-name descname"><span class="pre">__mul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.Monomial.__mul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__mul__">
+<span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.Monomial.__mul__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a></p></li>
@@ -591,34 +594,34 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__ne__">
-<code class="sig-name descname"><span class="pre">__ne__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__ne__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.Monomial.__ne__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__repr__">
-<code class="sig-name descname"><span class="pre">__repr__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.Monomial.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.Monomial.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__reverse__">
-<code class="sig-name descname"><span class="pre">__reverse__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.Monomial.__reverse__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__reverse__">
+<span class="sig-name descname"><span class="pre">__reverse__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.Monomial.__reverse__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.__rmul__">
-<code class="sig-name descname"><span class="pre">__rmul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a><a class="headerlink" href="#pycommute.expression.Monomial.__rmul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.__rmul__">
+<span class="sig-name descname"><span class="pre">__rmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a><a class="headerlink" href="#pycommute.expression.Monomial.__rmul__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt id="pycommute.expression.Monomial.is_ordered">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">is_ordered</span></code><a class="headerlink" href="#pycommute.expression.Monomial.is_ordered" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.is_ordered">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">is_ordered</span></span><a class="headerlink" href="#pycommute.expression.Monomial.is_ordered" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is this monomial canonically ordered?</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.Monomial.swap_generators">
-<code class="sig-name descname"><span class="pre">swap_generators</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.Monomial.swap_generators" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.swap_generators">
+<span class="sig-name descname"><span class="pre">swap_generators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.Monomial.swap_generators" title="Permalink to this definition">¶</a></dt>
 <dd><p>Swap two generators at given positions within the monomial.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -636,12 +639,12 @@ values.</p></li>
 <div class="section" id="expression-objects">
 <h2>Expression objects<a class="headerlink" href="#expression-objects" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="pycommute.expression.ExpressionR">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">ExpressionR</span></code><a class="headerlink" href="#pycommute.expression.ExpressionR" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">ExpressionR</span></span><a class="headerlink" href="#pycommute.expression.ExpressionR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Polynomial in quantum-mechanical operators with real coefficients</p>
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__add__">
-<code class="sig-name descname"><span class="pre">__add__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__add__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__add__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -652,13 +655,13 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__eq__">
-<code class="sig-name descname"><span class="pre">__eq__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__eq__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__iadd__">
-<code class="sig-name descname"><span class="pre">__iadd__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__iadd__">
+<span class="sig-name descname"><span class="pre">__iadd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__iadd__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -667,8 +670,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__imul__">
-<code class="sig-name descname"><span class="pre">__imul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__imul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__imul__">
+<span class="sig-name descname"><span class="pre">__imul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__imul__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -677,8 +680,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; None</p></li>
@@ -708,8 +711,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__isub__">
-<code class="sig-name descname"><span class="pre">__isub__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__isub__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__isub__">
+<span class="sig-name descname"><span class="pre">__isub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__isub__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -718,19 +721,19 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__iter__">
-<code class="sig-name descname"><span class="pre">__iter__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__iter__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__iter__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__len__">
-<code class="sig-name descname"><span class="pre">__len__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__len__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__len__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of monomials in this expression.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__mul__">
-<code class="sig-name descname"><span class="pre">__mul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__mul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__mul__">
+<span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__mul__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -741,18 +744,18 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__ne__">
-<code class="sig-name descname"><span class="pre">__ne__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__ne__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__ne__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__neg__">
-<code class="sig-name descname"><span class="pre">__neg__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.ExpressionR.__neg__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__neg__">
+<span class="sig-name descname"><span class="pre">__neg__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.ExpressionR.__neg__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__radd__">
-<code class="sig-name descname"><span class="pre">__radd__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__radd__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__radd__">
+<span class="sig-name descname"><span class="pre">__radd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__radd__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: float) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -761,13 +764,13 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__repr__">
-<code class="sig-name descname"><span class="pre">__repr__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__rmul__">
-<code class="sig-name descname"><span class="pre">__rmul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__rmul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__rmul__">
+<span class="sig-name descname"><span class="pre">__rmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__rmul__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: float) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -776,8 +779,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__rsub__">
-<code class="sig-name descname"><span class="pre">__rsub__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__rsub__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__rsub__">
+<span class="sig-name descname"><span class="pre">__rsub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__rsub__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: float) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -786,8 +789,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.__sub__">
-<code class="sig-name descname"><span class="pre">__sub__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__sub__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__sub__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -798,20 +801,20 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionR.clear">
-<code class="sig-name descname"><span class="pre">clear</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.ExpressionR.clear" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionR.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.ExpressionR.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset expression to zero.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="pycommute.expression.ExpressionC">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">ExpressionC</span></code><a class="headerlink" href="#pycommute.expression.ExpressionC" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">ExpressionC</span></span><a class="headerlink" href="#pycommute.expression.ExpressionC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Polynomial in quantum-mechanical operators with complex coefficients</p>
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__add__">
-<code class="sig-name descname"><span class="pre">__add__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__add__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__add__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -822,13 +825,13 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__eq__">
-<code class="sig-name descname"><span class="pre">__eq__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__eq__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__eq__">
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__iadd__">
-<code class="sig-name descname"><span class="pre">__iadd__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__iadd__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__iadd__">
+<span class="sig-name descname"><span class="pre">__iadd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__iadd__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -839,8 +842,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__imul__">
-<code class="sig-name descname"><span class="pre">__imul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__imul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__imul__">
+<span class="sig-name descname"><span class="pre">__imul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__imul__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -851,8 +854,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__init__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; None</p></li>
@@ -886,8 +889,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__isub__">
-<code class="sig-name descname"><span class="pre">__isub__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__isub__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__isub__">
+<span class="sig-name descname"><span class="pre">__isub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__isub__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -898,19 +901,19 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__iter__">
-<code class="sig-name descname"><span class="pre">__iter__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__iter__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__iter__">
+<span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Iterator</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__iter__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__len__">
-<code class="sig-name descname"><span class="pre">__len__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__len__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__len__">
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__len__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of monomials in this expression.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__mul__">
-<code class="sig-name descname"><span class="pre">__mul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__mul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__mul__">
+<span class="sig-name descname"><span class="pre">__mul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__mul__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -921,18 +924,18 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__ne__">
-<code class="sig-name descname"><span class="pre">__ne__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__ne__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__ne__">
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__ne__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__neg__">
-<code class="sig-name descname"><span class="pre">__neg__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a><a class="headerlink" href="#pycommute.expression.ExpressionC.__neg__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__neg__">
+<span class="sig-name descname"><span class="pre">__neg__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a><a class="headerlink" href="#pycommute.expression.ExpressionC.__neg__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__radd__">
-<code class="sig-name descname"><span class="pre">__radd__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__radd__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__radd__">
+<span class="sig-name descname"><span class="pre">__radd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__radd__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -941,13 +944,13 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__repr__">
-<code class="sig-name descname"><span class="pre">__repr__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__repr__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">str</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__repr__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__rmul__">
-<code class="sig-name descname"><span class="pre">__rmul__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__rmul__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__rmul__">
+<span class="sig-name descname"><span class="pre">__rmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__rmul__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -956,8 +959,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__rsub__">
-<code class="sig-name descname"><span class="pre">__rsub__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__rsub__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__rsub__">
+<span class="sig-name descname"><span class="pre">__rsub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__rsub__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -966,8 +969,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.__sub__">
-<code class="sig-name descname"><span class="pre">__sub__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__sub__" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__sub__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -978,16 +981,16 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.ExpressionC.clear">
-<code class="sig-name descname"><span class="pre">clear</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.ExpressionC.clear" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.ExpressionC.clear">
+<span class="sig-name descname"><span class="pre">clear</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.expression.ExpressionC.clear" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reset expression to zero.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.conj">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">conj</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.conj" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.conj">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">conj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.conj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>conj(expr: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -1010,8 +1013,8 @@ values.</p></li>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.transform">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">transform</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.transform" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.transform">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.transform" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>transform(expr: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, f: Callable[[<a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, float], float]) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -1079,8 +1082,8 @@ result in respective monomials being discarded.</p>
 <div class="section" id="expression-factory-functions">
 <h2>Expression factory functions<a class="headerlink" href="#expression-factory-functions" title="Permalink to this headline">¶</a></h2>
 <dl class="py method">
-<dt id="pycommute.expression.c_dag">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">c_dag</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.c_dag" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.c_dag">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">c_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.c_dag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a fermionic creation operator with indices passed as positional
 arguments.</p>
 <dl class="field-list simple">
@@ -1091,8 +1094,8 @@ arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.c">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">c</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.c" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.c">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.c" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a fermionic annihilation operator with indices passed as positional
 arguments.</p>
 <dl class="field-list simple">
@@ -1103,8 +1106,8 @@ arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.n">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">n</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.n" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.n">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.n" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a fermionic particle number operator with indices passed as positional
 arguments.</p>
 <dl class="field-list simple">
@@ -1115,8 +1118,8 @@ arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.a_dag">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">a_dag</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.a_dag" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.a_dag">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">a_dag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.a_dag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a bosonic creation operator with indices passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1126,8 +1129,8 @@ arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.a">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">a</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.a" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.a">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">a</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a><a class="headerlink" href="#pycommute.expression.a" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a bosonic annihilation operator with indices passed as
 positional arguments.</p>
 <dl class="field-list simple">
@@ -1138,8 +1141,8 @@ positional arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.S_p">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">S_p</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_p" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.S_p">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">S_p</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_p" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>S_p(*args) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -1167,8 +1170,8 @@ positional arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.S_m">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">S_m</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_m" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.S_m">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">S_m</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_m" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>S_m(*args) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -1196,8 +1199,8 @@ positional arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.S_x">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">S_x</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_x" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.S_x">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">S_x</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_x" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>S_x(*args) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -1225,8 +1228,8 @@ passed as positional arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.S_y">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">S_y</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_y" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.S_y">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">S_y</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_y" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>S_y(*args) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
@@ -1254,8 +1257,8 @@ passed as positional arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.S_z">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">S_z</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_z" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.S_z">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">S_z</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.S_z" title="Permalink to this definition">¶</a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>S_z(*args) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
@@ -1283,8 +1286,8 @@ passed as positional arguments.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="pycommute.expression.make_complex">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">make_complex</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a><a class="headerlink" href="#pycommute.expression.make_complex" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.make_complex">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">make_complex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a><a class="headerlink" href="#pycommute.expression.make_complex" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a complex expression out of a real one.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1297,8 +1300,8 @@ passed as positional arguments.</p>
 <div class="section" id="hermitian-conjugate-placeholder">
 <h2>Hermitian conjugate placeholder<a class="headerlink" href="#hermitian-conjugate-placeholder" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="pycommute.expression.HC">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></code><code class="sig-name descname"><span class="pre">HC</span></code><a class="headerlink" href="#pycommute.expression.HC" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.HC">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">HC</span></span><a class="headerlink" href="#pycommute.expression.HC" title="Permalink to this definition">¶</a></dt>
 <dd><p>A placeholder type that adds/subtracts the Hermitian conjugate
 to/from an expression. There is a module-level constant of this type called
 <a class="reference internal" href="#pycommute.expression.hc" title="pycommute.expression.hc"><code class="xref py py-data docutils literal notranslate"><span class="pre">hc</span></code></a>, which allows to mimic the <span class="math notranslate nohighlight">\(\pm H.c.\)</span> notation in
@@ -1306,8 +1309,8 @@ expressions.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt id="pycommute.expression.hc">
-<code class="sig-prename descclassname"><span class="pre">expression.</span></code><code class="sig-name descname"><span class="pre">hc</span></code><em class="property"> <span class="pre">=</span> <span class="pre">&lt;pycommute.expression.HC</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#pycommute.expression.hc" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="pycommute.expression.hc">
+<span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">hc</span></span><em class="property"> <span class="pre">=</span> <span class="pre">&lt;pycommute.expression.HC</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#pycommute.expression.hc" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
