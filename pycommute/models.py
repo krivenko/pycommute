@@ -47,7 +47,8 @@ def _three_j_symbol(j1, m1, j2, m2, j3, m3):
             and abs(j1 - j2) <= j3 <= j1 + j2):
         return 0
 
-    fact = np.math.factorial
+    def fact(x):
+        return np.math.factorial(int(x))
 
     three_j_sym = -1.0 if (j1 - j2 - m3) % 2 else 1.0
     three_j_sym *= sqrt(fact(j1 + j2 - j3)
