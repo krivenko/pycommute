@@ -112,6 +112,9 @@ class TestHilbertSpace(TestCase):
         self.assertEqual(len(hs), 8)
         self.assertEqual(hs.total_n_bits, 14)
         self.assertEqual(hs.dim, 16384)
+        self.assertTrue(hs.has_algebra(FERMION))
+        self.assertTrue(hs.has_algebra(BOSON))
+        self.assertTrue(hs.has_algebra(SPIN))
         self.assertEqual(hs.algebra_bit_range(FERMION), (0, 1))
         self.assertEqual(hs.algebra_bit_range(BOSON), (2, 5))
         self.assertEqual(hs.algebra_bit_range(SPIN), (6, 13))
@@ -185,8 +188,10 @@ class TestHilbertSpace(TestCase):
             self.assertEqual(hs.bit_range(es), (b, e))
 
             if fermion is not None:
+                self.assertTrue(hs.has_algebra(FERMION))
                 self.assertEqual(hs.algebra_bit_range(FERMION), fermion)
             else:
+                self.assertFalse(hs.has_algebra(FERMION))
                 with self.assertRaisesRegex(
                     RuntimeError,
                     "^No elementary spaces with algebra ID %i$" % FERMION
@@ -194,8 +199,10 @@ class TestHilbertSpace(TestCase):
                     hs.algebra_bit_range(FERMION)
 
             if boson is not None:
+                self.assertTrue(hs.has_algebra(BOSON))
                 self.assertEqual(hs.algebra_bit_range(BOSON), boson)
             else:
+                self.assertFalse(hs.has_algebra(BOSON))
                 with self.assertRaisesRegex(
                     RuntimeError,
                     "^No elementary spaces with algebra ID %i$" % BOSON
@@ -203,8 +210,10 @@ class TestHilbertSpace(TestCase):
                     hs.algebra_bit_range(BOSON)
 
             if spin is not None:
+                self.assertTrue(hs.has_algebra(SPIN))
                 self.assertEqual(hs.algebra_bit_range(SPIN), spin)
             else:
+                self.assertFalse(hs.has_algebra(SPIN))
                 with self.assertRaisesRegex(
                     RuntimeError,
                     "^No elementary spaces with algebra ID %i$" % SPIN

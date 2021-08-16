@@ -366,6 +366,15 @@ Bit range spanned by a given elementary space.
 )=",
     py::arg("es")
   )
+  .def("has_algebra",
+    &hs_type::has_algebra,
+R"=(
+Is an elementary space with a given algebra ID found in this Hilbert space?
+
+:param algebra_id: Algebra ID.
+)=",
+   py::arg("algebra_id")
+  )
   .def("algebra_bit_range",
     &hs_type::algebra_bit_range,
 R"=(
