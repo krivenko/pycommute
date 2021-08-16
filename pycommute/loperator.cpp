@@ -810,7 +810,9 @@ corresponding to zero index in each elementary space.
 )=",
     py::arg("O"), py::arg("hs")
   )
-  .def(py::init<std::vector<lop_type<double>> const&, hs_type const&, int>(),
+  .def(py::init<std::vector<lop_type<double>> const&,
+                hs_type const&,
+                unsigned int>(),
 R"=(
 Given a list of operators
 :math:`\{\hat O_1, \hat O_2, \hat O_3, \ldots, \hat O_M\}`, build a mapping
@@ -833,7 +835,9 @@ Mapped values are assigned continuously but without any specific order.
 )=",
     py::arg("O_list"), py::arg("hs"), py::arg("N")
   )
-  .def(py::init<std::vector<lop_type<dcomplex>> const&, hs_type const&, int>(),
+  .def(py::init<std::vector<lop_type<dcomplex>> const&,
+                hs_type const&,
+                unsigned int>(),
 R"=(
 Given a list of operators
 :math:`\{\hat O_1, \hat O_2, \hat O_3, \ldots, \hat O_M\}`, build a mapping
