@@ -869,7 +869,7 @@ Mapped values are assigned continuously but without any specific order.
 )=",
     py::arg("O_list"), py::arg("hs"), py::arg("N")
   )
-  .def("__call__", &basis_mapper::make_view_no_ref<py::array_t<double, 0>>,
+  .def("__call__", &basis_mapper::make_view<py::array_t<double, 0>>,
 R"=(
 Make a basis mapping view of a real state vector (1-dimensional NumPy array).
 
@@ -877,7 +877,7 @@ Make a basis mapping view of a real state vector (1-dimensional NumPy array).
 )=",
     py::arg("sv"), py::keep_alive<1, 0>()
   )
-  .def("__call__", &basis_mapper::make_view_no_ref<py::array_t<dcomplex, 0>>,
+  .def("__call__", &basis_mapper::make_view<py::array_t<dcomplex, 0>>,
 R"=(
 Make a basis mapping view of a complex state vector (1-dimensional NumPy array).
 
