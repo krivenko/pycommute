@@ -28,6 +28,7 @@
 #include <libcommute/loperator/es_constructor.hpp>
 #include <libcommute/loperator/space_partition.hpp>
 #include <libcommute/loperator/mapped_basis_view.hpp>
+#include <libcommute/loperator/n_fermion_sector_view.hpp>
 
 #include <algorithm>
 #include <complex>
@@ -904,6 +905,126 @@ Make a basis mapping view of a complex state vector (1-dimensional NumPy array).
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Register n_fermion_sector_size()
+//
+
+void register_n_fermion_sector_size(py::module_ & m) {
+  m.def(
+    "n_fermion_sector_size",
+     &n_fermion_sector_size<hs_type>,
+     R"=(
+Compute size of a sector (subspace of a full Hilbert space) with a fixed number
+of fermions.
+
+:param hs: Hilbert space.
+:param N: Number of fermions in the sector.
+)=",
+    py::arg("hs"), py::arg("N")
+  );
+}
+
+//
+// Register n_fermion_sector_basis_states()
+//
+
+void register_n_fermion_sector_basis_states(py::module_ & m) {
+  m.def(
+    "n_fermion_sector_basis_states",
+     &n_fermion_sector_basis_states<hs_type>,
+     R"=(
+Return a list of basis states in a sector (subspace of a full Hilbert space)
+with a fixed number of fermions.
+
+:param hs: Hilbert space.
+:param N: Number of fermions in the sector.
+)=",
+    py::arg("hs"), py::arg("N")
+  );
+}
+
+//
+// Register n_fermion_sector_view()
+//
+
+template<typename ScalarType>
+void register_n_fermion_sector_view(py::module_ & m,
+                                    std::string const& classname) {
+
+  std::string docstring = "This object is a view of a " +
+                          scalar_type_name<ScalarType>() +
+R"=( state vector (one-dimensional NumPy array) that performs basis state index
+translation from a full Hilbert space to its N-fermion subspace (sector).
+It is accepted by methods of linear operator objects
+:py:func:`LOperatorR.__call__()` and :py:func:`LOperatorC.__call__()`.
+
+:py:class:`)=" + classname + R"=(` can be used in situations where a linear
+operator is known to act only within the N-fermion sector, and it is desirable
+to store vector components only within this particular sector.
+)=";
+
+  py::class_<n_fermion_sector_view<py::array_t<ScalarType, 0>, false>>(
+    m,
+    classname.c_str(),
+    docstring.c_str()
+  )
+  .def(py::init<py::array_t<ScalarType, 0>, hs_type const&, unsigned int>(),
+    R"=(
+Construct an N-fermion sector view of a state vector.
+
+:param sv: The state vector to make the view of.
+:param hs: Hilbert space.
+:param N: Number of fermions in the sector.
+)=",
+    py::arg("sv"), py::arg("hs"), py::arg("N"), py::keep_alive<1, 2>()
+  )
+  .def("map_index",
+       &n_fermion_sector_view<py::array_t<ScalarType, 0>, false>::map_index,
+    R"=(
+Map a basis state index from the full Hilbert space to the sector.
+
+:param index: The basis state index in the full Hilbert space.
+)=",
+    py::arg("index")
+  );
+}
+
+//
+// Register action of linear operators on NFermionSectorView objects
+//
+
+template<typename SrcScalarType, typename DstScalarType, typename LOpType>
+void register_loperator_call_nfsv(py::class_<LOpType> & lop) {
+
+  using scalar_t = typename LOpType::scalar_type;
+  using src_nfsv_t =
+    n_fermion_sector_view<py::array_t<SrcScalarType, 0>, false>;
+  using dst_nfsv_t =
+    n_fermion_sector_view<py::array_t<DstScalarType, 0>, false>;
+
+  std::string src_vector_text = scalar_type_name<SrcScalarType>();
+  std::string dst_vector_text = scalar_type_name<DstScalarType>();
+
+  auto docstring = "\nAct on an N-fermion sector view of a " + src_vector_text +
+    " state vector and write the result through a view of another " +
+    dst_vector_text +
+    " state vector.\n" +
+    R"=(
+:param src: View of the source state vector.
+:param dst: View of the destination state vector.
+)=";
+
+  lop.def("__call__",
+    [](lop_type<scalar_t> const& op, src_nfsv_t const& src, dst_nfsv_t & dst) {
+      op(src, dst);
+    },
+    docstring.c_str(),
+    py::arg("src").noconvert(), py::arg("dst").noconvert()
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // Define and register make_matrix()
 //
 
@@ -1091,6 +1212,18 @@ PYBIND11_MODULE(loperator, m) {
   register_loperator_call_mbv<dcomplex, dcomplex>(lop_complex);
 
   register_basis_mapper(m);
+
+  register_n_fermion_sector_size(m);
+  register_n_fermion_sector_basis_states(m);
+
+  register_n_fermion_sector_view<double>(m, "NFermionSectorViewR");
+  register_n_fermion_sector_view<dcomplex>(m, "NFermionSectorViewC");
+
+  register_loperator_call_nfsv<double, double>(lop_real);
+  register_loperator_call_nfsv<double, dcomplex>(lop_real);
+  register_loperator_call_nfsv<dcomplex, dcomplex>(lop_real);
+  register_loperator_call_nfsv<double, dcomplex>(lop_complex);
+  register_loperator_call_nfsv<dcomplex, dcomplex>(lop_complex);
 
   register_make_matrix<double>(m);
   register_make_matrix<dcomplex>(m);

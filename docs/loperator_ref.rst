@@ -17,6 +17,8 @@
 .. pybind11class:: pycommute.loperator.MappedBasisViewR
 .. pybind11class:: pycommute.loperator.MappedBasisViewC
 .. pybind11class:: pycommute.loperator.BasisMapper
+.. pybind11class:: pycommute.loperator.NFermionSectorViewR
+.. pybind11class:: pycommute.loperator.NFermionSectorViewC
 
 Elementary spaces
 -----------------
@@ -77,8 +79,8 @@ Hilbert space partition
 
 .. automethod:: pycommute.loperator.make_space_partition
 
-Views of state vectors
-----------------------
+Mapped views of state vectors
+-----------------------------
 
 .. autoclass:: pycommute.loperator.MappedBasisViewR
   :members:
@@ -89,6 +91,21 @@ Views of state vectors
   :special-members:
 
 .. autoclass:: pycommute.loperator.BasisMapper
+  :members:
+  :special-members:
+
+N-fermion sector views of state vectors
+---------------------------------------
+
+.. automethod:: pycommute.loperator.n_fermion_sector_size
+
+.. automethod:: pycommute.loperator.n_fermion_sector_basis_states
+
+.. autoclass:: pycommute.loperator.NFermionSectorViewR
+  :members:
+  :special-members:
+
+.. autoclass:: pycommute.loperator.NFermionSectorViewC
   :members:
   :special-members:
 

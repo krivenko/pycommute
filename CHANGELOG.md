@@ -11,6 +11,11 @@ All notable changes to this project will be documented in this file.
   of a linear operator acting (1) in a full Hilbert space, (2) in its subspace
   spanned by a given list of basis vectors or (3) between two subspaces of the
   Hilbert space.
+- New classes ``loperator.NFermionSectorView(R|C)``. These objects are
+  ``LOperator(R|C)``-compatible views that represent state vectors defined in an
+  N-fermion subspace of a full Hilbert space. In addition to the view classes,
+  there are two new utility functions ``loperator.n_fermion_sector_size()`` and
+  ``loperator.n_fermion_sector_basis_states()``.
 - New method ``loperator.HilbertSpace.has_algebra()``.
 - New method ``loperator.SpacePartition.find_connections()``.
 
