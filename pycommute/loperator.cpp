@@ -1062,6 +1062,8 @@ PYBIND11_MODULE(loperator, m) {
 
   m.doc() = "Linear operators in finite-dimensional Hilbert spaces";
 
+  py::module_::import("pycommute.expression");
+
   register_elementary_space(m);
 
   register_elementary_space_fermion(m);
