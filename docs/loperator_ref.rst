@@ -19,6 +19,8 @@
 .. pybind11class:: pycommute.loperator.BasisMapper
 .. pybind11class:: pycommute.loperator.NFermionSectorViewR
 .. pybind11class:: pycommute.loperator.NFermionSectorViewC
+.. pybind11class:: pycommute.loperator.NFermionMultiSectorViewR
+.. pybind11class:: pycommute.loperator.NFermionMultiSectorViewC
 
 Elementary spaces
 -----------------
@@ -106,6 +108,18 @@ N-fermion sector views of state vectors
   :special-members:
 
 .. autoclass:: pycommute.loperator.NFermionSectorViewC
+  :members:
+  :special-members:
+
+.. automethod:: pycommute.loperator.n_fermion_multisector_size
+
+.. automethod:: pycommute.loperator.n_fermion_multisector_basis_states
+
+.. autoclass:: pycommute.loperator.NFermionMultiSectorViewR
+  :members:
+  :special-members:
+
+.. autoclass:: pycommute.loperator.NFermionMultiSectorViewC
   :members:
   :special-members:
 

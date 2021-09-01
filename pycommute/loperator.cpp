@@ -32,6 +32,8 @@
 
 #include <algorithm>
 #include <complex>
+#include <iterator>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <type_traits>
@@ -943,7 +945,7 @@ with a fixed number of fermions.
 }
 
 //
-// Register n_fermion_sector_view()
+// Register n_fermion_sector_view
 //
 
 template<typename ScalarType>
@@ -1015,6 +1017,187 @@ void register_loperator_call_nfsv(py::class_<LOpType> & lop) {
 
   lop.def("__call__",
     [](lop_type<scalar_t> const& op, src_nfsv_t const& src, dst_nfsv_t & dst) {
+      op(src, dst);
+    },
+    docstring.c_str(),
+    py::arg("src").noconvert(), py::arg("dst").noconvert()
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+using sd_arg_type = std::pair<
+  std::vector<dyn_indices::indices_t>,
+  unsigned int
+>;
+
+std::vector<sector_descriptor<hs_type>> make_sector_descriptors(
+  std::vector<sd_arg_type> const& sectors
+) {
+  std::vector<sector_descriptor<hs_type>> res;
+  res.reserve(sectors.size());
+  for(auto const& sector : sectors) {
+    res.emplace_back(sector_descriptor<hs_type> {
+      std::set<std::tuple<dyn_indices>>(), sector.second
+    });
+    for(auto const& ind : sector.first)
+      res.back().indices.emplace(ind);
+  }
+  return res;
+}
+
+//
+// Register n_fermion_multisector_size()
+//
+
+void register_n_fermion_multisector_size(py::module_ & m) {
+  m.def(
+    "n_fermion_multisector_size",
+    [](hs_type const& hs, std::vector<sd_arg_type> const& sectors) {
+      return n_fermion_multisector_size(hs, make_sector_descriptors(sectors));
+    },
+     R"=(
+Compute size of a multisector (subspace of a full Hilbert space). A multisector
+is a set of all basis states, which have :math:`N_1` particles within a subset
+of fermionic modes :math:`\{S_1\}`, :math:`N_2` particles within another subset
+:math:`\{S_2\}` and so on. There can be any number of individual pairs
+:math:`(\{S_i\}, N_i)` (sectors contributing to the multisector) as long as all
+subsets :math:`\{S_i\}` are disjoint.
+
+:param hs: Hilbert space.
+:param sectors: List of sector descriptors. Each element of the list is a
+                :math:`(\{S_i\}, N_i)` pair, where :math:`\{S_i\}` is a set of
+                index sequences corresponding to the relevant fermionic degrees
+                of freedom.
+)=",
+    py::arg("hs"), py::arg("sectors")
+  );
+}
+
+//
+// Register n_fermion_multisector_basis_states()
+//
+
+void register_n_fermion_multisector_basis_states(py::module_ & m) {
+  m.def(
+    "n_fermion_multisector_basis_states",
+    [](hs_type const& hs, std::vector<sd_arg_type> const& sectors) {
+      return n_fermion_multisector_basis_states(
+        hs,
+        make_sector_descriptors(sectors)
+      );
+    },
+     R"=(
+Return a list of basis states in a multisector (subspace of a full Hilbert
+space). A multisector is a set of all basis states, which have :math:`N_1`
+particles within a subset of fermionic modes :math:`\{S_1\}`, :math:`N_2`
+particles within another subset :math:`\{S_2\}` and so on. There can be any
+number of individual pairs :math:`(\{S_i\}, N_i)` (sectors contributing to the
+multisector) as long as all subsets :math:`\{S_i\}` are disjoint.
+
+:param hs: Hilbert space.
+:param sectors: List of sector descriptors. Each element of the list is a
+                :math:`(\{S_i\}, N_i)` pair, where :math:`\{S_i\}` is a set of
+                index sequences corresponding to the relevant fermionic degrees
+                of freedom.
+)=",
+    py::arg("hs"), py::arg("sectors")
+  );
+}
+
+//
+// Register n_fermion_multisector_view
+//
+
+template<typename ScalarType>
+void register_n_fermion_multisector_view(py::module_ & m,
+                                         std::string const& classname) {
+
+  using view_t = n_fermion_multisector_view<py::array_t<ScalarType, 0>, false>;
+
+  std::string docstring = "This object is a view of a " +
+                          scalar_type_name<ScalarType>() +
+R"=( state vector (one-dimensional NumPy array) that performs basis state index
+translation from a full Hilbert space to an N-fermion multisector.
+It is accepted by methods of linear operator objects
+:py:func:`LOperatorR.__call__()` and :py:func:`LOperatorC.__call__()`.
+
+A multisector is a set of all basis states, which have :math:`N_1`
+particles within a subset of fermionic modes :math:`\{S_1\}`, :math:`N_2`
+particles within another subset :math:`\{S_2\}` and so on. There can be any
+number of individual pairs :math:`(\{S_i\}, N_i)` (sectors contributing to the
+multisector) as long as all subsets :math:`\{S_i\}` are disjoint.
+
+:py:class:`)=" + classname + R"=(` can be used in situations where a linear
+operator is known to act only within the multisector, and it is desirable
+to store vector components only within this particular multisector.
+)=";
+
+  py::class_<view_t>(
+    m,
+    classname.c_str(),
+    docstring.c_str()
+  )
+  .def(py::init([](py::array_t<ScalarType, 0> sv,
+                   hs_type const& hs,
+                   std::vector<sd_arg_type> const& sectors) {
+      return std::make_unique<view_t>(std::move(sv),
+                                      hs,
+                                      make_sector_descriptors(sectors));
+    }),
+    R"=(
+Construct an N-fermion multisector view of a state vector.
+
+:param sv: The state vector to make the view of.
+:param hs: Hilbert space.
+:param sectors: List of sector descriptors. Each element of the list is a
+                :math:`(\{S_i\}, N_i)` pair, where :math:`\{S_i\}` is a set of
+                index sequences corresponding to the relevant fermionic degrees
+                of freedom.
+)=",
+    py::arg("sv"), py::arg("hs"), py::arg("sectors"), py::keep_alive<1, 2>()
+  )
+  .def("map_index",
+    &view_t::map_index,
+    R"=(
+Map a basis state index from the full Hilbert space to the multisector.
+
+:param index: The basis state index in the full Hilbert space.
+)=",
+    py::arg("index")
+  );
+}
+
+//
+// Register action of linear operators on NFermionMultiSectorView objects
+//
+
+template<typename SrcScalarType, typename DstScalarType, typename LOpType>
+void register_loperator_call_nfmsv(py::class_<LOpType> & lop) {
+
+  using scalar_t = typename LOpType::scalar_type;
+  using src_nfmsv_t =
+    n_fermion_multisector_view<py::array_t<SrcScalarType, 0>, false>;
+  using dst_nfmsv_t =
+    n_fermion_multisector_view<py::array_t<DstScalarType, 0>, false>;
+
+  std::string src_vector_text = scalar_type_name<SrcScalarType>();
+  std::string dst_vector_text = scalar_type_name<DstScalarType>();
+
+  auto docstring = "\nAct on an N-fermion multisector view of a " +
+    src_vector_text +
+    " state vector and write the result through a view of another " +
+    dst_vector_text +
+    " state vector.\n" +
+    R"=(
+:param src: View of the source state vector.
+:param dst: View of the destination state vector.
+)=";
+
+  lop.def("__call__",
+    [](lop_type<scalar_t> const& op,
+       src_nfmsv_t const& src,
+       dst_nfmsv_t & dst) {
       op(src, dst);
     },
     docstring.c_str(),
@@ -1224,6 +1407,18 @@ PYBIND11_MODULE(loperator, m) {
   register_loperator_call_nfsv<dcomplex, dcomplex>(lop_real);
   register_loperator_call_nfsv<double, dcomplex>(lop_complex);
   register_loperator_call_nfsv<dcomplex, dcomplex>(lop_complex);
+
+  register_n_fermion_multisector_size(m);
+  register_n_fermion_multisector_basis_states(m);
+
+  register_n_fermion_multisector_view<double>(m, "NFermionMultiSectorViewR");
+  register_n_fermion_multisector_view<dcomplex>(m, "NFermionMultiSectorViewC");
+
+  register_loperator_call_nfmsv<double, double>(lop_real);
+  register_loperator_call_nfmsv<double, dcomplex>(lop_real);
+  register_loperator_call_nfmsv<dcomplex, dcomplex>(lop_real);
+  register_loperator_call_nfmsv<double, dcomplex>(lop_complex);
+  register_loperator_call_nfmsv<dcomplex, dcomplex>(lop_complex);
 
   register_make_matrix<double>(m);
   register_make_matrix<dcomplex>(m);
