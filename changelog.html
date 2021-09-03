@@ -188,7 +188,23 @@ C++ functions construct and return a matrix representation (2D NumPy array)
 of a linear operator acting (1) in a full Hilbert space, (2) in its subspace
 spanned by a given list of basis vectors or (3) between two subspaces of the
 Hilbert space.</p></li>
-<li><p>New method <code class="docutils literal notranslate"><span class="pre">space_partition.find_connections()</span></code>.</p></li>
+<li><p>New classes <code class="docutils literal notranslate"><span class="pre">loperator.NFermionSectorView(R|C)</span></code>. These objects are
+<code class="docutils literal notranslate"><span class="pre">LOperator(R|C)</span></code>-compatible views that represent state vectors defined in an
+N-fermion subspace of a full Hilbert space. In addition to the view classes,
+there are two new utility functions <code class="docutils literal notranslate"><span class="pre">loperator.n_fermion_sector_size()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">loperator.n_fermion_sector_basis_states()</span></code>.</p></li>
+<li><p>New classes <code class="docutils literal notranslate"><span class="pre">loperator.NFermionMultiSectorView(R|C)</span></code>. These objects are
+<code class="docutils literal notranslate"><span class="pre">LOperator(R|C)</span></code>-compatible views that represent state vectors defined in an
+N-fermion multisector. A multisector is a set of all basis states, which have
+<code class="docutils literal notranslate"><span class="pre">N_1</span></code> particles within a subset of fermionic modes <code class="docutils literal notranslate"><span class="pre">{S_1}</span></code>, <code class="docutils literal notranslate"><span class="pre">N_2</span></code>
+particles within another subset <code class="docutils literal notranslate"><span class="pre">{S_2}</span></code> and so on. There can be any number
+of individual pairs <code class="docutils literal notranslate"><span class="pre">({S_i},</span> <span class="pre">N_i)</span></code> (sectors contributing to the multisector)
+as long as all subsets <code class="docutils literal notranslate"><span class="pre">{S_i}</span></code> are disjoint. In addition to the view
+classes, there are two new utility functions
+<code class="docutils literal notranslate"><span class="pre">loperator.n_fermion_multisector_size()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">loperator.n_fermion_multisector_basis_states()</span></code>.</p></li>
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.has_algebra()</span></code>.</p></li>
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition.find_connections()</span></code>.</p></li>
 </ul>
 </div>
 </div>
@@ -198,7 +214,7 @@ Hilbert space.</p></li>
 <h3>Added<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><p>New method <code class="docutils literal notranslate"><span class="pre">expression.Indices.__getitem__()</span></code>.</p></li>
-<li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.hilbert_space.index()</span></code>.</p></li>
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.index()</span></code>.</p></li>
 <li><p>CI: Tagged versions are now built into Docker images and pushed to
 <a class="reference external" href="https://hub.docker.com/repository/docker/ikrivenko/pycommute">Docker Hub</a>.</p></li>
 </ul>

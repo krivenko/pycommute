@@ -103,7 +103,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#full-hilbert-spaces">Full Hilbert spaces</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#linear-operators">Linear operators</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#hilbert-space-partition">Hilbert space partition</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#views-of-state-vectors">Views of state vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mapped-views-of-state-vectors">Mapped views of state vectors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#n-fermion-sector-views-of-state-vectors">N-fermion sector views of state vectors</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#matrix-representation-of-linear-operators">Matrix representation of linear operators</a></li>
 </ul>
 </li>
@@ -193,22 +194,22 @@
 <dd><p>Hilbert space corresponding to one quantum degree of freedom</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.ElementarySpace.__eq__">
-<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__eq__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.ElementarySpace.__gt__">
-<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__gt__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__gt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.ElementarySpace.__lt__">
-<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__lt__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__lt__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.ElementarySpace.__ne__">
-<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__ne__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.ElementarySpace.__ne__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py property">
@@ -238,8 +239,9 @@
 <p>Elementary space generated by one fermionic degree of freedom</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.ESpaceFermion.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ESpaceFermion" title="pycommute.loperator.ESpaceFermion"><span class="pre">pycommute.loperator.ESpaceFermion</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.loperator.ESpaceFermion.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a 2-dimensional elementary space a fermionic creation/annihilation
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ESpaceFermion" title="pycommute.loperator.ESpaceFermion"><span class="pre">pycommute.loperator.ESpaceFermion</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.ESpaceFermion.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.ESpaceFermion" title="pycommute.loperator.ESpaceFermion"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.ESpaceFermion</span></code></a>, indices: <a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p>
+<p>Construct a 2-dimensional elementary space a fermionic creation/annihilation
 operator acts in.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -252,7 +254,7 @@ operator acts in.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.make_space_fermion">
-<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">make_space_fermion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.loperator.ESpaceFermion" title="pycommute.loperator.ESpaceFermion"><span class="pre">pycommute.loperator.ESpaceFermion</span></a><a class="headerlink" href="#pycommute.loperator.make_space_fermion" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">make_space_fermion</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycommute.loperator.ESpaceFermion" title="pycommute.loperator.ESpaceFermion"><span class="pre">pycommute.loperator.ESpaceFermion</span></a></span></span><a class="headerlink" href="#pycommute.loperator.make_space_fermion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a fermionic elementary space with indices passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -268,8 +270,9 @@ operator acts in.</p>
 <p>Truncated <span class="math notranslate nohighlight">\(2^n\)</span>-dimensional elementary space generated by one bosonic degree of freedom</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.ESpaceBoson.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ESpaceBoson" title="pycommute.loperator.ESpaceBoson"><span class="pre">pycommute.loperator.ESpaceBoson</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.loperator.ESpaceBoson.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct a <span class="math notranslate nohighlight">\(2^\text{n_bits}\)</span>-dimensional elementary space a bosonic
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ESpaceBoson" title="pycommute.loperator.ESpaceBoson"><span class="pre">pycommute.loperator.ESpaceBoson</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.ESpaceBoson.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.ESpaceBoson" title="pycommute.loperator.ESpaceBoson"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.ESpaceBoson</span></code></a>, n_bits: int, indices: <a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p>
+<p>Construct a <span class="math notranslate nohighlight">\(2^\text{n_bits}\)</span>-dimensional elementary space a bosonic
 creation/annihilation operator acts in.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -285,7 +288,7 @@ creation/annihilation operator acts in.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.make_space_boson">
-<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">make_space_boson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.loperator.ESpaceBoson" title="pycommute.loperator.ESpaceBoson"><span class="pre">pycommute.loperator.ESpaceBoson</span></a><a class="headerlink" href="#pycommute.loperator.make_space_boson" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">make_space_boson</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_bits</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycommute.loperator.ESpaceBoson" title="pycommute.loperator.ESpaceBoson"><span class="pre">pycommute.loperator.ESpaceBoson</span></a></span></span><a class="headerlink" href="#pycommute.loperator.make_space_boson" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a bosonic elementary space with indices passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -304,8 +307,9 @@ creation/annihilation operator acts in.</p>
 <p>Elementary space generated by one spin degree of freedom</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.ESpaceSpin.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ESpaceSpin" title="pycommute.loperator.ESpaceSpin"><span class="pre">pycommute.loperator.ESpaceSpin</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.loperator.ESpaceSpin.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct an elementary space spin-<span class="math notranslate nohighlight">\(S\)</span> operators act in.</p>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ESpaceSpin" title="pycommute.loperator.ESpaceSpin"><span class="pre">pycommute.loperator.ESpaceSpin</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.ESpaceSpin.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.ESpaceSpin" title="pycommute.loperator.ESpaceSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.ESpaceSpin</span></code></a>, spin: float, indices: <a class="reference internal" href="expression_ref.html#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p>
+<p>Construct an elementary space spin-<span class="math notranslate nohighlight">\(S\)</span> operators act in.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -320,7 +324,7 @@ creation/annihilation operator acts in.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.make_space_spin">
-<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">make_space_spin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#pycommute.loperator.ESpaceSpin" title="pycommute.loperator.ESpaceSpin"><span class="pre">pycommute.loperator.ESpaceSpin</span></a><a class="headerlink" href="#pycommute.loperator.make_space_spin" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">make_space_spin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spin</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycommute.loperator.ESpaceSpin" title="pycommute.loperator.ESpaceSpin"><span class="pre">pycommute.loperator.ESpaceSpin</span></a></span></span><a class="headerlink" href="#pycommute.loperator.make_space_spin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a spin elementary space with indices passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -342,19 +346,20 @@ creation/annihilation operator acts in.</p>
 <p>Hilbert space as a direct product of elementary spaces</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.__contains__">
-<span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__contains__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__contains__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is a given elementary space part of the direct product?</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.__eq__">
-<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__eq__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__eq__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overloaded function.</p>
+<dd><p>__init__(*args, **kwargs)
+Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>) -&gt; None</p></li>
 </ol>
@@ -395,18 +400,18 @@ elementary space to be constructed.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.__len__">
-<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__len__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__len__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of elementary spaces in the direct product.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.__ne__">
-<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">bool</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__ne__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.__ne__" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.add">
-<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.add" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.add" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a new elementary space into the direct product.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -417,7 +422,7 @@ elementary space to be constructed.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.algebra_bit_range">
-<span class="sig-name descname"><span class="pre">algebra_bit_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">algebra_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.algebra_bit_range" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">algebra_bit_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">algebra_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.algebra_bit_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bit range spanned by a given algebra ID.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -428,7 +433,7 @@ elementary space to be constructed.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.basis_state_index">
-<span class="sig-name descname"><span class="pre">basis_state_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.basis_state_index" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">basis_state_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.basis_state_index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns index of the product basis state, which decomposes over bases of
 the elementary spaces as
 <span class="math notranslate nohighlight">\(|0\rangle |0\rangle \ldots |0\rangle |n\rangle_\text{es} |0\rangle
@@ -446,7 +451,7 @@ the decomposition.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.bit_range">
-<span class="sig-name descname"><span class="pre">bit_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.bit_range" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">bit_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.bit_range" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bit range spanned by a given elementary space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -462,8 +467,19 @@ the decomposition.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.has_algebra">
+<span class="sig-name descname"><span class="pre">has_algebra</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">algebra_id</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.has_algebra" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is an elementary space with a given algebra ID found in this Hilbert space?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>algebra_id</strong> – Algebra ID.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.HilbertSpace.index">
-<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.index" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">es</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.ElementarySpace" title="pycommute.loperator.ElementarySpace"><span class="pre">pycommute.loperator.ElementarySpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.HilbertSpace.index" title="Permalink to this definition">¶</a></dt>
 <dd><p>Position of a given elementary space in the product.</p>
 </dd></dl>
 
@@ -591,12 +607,85 @@ the subspace this basis state belongs to.</p>
 </ul>
 </dd>
 </dl>
+<ol class="arabic simple" start="7">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewR</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewR</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion sector view of a real state vector and write the result through a view of another real state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="8">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewR</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion sector view of a real state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="9">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion sector view of a complex state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="10">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewR</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewR</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion multisector view of a real state vector and write the result through a view of another real state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="11">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewR</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion multisector view of a real state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="12">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion multisector view of a complex state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.LOperatorR.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><span class="pre">pycommute.loperator.LOperatorR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.loperator.LOperatorR.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct the linear operator representing action of a given polynomial
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><span class="pre">pycommute.loperator.LOperatorR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.LOperatorR.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, expr: <a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>) -&gt; None</p>
+<p>Construct the linear operator representing action of a given polynomial
 expression on a Hilbert space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -680,12 +769,61 @@ expression on a Hilbert space.</p>
 </ul>
 </dd>
 </dl>
+<ol class="arabic simple" start="5">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewR</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion sector view of a real state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="6">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion sector view of a complex state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="7">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewR</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion multisector view of a real state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
+<ol class="arabic simple" start="8">
+<li><p>__call__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, src: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></code></a>, dst: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></code></a>) -&gt; None</p></li>
+</ol>
+<p>Act on an N-fermion multisector view of a complex state vector and write the result through a view of another complex state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> – View of the source state vector.</p></li>
+<li><p><strong>dst</strong> – View of the destination state vector.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.LOperatorC.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><span class="pre">pycommute.loperator.LOperatorC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">None</span><a class="headerlink" href="#pycommute.loperator.LOperatorC.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Construct the linear operator representing action of a given polynomial
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><span class="pre">pycommute.loperator.LOperatorC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">expr</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.LOperatorC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorC</span></code></a>, expr: <a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>) -&gt; None</p>
+<p>Construct the linear operator representing action of a given polynomial
 expression on a Hilbert space.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -725,14 +863,15 @@ under action of a given Hermitian operator (Hamiltonian).</p>
 <a class="reference external" href="http://dx.doi.org/10.1016/j.cpc.2015.10.023">Computer Physics Communications 200, March 2016, 274-284</a> (section 4.2).</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.SpacePartition.__getitem__">
-<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><span class="pre">pycommute.loperator.SpacePartition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_state_index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.loperator.SpacePartition.__getitem__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><span class="pre">pycommute.loperator.SpacePartition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">basis_state_index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.SpacePartition.__getitem__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find what invariant subspace a given basis state belongs to.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.SpacePartition.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.loperator.SpacePartition.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overloaded function.</p>
+<dd><p>__init__(*args, **kwargs)
+Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.SpacePartition</span></code></a>, h: <a class="reference internal" href="#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.LOperatorR</span></code></a>, hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>) -&gt; None</p></li>
 </ol>
@@ -926,8 +1065,8 @@ dictionary when <code class="docutils literal notranslate"><span class="pre">sto
 </dd></dl>
 
 </div>
-<div class="section" id="views-of-state-vectors">
-<h2>Views of state vectors<a class="headerlink" href="#views-of-state-vectors" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="mapped-views-of-state-vectors">
+<h2>Mapped views of state vectors<a class="headerlink" href="#mapped-views-of-state-vectors" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycommute.loperator.MappedBasisViewR">
 <em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.loperator.</span></span><span class="sig-name descname"><span class="pre">MappedBasisViewR</span></span><a class="headerlink" href="#pycommute.loperator.MappedBasisViewR" title="Permalink to this definition">¶</a></dt>
@@ -943,8 +1082,7 @@ subspace.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.MappedBasisViewR.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.loperator.MappedBasisViewR.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -963,8 +1101,7 @@ subspace.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.MappedBasisViewC.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.loperator.MappedBasisViewC.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -999,7 +1136,8 @@ subspace.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.BasisMapper.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.loperator.BasisMapper.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Overloaded function.</p>
+<dd><p>__init__(*args, **kwargs)
+Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.BasisMapper" title="pycommute.loperator.BasisMapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.BasisMapper</span></code></a>, basis_state_indices: List[int]) -&gt; None</p></li>
 </ol>
@@ -1090,7 +1228,7 @@ Mapped values are assigned continuously but without any specific order.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.loperator.BasisMapper.__len__">
-<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.BasisMapper" title="pycommute.loperator.BasisMapper"><span class="pre">pycommute.loperator.BasisMapper</span></a></span></em><span class="sig-paren">)</span> &#x2192; <span class="pre">int</span><a class="headerlink" href="#pycommute.loperator.BasisMapper.__len__" title="Permalink to this definition">¶</a></dt>
+<span class="sig-name descname"><span class="pre">__len__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.BasisMapper" title="pycommute.loperator.BasisMapper"><span class="pre">pycommute.loperator.BasisMapper</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.BasisMapper.__len__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of basis states in the mapping.</p>
 </dd></dl>
 
@@ -1104,6 +1242,255 @@ Mapped values are assigned continuously but without any specific order.</p>
 <dt class="sig sig-object py" id="pycommute.loperator.BasisMapper.map">
 <em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">map</span></span><a class="headerlink" href="#pycommute.loperator.BasisMapper.map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Direct access to the mapping as Dict[int, int].</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="n-fermion-sector-views-of-state-vectors">
+<h2>N-fermion sector views of state vectors<a class="headerlink" href="#n-fermion-sector-views-of-state-vectors" title="Permalink to this headline">¶</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.n_fermion_sector_size">
+<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">n_fermion_sector_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.n_fermion_sector_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute size of a sector (subspace of a full Hilbert space) with a fixed number
+of fermions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>N</strong> – Number of fermions in the sector.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.n_fermion_sector_basis_states">
+<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">n_fermion_sector_basis_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.loperator.n_fermion_sector_basis_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of basis states in a sector (subspace of a full Hilbert space)
+with a fixed number of fermions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>N</strong> – Number of fermions in the sector.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionSectorViewR">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.loperator.</span></span><span class="sig-name descname"><span class="pre">NFermionSectorViewR</span></span><a class="headerlink" href="#pycommute.loperator.NFermionSectorViewR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object is a view of a real state vector (one-dimensional NumPy array) that performs basis state index
+translation from a full Hilbert space to its N-fermion subspace (sector).
+It is accepted by methods of linear operator objects
+<a class="reference internal" href="#pycommute.loperator.LOperatorR.__call__" title="pycommute.loperator.LOperatorR.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorR.__call__()</span></code></a> and <a class="reference internal" href="#pycommute.loperator.LOperatorC.__call__" title="pycommute.loperator.LOperatorC.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorC.__call__()</span></code></a>.</p>
+<p><a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">NFermionSectorViewR</span></code></a> can be used in situations where a linear
+operator is known to act only within the N-fermion sector, and it is desirable
+to store vector components only within this particular sector.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionSectorViewR.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><span class="pre">pycommute.loperator.NFermionSectorViewR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sv</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionSectorViewR.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewR</span></code></a>, sv: numpy.ndarray[numpy.float64], hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>, N: int) -&gt; None</p>
+<p>Construct an N-fermion sector view of a state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sv</strong> – The state vector to make the view of.</p></li>
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>N</strong> – Number of fermions in the sector.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionSectorViewR.map_index">
+<span class="sig-name descname"><span class="pre">map_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><span class="pre">pycommute.loperator.NFermionSectorViewR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionSectorViewR.map_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a basis state index from the full Hilbert space to the sector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The basis state index in the full Hilbert space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionSectorViewC">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.loperator.</span></span><span class="sig-name descname"><span class="pre">NFermionSectorViewC</span></span><a class="headerlink" href="#pycommute.loperator.NFermionSectorViewC" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object is a view of a complex state vector (one-dimensional NumPy array) that performs basis state index
+translation from a full Hilbert space to its N-fermion subspace (sector).
+It is accepted by methods of linear operator objects
+<a class="reference internal" href="#pycommute.loperator.LOperatorR.__call__" title="pycommute.loperator.LOperatorR.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorR.__call__()</span></code></a> and <a class="reference internal" href="#pycommute.loperator.LOperatorC.__call__" title="pycommute.loperator.LOperatorC.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorC.__call__()</span></code></a>.</p>
+<p><a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">NFermionSectorViewC</span></code></a> can be used in situations where a linear
+operator is known to act only within the N-fermion sector, and it is desirable
+to store vector components only within this particular sector.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionSectorViewC.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sv</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.complex128</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionSectorViewC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></code></a>, sv: numpy.ndarray[numpy.complex128], hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>, N: int) -&gt; None</p>
+<p>Construct an N-fermion sector view of a state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sv</strong> – The state vector to make the view of.</p></li>
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>N</strong> – Number of fermions in the sector.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionSectorViewC.map_index">
+<span class="sig-name descname"><span class="pre">map_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionSectorViewC" title="pycommute.loperator.NFermionSectorViewC"><span class="pre">pycommute.loperator.NFermionSectorViewC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionSectorViewC.map_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a basis state index from the full Hilbert space to the sector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The basis state index in the full Hilbert space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.n_fermion_multisector_size">
+<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">n_fermion_multisector_size</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.n_fermion_multisector_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute size of a multisector (subspace of a full Hilbert space). A multisector
+is a set of all basis states, which have <span class="math notranslate nohighlight">\(N_1\)</span> particles within a subset
+of fermionic modes <span class="math notranslate nohighlight">\(\{S_1\}\)</span>, <span class="math notranslate nohighlight">\(N_2\)</span> particles within another subset
+<span class="math notranslate nohighlight">\(\{S_2\}\)</span> and so on. There can be any number of individual pairs
+<span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> (sectors contributing to the multisector) as long as all
+subsets <span class="math notranslate nohighlight">\(\{S_i\}\)</span> are disjoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>sectors</strong> – List of sector descriptors. Each element of the list is a
+<span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> pair, where <span class="math notranslate nohighlight">\(\{S_i\}\)</span> is a set of
+index sequences corresponding to the relevant fermionic degrees
+of freedom.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.n_fermion_multisector_basis_states">
+<span class="sig-prename descclassname"><span class="pre">loperator.</span></span><span class="sig-name descname"><span class="pre">n_fermion_multisector_basis_states</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.loperator.n_fermion_multisector_basis_states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of basis states in a multisector (subspace of a full Hilbert
+space). A multisector is a set of all basis states, which have <span class="math notranslate nohighlight">\(N_1\)</span>
+particles within a subset of fermionic modes <span class="math notranslate nohighlight">\(\{S_1\}\)</span>, <span class="math notranslate nohighlight">\(N_2\)</span>
+particles within another subset <span class="math notranslate nohighlight">\(\{S_2\}\)</span> and so on. There can be any
+number of individual pairs <span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> (sectors contributing to the
+multisector) as long as all subsets <span class="math notranslate nohighlight">\(\{S_i\}\)</span> are disjoint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>sectors</strong> – List of sector descriptors. Each element of the list is a
+<span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> pair, where <span class="math notranslate nohighlight">\(\{S_i\}\)</span> is a set of
+index sequences corresponding to the relevant fermionic degrees
+of freedom.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionMultiSectorViewR">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.loperator.</span></span><span class="sig-name descname"><span class="pre">NFermionMultiSectorViewR</span></span><a class="headerlink" href="#pycommute.loperator.NFermionMultiSectorViewR" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object is a view of a real state vector (one-dimensional NumPy array) that performs basis state index
+translation from a full Hilbert space to an N-fermion multisector.
+It is accepted by methods of linear operator objects
+<a class="reference internal" href="#pycommute.loperator.LOperatorR.__call__" title="pycommute.loperator.LOperatorR.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorR.__call__()</span></code></a> and <a class="reference internal" href="#pycommute.loperator.LOperatorC.__call__" title="pycommute.loperator.LOperatorC.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorC.__call__()</span></code></a>.</p>
+<p>A multisector is a set of all basis states, which have <span class="math notranslate nohighlight">\(N_1\)</span>
+particles within a subset of fermionic modes <span class="math notranslate nohighlight">\(\{S_1\}\)</span>, <span class="math notranslate nohighlight">\(N_2\)</span>
+particles within another subset <span class="math notranslate nohighlight">\(\{S_2\}\)</span> and so on. There can be any
+number of individual pairs <span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> (sectors contributing to the
+multisector) as long as all subsets <span class="math notranslate nohighlight">\(\{S_i\}\)</span> are disjoint.</p>
+<p><a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">NFermionMultiSectorViewR</span></code></a> can be used in situations where a linear
+operator is known to act only within the multisector, and it is desirable
+to store vector components only within this particular multisector.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionMultiSectorViewR.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><span class="pre">pycommute.loperator.NFermionMultiSectorViewR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sv</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.float64</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionMultiSectorViewR.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewR</span></code></a>, sv: numpy.ndarray[numpy.float64], hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>, sectors: List[Tuple[List[List[Union[int, str]]], int]]) -&gt; None</p>
+<p>Construct an N-fermion multisector view of a state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sv</strong> – The state vector to make the view of.</p></li>
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>sectors</strong> – List of sector descriptors. Each element of the list is a
+<span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> pair, where <span class="math notranslate nohighlight">\(\{S_i\}\)</span> is a set of
+index sequences corresponding to the relevant fermionic degrees
+of freedom.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionMultiSectorViewR.map_index">
+<span class="sig-name descname"><span class="pre">map_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><span class="pre">pycommute.loperator.NFermionMultiSectorViewR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionMultiSectorViewR.map_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a basis state index from the full Hilbert space to the multisector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The basis state index in the full Hilbert space.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionMultiSectorViewC">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">pycommute.loperator.</span></span><span class="sig-name descname"><span class="pre">NFermionMultiSectorViewC</span></span><a class="headerlink" href="#pycommute.loperator.NFermionMultiSectorViewC" title="Permalink to this definition">¶</a></dt>
+<dd><p>This object is a view of a complex state vector (one-dimensional NumPy array) that performs basis state index
+translation from a full Hilbert space to an N-fermion multisector.
+It is accepted by methods of linear operator objects
+<a class="reference internal" href="#pycommute.loperator.LOperatorR.__call__" title="pycommute.loperator.LOperatorR.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorR.__call__()</span></code></a> and <a class="reference internal" href="#pycommute.loperator.LOperatorC.__call__" title="pycommute.loperator.LOperatorC.__call__"><code class="xref py py-func docutils literal notranslate"><span class="pre">LOperatorC.__call__()</span></code></a>.</p>
+<p>A multisector is a set of all basis states, which have <span class="math notranslate nohighlight">\(N_1\)</span>
+particles within a subset of fermionic modes <span class="math notranslate nohighlight">\(\{S_1\}\)</span>, <span class="math notranslate nohighlight">\(N_2\)</span>
+particles within another subset <span class="math notranslate nohighlight">\(\{S_2\}\)</span> and so on. There can be any
+number of individual pairs <span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> (sectors contributing to the
+multisector) as long as all subsets <span class="math notranslate nohighlight">\(\{S_i\}\)</span> are disjoint.</p>
+<p><a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">NFermionMultiSectorViewC</span></code></a> can be used in situations where a linear
+operator is known to act only within the multisector, and it is desirable
+to store vector components only within this particular multisector.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionMultiSectorViewC.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sv</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.complex128</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hs</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><span class="pre">pycommute.loperator.HilbertSpace</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">sectors</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">,</span> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionMultiSectorViewC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>__init__(self: <a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></code></a>, sv: numpy.ndarray[numpy.complex128], hs: <a class="reference internal" href="#pycommute.loperator.HilbertSpace" title="pycommute.loperator.HilbertSpace"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.loperator.HilbertSpace</span></code></a>, sectors: List[Tuple[List[List[Union[int, str]]], int]]) -&gt; None</p>
+<p>Construct an N-fermion multisector view of a state vector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sv</strong> – The state vector to make the view of.</p></li>
+<li><p><strong>hs</strong> – Hilbert space.</p></li>
+<li><p><strong>sectors</strong> – List of sector descriptors. Each element of the list is a
+<span class="math notranslate nohighlight">\((\{S_i\}, N_i)\)</span> pair, where <span class="math notranslate nohighlight">\(\{S_i\}\)</span> is a set of
+index sequences corresponding to the relevant fermionic degrees
+of freedom.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.NFermionMultiSectorViewC.map_index">
+<span class="sig-name descname"><span class="pre">map_index</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.NFermionMultiSectorViewC" title="pycommute.loperator.NFermionMultiSectorViewC"><span class="pre">pycommute.loperator.NFermionMultiSectorViewC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">int</span></span></span><a class="headerlink" href="#pycommute.loperator.NFermionMultiSectorViewC.map_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Map a basis state index from the full Hilbert space to the multisector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – The basis state index in the full Hilbert space.</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
