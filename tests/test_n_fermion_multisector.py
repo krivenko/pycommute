@@ -10,7 +10,7 @@
 
 from unittest import TestCase
 from itertools import product
-from math import comb
+import sys
 
 from pycommute.expression import (n, a, a_dag, make_complex)
 from pycommute.loperator import (
@@ -24,6 +24,20 @@ from pycommute.loperator import (
 
 import numpy as np
 from numpy.testing import assert_allclose
+
+
+if sys.version_info >= (3, 8, 0):
+    from math import comb
+else:
+    def comb(n, k):
+        if k > n:
+            return 0
+        if k > n // 2:
+            return comb(n, n - k)
+        C = 1
+        for i in range(k):
+            C = (C * (n - i)) // (i + 1)
+        return C
 
 
 # Compute the number of set bits in the given bit range of 'n'
