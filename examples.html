@@ -1,79 +1,39 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Usage examples &mdash; pycommute 0.7.0 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
         <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API reference" href="reference.html" />
     <link rel="prev" title="Installation" href="installation.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> pycommute
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
                 0.7.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -81,18 +41,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage examples</a><ul>
@@ -110,75 +59,34 @@
 <li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">pycommute</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Usage examples</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="usage-examples">
-<span id="examples"></span><h1>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="holstein-model">
-<h2>Holstein model<a class="headerlink" href="#holstein-model" title="Permalink to this headline">¶</a></h2>
+             
+  <section id="usage-examples">
+<span id="examples"></span><h1>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline"></a></h1>
+<section id="holstein-model">
+<h2>Holstein model<a class="headerlink" href="#holstein-model" title="Permalink to this headline"></a></h2>
 <p>This example shows how to construct Hamiltonian of the
 <a class="reference external" href="https://arxiv.org/abs/cond-mat/9812252">Holstein model</a> on a
 square lattice and to check that the total number of electrons is a conserved
@@ -319,9 +227,9 @@ to easily generate the adjacency matrix of the periodic square lattice.</p>
 <span class="linenos">111</span>        <span class="c1"># indexed element access and iteration protocol.</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="spin-1-2-heisenberg-chain">
-<h2>Spin-1/2 Heisenberg chain<a class="headerlink" href="#spin-1-2-heisenberg-chain" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="spin-1-2-heisenberg-chain">
+<h2>Spin-1/2 Heisenberg chain<a class="headerlink" href="#spin-1-2-heisenberg-chain" title="Permalink to this headline"></a></h2>
 <p>The spin-1/2 Heisenberg chain is a textbook example of an integrable quantum
 system. Its Hamiltonian</p>
 <div class="math notranslate nohighlight">
@@ -407,9 +315,9 @@ and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}
 <span class="linenos">69</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Q4, Q5] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">Q4</span> <span class="o">*</span> <span class="n">Q5</span> <span class="o">-</span> <span class="n">Q5</span> <span class="o">*</span> <span class="n">Q4</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="spectrum-of-tavis-cummings-model">
-<h2>Spectrum of Tavis-Cummings model<a class="headerlink" href="#spectrum-of-tavis-cummings-model" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="spectrum-of-tavis-cummings-model">
+<h2>Spectrum of Tavis-Cummings model<a class="headerlink" href="#spectrum-of-tavis-cummings-model" title="Permalink to this headline"></a></h2>
 <p>In this example we demonstrate how to use tools from the
 <a class="reference internal" href="loperator_ref.html#module-pycommute.loperator" title="pycommute.loperator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">loperator</span></code></a> module along with NumPy’s eigensolvers to
 diagonalize Hamiltonians of simple quantum models.</p>
@@ -501,9 +409,9 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">63</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="sectors-of-a-multi-orbital-interaction-hamiltonian">
-<h2>Sectors of a multi-orbital interaction Hamiltonian<a class="headerlink" href="#sectors-of-a-multi-orbital-interaction-hamiltonian" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="sectors-of-a-multi-orbital-interaction-hamiltonian">
+<h2>Sectors of a multi-orbital interaction Hamiltonian<a class="headerlink" href="#sectors-of-a-multi-orbital-interaction-hamiltonian" title="Permalink to this headline"></a></h2>
 <p>When implementing an exact diagonalization algorithm, it is usually advantageous
 to take an extra preparatory step and split the Hilbert space of the problem
 into subspaces (sectors) characterized by a set of quantum numbers.
@@ -608,9 +516,9 @@ independently diagonalize the Hamiltonian within each sector.</p>
 <span class="linenos">91</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="n-fermion-sector-views">
-<h2>N-fermion sector views<a class="headerlink" href="#n-fermion-sector-views" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="n-fermion-sector-views">
+<h2>N-fermion sector views<a class="headerlink" href="#n-fermion-sector-views" title="Permalink to this headline"></a></h2>
 <p>This example shows how to partially diagonalize the single band Fermi-Hubbard
 model on a large 2D square lattice with periodic boundary conditions.</p>
 <div class="math notranslate nohighlight">
@@ -793,9 +701,9 @@ multisector stand in presence of bosons or spins.</p>
 <span class="linenos">147</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the multisector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
 <dl class="citation">
 <dt class="label" id="gm94"><span class="brackets"><a class="fn-backref" href="#id2">GM94</a></span></dt>
 <dd><p>“Quantum Integrals of Motion for the Heisenberg Spin Chain”,
@@ -817,55 +725,38 @@ Comp. Phys. Comm. 200, March 2016, 274-284,
 <a class="reference external" href="http://dx.doi.org/10.1016/j.cpc.2015.10.023">http://dx.doi.org/10.1016/j.cpc.2015.10.023</a> (section 4.2)</p>
 </dd>
 </dl>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="reference.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020-2021, Igor Krivenko.
-
-    </p>
+    <p>&#169; Copyright 2020-2021, Igor Krivenko.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>
