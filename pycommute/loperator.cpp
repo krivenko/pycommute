@@ -692,6 +692,23 @@ subspaces of a Hermitian operator.
   register_make_space_partition<double>(m);
   register_make_space_partition<dcomplex>(m);
 
+  sp.def("subspace_basis", &space_partition::subspace_basis,
+R"=(
+Build and return a list of indices of all basis states spanning a given
+invariant subspace.
+
+:param index: Index of the invariant subspace.
+)=",
+    py::arg("index")
+  )
+  .def("subspace_bases", &space_partition::subspace_bases,
+R"=(
+Build and return lists of indices of all basis states spanning all invariant
+subspaces in the partition. The returned lists are disjoint and their union
+spans the entire Hilbert space.
+)="
+  );
+
   using f_t = std::function<void(sv_index_type n, sv_index_type sp_index)>;
 
   m.def("foreach",

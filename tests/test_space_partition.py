@@ -139,6 +139,24 @@ class TestSpacePartition(TestCase):
 
         self.assertEqual(cl, ref_cl)
 
+        # subspace_bases()
+        bases = sp.subspace_bases()
+        self.assertEqual(len(bases), sp.n_subspaces)
+        for basis in bases:
+            basis_set = frozenset(basis)
+            self.assertIn(basis_set, ref_cl)
+
+        # subspace_basis()
+        for subspace in range(sp.n_subspaces):
+            basis = sp.subspace_basis(subspace)
+            basis_set = frozenset(basis)
+            self.assertIn(basis_set, ref_cl)
+        with self.assertRaisesRegex(
+            RuntimeError,
+            "^Wrong subspace index %d$" % sp.n_subspaces
+        ):
+            sp.subspace_basis(sp.n_subspaces)
+
     def test_matrix_elements(self):
         sp, matrix_elements = make_space_partition(self.Hop, self.hs, True)
 

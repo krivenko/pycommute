@@ -23,7 +23,7 @@ from pycommute.loperator import HilbertSpace
 # Real-valued linear operator object.
 from pycommute.loperator import LOperatorR
 # Automatic space partition and basis state mapper
-from pycommute.loperator import make_space_partition, foreach, BasisMapper
+from pycommute.loperator import make_space_partition, BasisMapper
 # Build the matrix form of a linear operator
 from pycommute.loperator import make_matrix
 
@@ -55,10 +55,8 @@ print("Total number of sectors:", sp.n_subspaces)
 for i in range(sp.dim):
     print("Many-body basis state %d belongs to sector %d" % (i, sp[i]))
 
-# Use foreach() to compile lists of basis states spanning each sector.
-sectors = [[] for _ in range(sp.n_subspaces)]
-foreach(sp,
-        lambda basis_state, sector: sectors[sector].append(basis_state))
+# Compile lists of basis states spanning each sector.
+sectors = sp.subspace_bases()
 
 # Diagonalize H_op within each sector
 for n, sector in enumerate(sectors):
