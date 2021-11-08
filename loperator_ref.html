@@ -918,6 +918,26 @@ of <span class="math notranslate nohighlight">\(\hat O^\dagger\)</span> and <spa
 <dd><p>Number of invariant subspaces in this partition.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.SpacePartition.subspace_bases">
+<span class="sig-name descname"><span class="pre">subspace_bases</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><span class="pre">pycommute.loperator.SpacePartition</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.loperator.SpacePartition.subspace_bases" title="Permalink to this definition"></a></dt>
+<dd><p>Build and return lists of indices of all basis states spanning all invariant
+subspaces in the partition. The returned lists are disjoint and their union
+spans the entire Hilbert space.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.loperator.SpacePartition.subspace_basis">
+<span class="sig-name descname"><span class="pre">subspace_basis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><a class="reference internal" href="#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><span class="pre">pycommute.loperator.SpacePartition</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">index</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.loperator.SpacePartition.subspace_basis" title="Permalink to this definition"></a></dt>
+<dd><p>Build and return a list of indices of all basis states spanning a given
+invariant subspace.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>index</strong> – Index of the invariant subspace.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py method">
