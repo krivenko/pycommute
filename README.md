@@ -1,4 +1,4 @@
-# pycommute
+![pycommute logo](docs/images/logo.svg)
 
 [![Package on PyPI](https://img.shields.io/pypi/v/pycommute.svg)](
 https://pypi.org/project/pycommute)
