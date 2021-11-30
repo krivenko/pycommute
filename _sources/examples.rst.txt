@@ -127,8 +127,9 @@ In the script shown below we construct an electron-electron interaction
 Hamiltonian of an atomic :math:`d`-shell using
 :func:`Slater <pycommute.models.slater_int>` parametrization. Then, we employ
 the :class:`SpacePartition <pycommute.loperator.SpacePartition>` and
-:class:`BasisMapper <pycommute.loperator.BasisMapper>` utility classes to
-independently diagonalize the Hamiltonian within each sector.
+:class:`BasisMapper <pycommute.loperator.BasisMapper>` utility classes (and
+optionally the :func:`make_matrix() <pycommute.loperator.make_matrix>` function)
+to independently diagonalize the Hamiltonian within each sector.
 
 .. literalinclude:: examples/space_partition.py
   :language: python

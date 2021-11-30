@@ -360,7 +360,7 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">13</span><span class="c1"># Real-valued linear operator object.</span>
 <span class="linenos">14</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
 <span class="linenos">15</span>
-<span class="linenos">16</span><span class="c1"># Build the matrix form of a linear operator</span>
+<span class="linenos">16</span><span class="c1"># Build the matrix form of a linear operator.</span>
 <span class="linenos">17</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_matrix</span>
 <span class="linenos">18</span>
 <span class="linenos">19</span><span class="c1"># Transition frequencies of qubits.</span>
@@ -373,7 +373,7 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">26</span><span class="c1"># Qubit-oscillator coupling constants as a 2x1 array.</span>
 <span class="linenos">27</span><span class="n">g</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.6</span><span class="p">]])</span>
 <span class="linenos">28</span>
-<span class="linenos">29</span><span class="c1"># Create the Tavis-Cummings Hamiltonian</span>
+<span class="linenos">29</span><span class="c1"># Create the Tavis-Cummings Hamiltonian.</span>
 <span class="linenos">30</span><span class="n">H</span> <span class="o">=</span> <span class="n">jaynes_cummings</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">omega</span><span class="p">,</span> <span class="n">g</span><span class="p">)</span>
 <span class="linenos">31</span>
 <span class="linenos">32</span><span class="c1"># Construct state space of our problem as a direct product of two</span>
@@ -387,27 +387,32 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">40</span>    <span class="n">make_space_boson</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>      <span class="c1"># Oscillator, index 0</span>
 <span class="linenos">41</span><span class="p">])</span>
 <span class="linenos">42</span>
-<span class="linenos">43</span><span class="c1"># Construct a linear operator corresponding to H and acting in the Hilbert</span>
-<span class="linenos">44</span><span class="c1"># space hs.</span>
+<span class="linenos">43</span><span class="c1"># Construct a linear operator corresponding to &#39;H&#39; and acting in the Hilbert</span>
+<span class="linenos">44</span><span class="c1"># space &#39;hs&#39;.</span>
 <span class="linenos">45</span><span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
 <span class="linenos">46</span>
-<span class="linenos">47</span><span class="c1"># Prepare a matrix representation of H_op</span>
-<span class="linenos">48</span><span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
-<span class="linenos">49</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
-<span class="linenos">50</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
-<span class="linenos">51</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
-<span class="linenos">52</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="linenos">53</span>    <span class="c1"># Act with H_op on psi and store the result the i-th column of H_mat</span>
-<span class="linenos">54</span>    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">H_op</span> <span class="o">*</span> <span class="n">psi</span>
-<span class="linenos">55</span>
-<span class="linenos">56</span><span class="c1"># An equivalent but faster way to build the matrix representation</span>
-<span class="linenos">57</span><span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
-<span class="linenos">58</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
+<span class="linenos">47</span><span class="c1">#</span>
+<span class="linenos">48</span><span class="c1"># Prepare a matrix representation of &#39;H_op&#39;</span>
+<span class="linenos">49</span><span class="c1">#</span>
+<span class="linenos">50</span>
+<span class="linenos">51</span><span class="c1"># Method I (manual).</span>
+<span class="linenos">52</span><span class="n">H_mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
+<span class="linenos">53</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+<span class="linenos">54</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
+<span class="linenos">55</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="linenos">56</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="linenos">57</span>    <span class="c1"># Act with H_op on psi and store the result the i-th column of H_mat</span>
+<span class="linenos">58</span>    <span class="n">H_mat1</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">H_op</span> <span class="o">*</span> <span class="n">psi</span>
 <span class="linenos">59</span>
-<span class="linenos">60</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat</span>
-<span class="linenos">61</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span>
-<span class="linenos">62</span>
-<span class="linenos">63</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
+<span class="linenos">60</span><span class="c1"># Method II (automatic and faster).</span>
+<span class="linenos">61</span><span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
+<span class="linenos">62</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference between H_mat and H_mat2:&quot;</span><span class="p">,</span>
+<span class="linenos">63</span>      <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat1</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
+<span class="linenos">64</span>
+<span class="linenos">65</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat</span>
+<span class="linenos">66</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat1</span><span class="p">)</span>
+<span class="linenos">67</span>
+<span class="linenos">68</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
@@ -422,8 +427,9 @@ the quantities conserved by the Hamiltonian (see, for instance, <a class="refere
 Hamiltonian of an atomic <span class="math notranslate nohighlight">\(d\)</span>-shell using
 <a class="reference internal" href="models_ref.html#pycommute.models.slater_int" title="pycommute.models.slater_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">Slater</span></code></a> parametrization. Then, we employ
 the <a class="reference internal" href="loperator_ref.html#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpacePartition</span></code></a> and
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.BasisMapper" title="pycommute.loperator.BasisMapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisMapper</span></code></a> utility classes to
-independently diagonalize the Hamiltonian within each sector.</p>
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.BasisMapper" title="pycommute.loperator.BasisMapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisMapper</span></code></a> utility classes (and
+optionally the <a class="reference internal" href="loperator_ref.html#pycommute.loperator.make_matrix" title="pycommute.loperator.make_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code></a> function)
+to independently diagonalize the Hamiltonian within each sector.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#</span>
 <span class="linenos"> 2</span><span class="c1"># Sector-wise diagonalization of the Slater interaction Hamiltonian.</span>
 <span class="linenos"> 3</span><span class="c1">#</span>
@@ -443,26 +449,26 @@ independently diagonalize the Hamiltonian within each sector.</p>
 <span class="linenos">17</span><span class="c1"># Build the matrix form of a linear operator</span>
 <span class="linenos">18</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_matrix</span>
 <span class="linenos">19</span>
-<span class="linenos">20</span><span class="c1"># Values of Slater radial integrals F_0, F_2, F_4</span>
+<span class="linenos">20</span><span class="c1"># Values of Slater radial integrals F^0, F^2, F^4</span>
 <span class="linenos">21</span><span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
 <span class="linenos">22</span>
-<span class="linenos">23</span><span class="c1"># Slater Hamiltonian.</span>
+<span class="linenos">23</span><span class="c1"># Build an expression for the interaction Hamiltonian.</span>
 <span class="linenos">24</span><span class="n">H</span> <span class="o">=</span> <span class="n">slater_int</span><span class="p">(</span><span class="n">F</span><span class="p">)</span>
 <span class="linenos">25</span>
-<span class="linenos">26</span><span class="c1"># Analyze structure of H and construct a suitable Hilbert space.</span>
+<span class="linenos">26</span><span class="c1"># Analyze structure of &#39;H&#39; and construct a suitable Hilbert space.</span>
 <span class="linenos">27</span><span class="n">hs</span> <span class="o">=</span> <span class="n">HilbertSpace</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
 <span class="linenos">28</span>
 <span class="linenos">29</span><span class="c1"># Construct a linear operator corresponding to H and acting in the Hilbert</span>
-<span class="linenos">30</span><span class="c1"># space hs.</span>
+<span class="linenos">30</span><span class="c1"># space &#39;hs&#39;.</span>
 <span class="linenos">31</span><span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
 <span class="linenos">32</span>
-<span class="linenos">33</span><span class="c1"># The first value returned by make_space_partition() is a SpacePartition object.</span>
-<span class="linenos">34</span><span class="c1"># It represents a partition of the full Hilbert space into sectors,</span>
-<span class="linenos">35</span><span class="c1"># i.e. subspaces invariant under action of H_op.</span>
+<span class="linenos">33</span><span class="c1"># The first value returned by &#39;make_space_partition()&#39; is a</span>
+<span class="linenos">34</span><span class="c1"># SpacePartition object. It represents a partition of the full Hilbert space</span>
+<span class="linenos">35</span><span class="c1"># into sectors, i.e. subspaces invariant under action of &#39;H_op&#39;.</span>
 <span class="linenos">36</span><span class="c1">#</span>
 <span class="linenos">37</span><span class="c1"># The second returned value is a dictionary {(i, j): value} of all non-vanishing</span>
-<span class="linenos">38</span><span class="c1"># matrix elements of H_op. By construction, all matrix elements of H_op between</span>
-<span class="linenos">39</span><span class="c1"># different sectors vanish.</span>
+<span class="linenos">38</span><span class="c1"># matrix elements of H_{ij}. By definition, all matrix elements of &#39;H_op&#39;</span>
+<span class="linenos">39</span><span class="c1"># between different sectors vanish.</span>
 <span class="linenos">40</span><span class="n">sp</span><span class="p">,</span> <span class="n">matrix_elements</span> <span class="o">=</span> <span class="n">make_space_partition</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
 <span class="linenos">41</span>
 <span class="linenos">42</span><span class="c1"># Print out information about the revealed sectors.</span>
@@ -474,45 +480,51 @@ independently diagonalize the Hamiltonian within each sector.</p>
 <span class="linenos">48</span><span class="c1"># Compile lists of basis states spanning each sector.</span>
 <span class="linenos">49</span><span class="n">sectors</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">subspace_bases</span><span class="p">()</span>
 <span class="linenos">50</span>
-<span class="linenos">51</span><span class="c1"># Diagonalize H_op within each sector</span>
+<span class="linenos">51</span><span class="c1"># Diagonalize &#39;H_op&#39; within each sector</span>
 <span class="linenos">52</span><span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">sector</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sectors</span><span class="p">):</span>
 <span class="linenos">53</span>    <span class="n">sector_dim</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
-<span class="linenos">54</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Diagonalizing sector </span><span class="si">{</span><span class="n">n</span><span class="si">}</span><span class="s2"> of H_op, sector size is </span><span class="si">{</span><span class="n">sector_dim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="linenos">55</span>
-<span class="linenos">56</span>    <span class="c1"># A BasisMapper object translates indices of basis states from the full</span>
-<span class="linenos">57</span>    <span class="c1"># Hilbert space to a given sector.</span>
-<span class="linenos">58</span>    <span class="n">basis_mapper</span> <span class="o">=</span> <span class="n">BasisMapper</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
-<span class="linenos">59</span>
-<span class="linenos">60</span>    <span class="c1"># Prepare a matrix representation of H_op within current sector.</span>
-<span class="linenos">61</span>    <span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sector_dim</span><span class="p">,</span> <span class="n">sector_dim</span><span class="p">))</span>
-<span class="linenos">62</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">):</span>
-<span class="linenos">63</span>        <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
-<span class="linenos">64</span>        <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">)</span>
-<span class="linenos">65</span>        <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="linenos">66</span>        <span class="c1"># This vector will receive the result of H_op * psi</span>
-<span class="linenos">67</span>        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">)</span>
-<span class="linenos">68</span>
-<span class="linenos">69</span>        <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
-<span class="linenos">70</span>        <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
-<span class="linenos">71</span>        <span class="c1"># size hs.dim.</span>
-<span class="linenos">72</span>        <span class="c1"># Instead, we are going to use our basis mapper object to construct</span>
-<span class="linenos">73</span>        <span class="c1"># special views of psi and phi.</span>
-<span class="linenos">74</span>        <span class="n">psi_view</span> <span class="o">=</span> <span class="n">basis_mapper</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span>
-<span class="linenos">75</span>        <span class="n">phi_view</span> <span class="o">=</span> <span class="n">basis_mapper</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
-<span class="linenos">76</span>
-<span class="linenos">77</span>        <span class="c1"># Now, H_op can act on the mapped views.</span>
-<span class="linenos">78</span>        <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
-<span class="linenos">79</span>
-<span class="linenos">80</span>        <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
-<span class="linenos">81</span>        <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
-<span class="linenos">82</span>
-<span class="linenos">83</span>    <span class="c1"># An equivalent but faster way to build the matrix representation</span>
-<span class="linenos">84</span>    <span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">sector</span><span class="p">)</span>
-<span class="linenos">85</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
-<span class="linenos">86</span>
-<span class="linenos">87</span>    <span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
-<span class="linenos">88</span>    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span>
-<span class="linenos">89</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
+<span class="linenos">54</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Diagonalizing sector </span><span class="si">%d</span><span class="s2"> of H_op&quot;</span> <span class="o">%</span> <span class="n">n</span><span class="p">)</span>
+<span class="linenos">55</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sector size is </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">sector_dim</span><span class="p">)</span>
+<span class="linenos">56</span>
+<span class="linenos">57</span>    <span class="c1"># A BasisMapper object translates indices of basis states from the full</span>
+<span class="linenos">58</span>    <span class="c1"># Hilbert space to a given sector.</span>
+<span class="linenos">59</span>    <span class="n">basis_mapper</span> <span class="o">=</span> <span class="n">BasisMapper</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
+<span class="linenos">60</span>
+<span class="linenos">61</span>    <span class="c1">#</span>
+<span class="linenos">62</span>    <span class="c1"># Prepare a matrix representation of &#39;H_op&#39; within current sector.</span>
+<span class="linenos">63</span>    <span class="c1">#</span>
+<span class="linenos">64</span>
+<span class="linenos">65</span>    <span class="c1"># Method I (manual).</span>
+<span class="linenos">66</span>    <span class="n">H_mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sector_dim</span><span class="p">,</span> <span class="n">sector_dim</span><span class="p">))</span>
+<span class="linenos">67</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">):</span>
+<span class="linenos">68</span>        <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
+<span class="linenos">69</span>        <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">)</span>
+<span class="linenos">70</span>        <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="linenos">71</span>        <span class="c1"># This vector will receive the result of H_op * psi</span>
+<span class="linenos">72</span>        <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_dim</span><span class="p">)</span>
+<span class="linenos">73</span>
+<span class="linenos">74</span>        <span class="c1"># Since both &#39;psi&#39; and &#39;phi&#39; are 1D NumPy arrays with size of the chosen</span>
+<span class="linenos">75</span>        <span class="c1"># sector, &#39;H_op&#39; cannot act on them directly as it expects vectors of</span>
+<span class="linenos">76</span>        <span class="c1"># size hs.dim.</span>
+<span class="linenos">77</span>        <span class="c1"># Instead, we are going to use our basis mapper object to construct</span>
+<span class="linenos">78</span>        <span class="c1"># special views of psi and phi.</span>
+<span class="linenos">79</span>        <span class="n">psi_view</span> <span class="o">=</span> <span class="n">basis_mapper</span><span class="p">(</span><span class="n">psi</span><span class="p">)</span>
+<span class="linenos">80</span>        <span class="n">phi_view</span> <span class="o">=</span> <span class="n">basis_mapper</span><span class="p">(</span><span class="n">phi</span><span class="p">)</span>
+<span class="linenos">81</span>
+<span class="linenos">82</span>        <span class="c1"># Now, &#39;H_op&#39; can act on the mapped views.</span>
+<span class="linenos">83</span>        <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
+<span class="linenos">84</span>
+<span class="linenos">85</span>        <span class="c1"># Store H_op * psi in the i-th column of &#39;H_mat1&#39;.</span>
+<span class="linenos">86</span>        <span class="n">H_mat1</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
+<span class="linenos">87</span>
+<span class="linenos">88</span>    <span class="c1"># Method II (automatic and faster).</span>
+<span class="linenos">89</span>    <span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">sector</span><span class="p">)</span>
+<span class="linenos">90</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference between H_mat and H_mat2:&quot;</span><span class="p">,</span>
+<span class="linenos">91</span>          <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat1</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
+<span class="linenos">92</span>
+<span class="linenos">93</span>    <span class="c1"># Use NumPy to compute eigenvalues of &#39;H_mat1&#39;.</span>
+<span class="linenos">94</span>    <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat1</span><span class="p">)</span>
+<span class="linenos">95</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
