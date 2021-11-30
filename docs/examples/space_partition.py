@@ -27,26 +27,26 @@ from pycommute.loperator import make_space_partition, BasisMapper
 # Build the matrix form of a linear operator
 from pycommute.loperator import make_matrix
 
-# Values of Slater radial integrals F_0, F_2, F_4
+# Values of Slater radial integrals F^0, F^2, F^4
 F = np.array([4.0, 1.0, 0.2])
 
-# Slater Hamiltonian.
+# Build an expression for the interaction Hamiltonian.
 H = slater_int(F)
 
-# Analyze structure of H and construct a suitable Hilbert space.
+# Analyze structure of 'H' and construct a suitable Hilbert space.
 hs = HilbertSpace(H)
 
 # Construct a linear operator corresponding to H and acting in the Hilbert
-# space hs.
+# space 'hs'.
 H_op = LOperatorR(H, hs)
 
-# The first value returned by make_space_partition() is a SpacePartition object.
-# It represents a partition of the full Hilbert space into sectors,
-# i.e. subspaces invariant under action of H_op.
+# The first value returned by 'make_space_partition()' is a
+# SpacePartition object. It represents a partition of the full Hilbert space
+# into sectors, i.e. subspaces invariant under action of 'H_op'.
 #
 # The second returned value is a dictionary {(i, j): value} of all non-vanishing
-# matrix elements of H_op. By construction, all matrix elements of H_op between
-# different sectors vanish.
+# matrix elements of H_{ij}. By definition, all matrix elements of 'H_op'
+# between different sectors vanish.
 sp, matrix_elements = make_space_partition(H_op, hs)
 
 # Print out information about the revealed sectors.
@@ -58,17 +58,22 @@ for i in range(sp.dim):
 # Compile lists of basis states spanning each sector.
 sectors = sp.subspace_bases()
 
-# Diagonalize H_op within each sector
+# Diagonalize 'H_op' within each sector
 for n, sector in enumerate(sectors):
     sector_dim = len(sector)
-    print(f"Diagonalizing sector {n} of H_op, sector size is {sector_dim}")
+    print("Diagonalizing sector %d of H_op" % n)
+    print("Sector size is %d" % sector_dim)
 
     # A BasisMapper object translates indices of basis states from the full
     # Hilbert space to a given sector.
     basis_mapper = BasisMapper(sector)
 
-    # Prepare a matrix representation of H_op within current sector.
-    H_mat = np.zeros((sector_dim, sector_dim))
+    #
+    # Prepare a matrix representation of 'H_op' within current sector.
+    #
+
+    # Method I (manual).
+    H_mat1 = np.zeros((sector_dim, sector_dim))
     for i in range(sector_dim):
         # A column vector psi = {0, 0, ..., 1, ..., 0}
         psi = np.zeros(sector_dim)
@@ -76,24 +81,25 @@ for n, sector in enumerate(sectors):
         # This vector will receive the result of H_op * psi
         phi = np.zeros(sector_dim)
 
-        # Since both psi and phi are 1D NumPy arrays with size of the chosen
-        # sector, H_op cannot act on them directly as it expects vectors of
+        # Since both 'psi' and 'phi' are 1D NumPy arrays with size of the chosen
+        # sector, 'H_op' cannot act on them directly as it expects vectors of
         # size hs.dim.
         # Instead, we are going to use our basis mapper object to construct
         # special views of psi and phi.
         psi_view = basis_mapper(psi)
         phi_view = basis_mapper(phi)
 
-        # Now, H_op can act on the mapped views.
+        # Now, 'H_op' can act on the mapped views.
         H_op(psi_view, phi_view)
 
-        # Store H_op * psi in the i-th column of H_mat.
-        H_mat[:, i] = phi
+        # Store H_op * psi in the i-th column of 'H_mat1'.
+        H_mat1[:, i] = phi
 
-    # An equivalent but faster way to build the matrix representation
+    # Method II (automatic and faster).
     H_mat2 = make_matrix(H_op, sector)
-    print("Max difference:", np.max(np.abs(H_mat - H_mat2)))
+    print("Max difference between H_mat and H_mat2:",
+          np.max(np.abs(H_mat1 - H_mat2)))
 
-    # Use NumPy to compute eigenvalues of H_mat.
-    E = np.linalg.eigvals(H_mat)
+    # Use NumPy to compute eigenvalues of 'H_mat1'.
+    E = np.linalg.eigvals(H_mat1)
     print("Energies:", np.sort(E))
