@@ -60,6 +60,26 @@ This command will pull the most recent image and launch a
 [http://127.0.0.1:8888/](http://127.0.0.1:8888/). The server is run in a
 directory with a few interactive example notebooks.
 
+Citing
+------
+
+If you find this package useful for your research, you can help me by citing it
+using the following BibTeX entry.
+
+```
+@article{pycommute,
+    title = {{libcommute/pycommute: A quantum operator algebra domain-specific
+              language and exact diagonalization toolkit}},
+    author = {Igor Krivenko},
+    journal = {SoftwareX},
+    volume = {17},
+    pages = {100937},
+    year = {2022},
+    issn = {2352-7110},
+    doi = {10.1016/j.softx.2021.100937}
+}
+```
+
 License
 -------
 
