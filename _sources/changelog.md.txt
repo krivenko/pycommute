@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## [0.7.1] - 2021-12-17
 
+- Enable support for Python 3.10.
 - New methods ``loperator.SpacePartition.subspace_basis()`` and
   ``loperator.SpacePartition.subspace_bases()``.
 - Minor documentation updates.
