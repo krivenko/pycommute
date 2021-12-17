@@ -2,10 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.7.1] - Unreleased
+## [0.7.1] - 2021-12-17
 
 - New methods ``loperator.SpacePartition.subspace_basis()`` and
   ``loperator.SpacePartition.subspace_bases()``.
+- Minor documentation updates.
 
 ## [0.7.0] - 2021-10-09
 
