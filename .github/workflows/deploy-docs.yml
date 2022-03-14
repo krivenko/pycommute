@@ -41,7 +41,6 @@ jobs:
            export LIBCOMMUTE_DIR=${GITHUB_WORKSPACE}/libcommute.installed
            export LIBCOMMUTE_INCLUDEDIR=${LIBCOMMUTE_DIR}/include
            python setup.py build_sphinx
-           touch build/sphinx/html/.nojekyll
 
     - name: Deploy documentation
       uses: JamesIves/github-pages-deploy-action@4.1.0

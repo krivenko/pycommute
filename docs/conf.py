@@ -41,6 +41,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
+    'sphinx.ext.githubpages',
     'sphinx_rtd_theme',
     'myst_parser',
     'pybind11_preprocess'
