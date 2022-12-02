@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Installation &mdash; pycommute 0.7.1 documentation</title>
+  <title>Installation &mdash; pycommute 0.7.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,7 +14,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -31,7 +33,7 @@
             <img src="_static/logo_small.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.7.1
+                0.7.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -53,7 +55,7 @@
 <li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search Page</a></li>
 </ul>
 
         </div>
@@ -69,8 +71,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Installation</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Installation</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/installation.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -81,9 +83,9 @@
            <div itemprop="articleBody">
              
   <section id="installation">
-<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline"></a></h1>
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
 <section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this headline"></a></h2>
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/krivenko/libcommute">libcommute</a> 0.6 or newer (either
 installed or as a directory with unpacked source code)</p></li>
@@ -96,7 +98,7 @@ installed or as a directory with unpacked source code)</p></li>
 </ul>
 </section>
 <section id="installation-from-sources">
-<h2>Installation from sources<a class="headerlink" href="#installation-from-sources" title="Permalink to this headline"></a></h2>
+<h2>Installation from sources<a class="headerlink" href="#installation-from-sources" title="Permalink to this heading"></a></h2>
 <p>Installing <em>pycommute</em> from sources is as easy as running</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 </pre></div>
@@ -109,13 +111,13 @@ installation or source directory of <em>libcommute</em>.</p>
 </div>
 </section>
 <section id="automated-installation-using-pip">
-<h2>Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#automated-installation-using-pip" title="Permalink to this headline"></a></h2>
+<h2>Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#automated-installation-using-pip" title="Permalink to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pycommute</span>
 </pre></div>
 </div>
 </section>
 <section id="docker-images">
-<h2>Docker images<a class="headerlink" href="#docker-images" title="Permalink to this headline"></a></h2>
+<h2>Docker images<a class="headerlink" href="#docker-images" title="Permalink to this heading"></a></h2>
 <p>Docker images of tagged releases of <em>pycommute</em> are available from
 <a class="reference external" href="https://hub.docker.com/repository/docker/ikrivenko/pycommute">Docker Hub</a>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8888</span><span class="p">:</span><span class="mi">8888</span> <span class="n">ikrivenko</span><span class="o">/</span><span class="n">pycommute</span><span class="p">:</span><span class="n">latest</span>

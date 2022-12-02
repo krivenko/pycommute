@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; pycommute 0.7.1 documentation</title>
+  <title>Changelog &mdash; pycommute 0.7.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,7 +14,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -31,7 +33,7 @@
             <img src="_static/logo_small.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.7.1
+                0.7.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -46,6 +48,7 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#unreleased">[0.7.2] - Unreleased</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">[0.7.1] - 2021-12-17</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">[0.7.0] - 2021-10-09</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
@@ -58,7 +61,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search Page</a></li>
 </ul>
 
         </div>
@@ -74,8 +77,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Changelog</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Changelog</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/changelog.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -86,10 +89,18 @@
            <div itemprop="articleBody">
              
   <section id="changelog">
-<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this headline"></a></h1>
+<h1>Changelog<a class="headerlink" href="#changelog" title="Permalink to this heading"></a></h1>
 <p>All notable changes to this project will be documented in this file.</p>
+<section id="unreleased">
+<h2>[0.7.2] - Unreleased<a class="headerlink" href="#unreleased" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Added methods <code class="docutils literal notranslate"><span class="pre">__copy__()</span></code> and <code class="docutils literal notranslate"><span class="pre">__deepcopy__()</span></code> to a few mutable objects:
+<code class="docutils literal notranslate"><span class="pre">expression.Monomial</span></code>, <code class="docutils literal notranslate"><span class="pre">expression.Expression[R|C]</span></code>,
+<code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace</span></code> and <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition</span></code>.</p></li>
+</ul>
+</section>
 <section id="id1">
-<h2>[0.7.1] - 2021-12-17<a class="headerlink" href="#id1" title="Permalink to this headline"></a></h2>
+<h2>[0.7.1] - 2021-12-17<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
 <ul class="simple">
 <li><p>Enable support for Python 3.10.</p></li>
 <li><p>New methods <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition.subspace_basis()</span></code> and
@@ -98,9 +109,9 @@
 </ul>
 </section>
 <section id="id2">
-<h2>[0.7.0] - 2021-10-09<a class="headerlink" href="#id2" title="Permalink to this headline"></a></h2>
+<h2>[0.7.0] - 2021-10-09<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
 <section id="added">
-<h3>Added<a class="headerlink" href="#added" title="Permalink to this headline"></a></h3>
+<h3>Added<a class="headerlink" href="#added" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>New function <code class="docutils literal notranslate"><span class="pre">loperator.make_matrix()</span></code> with three overloads. These wrapped
 C++ functions construct and return a matrix representation (2D NumPy array)
@@ -128,9 +139,9 @@ classes, there are two new utility functions
 </section>
 </section>
 <section id="id3">
-<h2>[0.6.1] - 2021-03-30<a class="headerlink" href="#id3" title="Permalink to this headline"></a></h2>
+<h2>[0.6.1] - 2021-03-30<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
 <section id="id4">
-<h3>Added<a class="headerlink" href="#id4" title="Permalink to this headline"></a></h3>
+<h3>Added<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
 <ul class="simple">
 <li><p>New method <code class="docutils literal notranslate"><span class="pre">expression.Indices.__getitem__()</span></code>.</p></li>
 <li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.index()</span></code>.</p></li>

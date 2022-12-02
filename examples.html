@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usage examples &mdash; pycommute 0.7.1 documentation</title>
+  <title>Usage examples &mdash; pycommute 0.7.2 documentation</title>
       <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -14,7 +14,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
         <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -32,7 +34,7 @@
             <img src="_static/logo_small.svg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.7.1
+                0.7.2
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
@@ -56,7 +58,7 @@
 <li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
-<li class="toctree-l1"><a class="reference internal" href="search.html">Search</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search Page</a></li>
 </ul>
 
         </div>
@@ -72,8 +74,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Usage examples</li>
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">Usage examples</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/examples.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -84,9 +86,9 @@
            <div itemprop="articleBody">
              
   <section id="usage-examples">
-<span id="examples"></span><h1>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this headline"></a></h1>
+<span id="examples"></span><h1>Usage examples<a class="headerlink" href="#usage-examples" title="Permalink to this heading"></a></h1>
 <section id="holstein-model">
-<h2>Holstein model<a class="headerlink" href="#holstein-model" title="Permalink to this headline"></a></h2>
+<h2>Holstein model<a class="headerlink" href="#holstein-model" title="Permalink to this heading"></a></h2>
 <p>This example shows how to construct Hamiltonian of the
 <a class="reference external" href="https://arxiv.org/abs/cond-mat/9812252">Holstein model</a> on a
 square lattice and to check that the total number of electrons is a conserved
@@ -109,9 +111,9 @@ nearest-neighbour hopping allowed,</p>
 </li>
 </ul>
 <p>Instead of writing the sums over lattice sites explicitly, we call library
-functions <a class="reference internal" href="models_ref.html#pycommute.models.tight_binding" title="pycommute.models.tight_binding"><code class="xref py py-func docutils literal notranslate"><span class="pre">tight_binding()</span></code></a>,
-<a class="reference internal" href="models_ref.html#pycommute.models.dispersion" title="pycommute.models.dispersion"><code class="xref py py-func docutils literal notranslate"><span class="pre">dispersion()</span></code></a> and
-<a class="reference internal" href="models_ref.html#pycommute.models.holstein_int" title="pycommute.models.holstein_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">holstein_int()</span></code></a>.
+functions <code class="xref py py-func docutils literal notranslate"><span class="pre">tight_binding()</span></code>,
+<code class="xref py py-func docutils literal notranslate"><span class="pre">dispersion()</span></code> and
+<code class="xref py py-func docutils literal notranslate"><span class="pre">holstein_int()</span></code>.
 We also make use of the <a class="reference external" href="https://networkx.org/">NetworkX</a> package
 to easily generate the adjacency matrix of the periodic square lattice.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">#</span>
@@ -229,7 +231,7 @@ to easily generate the adjacency matrix of the periodic square lattice.</p>
 </div>
 </section>
 <section id="spin-1-2-heisenberg-chain">
-<h2>Spin-1/2 Heisenberg chain<a class="headerlink" href="#spin-1-2-heisenberg-chain" title="Permalink to this headline"></a></h2>
+<h2>Spin-1/2 Heisenberg chain<a class="headerlink" href="#spin-1-2-heisenberg-chain" title="Permalink to this heading"></a></h2>
 <p>The spin-1/2 Heisenberg chain is a textbook example of an integrable quantum
 system. Its Hamiltonian</p>
 <div class="math notranslate nohighlight">
@@ -241,7 +243,7 @@ system. Its Hamiltonian</p>
 charges can be derived from the transfer matrix theory. Explicit expressions
 for <span class="math notranslate nohighlight">\(Q_n\)</span> were obtained in <a class="reference internal" href="#gm94" id="id2"><span>[GM94]</span></a>. The following script constructs
 Hamiltonian of the Heisenberg chain with periodic boundary conditions
-(see <a class="reference internal" href="models_ref.html#pycommute.models.heisenberg" title="pycommute.models.heisenberg"><code class="xref py py-func docutils literal notranslate"><span class="pre">heisenberg()</span></code></a>)
+(see <code class="xref py py-func docutils literal notranslate"><span class="pre">heisenberg()</span></code>)
 and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}] = 0\)</span>, <span class="math notranslate nohighlight">\([\hat H, Q_n] = 0\)</span> and
 <span class="math notranslate nohighlight">\([Q_n, Q_m] = 0\)</span> for <span class="math notranslate nohighlight">\(m,n = 3,4,5\)</span>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#</span>
@@ -317,9 +319,9 @@ and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}
 </div>
 </section>
 <section id="spectrum-of-tavis-cummings-model">
-<h2>Spectrum of Tavis-Cummings model<a class="headerlink" href="#spectrum-of-tavis-cummings-model" title="Permalink to this headline"></a></h2>
+<h2>Spectrum of Tavis-Cummings model<a class="headerlink" href="#spectrum-of-tavis-cummings-model" title="Permalink to this heading"></a></h2>
 <p>In this example we demonstrate how to use tools from the
-<a class="reference internal" href="loperator_ref.html#module-pycommute.loperator" title="pycommute.loperator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">loperator</span></code></a> module along with NumPy’s eigensolvers to
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">loperator</span></code> module along with NumPy’s eigensolvers to
 diagonalize Hamiltonians of simple quantum models.</p>
 <p>We will consider a two-atom Jaynes-Cummings (Tavis-Cummings) Hamiltonian
 <a class="reference internal" href="#tc68" id="id3"><span>[TC68]</span></a>, which models a system of two qubits coherently coupled via a bosonic
@@ -330,7 +332,7 @@ degree of freedom (quantum oscillator),</p>
          + g_0 (\hat a^\dagger \hat S_{-,0} + \hat a \hat S_{+,0})
          + g_1 (\hat a^\dagger \hat S_{-,1} + \hat a \hat S_{+,1}).\]</div>
 <p>An expression of this form can be conveniently generated by a single call to
-<a class="reference internal" href="models_ref.html#pycommute.models.jaynes_cummings" title="pycommute.models.jaynes_cummings"><code class="xref py py-func docutils literal notranslate"><span class="pre">jaynes_cummings()</span></code></a>.</p>
+<code class="xref py py-func docutils literal notranslate"><span class="pre">jaynes_cummings()</span></code>.</p>
 <p>Since the occupation number of the bosonic mode can formally grow
 to <span class="math notranslate nohighlight">\(+\infty\)</span>, we have to artificially restrict the dimension of the
 bosonic Hilbert space in order to be able to construct a finite matrix
@@ -338,11 +340,11 @@ representation of our problem.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Performance of repeated calls to
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorR</span></code></a> or to
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorC</span></code></a> in order to construct
+<code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorR</span></code> or to
+<code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorC</span></code> in order to construct
 a matrix representation of a linear operator is limited by Python method
 call overhead. For large-scale problems it is advised to call the utility
-function <a class="reference internal" href="loperator_ref.html#pycommute.loperator.make_matrix" title="pycommute.loperator.make_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code></a>.</p>
+function <code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code>.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#</span>
 <span class="linenos"> 2</span><span class="c1"># Diagonalization of a two-qubit Tavis-Cummings model.</span>
@@ -416,7 +418,7 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 </div>
 </section>
 <section id="sectors-of-a-multi-orbital-interaction-hamiltonian">
-<h2>Sectors of a multi-orbital interaction Hamiltonian<a class="headerlink" href="#sectors-of-a-multi-orbital-interaction-hamiltonian" title="Permalink to this headline"></a></h2>
+<h2>Sectors of a multi-orbital interaction Hamiltonian<a class="headerlink" href="#sectors-of-a-multi-orbital-interaction-hamiltonian" title="Permalink to this heading"></a></h2>
 <p>When implementing an exact diagonalization algorithm, it is usually advantageous
 to take an extra preparatory step and split the Hilbert space of the problem
 into subspaces (sectors) characterized by a set of quantum numbers.
@@ -424,10 +426,10 @@ In many situations, it is possible to find the sectors even without knowing
 the quantities conserved by the Hamiltonian (see, for instance, <a class="reference internal" href="#skfp16" id="id4"><span>[SKFP16]</span></a>).</p>
 <p>In the script shown below we construct an electron-electron interaction
 Hamiltonian of an atomic <span class="math notranslate nohighlight">\(d\)</span>-shell using
-<a class="reference internal" href="models_ref.html#pycommute.models.slater_int" title="pycommute.models.slater_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">Slater</span></code></a> parametrization. Then, we employ
-the <a class="reference internal" href="loperator_ref.html#pycommute.loperator.SpacePartition" title="pycommute.loperator.SpacePartition"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpacePartition</span></code></a> and
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.BasisMapper" title="pycommute.loperator.BasisMapper"><code class="xref py py-class docutils literal notranslate"><span class="pre">BasisMapper</span></code></a> utility classes (and
-optionally the <a class="reference internal" href="loperator_ref.html#pycommute.loperator.make_matrix" title="pycommute.loperator.make_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code></a> function)
+<code class="xref py py-func docutils literal notranslate"><span class="pre">Slater</span></code> parametrization. Then, we employ
+the <code class="xref py py-class docutils literal notranslate"><span class="pre">SpacePartition</span></code> and
+<code class="xref py py-class docutils literal notranslate"><span class="pre">BasisMapper</span></code> utility classes (and
+optionally the <code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code> function)
 to independently diagonalize the Hamiltonian within each sector.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#</span>
 <span class="linenos"> 2</span><span class="c1"># Sector-wise diagonalization of the Slater interaction Hamiltonian.</span>
@@ -528,7 +530,7 @@ to independently diagonalize the Hamiltonian within each sector.</p>
 </div>
 </section>
 <section id="n-fermion-sector-views">
-<h2>N-fermion sector views<a class="headerlink" href="#n-fermion-sector-views" title="Permalink to this headline"></a></h2>
+<h2>N-fermion sector views<a class="headerlink" href="#n-fermion-sector-views" title="Permalink to this heading"></a></h2>
 <p>This example shows how to partially diagonalize the single band Fermi-Hubbard
 model on a large 2D square lattice with periodic boundary conditions.</p>
 <div class="math notranslate nohighlight">
@@ -543,10 +545,10 @@ spin-up and spin-down electrons, one can diagonalize the Hamiltonian within a
 single <span class="math notranslate nohighlight">\(N\)</span>-fermion sector or within a
 <span class="math notranslate nohighlight">\((N_\uparrow, N_\downarrow)\)</span>-multisector.</p>
 <p>An <span class="math notranslate nohighlight">\(N\)</span>-fermion
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.NFermionSectorViewR" title="pycommute.loperator.NFermionSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">sector</span></code></a> is a subspace of
+<code class="xref py py-class docutils literal notranslate"><span class="pre">sector</span></code> is a subspace of
 a full Hilbert space, which is spanned by all basis states with a fixed total
 occupation of fermionic degrees of freedom (FDOF). Similarly, a
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.NFermionMultiSectorViewR" title="pycommute.loperator.NFermionMultiSectorViewR"><code class="xref py py-class docutils literal notranslate"><span class="pre">multisector</span></code></a> is
+<code class="xref py py-class docutils literal notranslate"><span class="pre">multisector</span></code> is
 spanned by all basis states with a fixed occupation <span class="math notranslate nohighlight">\(N_1\)</span> of a subset of
 the FDOF <span class="math notranslate nohighlight">\(\{S_1\}\)</span>, occupation <span class="math notranslate nohighlight">\(N_2\)</span> of another subset
 <span class="math notranslate nohighlight">\(\{S_2\}\)</span> and so on. There can be any number of pairs
@@ -713,7 +715,7 @@ multisector stand in presence of bosons or spins.</p>
 </div>
 </section>
 <section id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline"></a></h2>
+<h2>References<a class="headerlink" href="#references" title="Permalink to this heading"></a></h2>
 <dl class="citation">
 <dt class="label" id="gm94"><span class="brackets"><a class="fn-backref" href="#id2">GM94</a></span></dt>
 <dd><p>“Quantum Integrals of Motion for the Heisenberg Spin Chain”,
