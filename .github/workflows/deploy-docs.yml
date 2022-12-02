@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-20.04
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Install libcommute
       run: |
@@ -27,7 +27,7 @@ jobs:
            popd
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: "3.10"
 
@@ -43,7 +43,7 @@ jobs:
            python setup.py build_sphinx
 
     - name: Deploy documentation
-      uses: JamesIves/github-pages-deploy-action@4.1.0
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         branch: gh-pages
         token: ${{ secrets.GITHUB_TOKEN }}

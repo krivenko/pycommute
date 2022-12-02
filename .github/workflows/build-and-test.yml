@@ -20,7 +20,7 @@ jobs:
         - { name: "clang", cc: "clang-10", cxx: "clang++-10" }
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Install clang
       if: matrix.cxx_compiler.name == 'clang'
@@ -40,7 +40,7 @@ jobs:
            popd
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
 
