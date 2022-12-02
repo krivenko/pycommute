@@ -414,6 +414,15 @@ void register_monomial(py::module_ & m) {
     ss << m;
     return ss.str();
   })
+  // Copying
+  .def("__copy__",  [](const mon_type &self) {
+    return mon_type(self);
+  })
+  .def("__deepcopy__", [](const mon_type &self, py::dict) {
+      return mon_type(self);
+    },
+    py::arg("memo")
+  )
   // Individual generator access
   .def("__getitem__", [](mon_type const& m, std::size_t n) -> gen_type const& {
       if(n >= m.size())
@@ -509,6 +518,15 @@ Construct an expression with one monomial, :math:`x \cdot m`.
 :param m: Monomial :math:`m`.
 )=",
        py::arg("x"), py::arg("m")
+  )
+  // Copying
+  .def("__copy__",  [](const expr_t &self) {
+    return expr_t(self);
+  })
+  .def("__deepcopy__", [](const expr_t &self, py::dict) {
+    return expr_t(self);
+    },
+    py::arg("memo")
   )
   // Accessors
   .def("__len__", &expr_t::size, "Number of monomials in this expression.")

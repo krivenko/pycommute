@@ -331,6 +331,13 @@ to every algebra generator found in the expression.
 )=",
     py::arg("expr"), py::arg("bits_per_boson") = 1
   )
+  .def("__copy__",  [](const hs_type &self) {
+    return hs_type(self);
+  })
+  .def("__deepcopy__", [](const hs_type &self, py::dict) {
+      return hs_type(self);
+    }, py::arg("memo")
+  )
   .def(py::self == py::self, py::arg("hs"))
   .def(py::self != py::self, py::arg("hs"))
   .def("add",
@@ -660,6 +667,13 @@ subspaces of a Hermitian operator.
 :param hs: Hilbert space to partition.
 )=",
     py::arg("h"), py::arg("hs")
+  )
+  .def("__copy__",  [](const space_partition &self) {
+    return space_partition(self);
+  })
+  .def("__deepcopy__", [](const space_partition &self, py::dict) {
+      return space_partition(self);
+    }, py::arg("memo")
   )
   .def_property_readonly(
     "dim",

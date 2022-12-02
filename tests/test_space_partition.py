@@ -22,6 +22,7 @@ from pycommute.models import (dispersion, kanamori_int)
 
 import numpy as np
 from itertools import product
+from copy import copy, deepcopy
 
 
 class TestSpacePartition(TestCase):
@@ -138,6 +139,16 @@ class TestSpacePartition(TestCase):
         ])
 
         self.assertEqual(cl, ref_cl)
+
+        # __copy__() and __deepcopy__()
+        spc = copy(sp)
+        self.assertEqual(spc.dim, 64)
+        self.assertEqual(spc.n_subspaces, 44)
+        self.assertNotEqual(id(spc), id(sp))
+        spdc = deepcopy(sp)
+        self.assertEqual(spdc.dim, 64)
+        self.assertEqual(spdc.n_subspaces, 44)
+        self.assertNotEqual(id(spdc), id(sp))
 
         # subspace_bases()
         bases = sp.subspace_bases()

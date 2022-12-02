@@ -10,6 +10,8 @@
 
 from unittest import TestCase
 
+from copy import copy, deepcopy
+
 from pycommute.expression import (
     GeneratorBoson,
     Monomial,
@@ -40,6 +42,16 @@ class TestExpression(TestCase):
         self.assertEqual(str(expr_mon), "3*C+(1,up)C(2,dn)")
         expr_mon.clear()
         self.assertEqual(len(expr_mon), 0)
+
+    def test_copy(self):
+        expr = 4.0 * c_dag(1, "up") * c(2, "dn") + 1.0 \
+            + 3.0 * a(0, "x") + 2.0 * a_dag(0, "y")
+        exprc = copy(expr)
+        self.assertEqual(exprc, expr)
+        self.assertNotEqual(id(exprc), id(expr))
+        exprdc = deepcopy(expr)
+        self.assertEqual(exprdc, expr)
+        self.assertNotEqual(id(exprdc), id(expr))
 
     def test_S_z_products(self):
         mon_sz = Monomial(

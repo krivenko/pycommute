@@ -10,6 +10,8 @@
 
 from unittest import TestCase
 
+from copy import copy, deepcopy
+
 from pycommute.expression import (
     ExpressionR,
     FERMION, BOSON, SPIN,
@@ -99,6 +101,21 @@ class TestHilbertSpace(TestCase):
                          HilbertSpace([self.es_s1_i, self.es_s1_j]))
         self.assertEqual(HilbertSpace(self.spin32_es),
                          HilbertSpace([self.es_s32_i, self.es_s32_j]))
+
+    def test_copy(self):
+        hs = HilbertSpace([
+            self.es_s32_i, self.es_s32_j,
+            self.es_s1_i, self.es_s1_j,
+            self.es_s_i, self.es_s_j,
+            self.es_b_x, self.es_b_y,
+            self.es_f_dn, self.es_f_up
+        ])
+        hsc = copy(hs)
+        self.assertEqual(hsc, hs)
+        self.assertNotEqual(id(hsc), id(hs))
+        hsdc = deepcopy(hs)
+        self.assertEqual(hsdc, hs)
+        self.assertNotEqual(id(hsdc), id(hs))
 
     def test_attributes(self):
         hs = HilbertSpace([

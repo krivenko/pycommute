@@ -11,6 +11,7 @@
 from unittest import TestCase
 
 from itertools import product
+from copy import copy, deepcopy
 from pycommute.expression import make_fermion, make_boson, make_spin
 from pycommute.expression import SpinComponent
 from pycommute.expression import Monomial
@@ -50,6 +51,15 @@ class TestMonomial(TestCase):
             self.assertEqual(len(self.monomials[-1]), order)
             self.assertEqual(self.monomials[-1],
                              Monomial((self.S1z_j,) * order))
+
+    def test_copy(self):
+        m = Monomial([self.Cdag_dn, self.A_y, self.Sp_i, self.S1z_j])
+        mc = copy(m)
+        self.assertEqual(mc, m)
+        self.assertNotEqual(id(mc), id(m))
+        mdc = deepcopy(m)
+        self.assertEqual(mdc, m)
+        self.assertNotEqual(id(mdc), id(m))
 
     def test_equality_ordering(self):
         self.check_equality(self.monomials)

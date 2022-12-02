@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.7.2] - Unreleased
+
+- Added methods ``__copy__()`` and ``__deepcopy__()`` to a few mutable objects:
+  ``expression.Monomial``, ``expression.Expression[R|C]``,
+  ``loperator.HilbertSpace`` and ``loperator.SpacePartition``.
+
 ## [0.7.1] - 2021-12-17
 
 - Enable support for Python 3.10.
