@@ -13,10 +13,11 @@
 import os
 import sys
 from distutils.util import get_platform
-from distutils.sysconfig import get_python_version
+
+plat_specifier = ".%s-%s" % (get_platform(), sys.implementation.cache_tag)
 
 sys.path.insert(0, os.path.abspath(os.path.join(
-    "..", "build", "lib.%s-%s" % (get_platform(), get_python_version())))
+    "..", "build", 'lib' + plat_specifier))
 )
 
 sys.path.append(os.path.abspath("./_ext"))
