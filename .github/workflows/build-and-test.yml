@@ -11,22 +11,17 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-20.04
     strategy:
       matrix:
+        os: [ubuntu-20.04, macos-11]
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
         cxx_compiler:
         - { name: "gcc", cc: "gcc", cxx: "g++" }
-        - { name: "clang", cc: "clang-10", cxx: "clang++-10" }
+        - { name: "clang", cc: "clang", cxx: "clang++" }
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
-
-    - name: Install clang
-      if: matrix.cxx_compiler.name == 'clang'
-      run: |
-           sudo apt-get update -q
-           sudo apt-get install clang-10
 
     - name: Install libcommute
       run: |
