@@ -31,7 +31,7 @@ If you need to build documentation locally, you should additionally run
 
 .. code::
 
-  python setup.py build_sphinx
+  sphinx-build docs/ <path_to_sphinx_output_dir>
 
 Automated installation using ``pip``
 ------------------------------------

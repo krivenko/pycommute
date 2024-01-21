@@ -92,23 +92,6 @@ class pycommute_build_ext(build_ext):
 
 cmdclass = {'build_ext': pycommute_build_ext}
 
-# Detect Sphinx/sphinx_rtd_theme/myst_parser and enable documentation build
-try:
-    from sphinx.setup_command import BuildDoc
-except ImportError:
-    BuildDoc = None
-if BuildDoc:
-    class run_build_before_doc(BuildDoc):
-        def run(self):
-            self.run_command("build")
-            super(run_build_before_doc, self).run()
-
-    cmdclass['build_sphinx'] = run_build_before_doc
-else:
-    print("Note: "
-          "Install Sphinx>=2.1.0, sphinx_rtd_theme and myst_parser "
-          "to build documentation")
-
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
