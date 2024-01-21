@@ -16,7 +16,7 @@ from .expression import (
 
 from typing import Union, Tuple, Sequence
 from itertools import product
-from math import sqrt
+from math import sqrt, factorial
 import numpy as np
 
 IndicesType = Union[int, str, Tuple[Union[int, str], ...]]
@@ -48,7 +48,7 @@ def _three_j_symbol(j1, m1, j2, m2, j3, m3):
         return 0
 
     def fact(x):
-        return np.math.factorial(int(x))
+        return factorial(int(x))
 
     three_j_sym = -1.0 if (j1 - j2 - m3) % 2 else 1.0
     three_j_sym *= sqrt(fact(j1 + j2 - j3)
