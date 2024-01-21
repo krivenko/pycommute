@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# pre-commit git hook
+
+# Lint the project with flake8
+if ! flake8 . ; then
+    echo "flake8 failed"
+    exit 1
+fi
+
+# Check consistency of versions in setup.py and in docs/conf.py
+SETUP_PY_VERSION=$(sed -n "s/^__version__ = \"\([0-9.]*\)\"/\1/p" setup.py)
+CONF_PY_VERSION=$(sed -n "s/^version = '\([0-9.]*\)'/\1/p" docs/conf.py)
+
+echo "SETUP_PY_VERSION=${SETUP_PY_VERSION}"
+echo "CONF_PY_VERSION=${CONF_PY_VERSION}"
+
+if [ "$SETUP_PY_VERSION" != "$CONF_PY_VERSION" ]; then
+    echo "Versions don't match"
+    exit 1
+fi
