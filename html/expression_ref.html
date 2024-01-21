@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pycommute.expression &mdash; pycommute 0.7.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=6dfdf7c3"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="pycommute.loperator" href="loperator_ref.html" />
+    <link rel="prev" title="API reference" href="reference.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            pycommute
+              <img src="_static/logo_small.svg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.7.2
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="reference.html">API reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">pycommute.expression</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#index-sequence">Index sequence</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#algebra-id-constants">Algebra ID constants</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#algebra-generator-objects">Algebra generator objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#monomial-object">Monomial object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expression-objects">Expression objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expression-factory-functions">Expression factory functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hermitian-conjugate-placeholder">Hermitian conjugate placeholder</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="loperator_ref.html"><code class="docutils literal notranslate"><span class="pre">pycommute.loperator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models_ref.html"><code class="docutils literal notranslate"><span class="pre">pycommute.models</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
+<li class="toctree-l1"><a class="reference internal" href="search.html">Search Page</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pycommute</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="reference.html">API reference</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">pycommute.expression</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/expression_ref.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pycommute-expression">
+<span id="expression-ref"></span><h1><code class="docutils literal notranslate"><span class="pre">pycommute.expression</span></code><a class="headerlink" href="#pycommute-expression" title="Link to this heading"></a></h1>
+<section id="index-sequence">
+<h2>Index sequence<a class="headerlink" href="#index-sequence" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code> objects are not the same thing as Python tuples because
+they follow a different ordering rule. Unlike the Python tuples, two
+index sequences <code class="docutils literal notranslate"><span class="pre">I1</span></code> and <code class="docutils literal notranslate"><span class="pre">I2</span></code> always compare as <code class="docutils literal notranslate"><span class="pre">I1</span> <span class="pre">&lt;</span> <span class="pre">I2</span></code> if
+<code class="docutils literal notranslate"><span class="pre">len(I1)</span> <span class="pre">&lt;</span> <span class="pre">len(I2)</span></code>.</p>
+</div>
+</section>
+<section id="algebra-id-constants">
+<h2>Algebra ID constants<a class="headerlink" href="#algebra-id-constants" title="Link to this heading"></a></h2>
+<p>Fermionic algebra ID</p>
+<p>Bosonic algebra ID</p>
+<p>Spin algebra ID</p>
+</section>
+<section id="algebra-generator-objects">
+<h2>Algebra generator objects<a class="headerlink" href="#algebra-generator-objects" title="Link to this heading"></a></h2>
+</section>
+<section id="monomial-object">
+<h2>Monomial object<a class="headerlink" href="#monomial-object" title="Link to this heading"></a></h2>
+</section>
+<section id="expression-objects">
+<h2>Expression objects<a class="headerlink" href="#expression-objects" title="Link to this heading"></a></h2>
+</section>
+<section id="expression-factory-functions">
+<h2>Expression factory functions<a class="headerlink" href="#expression-factory-functions" title="Link to this heading"></a></h2>
+</section>
+<section id="hermitian-conjugate-placeholder">
+<h2>Hermitian conjugate placeholder<a class="headerlink" href="#hermitian-conjugate-placeholder" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reference.html" class="btn btn-neutral float-left" title="API reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="loperator_ref.html" class="btn btn-neutral float-right" title="pycommute.loperator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020-2024, Igor Krivenko.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

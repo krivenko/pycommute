@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="./">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Installation &mdash; pycommute 0.7.2 documentation</title>
-      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="_static/jquery.js"></script>
-        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/sphinx_highlight.js"></script>
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=6dfdf7c3"></script>
+        <script src="_static/doctools.js?v=888ff710"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -86,9 +88,9 @@
            <div itemprop="articleBody">
              
   <section id="installation">
-<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h1>
 <section id="prerequisites">
-<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://github.com/krivenko/libcommute">libcommute</a> 0.6 or newer (either
 installed or as a directory with unpacked source code)</p></li>
@@ -101,7 +103,7 @@ installed or as a directory with unpacked source code)</p></li>
 </ul>
 </section>
 <section id="installation-from-sources">
-<h2>Installation from sources<a class="headerlink" href="#installation-from-sources" title="Permalink to this heading"></a></h2>
+<h2>Installation from sources<a class="headerlink" href="#installation-from-sources" title="Link to this heading"></a></h2>
 <p>Installing <em>pycommute</em> from sources is as easy as running</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 </pre></div>
@@ -114,13 +116,13 @@ installation or source directory of <em>libcommute</em>.</p>
 </div>
 </section>
 <section id="automated-installation-using-pip">
-<h2>Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#automated-installation-using-pip" title="Permalink to this heading"></a></h2>
+<h2>Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#automated-installation-using-pip" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pycommute</span>
 </pre></div>
 </div>
 </section>
 <section id="docker-images">
-<h2>Docker images<a class="headerlink" href="#docker-images" title="Permalink to this heading"></a></h2>
+<h2>Docker images<a class="headerlink" href="#docker-images" title="Link to this heading"></a></h2>
 <p>Docker images of tagged releases of <em>pycommute</em> are available from
 <a class="reference external" href="https://hub.docker.com/repository/docker/ikrivenko/pycommute">Docker Hub</a>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8888</span><span class="p">:</span><span class="mi">8888</span> <span class="n">ikrivenko</span><span class="o">/</span><span class="n">pycommute</span><span class="p">:</span><span class="n">latest</span>
@@ -144,7 +146,7 @@ directory with a few interactive example notebooks.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2020-2021, Igor Krivenko.</p>
+    <p>&#169; Copyright 2020-2024, Igor Krivenko.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
