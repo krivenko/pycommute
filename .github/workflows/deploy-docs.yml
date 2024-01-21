@@ -40,7 +40,7 @@ jobs:
       run: |
            export LIBCOMMUTE_DIR=${GITHUB_WORKSPACE}/libcommute.installed
            export LIBCOMMUTE_INCLUDEDIR=${LIBCOMMUTE_DIR}/include
-           python setup.py build_sphinx
+           sphinx-build -M html docs/ build/sphinx/html
 
     - name: Deploy documentation
       uses: JamesIves/github-pages-deploy-action@v4
