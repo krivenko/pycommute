@@ -327,26 +327,27 @@ class TestHilbertSpace(TestCase):
 
     def test_very_big_space(self):
         hs1 = HilbertSpace()
-        for i in range(32):
+        for i in range(31):
             hs1.add(make_space_spin(3 / 2, "s", i))
 
         with self.assertRaisesRegex(
             RuntimeError,
             "Hilbert space size is not representable by a 64-bit integer "
-            "\\(n_bits = 66\\)"
+            "\\(n_bits = 64\\)"
         ):
-            hs1.add(make_space_spin(3 / 2, "s", 32))
+            hs1.add(make_space_spin(3 / 2, "s", 31))
 
         expr = ExpressionR(1.0)
-        for i in range(32):
+        for i in range(31):
             expr *= S_p("s", i, spin=3 / 2)
+        expr *= S_p("s", 31, spin=1 / 2)
         hs2 = HilbertSpace(expr)
-        self.assertEqual(hs2.total_n_bits, 64)
+        self.assertEqual(hs2.total_n_bits, 63)
 
         expr *= S_p("s", 32, spin=3 / 2)
         with self.assertRaisesRegex(
             RuntimeError,
             "Hilbert space size is not representable by a 64-bit integer "
-            "\\(n_bits = 66\\)"
+            "\\(n_bits = 65\\)"
         ):
             HilbertSpace(expr)
