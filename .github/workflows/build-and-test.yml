@@ -13,7 +13,7 @@ jobs:
   build-and-test:
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-11]
+        os: [ubuntu-20.04, macos-12]
         python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
         cxx_compiler:
         - { name: "gcc", cc: "gcc", cxx: "g++" }
@@ -21,7 +21,7 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Install libcommute
       run: |
