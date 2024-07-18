@@ -86,6 +86,7 @@ class pycommute_build_ext(build_ext):
         for ext in self.extensions:
             ext.include_dirs.append(self.libcommute_includedir)
             ext.cxx_std = 17
+            ext.extra_compile_args += ["-O3", "-march=native"]
 
         build_ext.build_extensions(self)
 
