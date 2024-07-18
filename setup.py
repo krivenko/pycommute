@@ -13,6 +13,7 @@
 #
 
 import os
+import sys
 from setuptools import setup
 from packaging.specifiers import SpecifierSet
 from packaging.version import Version
@@ -86,7 +87,9 @@ class pycommute_build_ext(build_ext):
         for ext in self.extensions:
             ext.include_dirs.append(self.libcommute_includedir)
             ext.cxx_std = 17
-            ext.extra_compile_args += ["-O3", "-march=native"]
+            ext.extra_compile_args.append("-O3")
+            if not sys.platform.startswith("darwin"):
+                ext.extra_compile_args.append("-march=native")
 
         build_ext.build_extensions(self)
 
