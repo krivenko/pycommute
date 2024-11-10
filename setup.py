@@ -105,7 +105,7 @@ setup(
     name="pycommute",
     version=__version__,
     author="Igor Krivenko",
-    author_email="igor.s.krivenko@gmail.com",
+    author_email="iskrivenko@proton.me",
     description="Python bindings for the libcommute C++ library",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",

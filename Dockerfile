@@ -1,5 +1,5 @@
 FROM ubuntu:20.04 as base
-LABEL maintainer="Igor Krivenko <igor.s.krivenko@gmail.com>"
+LABEL maintainer="Igor Krivenko <iskrivenko@proton.me>"
 LABEL description="libcommute/pycommute demonstration image"
 
 # Suppress all confirmation dialogs from apt-get
