@@ -14,10 +14,18 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-20.04, macos-13]
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10", "3.11", "3.12"]
+        python-version:
+          - "3.6"
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "3.12"
+          - "3.13"
         cxx_compiler:
-        - { name: "gcc", cc: "gcc", cxx: "g++" }
-        - { name: "clang", cc: "clang", cxx: "clang++" }
+          - { name: "gcc", cc: "gcc", cxx: "g++" }
+          - { name: "clang", cc: "clang", cxx: "clang++" }
     runs-on: ${{ matrix.os }}
 
     steps:
