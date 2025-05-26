@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Usage examples &mdash; pycommute 0.8.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -120,15 +120,15 @@ to easily generate the adjacency matrix of the periodic square lattice.</p>
 <span class="linenos">  2</span><span class="c1"># Holstein model on a square lattice with periodic boundary conditions.</span>
 <span class="linenos">  3</span><span class="c1">#</span>
 <span class="linenos">  4</span>
-<span class="linenos">  5</span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
-<span class="linenos">  6</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos">  5</span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
+<span class="linenos">  6</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="linenos">  7</span>
-<span class="linenos">  8</span><span class="kn">from</span> <span class="nn">pycommute.expression</span> <span class="kn">import</span> <span class="n">ExpressionR</span><span class="p">,</span> <span class="n">conj</span><span class="p">,</span> <span class="n">FERMION</span><span class="p">,</span> <span class="n">BOSON</span>
-<span class="linenos">  9</span><span class="kn">from</span> <span class="nn">pycommute.expression</span> <span class="kn">import</span> <span class="n">n</span>
-<span class="linenos"> 10</span><span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">tight_binding</span><span class="p">,</span> <span class="n">dispersion</span><span class="p">,</span> <span class="n">holstein_int</span>
+<span class="linenos">  8</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.expression</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExpressionR</span><span class="p">,</span> <span class="n">conj</span><span class="p">,</span> <span class="n">FERMION</span><span class="p">,</span> <span class="n">BOSON</span>
+<span class="linenos">  9</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.expression</span><span class="w"> </span><span class="kn">import</span> <span class="n">n</span>
+<span class="linenos"> 10</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">tight_binding</span><span class="p">,</span> <span class="n">dispersion</span><span class="p">,</span> <span class="n">holstein_int</span>
 <span class="linenos"> 11</span>
-<span class="linenos"> 12</span><span class="kn">from</span> <span class="nn">networkx.generators.lattice</span> <span class="kn">import</span> <span class="n">grid_2d_graph</span>
-<span class="linenos"> 13</span><span class="kn">from</span> <span class="nn">networkx.linalg.graphmatrix</span> <span class="kn">import</span> <span class="n">adjacency_matrix</span>
+<span class="linenos"> 12</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.generators.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">grid_2d_graph</span>
+<span class="linenos"> 13</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.linalg.graphmatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjacency_matrix</span>
 <span class="linenos"> 14</span>
 <span class="linenos"> 15</span><span class="c1">#</span>
 <span class="linenos"> 16</span><span class="c1"># Let us define Hamiltonian of an electronic tight-binding model</span>
@@ -257,9 +257,9 @@ and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}
 <span class="linenos"> 9</span><span class="c1">#   https://doi.org/10.1142/S0217732394002057</span>
 <span class="linenos">10</span><span class="c1">#</span>
 <span class="linenos">11</span>
-<span class="linenos">12</span><span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">cross</span>
-<span class="linenos">13</span><span class="kn">from</span> <span class="nn">pycommute.expression</span> <span class="kn">import</span> <span class="n">S_x</span><span class="p">,</span> <span class="n">S_y</span><span class="p">,</span> <span class="n">S_z</span>
-<span class="linenos">14</span><span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">heisenberg</span>
+<span class="linenos">12</span><span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span><span class="p">,</span> <span class="n">zeros</span><span class="p">,</span> <span class="n">dot</span><span class="p">,</span> <span class="n">cross</span>
+<span class="linenos">13</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.expression</span><span class="w"> </span><span class="kn">import</span> <span class="n">S_x</span><span class="p">,</span> <span class="n">S_y</span><span class="p">,</span> <span class="n">S_z</span>
+<span class="linenos">14</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">heisenberg</span>
 <span class="linenos">15</span>
 <span class="linenos">16</span><span class="c1"># Number of spins in the chain</span>
 <span class="linenos">17</span><span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
@@ -350,19 +350,19 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos"> 2</span><span class="c1"># Diagonalization of a two-qubit Tavis-Cummings model.</span>
 <span class="linenos"> 3</span><span class="c1">#</span>
 <span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="linenos"> 6</span>
 <span class="linenos"> 7</span><span class="c1"># Utility function used to construct the generalized Jaynes-Cummings model.</span>
-<span class="linenos"> 8</span><span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">jaynes_cummings</span>
+<span class="linenos"> 8</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">jaynes_cummings</span>
 <span class="linenos"> 9</span>
 <span class="linenos">10</span><span class="c1"># Hilbert spaces.</span>
-<span class="linenos">11</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">HilbertSpace</span><span class="p">,</span> <span class="n">make_space_boson</span><span class="p">,</span> <span class="n">make_space_spin</span>
+<span class="linenos">11</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">HilbertSpace</span><span class="p">,</span> <span class="n">make_space_boson</span><span class="p">,</span> <span class="n">make_space_spin</span>
 <span class="linenos">12</span>
 <span class="linenos">13</span><span class="c1"># Real-valued linear operator object.</span>
-<span class="linenos">14</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
+<span class="linenos">14</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOperatorR</span>
 <span class="linenos">15</span>
 <span class="linenos">16</span><span class="c1"># Build the matrix form of a linear operator.</span>
-<span class="linenos">17</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_matrix</span>
+<span class="linenos">17</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_matrix</span>
 <span class="linenos">18</span>
 <span class="linenos">19</span><span class="c1"># Transition frequencies of qubits.</span>
 <span class="linenos">20</span><span class="n">eps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">])</span>
@@ -435,20 +435,20 @@ to independently diagonalize the Hamiltonian within each sector.</p>
 <span class="linenos"> 2</span><span class="c1"># Sector-wise diagonalization of the Slater interaction Hamiltonian.</span>
 <span class="linenos"> 3</span><span class="c1">#</span>
 <span class="linenos"> 4</span>
-<span class="linenos"> 5</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="linenos"> 6</span>
 <span class="linenos"> 7</span><span class="c1"># Utility function used to construct the Slater interaction Hamiltonian.</span>
-<span class="linenos"> 8</span><span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">slater_int</span>
+<span class="linenos"> 8</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">slater_int</span>
 <span class="linenos"> 9</span>
 <span class="linenos">10</span><span class="c1"># Hilbert space.</span>
-<span class="linenos">11</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">HilbertSpace</span>
+<span class="linenos">11</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">HilbertSpace</span>
 <span class="linenos">12</span>
 <span class="linenos">13</span><span class="c1"># Real-valued linear operator object.</span>
-<span class="linenos">14</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
+<span class="linenos">14</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOperatorR</span>
 <span class="linenos">15</span><span class="c1"># Automatic space partition and basis state mapper</span>
-<span class="linenos">16</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_space_partition</span><span class="p">,</span> <span class="n">BasisMapper</span>
+<span class="linenos">16</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_space_partition</span><span class="p">,</span> <span class="n">BasisMapper</span>
 <span class="linenos">17</span><span class="c1"># Build the matrix form of a linear operator</span>
-<span class="linenos">18</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">make_matrix</span>
+<span class="linenos">18</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_matrix</span>
 <span class="linenos">19</span>
 <span class="linenos">20</span><span class="c1"># Values of Slater radial integrals F^0, F^2, F^4</span>
 <span class="linenos">21</span><span class="n">F</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">])</span>
@@ -564,26 +564,26 @@ and a multisector with <span class="math notranslate nohighlight">\(N_\uparrow =
 a purely fermionic system. The definitions of a sector and a
 multisector stand in presence of bosons or spins.</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="linenos">  2</span>
 <span class="linenos">  3</span><span class="c1"># Utility functions used to construct the Fermi-Hubbard Hamiltonian.</span>
-<span class="linenos">  4</span><span class="kn">from</span> <span class="nn">pycommute.models</span> <span class="kn">import</span> <span class="n">tight_binding</span><span class="p">,</span> <span class="n">dispersion</span><span class="p">,</span> <span class="n">hubbard_int</span>
+<span class="linenos">  4</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">tight_binding</span><span class="p">,</span> <span class="n">dispersion</span><span class="p">,</span> <span class="n">hubbard_int</span>
 <span class="linenos">  5</span>
 <span class="linenos">  6</span><span class="c1"># Hilbert space.</span>
-<span class="linenos">  7</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">HilbertSpace</span>
+<span class="linenos">  7</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">HilbertSpace</span>
 <span class="linenos">  8</span>
 <span class="linenos">  9</span><span class="c1"># Real-valued linear operator object.</span>
-<span class="linenos"> 10</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="n">LOperatorR</span>
+<span class="linenos"> 10</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOperatorR</span>
 <span class="linenos"> 11</span><span class="c1"># Real-valued N-fermion (multi)sector views and related functions</span>
-<span class="linenos"> 12</span><span class="kn">from</span> <span class="nn">pycommute.loperator</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 12</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
 <span class="linenos"> 13</span>    <span class="n">NFermionSectorViewR</span><span class="p">,</span>
 <span class="linenos"> 14</span>    <span class="n">NFermionMultiSectorViewR</span><span class="p">,</span>
 <span class="linenos"> 15</span>    <span class="n">n_fermion_sector_size</span><span class="p">,</span>
 <span class="linenos"> 16</span>    <span class="n">n_fermion_multisector_size</span>
 <span class="linenos"> 17</span><span class="p">)</span>
 <span class="linenos"> 18</span>
-<span class="linenos"> 19</span><span class="kn">from</span> <span class="nn">networkx.generators.lattice</span> <span class="kn">import</span> <span class="n">grid_2d_graph</span>
-<span class="linenos"> 20</span><span class="kn">from</span> <span class="nn">networkx.linalg.graphmatrix</span> <span class="kn">import</span> <span class="n">adjacency_matrix</span>
+<span class="linenos"> 19</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.generators.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">grid_2d_graph</span>
+<span class="linenos"> 20</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.linalg.graphmatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjacency_matrix</span>
 <span class="linenos"> 21</span>
 <span class="linenos"> 22</span><span class="c1">#</span>
 <span class="linenos"> 23</span><span class="c1"># Let us define Hamiltonian of a tight-binding model on a square lattice.</span>
