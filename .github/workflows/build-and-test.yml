@@ -13,9 +13,8 @@ jobs:
   build-and-test:
     strategy:
       matrix:
-        os: [ubuntu-20.04, macos-13]
+        os: [ubuntu-22.04, macos-13]
         python-version:
-          - "3.6"
           - "3.7"
           - "3.8"
           - "3.9"
