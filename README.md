@@ -8,7 +8,7 @@ https://github.com/krivenko/pycommute/actions/workflows/build-and-test.yml)
 https://krivenko.github.io/pycommute)
 
 *pycommute* is a Python package providing bindings for the
-[libcommute](https://github.com/krivenko/libcommute) quantum operator algerba
+[libcommute](https://github.com/krivenko/libcommute) quantum operator algebra
 library.
 
 You can find a few
