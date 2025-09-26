@@ -158,8 +158,9 @@ class gen_type_trampoline : public gen_type {
     return nullptr;
   }
 
-  double swap_with(gen_type const& g2, linear_function_t & f) const override {
-    PYBIND11_OVERRIDE_PURE(double, gen_type, swap_with, g2, f);
+  var_number swap_with(gen_type const& g2,
+                       linear_function_t & f) const override {
+    PYBIND11_OVERRIDE_PURE(var_number, gen_type, swap_with, g2, f);
   }
 };
 

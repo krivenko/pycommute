@@ -476,7 +476,7 @@ void register_loperator_act(py::class_<lop_type<ScalarType>> & lop) {
 
 template<typename ScalarType, typename StateScalarType>
 void register_loperator_mul(py::class_<lop_type<ScalarType>> & lop) {
-  using dst_scalar_type = mul_type<ScalarType, StateScalarType>;
+  using dst_scalar_type = mul_res_t<ScalarType, StateScalarType>;
 
   auto docstring = "Act on a " + scalar_type_name<StateScalarType>() +
     " state vector and return the resulting vector.";
