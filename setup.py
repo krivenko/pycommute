@@ -111,7 +111,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://krivenko.github.io/pycommute",
     keywords="libcommute dsl computer algebra quantum",
-    license="MPL-2",
+    license="MPL-2.0",
     project_urls={
         "Bug Tracker": "https://github.com/krivenko/pycommute/issues",
         "Documentation": "https://krivenko.github.io/pycommute",
@@ -119,7 +119,6 @@ setup(
     },
     classifiers=[
         'Development Status :: 4 - Beta',
-        'License :: OSI Approved :: Mozilla Public License 2.0 (MPL 2.0)',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.6',
