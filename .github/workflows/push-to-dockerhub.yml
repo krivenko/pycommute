@@ -30,6 +30,7 @@ jobs:
         tags: |
               ikrivenko/pycommute:${{ github.ref_name }}
               ikrivenko/pycommute:latest
+        build-args: GIT_REF_NAME=${{ github.ref_name }}
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}

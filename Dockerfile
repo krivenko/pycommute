@@ -2,6 +2,9 @@ FROM ubuntu:20.04 as base
 LABEL maintainer="Igor Krivenko <iskrivenko@proton.me>"
 LABEL description="libcommute/pycommute demonstration image"
 
+# Git branch/tag name
+ARG GIT_REF_NAME=master
+
 # Suppress all confirmation dialogs from apt-get
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -25,7 +28,8 @@ USER docker
 WORKDIR /home/docker
 
 # Build and install libcommute
-RUN git clone https://github.com/krivenko/libcommute libcommute.git && \
+RUN git clone --branch ${GIT_REF_NAME} \
+        https://github.com/krivenko/libcommute libcommute.git && \
     mkdir libcommute.build && \
     cd libcommute.build && \
     cmake ../libcommute.git -DCMAKE_INSTALL_PREFIX=${HOME}/.local \
