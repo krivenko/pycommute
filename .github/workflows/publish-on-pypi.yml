@@ -13,7 +13,8 @@ jobs:
 
     - name: Install libcommute
       run: |
-           git clone https://github.com/krivenko/libcommute
+           git clone --branch ${{ github.ref_name }} \
+              https://github.com/krivenko/libcommute
            mkdir libcommute.build && pushd libcommute.build
            cmake ../libcommute                                                \
               -DCMAKE_INSTALL_PREFIX=${GITHUB_WORKSPACE}/libcommute.installed \
