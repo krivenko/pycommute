@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
 
-    - name: Resolve git tag name
-      uses: rlespinasse/github-slug-action@v5
-
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v3
 
@@ -31,7 +28,7 @@ jobs:
       with:
         push: true
         tags: |
-              ikrivenko/pycommute:${{ env.GITHUB_REF_SLUG }}
+              ikrivenko/pycommute:${{ github.ref_name }}
               ikrivenko/pycommute:latest
 
     - name: Image digest
