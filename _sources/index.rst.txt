@@ -23,15 +23,15 @@ Contents
 ========
 
 .. toctree::
-    :name: mastertoc
-    :maxdepth: 3
+  :name: mastertoc
+  :maxdepth: 3
 
-    installation
-    examples
-    reference
-    changelog
-    genindex
-    search
+  installation
+  examples
+  reference
+  changelog
+  genindex
+  search
 
 .. [#] Support for user-defined operator algebras in Python code may be added in
        a later release.
