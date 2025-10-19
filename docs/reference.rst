@@ -4,9 +4,9 @@ API reference
 =============
 
 .. toctree::
-    :name: mastertoc
-    :maxdepth: 2
+  :name: mastertoc
+  :maxdepth: 2
 
-    expression_ref
-    loperator_ref
-    models_ref
+  expression_ref
+  loperator_ref
+  models_ref
