@@ -2,12 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.8.0] - Unreleased
+## [1.0.0] - Unreleased
 
 - Enable support for Python 3.11, 3.12 and 3.13.
 - Added methods ``__copy__()`` and ``__deepcopy__()`` to a few mutable objects:
   ``expression.Monomial``, ``expression.Expression[R|C]``,
   ``loperator.HilbertSpace`` and ``loperator.SpacePartition``.
+- New read-only attribute ``loperator.ElementarySpace.dim`` also inherited by
+  ``loperator.ESpace(Fermion|Boson|Spin)``.
+- Dimension of ``loperator.ESpaceBoson`` had to be a power of 2. Now this
+  restriction is lifted. Arguments of its constructor and of
+  ``loperator.make_space_boson()`` have been adjusted accordingly: They now
+  expect the dimension argument ``dim`` instead of its binary logarithm
+  ``n_bits``.
+- Constructors of ``loperator.HilbertSpace`` are changed to accept the argument
+  ``dim_boson`` instead of its binary logarithm ``bits_per_boson``.
+- New read-only attribute ``loperator.HilbertSpace.is_sparse`` that is ``True``
+  if some of the constituent elementary spaces have non-power-of-two dimensions.
+- New read-only attribute ``loperator.HilbertSpace.vec_size`` that is equal to
+  the minimal size of a state vector container compatible with this Hilbert
+  space.
+- Semantics of the existing attribute ``loperator.HilbertSpace.dim`` has been
+  changed. Now it is equal to the exact dimension of the Hilbert space, which is
+  smaller than ``loperator.HilbertSpace.vec_size`` if the Hilbert space is
+  sparse.
+- New method ``loperator.HilbertSpace.es_dim(es)`` that returns dimension of a
+  constituent elementary space.
+- New method ``loperator.HilbertSpace.foreach_elementary_space(f)`` that applies
+  a given function to each constituent elementary space.
+- Methods ``loperator.SpacePartition.merge_subspaces()`` and
+  ``loperator.SpacePartition.find_connections()`` no longer accept the ``hs``
+  argument and instead use the ``loperator.HilbertSpace`` object provided upon
+  construction.
 
 ## [0.7.1] - 2021-12-17
 

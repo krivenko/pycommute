@@ -62,16 +62,23 @@ class TestNFermionSector(TestCase):
         self.assertEqual(n_fermion_sector_size(hs, 3), 1)
 
         # Fermions and bosons
-        hs.add(make_space_boson(4, 3))
+        hs.add(make_space_boson(16, 3))
         self.assertEqual(n_fermion_sector_size(hs, 0), 16)
         self.assertEqual(n_fermion_sector_size(hs, 1), 48)
         self.assertEqual(n_fermion_sector_size(hs, 2), 48)
         self.assertEqual(n_fermion_sector_size(hs, 3), 16)
 
         # Purely bosonic Hilbert space
-        hs_b = HilbertSpace([make_space_boson(2, 0), make_space_boson(3, 1)])
+        hs_b = HilbertSpace([make_space_boson(4, 0), make_space_boson(8, 1)])
         self.assertEqual(n_fermion_sector_size(hs_b, 0), 32)
         self.assertEqual(n_fermion_sector_size(hs_b, 1), 0)
+
+        # Sparse Hilbert space
+        hs_b.add(make_space_boson(5, 2))
+        with self.assertRaisesRegex(RuntimeError,
+                                    "n_fermion_sector_size: "
+                                    "sparse Hilbert spaces are not supported"):
+            n_fermion_sector_size(hs_b, 0)
 
     def test_init_exceptions(self):
         M = 5
@@ -87,8 +94,8 @@ class TestNFermionSector(TestCase):
             NFermionSectorViewC(st, hs, M + 1)
 
         # Fermions and bosons
-        hs.add(make_space_boson(2, 5))
-        hs.add(make_space_boson(3, 6))
+        hs.add(make_space_boson(4, 5))
+        hs.add(make_space_boson(8, 6))
 
         with self.assertRaisesRegex(RuntimeError,
                                     self.wrong_n_error_msg(M, M + 1)):
@@ -98,12 +105,19 @@ class TestNFermionSector(TestCase):
             NFermionSectorViewC(st, hs, M + 1)
 
         # Purely bosonic Hilbert space
-        hs_b = HilbertSpace([make_space_boson(2, 0), make_space_boson(3, 1)])
+        hs_b = HilbertSpace([make_space_boson(4, 0), make_space_boson(8, 1)])
 
         with self.assertRaisesRegex(RuntimeError, self.wrong_n_error_msg(0, 1)):
             NFermionSectorViewR(st, hs_b, 1)
         with self.assertRaisesRegex(RuntimeError, self.wrong_n_error_msg(0, 1)):
             NFermionSectorViewC(st, hs_b, 1)
+
+        # Sparse Hilbert space
+        hs_b.add(make_space_boson(5, 2))
+        with self.assertRaisesRegex(RuntimeError,
+                                    "n_fermion_sector_view: "
+                                    "sparse Hilbert spaces are not supported"):
+            NFermionSectorViewC(st, hs_b, 0)
 
     def test_map_index(self):
         M = 8
@@ -129,15 +143,15 @@ class TestNFermionSector(TestCase):
             check_map_index(NFermionSectorViewC(st, hs, N), M, N)
 
         # Fermions and bosons
-        hs.add(make_space_boson(2, M))
-        hs.add(make_space_boson(2, M + 1))
+        hs.add(make_space_boson(4, M))
+        hs.add(make_space_boson(4, M + 1))
 
         for N in range(M + 1):
             check_map_index(NFermionSectorViewR(st, hs, N), M, N)
             check_map_index(NFermionSectorViewC(st, hs, N), M, N)
 
         # Purely bosonic Hilbert space
-        hs_b = HilbertSpace([make_space_boson(2, 0), make_space_boson(3, 1)])
+        hs_b = HilbertSpace([make_space_boson(4, 0), make_space_boson(8, 1)])
 
         ref_indices = list(range(hs_b.dim))
 
@@ -177,15 +191,15 @@ class TestNFermionSector(TestCase):
             self.assertEqual(n_fermion_sector_basis_states(hs, N), ref)
 
         # Fermions and bosons
-        hs.add(make_space_boson(2, M))
-        hs.add(make_space_boson(2, M + 1))
+        hs.add(make_space_boson(4, M))
+        hs.add(make_space_boson(4, M + 1))
 
         for N in range(M + 1):
             ref = build_basis_states_ref(hs, N)
             self.assertEqual(n_fermion_sector_basis_states(hs, N), ref)
 
         # Purely bosonic Hilbert space
-        hs_b = HilbertSpace([make_space_boson(2, 0), make_space_boson(3, 1)])
+        hs_b = HilbertSpace([make_space_boson(4, 0), make_space_boson(8, 1)])
 
         with self.assertRaisesRegex(RuntimeError, self.wrong_n_error_msg(0, 1)):
             n_fermion_sector_basis_states(hs_b, 1)
@@ -193,10 +207,17 @@ class TestNFermionSector(TestCase):
         ref = list(range(n_fermion_sector_size(hs_b, 0)))
         self.assertEqual(n_fermion_sector_basis_states(hs_b, 0), ref)
 
+        # Sparse Hilbert space
+        hs_b.add(make_space_boson(5, 2))
+        with self.assertRaisesRegex(RuntimeError,
+                                    "n_fermion_sector_basis_states: "
+                                    "sparse Hilbert spaces are not supported"):
+            n_fermion_sector_basis_states(hs_b, 0)
+
     def test_loperator(self):
         M = 5
 
-        hs = HilbertSpace([make_space_boson(2, 0)])
+        hs = HilbertSpace([make_space_boson(4, 0)])
         for i in range(M):
             hs.add(make_space_fermion(i))
 

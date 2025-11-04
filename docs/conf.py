@@ -27,8 +27,8 @@ sys.path.append(os.path.abspath("./_ext"))
 project = 'pycommute'
 copyright = '2020-2025, Igor Krivenko'
 author = 'Igor Krivenko'
-version = '0.8.0'
-release = '0.8.0'
+version = '1.0.0'
+release = '1.0.0'
 
 # -- General configuration ---------------------------------------------------
 

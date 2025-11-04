@@ -127,4 +127,3 @@ Matrix representation of linear operators
 -----------------------------------------
 
 .. automethod:: pycommute.loperator.make_matrix
-

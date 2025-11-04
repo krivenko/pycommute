@@ -58,7 +58,7 @@ class TestMappedBasisView(TestCase):
         cls.st = np.array([0, 1, 2, 3, 4, 5], dtype=float)
 
     def test_map(self):
-        self.assertEqual(self.hs.dim, 16)
+        self.assertEqual(self.hs.vec_size, 16)
 
         def bit_range(ind):
             return self.hs.bit_range(ESpaceFermion(ind))
@@ -153,7 +153,8 @@ class TestMappedBasisView(TestCase):
                                                         self.mapping)
 
     def test_compositions_bosons(self):
-        hs = HilbertSpace(a_dag(1) + a_dag(2) + a_dag(3) + a_dag(4), 4)
+        hs = HilbertSpace(a_dag(1) + a_dag(2) + a_dag(3) + a_dag(4),
+                          dim_boson=13)
 
         O_list = [LOperatorR(a_dag(1), hs),
                   LOperatorR(a_dag(2), hs),

@@ -10,9 +10,10 @@
 
 from unittest import TestCase
 
-from pycommute.expression import (Indices, ExpressionR, c, c_dag, n)
+from pycommute.expression import (Indices, ExpressionR, c, c_dag, n, S_p, S_m)
 from pycommute.loperator import (
     ESpaceFermion,
+    ESpaceSpin,
     HilbertSpace,
     LOperatorR,
     make_space_partition,
@@ -61,19 +62,20 @@ class TestSpacePartition(TestCase):
         return [1 << bit_range_begin(Indices("dn", o)) for o in orbs] + \
                [1 << bit_range_begin(Indices("up", o)) for o in orbs]
 
+    def collect_subspaces(self, sp):
+        # Sets are used to neglect order of subspaces and of states within
+        # a subspace
+        v_cl = [set() for _ in range(sp.n_subspaces)]
+        foreach(sp, lambda i, subspace: v_cl[subspace].add(i))
+        cl = set(map(frozenset, v_cl))
+        return cl
+
     def test_space_partition(self):
         sp, matrix_elements = make_space_partition(self.Hop, self.hs, False)
         self.assertEqual(matrix_elements, {})
 
         self.assertEqual(sp.dim, 64)
         self.assertEqual(sp.n_subspaces, 44)
-
-        # Calculated classification of states
-        # Sets are used to neglect order of subspaces and of states within
-        # a subspace
-        v_cl = [set() for _ in range(sp.n_subspaces)]
-        foreach(sp, lambda i, subspace: v_cl[subspace].add(i))
-        cl = set(map(frozenset, v_cl))
 
         d0, d1, d2, u0, u1, u2 = self.extract_indices()
 
@@ -138,7 +140,8 @@ class TestSpacePartition(TestCase):
             fs([d0 + d1 + d2 + u0 + u1 + u2])
         ])
 
-        self.assertEqual(cl, ref_cl)
+        # Check calculated classification of states
+        self.assertEqual(self.collect_subspaces(sp), ref_cl)
 
         # __copy__() and __deepcopy__()
         spc = copy(sp)
@@ -388,14 +391,12 @@ class TestSpacePartition(TestCase):
                 all_ops.append(Cd[-1])
                 all_ops.append(C[-1])
 
-                sp.merge_subspaces(Cd[-1], C[-1], self.hs)
+                sp.merge_subspaces(Cd[-1], C[-1])
 
         # Calculated classification of states
-        v_cl = [set() for _ in range(sp.n_subspaces)]
-        foreach(sp, lambda i, subspace: v_cl[subspace].add(i))
-        cl = set(map(frozenset, v_cl))
+        cl = self.collect_subspaces(sp)
 
-        in_state = np.zeros((sp.dim,), dtype=float)
+        in_state = np.zeros((self.hs.vec_size,), dtype=float)
 
         for op in all_ops:
             for i_sp in cl:
@@ -428,7 +429,7 @@ class TestSpacePartition(TestCase):
 
         sp, melem = make_space_partition(self.Hop, self.hs, False)
         op = LOperatorR(sum(expr[1:]), self.hs)
-        conns = sp.find_connections(op, self.hs)
+        conns = sp.find_connections(op)
 
         conns_ref = set()
         in_state = np.zeros((sp.dim,), dtype=float)
@@ -443,8 +444,93 @@ class TestSpacePartition(TestCase):
         self.assertEqual(conns, conns_ref)
 
         for expr1, expr2 in product(expr, expr):
-            conns1 = sp.find_connections(LOperatorR(expr1, self.hs), self.hs)
-            conns2 = sp.find_connections(LOperatorR(expr2, self.hs), self.hs)
-            conns = sp.find_connections(LOperatorR(expr1 + expr2, self.hs),
-                                        self.hs)
+            conns1 = sp.find_connections(LOperatorR(expr1, self.hs))
+            conns2 = sp.find_connections(LOperatorR(expr2, self.hs))
+            conns = sp.find_connections(LOperatorR(expr1 + expr2, self.hs))
             self.assertEqual(conns, conns1.union(conns2))
+
+    def test_sparse_hilbert_space(self):
+        H_sp = (S_p(0, spin=1) * S_m(1, spin=1)
+                + S_m(0, spin=1) * S_p(1, spin=1)) + \
+               (S_p(1, spin=1) * S_m(2, spin=1)
+                + S_m(1, spin=1) * S_p(2, spin=1)) + \
+               (S_p(2, spin=1) * S_m(0, spin=1)
+                + S_m(2, spin=1) * S_p(0, spin=1))
+        hs_sp = HilbertSpace(H_sp)
+        self.assertTrue(hs_sp.is_sparse)
+        H_sp_op = LOperatorR(H_sp, hs_sp)
+        sp, matrix_elements = make_space_partition(H_sp_op, hs_sp, False)
+
+        self.assertEqual(sp.dim, 27)
+        self.assertEqual(sp.n_subspaces, 7)  # S=3 septuplet
+
+        fs = frozenset
+
+        def make_basis_state(ind, proj):
+            return proj << hs_sp.bit_range(ESpaceSpin(1.0, Indices(ind)))[0]
+
+        S0_m1 = make_basis_state(0, 0)
+        S0_0 = make_basis_state(0, 1)
+        S0_p1 = make_basis_state(0, 2)
+        S1_m1 = make_basis_state(1, 0)
+        S1_0 = make_basis_state(1, 1)
+        S1_p1 = make_basis_state(1, 2)
+        S2_m1 = make_basis_state(2, 0)
+        S2_0 = make_basis_state(2, 1)
+        S2_p1 = make_basis_state(2, 2)
+
+        # Expected classification of states
+        ref_cl = [
+            # S_z=-3
+            fs([S0_m1 + S1_m1 + S2_m1]),
+            # S_z=-2
+            fs([S0_m1 + S1_m1 + S2_0,
+                S0_m1 + S1_0 + S2_m1,
+                S0_0 + S1_m1 + S2_m1]),
+            # S_z=-1
+            fs([S0_m1 + S1_0 + S2_0,
+                S0_0 + S1_m1 + S2_0,
+                S0_0 + S1_0 + S2_m1,
+                S0_m1 + S1_m1 + S2_p1,
+                S0_m1 + S1_p1 + S2_m1,
+                S0_p1 + S1_m1 + S2_m1]),
+            # S_z=0
+            fs([S0_0 + S1_0 + S2_0,
+                S0_m1 + S1_p1 + S2_0,
+                S0_p1 + S1_m1 + S2_0,
+                S0_0 + S1_m1 + S2_p1,
+                S0_0 + S1_p1 + S2_m1,
+                S0_m1 + S1_0 + S2_p1,
+                S0_p1 + S1_0 + S2_m1]),
+            # S_z=1
+            fs([S0_p1 + S1_0 + S2_0,
+                S0_0 + S1_p1 + S2_0,
+                S0_0 + S1_0 + S2_p1,
+                S0_p1 + S1_p1 + S2_m1,
+                S0_p1 + S1_m1 + S2_p1,
+                S0_m1 + S1_p1 + S2_p1]),
+            # S_z=2
+            fs([S0_p1 + S1_p1 + S2_0,
+                S0_p1 + S1_0 + S2_p1,
+                S0_0 + S1_p1 + S2_p1]),
+            # S_z=3
+            fs([S0_p1 + S1_p1 + S2_p1])
+        ]
+
+        # Check calculated classification of states
+        self.assertEqual(self.collect_subspaces(sp), set(ref_cl))
+
+        op_pp = LOperatorR(S_p(0, spin=1) + S_m(1, spin=1), hs_sp)
+        op_mm = LOperatorR(S_m(0, spin=1) + S_p(1, spin=1), hs_sp)
+        sp.merge_subspaces(op_pp, op_mm)
+
+        # Two subspaces: Even and odd S_z
+        ref_cl_odd, ref_cl_even = [], []
+        for S_z in [-3, -1, 1, 3]:
+            ref_cl_odd += ref_cl[S_z + 3]
+        for S_z in [-2, 0, 2]:
+            ref_cl_even += ref_cl[S_z + 3]
+
+        self.assertEqual(sp.n_subspaces, 2)
+        self.assertEqual(self.collect_subspaces(sp),
+                         set([fs(ref_cl_odd), fs(ref_cl_even)]))

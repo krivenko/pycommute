@@ -36,9 +36,9 @@ class TestElementarySpace(TestCase):
         # Fermionic elementary spaces
         cls.fermion_es = [make_space_fermion("dn", 0),
                           make_space_fermion("up", 0)]
-        # Bosonic elementary spaces (4 bits)
-        cls.boson_es = [make_space_boson(4, "x", 0),
-                        make_space_boson(4, "y", 0)]
+        # Bosonic elementary spaces (dim = 13, 4 bits)
+        cls.boson_es = [make_space_boson(13, "x", 0),
+                        make_space_boson(13, "y", 0)]
         # Spin-1/2 algebra elementary spaces
         cls.spin_es = [make_space_spin(0.5, "i", 0),
                        make_space_spin(0.5, "j", 0)]
@@ -53,6 +53,7 @@ class TestElementarySpace(TestCase):
         for es in self.fermion_es:
             self.assertEqual(es.algebra_id, FERMION)
             self.assertEqual(es.n_bits, 1)
+            self.assertEqual(es.dim, 2)
         self.check_equality(self.fermion_es)
         self.check_less_greater(self.fermion_es)
 
@@ -60,6 +61,7 @@ class TestElementarySpace(TestCase):
         for es in self.boson_es:
             self.assertEqual(es.algebra_id, BOSON)
             self.assertEqual(es.n_bits, 4)
+            self.assertEqual(es.dim, 13)
         self.check_equality(self.boson_es)
         self.check_less_greater(self.boson_es)
 
@@ -67,6 +69,7 @@ class TestElementarySpace(TestCase):
         for es in self.spin_es:
             self.assertEqual(es.algebra_id, SPIN)
             self.assertEqual(es.n_bits, 1)
+            self.assertEqual(es.dim, 2)
         self.check_equality(self.spin_es)
         self.check_less_greater(self.spin_es)
 
@@ -74,6 +77,7 @@ class TestElementarySpace(TestCase):
         for es in self.spin1_es:
             self.assertEqual(es.algebra_id, SPIN)
             self.assertEqual(es.n_bits, 2)
+            self.assertEqual(es.dim, 3)
         self.check_equality(self.spin1_es)
         self.check_less_greater(self.spin1_es)
 
@@ -81,6 +85,7 @@ class TestElementarySpace(TestCase):
         for es in self.spin32_es:
             self.assertEqual(es.algebra_id, SPIN)
             self.assertEqual(es.n_bits, 2)
+            self.assertEqual(es.dim, 4)
         self.check_equality(self.spin32_es)
         self.check_less_greater(self.spin32_es)
 

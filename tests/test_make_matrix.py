@@ -10,12 +10,13 @@
 
 from unittest import TestCase
 
-from pycommute.expression import (c, c_dag)
+from pycommute.expression import (ExpressionR, c, c_dag, S_p, S_m, S_z)
 from pycommute.loperator import (
     HilbertSpace,
     LOperatorR,
     LOperatorC,
     make_space_fermion,
+    make_space_spin,
     make_matrix
 )
 
@@ -41,6 +42,33 @@ class TestMakeMatrix(TestCase):
 
     def c_dag_mat(self, *args):
         return np.conj(np.transpose(self.c_mat(*args)))
+
+    def S_z_mat(self, hs, *args):
+        n_spins = len(hs)
+        op_index = hs.index(make_space_spin(1, *args))
+        states = list(product((-1, 0, 1), repeat=n_spins))
+        states = [st[::-1] for st in states]
+        mat = np.zeros((hs.dim, hs.dim))
+        for m, n in product(range(hs.dim), range(hs.dim)):
+            if m == n:
+                mat[m, n] = states[n][op_index]
+        return mat
+
+    def S_p_mat(self, hs, *args):
+        n_spins = len(hs)
+        op_index = hs.index(make_space_spin(1, *args))
+        states = list(product((-1, 0, 1), repeat=n_spins))
+        states = [st[::-1] for st in states]
+        mat = np.zeros((hs.dim, hs.dim))
+        for m, n in product(range(hs.dim), range(hs.dim)):
+            if states[m] == tuple(
+                    (states[n][i] + 1 if i == op_index else states[n][i])
+                    for i in range(n_spins)):
+                mat[m, n] = np.sqrt(2)
+        return mat
+
+    def S_m_mat(self, hs, *args):
+        return np.conj(np.transpose(self.S_p_mat(hs, *args)))
 
     def test_HilbertSpace(self):
         indices = [("dn", 0), ("dn", 1), ("up", 0), ("up", 1)]
@@ -69,6 +97,33 @@ class TestMakeMatrix(TestCase):
         ref2 += 2.0 * (self.c_dag_mat(hs, "dn", 0) @ self.c_mat(hs, "dn", 1)
                        + self.c_dag_mat(hs, "dn", 1) @ self.c_mat(hs, "dn", 0))
         assert_equal(make_matrix(H2op, hs), ref2)
+
+    def test_sparse_HilbertSpace(self):
+        indices = list(range(4))
+        hs = HilbertSpace([make_space_spin(1, i) for i in indices])
+        self.assertTrue(hs.is_sparse)
+
+        for i in indices:
+            S_z_op = LOperatorR(S_z(i, spin=1), hs)
+            assert_equal(make_matrix(S_z_op, hs), self.S_z_mat(hs, i))
+            S_p_op = LOperatorR(S_p(i, spin=1), hs)
+            assert_equal(make_matrix(S_p_op, hs), self.S_p_mat(hs, i))
+            S_m_op = LOperatorR(S_m(i, spin=1), hs)
+            assert_equal(make_matrix(S_m_op, hs), self.S_m_mat(hs, i))
+
+        # Heisenberg plaquette 2x2
+        H = ExpressionR()
+        Hmat_ref = np.zeros((hs.dim, hs.dim))
+        for i in range(4):
+            j = (i + 1) % 4
+            H += S_z(i, spin=1) * S_z(j, spin=1) \
+                + 0.5 * (S_p(i, spin=1) * S_m(j, spin=1)
+                         + S_m(i, spin=1) * S_p(j, spin=1))
+            Hmat_ref += self.S_z_mat(hs, i) @ self.S_z_mat(hs, j) \
+                + 0.5 * (self.S_p_mat(hs, i) @ self.S_m_mat(hs, j)
+                         + self.S_m_mat(hs, i) @ self.S_p_mat(hs, j))
+        Hop = LOperatorR(H, hs)
+        assert_equal(make_matrix(Hop, hs), Hmat_ref)
 
     def test_basis_state_indices(self):
         indices = [("dn", 0), ("dn", 1), ("up", 0), ("up", 1)]

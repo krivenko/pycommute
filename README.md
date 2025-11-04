@@ -20,7 +20,7 @@ Installation from sources
 -------------------------
 
 * [Download](https://github.com/krivenko/libcommute/releases) source code of
-  *libcommute* 0.6 or newer and optionally
+  *libcommute* 1.0.0 or newer and optionally
   [install](https://krivenko.github.io/libcommute/installation.html) it.
 
 * Install Python prerequisites:

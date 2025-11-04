@@ -47,7 +47,7 @@ H = jaynes_cummings(eps, omega, g)
 hs = HilbertSpace([
     make_space_spin(1 / 2, 0),  # Qubit 1: spin-1/2, index 0
     make_space_spin(1 / 2, 1),  # Qubit 2: spin-1/2, index 1
-    make_space_boson(4, 0)      # Oscillator, index 0
+    make_space_boson(16, 0)     # Oscillator, index 0
 ])
 
 # Construct a linear operator corresponding to 'H' and acting in the Hilbert
