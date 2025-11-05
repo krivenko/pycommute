@@ -991,6 +991,87 @@ Make a basis mapping view of a complex state vector (1-dimensional NumPy array).
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Register compressed_state_view()
+//
+
+template<typename ScalarType>
+void register_compressed_state_view(py::module_ & m,
+                                    std::string const& classname) {
+
+  std::string docstring = "This object is a view of a compressed " +
+                          scalar_type_name<ScalarType>() +
+R"=( state vector (one-dimensional NumPy array) that performs basis state index
+translation from a (possibly) sparse Hilbert space of dimension ``dim`` to the
+continuous range ``[0; dim-1]``. It is accepted by methods of linear operator
+objects :py:func:`LOperatorR.__call__()` and :py:func:`LOperatorC.__call__()`.
+
+:py:class:`)=" + classname + R"=(` allows to save memory when working with
+sparse Hilbert spaces, as only the amplitudes corresponding to the physical
+basis states need be stored in the NumPy array.
+)=";
+
+  py::class_<compressed_state_view<py::array_t<ScalarType, 0>, false>>(
+    m,
+    classname.c_str(),
+    docstring.c_str()
+  )
+  .def(py::init<py::array_t<ScalarType, 0>, hs_type const&>(),
+    R"=(
+Construct a view of a compressed state vector.
+
+:param sv: The compressed state vector to make the view of.
+:param hs: Hilbert space.
+)=",
+    py::arg("sv"), py::arg("hs"), py::keep_alive<1, 2>()
+  )
+  .def("map_index",
+       &compressed_state_view<py::array_t<ScalarType, 0>, false>::map_index,
+    R"=(
+Translate a basis state index from the Hilbert space to the continuous
+range ``[0; hs.dim-1]``. If the Hilbert space is sparse, and index does not
+correspond to a physical basis state, then the result is undefined.
+
+:param index: The basis state index in the Hilbert space to be translated.
+)=",
+    py::arg("index")
+  );
+}
+
+//
+// Register action of linear operators on CompressedStateView objects
+//
+
+template<typename SrcScalarType, typename DstScalarType, typename LOpType>
+void register_loperator_call_csv(py::class_<LOpType> & lop) {
+
+  using scalar_t = typename LOpType::scalar_type;
+  using src_csv_t = compressed_state_view<py::array_t<SrcScalarType, 0>, false>;
+  using dst_csv_t = compressed_state_view<py::array_t<DstScalarType, 0>, false>;
+
+  std::string src_vector_text = scalar_type_name<SrcScalarType>();
+  std::string dst_vector_text = scalar_type_name<DstScalarType>();
+
+  auto docstring = "\nAct on a mapped view of a " + src_vector_text +
+    " state vector and write the result through a view of another " +
+    dst_vector_text +
+    " state vector.\n" +
+    R"=(
+:param src: View of the source state vector.
+:param dst: View of the destination state vector.
+)=";
+
+  lop.def("__call__",
+    [](lop_type<scalar_t> const& op, src_csv_t const& src, dst_csv_t & dst) {
+      op(src, dst);
+    },
+    docstring.c_str(),
+    py::arg("src").noconvert(), py::arg("dst").noconvert()
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // Register n_fermion_sector_size()
 //
 
@@ -1481,6 +1562,15 @@ PYBIND11_MODULE(loperator, m) {
   register_loperator_call_mbv<dcomplex, dcomplex>(lop_complex);
 
   register_basis_mapper(m);
+
+  register_compressed_state_view<double>(m, "CompressedStateViewR");
+  register_compressed_state_view<dcomplex>(m, "CompressedStateViewC");
+
+  register_loperator_call_csv<double, double>(lop_real);
+  register_loperator_call_csv<double, dcomplex>(lop_real);
+  register_loperator_call_csv<dcomplex, dcomplex>(lop_real);
+  register_loperator_call_csv<double, dcomplex>(lop_complex);
+  register_loperator_call_csv<dcomplex, dcomplex>(lop_complex);
 
   register_n_fermion_sector_size(m);
   register_n_fermion_sector_basis_states(m);

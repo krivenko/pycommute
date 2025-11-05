@@ -30,6 +30,10 @@ All notable changes to this project will be documented in this file.
   constituent elementary space.
 - New method ``loperator.HilbertSpace.foreach_elementary_space(f)`` that applies
   a given function to each constituent elementary space.
+- New classes ``CompressedStateView(R|C)``. These objects are
+  ``LOperator(R|C)``-compatible views that perform basis state index translation
+  from a (possibly) sparse Hilbert space of dimension ``dim`` to the continuous
+  range ``[0; dim-1]``.
 - Methods ``loperator.SpacePartition.merge_subspaces()`` and
   ``loperator.SpacePartition.find_connections()`` no longer accept the ``hs``
   argument and instead use the ``loperator.HilbertSpace`` object provided upon
@@ -43,8 +47,6 @@ All notable changes to this project will be documented in this file.
 - Minor documentation updates.
 
 ## [0.7.0] - 2021-10-09
-
-### Added
 
 - New function ``loperator.make_matrix()`` with three overloads. These wrapped
   C++ functions construct and return a matrix representation (2D NumPy array)
@@ -70,8 +72,6 @@ All notable changes to this project will be documented in this file.
 - New method ``loperator.SpacePartition.find_connections()``.
 
 ## [0.6.1] - 2021-03-30
-
-### Added
 
 - New method ``expression.Indices.__getitem__()``.
 - New method ``loperator.HilbertSpace.index()``.

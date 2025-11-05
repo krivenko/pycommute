@@ -96,6 +96,17 @@ Mapped views of state vectors
   :members:
   :special-members:
 
+Views of compressed state vectors
+---------------------------------
+
+.. autoclass:: pycommute.loperator.CompressedStateViewR
+  :members:
+  :special-members:
+
+.. autoclass:: pycommute.loperator.CompressedStateViewC
+  :members:
+  :special-members:
+
 N-fermion sector views of state vectors
 ---------------------------------------
 
