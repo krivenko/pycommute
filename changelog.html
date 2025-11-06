@@ -6,14 +6,14 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Changelog &mdash; pycommute 0.8.0 documentation</title>
+  <title>Changelog &mdash; pycommute 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=486e5634"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -48,16 +48,10 @@
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Usage examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#unreleased">[0.8.0] - Unreleased</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unreleased">[1.0.0] - Unreleased</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">[0.7.1] - 2021-12-17</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id2">[0.7.0] - 2021-10-09</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#added">Added</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="#id3">[0.6.1] - 2021-03-30</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#id4">Added</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">[0.7.0] - 2021-10-09</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">[0.6.1] - 2021-03-30</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="genindex.html">Index</a></li>
@@ -92,12 +86,42 @@
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h1>
 <p>All notable changes to this project will be documented in this file.</p>
 <section id="unreleased">
-<h2>[0.8.0] - Unreleased<a class="headerlink" href="#unreleased" title="Link to this heading"></a></h2>
+<h2>[1.0.0] - Unreleased<a class="headerlink" href="#unreleased" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Enable support for Python 3.11, 3.12 and 3.13.</p></li>
 <li><p>Added methods <code class="docutils literal notranslate"><span class="pre">__copy__()</span></code> and <code class="docutils literal notranslate"><span class="pre">__deepcopy__()</span></code> to a few mutable objects:
 <code class="docutils literal notranslate"><span class="pre">expression.Monomial</span></code>, <code class="docutils literal notranslate"><span class="pre">expression.Expression[R|C]</span></code>,
 <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace</span></code> and <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition</span></code>.</p></li>
+<li><p>New read-only attribute <code class="docutils literal notranslate"><span class="pre">loperator.ElementarySpace.dim</span></code> also inherited by
+<code class="docutils literal notranslate"><span class="pre">loperator.ESpace(Fermion|Boson|Spin)</span></code>.</p></li>
+<li><p>Dimension of <code class="docutils literal notranslate"><span class="pre">loperator.ESpaceBoson</span></code> had to be a power of 2. Now this
+restriction is lifted. Arguments of its constructor and of
+<code class="docutils literal notranslate"><span class="pre">loperator.make_space_boson()</span></code> have been adjusted accordingly: They now
+expect the dimension argument <code class="docutils literal notranslate"><span class="pre">dim</span></code> instead of its binary logarithm
+<code class="docutils literal notranslate"><span class="pre">n_bits</span></code>.</p></li>
+<li><p>Constructors of <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace</span></code> are changed to accept the argument
+<code class="docutils literal notranslate"><span class="pre">dim_boson</span></code> instead of its binary logarithm <code class="docutils literal notranslate"><span class="pre">bits_per_boson</span></code>.</p></li>
+<li><p>New read-only attribute <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.is_sparse</span></code> that is <code class="docutils literal notranslate"><span class="pre">True</span></code>
+if some of the constituent elementary spaces have non-power-of-two dimensions.</p></li>
+<li><p>New read-only attribute <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.vec_size</span></code> that is equal to
+the minimal size of a state vector container compatible with this Hilbert
+space.</p></li>
+<li><p>Semantics of the existing attribute <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.dim</span></code> has been
+changed. Now it is equal to the exact dimension of the Hilbert space, which is
+smaller than <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.vec_size</span></code> if the Hilbert space is
+sparse.</p></li>
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.es_dim(es)</span></code> that returns dimension of a
+constituent elementary space.</p></li>
+<li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.foreach_elementary_space(f)</span></code> that applies
+a given function to each constituent elementary space.</p></li>
+<li><p>New classes <code class="docutils literal notranslate"><span class="pre">CompressedStateView(R|C)</span></code>. These objects are
+<code class="docutils literal notranslate"><span class="pre">LOperator(R|C)</span></code>-compatible views that perform basis state index translation
+from a (possibly) sparse Hilbert space of dimension <code class="docutils literal notranslate"><span class="pre">dim</span></code> to the continuous
+range <code class="docutils literal notranslate"><span class="pre">[0;</span> <span class="pre">dim-1]</span></code>.</p></li>
+<li><p>Methods <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition.merge_subspaces()</span></code> and
+<code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition.find_connections()</span></code> no longer accept the <code class="docutils literal notranslate"><span class="pre">hs</span></code>
+argument and instead use the <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace</span></code> object provided upon
+construction.</p></li>
 </ul>
 </section>
 <section id="id1">
@@ -111,8 +135,6 @@
 </section>
 <section id="id2">
 <h2>[0.7.0] - 2021-10-09<a class="headerlink" href="#id2" title="Link to this heading"></a></h2>
-<section id="added">
-<h3>Added<a class="headerlink" href="#added" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>New function <code class="docutils literal notranslate"><span class="pre">loperator.make_matrix()</span></code> with three overloads. These wrapped
 C++ functions construct and return a matrix representation (2D NumPy array)
@@ -138,18 +160,14 @@ classes, there are two new utility functions
 <li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition.find_connections()</span></code>.</p></li>
 </ul>
 </section>
-</section>
 <section id="id3">
 <h2>[0.6.1] - 2021-03-30<a class="headerlink" href="#id3" title="Link to this heading"></a></h2>
-<section id="id4">
-<h3>Added<a class="headerlink" href="#id4" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>New method <code class="docutils literal notranslate"><span class="pre">expression.Indices.__getitem__()</span></code>.</p></li>
 <li><p>New method <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace.index()</span></code>.</p></li>
 <li><p>CI: Tagged versions are now built into Docker images and pushed to
 <a class="reference external" href="https://hub.docker.com/repository/docker/ikrivenko/pycommute">Docker Hub</a>.</p></li>
 </ul>
-</section>
 </section>
 </section>
 

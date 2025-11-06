@@ -6,7 +6,7 @@ Installation
 Prerequisites
 -------------
 
-- `libcommute <https://github.com/krivenko/libcommute>`_ 0.6 or newer (either
+- `libcommute <https://github.com/krivenko/libcommute>`_ 1.0.0 or newer (either
   installed or as a directory with unpacked source code)
 - packaging >= 17.0
 - pybind11 >= 2.6.0

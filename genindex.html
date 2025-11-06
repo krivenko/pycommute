@@ -5,14 +5,14 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Index &mdash; pycommute 0.8.0 documentation</title>
+  <title>Index &mdash; pycommute 1.0.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=486e5634"></script>
+      <script src="_static/documentation_options.js?v=8d563738"></script>
       <script src="_static/doctools.js?v=9bcbadda"></script>
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
@@ -96,6 +96,7 @@
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  | <a href="#Z"><strong>Z</strong></a>
  
 </div>
@@ -208,6 +209,10 @@
         <li><a href="expression_ref.html#pycommute.expression.Monomial.__init__">(pycommute.expression.Monomial method)</a>
 </li>
         <li><a href="loperator_ref.html#pycommute.loperator.BasisMapper.__init__">(pycommute.loperator.BasisMapper method)</a>
+</li>
+        <li><a href="loperator_ref.html#pycommute.loperator.CompressedStateViewC.__init__">(pycommute.loperator.CompressedStateViewC method)</a>
+</li>
+        <li><a href="loperator_ref.html#pycommute.loperator.CompressedStateViewR.__init__">(pycommute.loperator.CompressedStateViewR method)</a>
 </li>
         <li><a href="loperator_ref.html#pycommute.loperator.ESpaceBoson.__init__">(pycommute.loperator.ESpaceBoson method)</a>
 </li>
@@ -416,6 +421,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="expression_ref.html#pycommute.expression.GeneratorSpin.component">component (pycommute.expression.GeneratorSpin property)</a>
 </li>
+      <li><a href="loperator_ref.html#pycommute.loperator.CompressedStateViewC">CompressedStateViewC (class in pycommute.loperator)</a>
+</li>
+      <li><a href="loperator_ref.html#pycommute.loperator.CompressedStateViewR">CompressedStateViewR (class in pycommute.loperator)</a>
+</li>
       <li><a href="expression_ref.html#pycommute.expression.conj">conj() (pycommute.expression method)</a>
 </li>
   </ul></td>
@@ -430,9 +439,17 @@
         <li><a href="expression_ref.html#pycommute.expression.GeneratorFermion.dagger">(pycommute.expression.GeneratorFermion property)</a>
 </li>
       </ul></li>
-      <li><a href="loperator_ref.html#pycommute.loperator.HilbertSpace.dim">dim (pycommute.loperator.HilbertSpace property)</a>
+      <li><a href="loperator_ref.html#pycommute.loperator.ElementarySpace.dim">dim (pycommute.loperator.ElementarySpace property)</a>
 
       <ul>
+        <li><a href="loperator_ref.html#pycommute.loperator.ESpaceBoson.dim">(pycommute.loperator.ESpaceBoson property)</a>
+</li>
+        <li><a href="loperator_ref.html#pycommute.loperator.ESpaceFermion.dim">(pycommute.loperator.ESpaceFermion property)</a>
+</li>
+        <li><a href="loperator_ref.html#pycommute.loperator.ESpaceSpin.dim">(pycommute.loperator.ESpaceSpin property)</a>
+</li>
+        <li><a href="loperator_ref.html#pycommute.loperator.HilbertSpace.dim">(pycommute.loperator.HilbertSpace property)</a>
+</li>
         <li><a href="loperator_ref.html#pycommute.loperator.SpacePartition.dim">(pycommute.loperator.SpacePartition property)</a>
 </li>
       </ul></li>
@@ -449,6 +466,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="loperator_ref.html#pycommute.loperator.ElementarySpace">ElementarySpace (class in pycommute.loperator)</a>
+</li>
+      <li><a href="loperator_ref.html#pycommute.loperator.HilbertSpace.es_dim">es_dim() (pycommute.loperator.HilbertSpace method)</a>
 </li>
       <li><a href="loperator_ref.html#pycommute.loperator.ESpaceBoson">ESpaceBoson (class in pycommute.loperator)</a>
 </li>
@@ -472,11 +491,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="expression_ref.html#pycommute.expression.FERMION">FERMION (pycommute.expression attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="loperator_ref.html#pycommute.loperator.SpacePartition.find_connections">find_connections() (pycommute.loperator.SpacePartition method)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="loperator_ref.html#pycommute.loperator.foreach">foreach() (pycommute.loperator method)</a>
+</li>
+      <li><a href="loperator_ref.html#pycommute.loperator.HilbertSpace.foreach_elementary_space">foreach_elementary_space() (pycommute.loperator.HilbertSpace method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -540,6 +561,8 @@
 </li>
       <li><a href="expression_ref.html#pycommute.expression.Monomial.is_ordered">is_ordered (pycommute.expression.Monomial property)</a>
 </li>
+      <li><a href="loperator_ref.html#pycommute.loperator.HilbertSpace.is_sparse">is_sparse (pycommute.loperator.HilbertSpace property)</a>
+</li>
       <li><a href="models_ref.html#pycommute.models.ising">ising() (in module pycommute.models)</a>
 </li>
   </ul></td>
@@ -600,9 +623,13 @@
 </li>
       <li><a href="loperator_ref.html#pycommute.loperator.BasisMapper.map">map (pycommute.loperator.BasisMapper property)</a>
 </li>
-      <li><a href="loperator_ref.html#pycommute.loperator.NFermionMultiSectorViewC.map_index">map_index() (pycommute.loperator.NFermionMultiSectorViewC method)</a>
+      <li><a href="loperator_ref.html#pycommute.loperator.CompressedStateViewC.map_index">map_index() (pycommute.loperator.CompressedStateViewC method)</a>
 
       <ul>
+        <li><a href="loperator_ref.html#pycommute.loperator.CompressedStateViewR.map_index">(pycommute.loperator.CompressedStateViewR method)</a>
+</li>
+        <li><a href="loperator_ref.html#pycommute.loperator.NFermionMultiSectorViewC.map_index">(pycommute.loperator.NFermionMultiSectorViewC method)</a>
+</li>
         <li><a href="loperator_ref.html#pycommute.loperator.NFermionMultiSectorViewR.map_index">(pycommute.loperator.NFermionMultiSectorViewR method)</a>
 </li>
         <li><a href="loperator_ref.html#pycommute.loperator.NFermionSectorViewC.map_index">(pycommute.loperator.NFermionSectorViewC method)</a>
@@ -761,6 +788,14 @@
       <li><a href="loperator_ref.html#pycommute.loperator.HilbertSpace.total_n_bits">total_n_bits (pycommute.loperator.HilbertSpace property)</a>
 </li>
       <li><a href="expression_ref.html#pycommute.expression.transform">transform() (pycommute.expression method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="loperator_ref.html#pycommute.loperator.HilbertSpace.vec_size">vec_size (pycommute.loperator.HilbertSpace property)</a>
 </li>
   </ul></td>
 </tr></table>
