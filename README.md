@@ -26,7 +26,7 @@ Installation from sources
 * Install Python prerequisites:
 
   - [packaging >= 17.0](https://pypi.org/project/packaging/)
-  - [pybind11 >= 2.6.0](https://pypi.org/project/pybind11/)
+  - [pybind11 >= 3.0.0](https://pypi.org/project/pybind11/)
   - [numpy >= 1.12.0](https://pypi.org/project/numpy/)
 
 * Run the following command in the unpacked source archive of *pycommute*,

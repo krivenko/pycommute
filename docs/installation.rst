@@ -10,7 +10,7 @@ Prerequisites
   installed or as a directory with unpacked source code)
 - Python >= 3.8
 - packaging >= 17.0
-- pybind11 >= 2.6.0
+- pybind11 >= 3.0.0
 - numpy >= 1.12.0
 - Sphinx >= 2.0.0 (optional, to build documentation)
 - sphinx-rtd-theme (optional, to build documentation)
