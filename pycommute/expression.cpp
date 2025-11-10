@@ -18,6 +18,7 @@
 #include <pybind11/operators.h>
 #include <pybind11/stl.h>
 #include <pybind11/functional.h>
+#include <pybind11/native_enum.h>
 
 #include <libcommute/expression/expression.hpp>
 #include <libcommute/expression/dyn_indices.hpp>
@@ -302,7 +303,7 @@ positional arguments.
 
 void register_generator_spin(py::module_ & m) {
 
-  py::enum_<spin_component>(m, "SpinComponent",
+  py::native_enum<spin_component>(m, "SpinComponent", "enum.Enum",
     "Enumeration: spin operator component, :math:`S_+`, :math:`S_-` "
     "or :math:`S_z`.")
     .value("PLUS",
@@ -316,7 +317,8 @@ void register_generator_spin(py::module_ & m) {
     .value("Z",
            spin_component::z,
            "Label for the 3rd spin projection operators :math:`S_z`"
-          );
+          )
+    .finalize();
 
   py::class_<generator_spin<dyn_indices>, gen_type>(m, "GeneratorSpin",
     "Generator of the spin algebra"
