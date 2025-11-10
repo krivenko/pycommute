@@ -8,6 +8,7 @@ Prerequisites
 
 - `libcommute <https://github.com/krivenko/libcommute>`_ 1.0.0 or newer (either
   installed or as a directory with unpacked source code)
+- Python >= 3.8
 - packaging >= 17.0
 - pybind11 >= 2.6.0
 - numpy >= 1.12.0
