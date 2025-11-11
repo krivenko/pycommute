@@ -437,7 +437,7 @@ Hilbert space.)="
   .def_property_readonly("vec_size",
     &hs_type::vec_size,
 R"=(Minimal size of a state vector object compatible with this Hilbert space,
-:math:`2^\\text{total_n_bits}`.)="
+:math:`2^\text{total_n_bits}`.)="
   )
   .def("basis_state_index",
     &hs_type::basis_state_index,

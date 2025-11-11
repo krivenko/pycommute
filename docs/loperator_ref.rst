@@ -17,6 +17,8 @@
 .. pybind11class:: pycommute.loperator.MappedBasisViewR
 .. pybind11class:: pycommute.loperator.MappedBasisViewC
 .. pybind11class:: pycommute.loperator.BasisMapper
+.. pybind11class:: pycommute.loperator.CompressedStateViewR
+.. pybind11class:: pycommute.loperator.CompressedStateViewC
 .. pybind11class:: pycommute.loperator.NFermionSectorViewR
 .. pybind11class:: pycommute.loperator.NFermionSectorViewC
 .. pybind11class:: pycommute.loperator.NFermionMultiSectorViewR
