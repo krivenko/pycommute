@@ -17,6 +17,8 @@
 .. pybind11class:: pycommute.loperator.MappedBasisViewR
 .. pybind11class:: pycommute.loperator.MappedBasisViewC
 .. pybind11class:: pycommute.loperator.BasisMapper
+.. pybind11class:: pycommute.loperator.CompressedStateViewR
+.. pybind11class:: pycommute.loperator.CompressedStateViewC
 .. pybind11class:: pycommute.loperator.NFermionSectorViewR
 .. pybind11class:: pycommute.loperator.NFermionSectorViewC
 .. pybind11class:: pycommute.loperator.NFermionMultiSectorViewR
@@ -24,6 +26,10 @@
 
 Elementary spaces
 -----------------
+
+The following classes wrap *libcommute*'s
+:ref:`base class for elementary spaces <elementary_spaces>` as well as its
+extensions for the special cases of fermions, bosons and spins.
 
 .. autoclass:: ElementarySpace
   :members:
@@ -54,6 +60,9 @@ Elementary spaces
 Full Hilbert spaces
 -------------------
 
+:py:class:`HilbertSpace` is a wrapper of *libcommute*'s
+:ref:`Hilbert space <hilbert_space>` class.
+
 .. autoclass:: pycommute.loperator.HilbertSpace
   :show-inheritance:
   :members:
@@ -63,6 +72,10 @@ Full Hilbert spaces
 
 Linear operators
 ----------------
+
+:py:class:`LOperatorR` and :py:class:`LOperatorC` represent *libcommute*'s
+:ref:`linear operator <loperator>` objects specialized for the real and
+complex scalar types respectively.
 
 .. autoclass:: pycommute.loperator.LOperatorR
   :members:
@@ -75,6 +88,9 @@ Linear operators
 Hilbert space partition
 -----------------------
 
+:py:class:`SpacePartition` is a wrapper around *libcommute*'s utility class
+:ref:`space_partition <space_partition>`.
+
 .. autoclass:: pycommute.loperator.SpacePartition
   :members:
   :special-members:
@@ -83,6 +99,10 @@ Hilbert space partition
 
 Mapped views of state vectors
 -----------------------------
+
+:py:class:`MappedBasisViewR` and :py:class:`MappedBasisViewC` are wrappers
+around :ref:`mapped basis views <mapped_basis_view>` of real and complex state
+vectors respectively.
 
 .. autoclass:: pycommute.loperator.MappedBasisViewR
   :members:
@@ -99,6 +119,12 @@ Mapped views of state vectors
 Views of compressed state vectors
 ---------------------------------
 
+:py:class:`CompressedStateViewR` and :py:class:`CompressedStateViewC` are
+wrappers around
+:ref:`views of real and complex compressed state vectors
+<compressed_state_view>`
+respectively.
+
 .. autoclass:: pycommute.loperator.CompressedStateViewR
   :members:
   :special-members:
@@ -109,6 +135,10 @@ Views of compressed state vectors
 
 N-fermion sector views of state vectors
 ---------------------------------------
+
+The following types and functions wrap *libcommute*'s functionality related
+to the :math:`N`-fermion :ref:`(multi)sector views <n_fermion_sector_view>`
+of state vectors.
 
 .. automethod:: pycommute.loperator.n_fermion_sector_size
 
