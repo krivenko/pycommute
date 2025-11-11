@@ -18,6 +18,9 @@
 Index sequence
 --------------
 
+:py:class:`Indices` is a wrapper around *libcommute*'s
+:ref:`dynamically-typed indices <dyn_indices>`.
+
 .. note::
 
   :py:class:`Indices` objects are not the same thing as Python tuples because
@@ -46,6 +49,11 @@ Spin algebra ID
 
 Algebra generator objects
 -------------------------
+
+The following classes wrap *libcommute*'s
+:ref:`base class for algebra generators <generator>` as well as its extensions
+for :ref:`fermionic <generator_fermion>`, :ref:`bosonic <generator_boson>` and
+:ref:`spin <generator_spin>` algebras.
 
 .. autoclass:: Generator
   :members:
@@ -78,12 +86,19 @@ Algebra generator objects
 Monomial object
 ---------------
 
+:py:class:`Monomial` is a wrapper around *libcommute*'s
+:ref:`monomial <monomial>` object.
+
 .. autoclass:: pycommute.expression.Monomial
   :members:
   :special-members:
 
 Expression objects
 ------------------
+
+:py:class:`ExpressionR` and :py:class:`ExpressionC` represent *libcommute*'s
+:ref:`polynomial expression <expression>` objects specialized for the real and
+complex scalar types respectively.
 
 .. autoclass:: pycommute.expression.ExpressionR
   :members:
@@ -99,6 +114,9 @@ Expression objects
 
 Expression factory functions
 ----------------------------
+
+These are wrapped *libcommute*'s :ref:`factory functions <factories_dyn>` for
+polynomial expressions with :ref:`dynamically typed indices <dyn_indices>`.
 
 .. automethod:: pycommute.expression.c_dag
 .. automethod:: pycommute.expression.c
@@ -117,6 +135,9 @@ Expression factory functions
 
 Hermitian conjugate placeholder
 -------------------------------
+
+:py:class:`HC` is the Python analog of *libcommute*'s
+:ref:`Hermitian conjugate placeholder <hc>`.
 
 .. autoclass:: pycommute.expression.HC
 .. autoattribute:: pycommute.expression.hc

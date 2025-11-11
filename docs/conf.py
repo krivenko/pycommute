@@ -42,6 +42,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.mathjax',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.githubpages',
     'sphinx_rtd_theme',
     'myst_parser',
@@ -78,3 +79,10 @@ html_theme = 'sphinx_rtd_theme'
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
 html_logo = "images/logo_small.svg"
+
+# Link to other projects' documentation
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'numpy': ('https://numpy.org/doc/stable', None),
+    'libcommute': ('https://krivenko.github.io/libcommute/', None)
+}
