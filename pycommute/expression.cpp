@@ -833,7 +833,8 @@ positional arguments.
 
   // FIXME: This lambda is a temporary solution.
   // It should be replaced by py::arg("spin") = 0.5 preceded by py::kw_only()
-  // as soon as that option can be used together with py::args.
+  // as soon as https://github.com/pybind/pybind11/issues/5840 is fixed.
+  // This would also allow to remove the spin=1/2 overloads of S_p(), S_m(), ...
   auto extract_spin_arg = [](py::kwargs const& kwargs) -> double {
     if(kwargs.size() == 1 && kwargs.contains("spin"))
       return kwargs["spin"].cast<double>();
@@ -841,7 +842,7 @@ positional arguments.
       throw std::invalid_argument("Unexpected keyword argument");
   };
 
-  auto valudate_spin = [](double spin) {
+  auto validate_spin = [](double spin) {
     if(2*spin != int(spin*2))
       throw std::invalid_argument(
         "Spin must be either integer or half-integer"
@@ -851,7 +852,7 @@ positional arguments.
   m
   .def("S_p", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
-      valudate_spin(spin);
+      validate_spin(spin);
       return expr_real(1.0, mon_type(
         static_indices::make_spin(spin,
                                   spin_component::plus,
@@ -868,7 +869,7 @@ positional arguments.
   )
   .def("S_m", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
-      valudate_spin(spin);
+      validate_spin(spin);
       return expr_real(1.0, mon_type(
         static_indices::make_spin(spin,
                                   spin_component::minus,
@@ -885,7 +886,7 @@ positional arguments.
   )
   .def("S_x", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
-      valudate_spin(spin);
+      validate_spin(spin);
       auto indices = dyn_indices(args2indices_t(args));
 
       using spin_component::plus;
@@ -908,7 +909,7 @@ passed as positional arguments.
   )
   .def("S_y", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
-      valudate_spin(spin);
+      validate_spin(spin);
       auto indices = dyn_indices(args2indices_t(args));
 
       using spin_component::plus;
@@ -932,7 +933,7 @@ passed as positional arguments.
   )
   .def("S_z", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
-      valudate_spin(spin);
+      validate_spin(spin);
       return expr_real(1.0, mon_type(
         static_indices::make_spin(spin, spin_component::z,
                                   dyn_indices(args2indices_t(args)))
