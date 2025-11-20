@@ -61,6 +61,67 @@ using mon_type = monomial<dyn_indices>;
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Custom type caster for var_number
+//
+
+namespace pybind11 {
+namespace detail {
+
+template<> struct type_caster<libcommute::var_number> {
+
+  // Set the type hint
+  PYBIND11_TYPE_CASTER(libcommute::var_number,
+                       io_name("int | fractions.Fraction | float",
+                               "int | fractions.Fraction | float"));
+
+  // C++ -> Python conversion
+  static handle cast(const libcommute::var_number &vn,
+                     return_value_policy /*policy*/,
+                     handle /*parent*/) {
+
+    using libcommute::var_number;
+    switch(vn.number_type) {
+      case var_number::integer: return py::int_(int(vn)).release();
+      case var_number::real: return py::float_(double(vn)).release();
+      case var_number::rational: {
+        object fraction_type = module_::import("fractions").attr("Fraction");
+        return fraction_type(
+          py::int_(vn.numerator()), py::int_(vn.denominator())
+        ).release();
+      }
+      default: throw cast_error("Unknown number_type in var_number");
+    }
+  }
+
+  // Python -> C++ conversion
+  bool load(handle src, bool /*convert*/) {
+    // Check if handle is an int
+    if(py::isinstance<py::int_>(src)) {
+      value = libcommute::var_number(src.cast<int>());
+      return true;
+    }
+    else if(py::isinstance<py::float_>(src)) {
+      value = libcommute::var_number(src.cast<double>());
+      return true;
+    }
+    else if(
+      py::isinstance(src, module_::import("fractions").attr("Fraction"))) {
+      value = libcommute::var_number(
+        src.attr("numerator").cast<int>(),
+        src.attr("denominator").cast<int>()
+      );
+      return true;
+    }
+    return false;
+  }
+};
+
+} // namespace detail
+} // namespace pybind11
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // Convert Python positional arguments into dyn_indices::indices_t
 //
 
@@ -81,7 +142,7 @@ dyn_indices::indices_t args2indices_t(py::args args) {
 //
 
 void register_dyn_indices(py::module_ & m) {
-  py::class_<dyn_indices>(m, "Indices",
+  py::classh<dyn_indices>(m, "Indices",
     "Mixed sequence of integer/string indices"
   )
   .def(py::init([](py::args args) {
@@ -129,10 +190,64 @@ void register_dyn_indices(py::module_ & m) {
 ////////////////////////////////////////////////////////////////////////////////
 
 //
+// Register generator::linear_function_t
+//
+
+void register_linear_function(py::module_ & m) {
+
+  using terms_t =
+    std::vector<std::pair<std::shared_ptr<const gen_type>, var_number>>;
+
+  py::classh<gen_type::linear_function_t>(m, "LinearFunctionGen",
+R"eol(
+Linear combination of algebra generators :math:`g_1, \ldots, g_n` plus a
+constant term,
+
+  .. math::
+
+    f(g_1, \ldots, g_n) = c + c_1 g_1 + \ldots + c_n g_n.
+
+The coefficients :math:`c_1, \ldots, c_n` can be of the type :py:class:`int`,
+:py:class:`fractions.Fraction` or :py:class:`float`.)eol"
+  )
+  .def(py::init<>(), "Construct a function that is identically zero.")
+  .def(py::init<var_number const&>(),
+       "Construct a constant.",
+       py::arg("const_term"))
+  .def(py::init<var_number const&, terms_t>(),
+    "Construct from a constant term and a list of coefficient/generator pairs.",
+    py::arg("const_term"),
+    py::arg("terms")
+  )
+  .def_readwrite(
+    "const_term",
+     &gen_type::linear_function_t::const_term,
+     "Constant term :math:`c`.")
+  .def_readwrite(
+    "terms",
+     &gen_type::linear_function_t::terms,
+R"eol(
+List of pairs (tuples) of algebra generators and their respective coefficients,
+
+  .. math::
+
+    (g_1, c_1), \ldots, (g_n, c_n).
+  )eol"
+   )
+  .def_property_readonly("vanishing",
+                         &gen_type::linear_function_t::vanishing,
+                         "Is this linear function identically zero?"
+  );
+}
+
+////////////////////////////////////////////////////////////////////////////////
+
+//
 // Helper classes for abstract base generator<dyn_indices>
 //
 
-class gen_type_trampoline : public gen_type {
+class gen_type_trampoline : public gen_type,
+                            public py::trampoline_self_life_support {
 
   dyn_indices init(py::args args) {
     dyn_indices::indices_t v;
@@ -152,38 +267,131 @@ class gen_type_trampoline : public gen_type {
     PYBIND11_OVERRIDE_PURE(int, gen_type, algebra_id, );
   }
 
-  std::unique_ptr<gen_type> clone() const override {
-    // Generators are immutable, so one should use multiple references instead
-    // of creating deep copies in Python.
-    assert(false);
-    return nullptr;
-  }
-
   var_number swap_with(gen_type const& g2,
                        linear_function_t & f) const override {
     PYBIND11_OVERRIDE_PURE(var_number, gen_type, swap_with, g2, f);
   }
+
+  bool simplify_prod(gen_type const& g2, linear_function_t& f) const override {
+    PYBIND11_OVERRIDE_PURE(bool, gen_type, simplify_prod, g2, f);
+  }
+
+  bool reduce_power(int power, linear_function_t & f) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, reduce_power, power, f);
+  }
+
+  void conj(linear_function_t & f) const override {
+    PYBIND11_OVERRIDE(void, gen_type, conj, f);
+  }
+
+  bool equal(gen_type const& g) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, equal, g);
+  }
+
+  bool less(gen_type const& g) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, less, g);
+  }
+
+  bool greater(gen_type const& g) const override {
+    PYBIND11_OVERRIDE(bool, gen_type, greater, g);
+  }
+};
+
+class gen_type_publicist : public gen_type {
+public:
+  using gen_type::equal;
+  using gen_type::less;
+  using gen_type::greater;
 };
 
 //
 // Register generator<dyn_indices>
 //
 
-void register_generator(py::module_ & m) {
+template<typename Gen> void register_generator(Gen & g) {
 
-  py::class_<gen_type, gen_type_trampoline>(m, "Generator",
-    "Abstract algebra generator"
-  )
+  g
+  .def(py::init<dyn_indices>())
   // Algebra ID
-  .def_property_readonly("algebra_id",
-                         &gen_type::algebra_id,
-                         "ID of the algebra this generator belongs to."
-                        )
+  .def("algebra_id",
+       &gen_type::algebra_id,
+       "ID of the algebra this generator belongs to."
+  )
   // Tuple of indices
   .def_property_readonly("indices", [](gen_type const& g){
     return std::get<0>(g.indices());
     },
     "Indices carried by this generator."
+  )
+  // Product transformation methods
+  .def("swap_with", &gen_type::swap_with, R"eol(
+Given a pair of generators g1 = 'self' and g2 such that g1 > g2, swap_with()
+must signal what transformation g1 * g2 -> c * g2 * g1 + f(g) should be applied
+to the product g1 * g2 to put it into the canonical order.
+swap_with() returns the constant 'c' and writes the linear function f(g) into
+'f'. 'c' is allowed to be zero.
+
+This method must be overridden in subclasses.)eol",
+    py::arg("g2"),
+    py::arg("f")
+  )
+  .def("simplify_prod", &gen_type::simplify_prod, R"eol(
+Given a pair of generators g1 = 'self' and g2 such that g1 * g2 is in the
+canonical order (g1 <= g2), optionally apply a simplifying transformation
+g1 * g2 -> f(g). If a simplification is actually possible, simplify_prod()
+must return True and write the linear function f(g) into 'f'.
+Otherwise return :py:obj:`False`.
+
+This method can be overridden in subclasses. The default implementation always
+returns :py:obj:`False`.)eol",
+    py::arg("g2"),
+    py::arg("f")
+  )
+  .def("reduce_power", &gen_type::reduce_power, R"eol(
+Given a generator g1 = 'self' and a power > 2, optionally apply a simplifying
+transformation g1^power -> f(g). If a simplification is actually possible,
+reduce_power() must return True and write the linear function f(g) into 'f'.
+Otherwise return :py:obj:`False`.
+
+N.B. Simplifications for power = 2 must be carried out by simplify_prod().
+
+This method can be overridden in subclasses. The default implementation always
+returns :py:obj:`False`.)eol",
+    py::arg("power"), py::arg("f")
+  )
+  // Comparison methods
+  .def("equal", &gen_type_publicist::equal, R"eol(
+Determine whether two generators 'self' and 'g' belonging to the same algebra
+are equal.
+
+This method can be overridden in subclasses. The default implementation
+compares :py:class:`Indices` carried by the generators.)eol",
+    py::arg("g")
+  )
+  .def("less", &gen_type_publicist::less, R"eol(
+Determine whether two generators 'self' and 'g' belonging to the same algebra
+satisfy self < g.
+
+This method can be overridden in subclasses. The default implementation
+compares :py:class:`Indices` carried by the generators.)eol",
+    py::arg("g")
+  )
+  .def("greater", &gen_type_publicist::greater, R"eol(
+Determine whether two generators 'self' and 'g' belonging to the same algebra
+satisfy self > g.
+
+This method can be overridden in subclasses. The default implementation
+compares :py:class:`Indices` carried by the generators.)eol",
+    py::arg("g")
+  )
+  // Hermitian conjugate
+  .def("conj", &gen_type::conj, R"eol(
+Return the Hermitian conjugate of this generator as a linear function of
+generators via 'f'.
+
+This method can be overridden in subclasses. The default implementation
+assumes that the generator is Hermitian.)eol",
+    py::arg("f")
   )
   // Comparison operators
   .def("__eq__",
@@ -207,12 +415,14 @@ void register_generator(py::module_ & m) {
        py::arg("g2")
   )
   // String representation
-  .def("__repr__", [ss = std::ostringstream()](gen_type const& g) mutable {
-    ss.str(std::string());
-    ss.clear();
-    ss << g;
-    return ss.str();
-  });
+  .def("__repr__",
+       [ss = std::ostringstream()](gen_type const& g) mutable {
+         ss.str(std::string());
+         ss.clear();
+         ss << g;
+         return ss.str();
+       }
+  );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -223,7 +433,7 @@ void register_generator(py::module_ & m) {
 
 void register_generator_fermion(py::module_ & m) {
 
-  py::class_<generator_fermion<dyn_indices>, gen_type>(m, "GeneratorFermion",
+  py::classh<generator_fermion<dyn_indices>, gen_type>(m, "GeneratorFermion",
     "Generator of the fermionic algebra"
   )
   .def(py::init<bool, dyn_indices const&>(),
@@ -264,7 +474,7 @@ positional arguments.
 
 void register_generator_boson(py::module_ & m) {
 
-  py::class_<generator_boson<dyn_indices>, gen_type>(m, "GeneratorBoson",
+  py::classh<generator_boson<dyn_indices>, gen_type>(m, "GeneratorBoson",
     "Generator of the bosonic algebra"
   )
   .def(py::init<bool, dyn_indices const&>(),
@@ -320,7 +530,7 @@ void register_generator_spin(py::module_ & m) {
           )
     .finalize();
 
-  py::class_<generator_spin<dyn_indices>, gen_type>(m, "GeneratorSpin",
+  py::classh<generator_spin<dyn_indices>, gen_type>(m, "GeneratorSpin",
     "Generator of the spin algebra"
   )
   .def(py::init<spin_component, dyn_indices const&>(),
@@ -395,11 +605,11 @@ component and carrying indices passed as positional arguments.
 //
 
 void register_monomial(py::module_ & m) {
-  py::class_<mon_type>(m, "Monomial",
+  py::classh<mon_type>(m, "Monomial",
                        "Monomial: a product of algebra generators")
   .def(py::init<>(),
        "Construct an identity monomial (a product of zero generators).")
-  .def(py::init<std::vector<gen_type*> const&>(),
+  .def(py::init<std::vector<std::shared_ptr<const gen_type>> const&>(),
     "Construct from a list of algebra generators."
   )
   .def("__len__", &mon_type::size, "Number of generators in this monomial.")
@@ -501,7 +711,7 @@ auto register_expression(py::module_ & m,
                          std::string const& class_name,
                          std::string const& docstring) {
   using expr_t = expression<ScalarType, dyn_indices>;
-  py::class_<expr_t> c(m, class_name.c_str(), docstring.c_str());
+  py::classh<expr_t> c(m, class_name.c_str(), docstring.c_str());
 
   // Constructors
   c
@@ -853,11 +1063,11 @@ positional arguments.
   .def("S_p", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
       validate_spin(spin);
-      return expr_real(1.0, mon_type(
+      return expr_real(1.0, mon_type{
         static_indices::make_spin(spin,
                                   spin_component::plus,
                                   dyn_indices(args2indices_t(args)))
-      ));
+      });
     },
 R"=(
 Returns a general spin raising operator :math:`S_+` with indices passed as
@@ -870,11 +1080,11 @@ positional arguments.
   .def("S_m", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
       validate_spin(spin);
-      return expr_real(1.0, mon_type(
+      return expr_real(1.0, mon_type{
         static_indices::make_spin(spin,
                                   spin_component::minus,
                                   dyn_indices(args2indices_t(args)))
-      ));
+      });
     },
 R"=(
 Returns a general spin lowering operator :math:`S_-` with indices passed as
@@ -893,10 +1103,10 @@ positional arguments.
       using spin_component::minus;
 
       return 0.5 * (
-        expr_real(1.0, mon_type(static_indices::make_spin(spin, plus, indices)
-        )) +
-        expr_real(1.0, mon_type(static_indices::make_spin(spin, minus, indices)
-        ))
+        expr_real(1.0, mon_type{static_indices::make_spin(spin, plus, indices)
+        }) +
+        expr_real(1.0, mon_type{static_indices::make_spin(spin, minus, indices)
+        })
       );
     },
 R"=(
@@ -917,10 +1127,10 @@ passed as positional arguments.
       using namespace std::complex_literals;
 
       return -0.5i * (
-        expr_real(1.0, mon_type(static_indices::make_spin(spin, plus, indices)
-        )) -
-        expr_real(1.0, mon_type(static_indices::make_spin(spin, minus, indices)
-        ))
+        expr_real(1.0, mon_type{static_indices::make_spin(spin, plus, indices)
+        }) -
+        expr_real(1.0, mon_type{static_indices::make_spin(spin, minus, indices)
+        })
       );
     },
 R"=(
@@ -934,10 +1144,10 @@ passed as positional arguments.
   .def("S_z", [=](py::args args, py::kwargs kwargs) -> expr_real {
       double spin = extract_spin_arg(kwargs);
       validate_spin(spin);
-      return expr_real(1.0, mon_type(
+      return expr_real(1.0, mon_type{
         static_indices::make_spin(spin, spin_component::z,
                                   dyn_indices(args2indices_t(args)))
-      ));
+      });
     },
 R"=(
 Returns a general spin :math:`S` z-projection operator :math:`S_z` with indices
@@ -972,7 +1182,7 @@ void register_hc(py::module_ & m) {
   using dynamic_indices::expr_real;
   using dynamic_indices::expr_complex;
 
-  py::class_<std::remove_const_t<decltype(hc)>>(m, "HC",
+  py::classh<std::remove_const_t<decltype(hc)>>(m, "HC",
 R"=(
 A placeholder type that adds/subtracts the Hermitian conjugate
 to/from an expression. There is a module-level constant of this type called
@@ -1006,14 +1216,25 @@ PYBIND11_MODULE(expression, m) {
   register_dyn_indices(m);
 
   //
+  // Register generator<dyn_indices> early on so that pybind11 knows about this
+  // type at the point where generator::linear_function_t is wrapped.
+  //
+
+  py::classh<gen_type, gen_type_trampoline> g(m, "Generator",
+    "Abstract algebra generator"
+  );
+
+  register_linear_function(m);
+  register_generator(g);
+
+  //
   // Algebra IDs
   //
 
   m.attr("FERMION") = fermion;
   m.attr("BOSON") = boson;
   m.attr("SPIN") = spin;
-
-  register_generator(m);
+  m.attr("MIN_USER_DEFINED_ALGEBRA_ID") = min_user_defined_algebra_id;
 
   register_generator_fermion(m);
   register_generator_boson(m);

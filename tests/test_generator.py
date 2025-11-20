@@ -103,7 +103,7 @@ class TestGenerator(TestCase):
                               Indices("dn", 0)])
 
         for op in self.fermion_ops:
-            self.assertEqual(op.algebra_id, FERMION)
+            self.assertEqual(op.algebra_id(), FERMION)
 
         for i, op in enumerate(self.fermion_ops):
             self.assertEqual(op.dagger, (i < 2))
@@ -127,7 +127,7 @@ class TestGenerator(TestCase):
                               Indices("x")])
 
         for op in self.boson_ops:
-            self.assertEqual(op.algebra_id, BOSON)
+            self.assertEqual(op.algebra_id(), BOSON)
 
         for i, op in enumerate(self.boson_ops):
             self.assertEqual(op.dagger, (i < 2))
@@ -148,7 +148,7 @@ class TestGenerator(TestCase):
                              [Indices(1)] * 3 + [Indices(2)] * 3)
 
         for op in self.spin_ops:
-            self.assertEqual(op.algebra_id, SPIN)
+            self.assertEqual(op.algebra_id(), SPIN)
             self.assertEqual(op.spin, 0.5)
             self.assertEqual(op.multiplicity, 2)
 
@@ -173,7 +173,7 @@ class TestGenerator(TestCase):
                              [Indices(1)] * 3 + [Indices(2)] * 3)
 
         for op in self.spin1_ops:
-            self.assertEqual(op.algebra_id, SPIN)
+            self.assertEqual(op.algebra_id(), SPIN)
             self.assertEqual(op.spin, 1)
             self.assertEqual(op.multiplicity, 3)
 
@@ -198,7 +198,7 @@ class TestGenerator(TestCase):
                              [Indices(1)] * 3 + [Indices(2)] * 3)
 
         for op in self.spin32_ops:
-            self.assertEqual(op.algebra_id, SPIN)
+            self.assertEqual(op.algebra_id(), SPIN)
             self.assertEqual(op.spin, 3 / 2)
             self.assertEqual(op.multiplicity, 4)
 
