@@ -42,7 +42,7 @@ H = jaynes_cummings(eps, omega, g)
 # Construct state space of our problem as a direct product of two
 # two-dimensional Hilbert spaces (qubits) and one truncated bosonic Hilbert
 # space.
-# make_space_boson(16) returns the truncated bosonic space with allowed
+# make_space_boson(16, ...) returns the truncated bosonic space with allowed
 # occupation numbers N = 0, 1, ..., 15.
 hs = HilbertSpace([
     make_space_spin(1 / 2, 0),  # Qubit 1: spin-1/2, index 0
