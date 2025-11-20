@@ -380,7 +380,7 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">32</span><span class="c1"># Construct state space of our problem as a direct product of two</span>
 <span class="linenos">33</span><span class="c1"># two-dimensional Hilbert spaces (qubits) and one truncated bosonic Hilbert</span>
 <span class="linenos">34</span><span class="c1"># space.</span>
-<span class="linenos">35</span><span class="c1"># make_space_boson(16) returns the truncated bosonic space with allowed</span>
+<span class="linenos">35</span><span class="c1"># make_space_boson(16, ...) returns the truncated bosonic space with allowed</span>
 <span class="linenos">36</span><span class="c1"># occupation numbers N = 0, 1, ..., 15.</span>
 <span class="linenos">37</span><span class="n">hs</span> <span class="o">=</span> <span class="n">HilbertSpace</span><span class="p">([</span>
 <span class="linenos">38</span>    <span class="n">make_space_spin</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>  <span class="c1"># Qubit 1: spin-1/2, index 0</span>
