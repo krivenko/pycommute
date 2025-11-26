@@ -122,15 +122,11 @@ template<> struct type_caster<libcommute::var_number> {
 ////////////////////////////////////////////////////////////////////////////////
 
 //
-// Convert Python positional arguments into dyn_indices::indices_t
+// Convert Python positional arguments to dyn_indices
 //
 
-dyn_indices::indices_t args2indices_t(py::args args) {
-  dyn_indices::indices_t v;
-  v.reserve(args.size());
-  for(auto const& a : args)
-    v.emplace_back(a.cast<std::variant<int, std::string>>());
-  return v;
+inline dyn_indices args2dyn_indices(py::args args) {
+  return dyn_indices(args.cast<dyn_indices::indices_t>());
 }
 
 //
@@ -145,9 +141,7 @@ void register_dyn_indices(py::module_ & m) {
   py::classh<dyn_indices>(m, "Indices",
     "Mixed sequence of integer/string indices"
   )
-  .def(py::init([](py::args args) {
-      return std::make_unique<dyn_indices>(args2indices_t(args));
-    }),
+  .def(py::init([](py::args args) { return args2dyn_indices(args); }),
     "Construct an index sequence from positional integer/string arguments."
    )
   .def("__len__", &dyn_indices::size, "Index sequence length.")
@@ -441,7 +435,7 @@ Construct a creation or annihilation fermionic operator with given indices.
                         );
 
   m.def("make_fermion", [](bool dagger, py::args args) {
-    return generator_fermion<dyn_indices>(dagger, args2indices_t(args));
+    return generator_fermion<dyn_indices>(dagger, args2dyn_indices(args));
   },
 R"=(
 Make a creation or annihilation fermionic operator with indices passed as
@@ -480,7 +474,7 @@ Construct a creation or annihilation bosonic operator with given indices.
                          "Is this generator a creation operator?");
 
   m.def("make_boson", [](bool dagger, py::args args) {
-    return generator_boson<dyn_indices>(dagger, args2indices_t(args));
+    return generator_boson<dyn_indices>(dagger, args2dyn_indices(args));
   },
 R"=(
 Make a creation or annihilation bosonic operator with indices passed as
@@ -559,7 +553,7 @@ Whether this generator :math:`S_+`, :math:`S_-` or :math:`S_z`?)="
   );
 
   m.def("make_spin", [](spin_component c, py::args args) {
-    return generator_spin<dyn_indices>(c, args2indices_t(args));
+    return generator_spin<dyn_indices>(c, args2dyn_indices(args));
   },
 R"=(
 Make a spin-1/2 operator corresponding to a single spin component and carrying
@@ -572,7 +566,7 @@ indices passed as positional arguments.
     py::arg("c")
 );
   m.def("make_spin", [](double spin, spin_component c, py::args args) {
-    return generator_spin<dyn_indices>(spin, c, args2indices_t(args));
+    return generator_spin<dyn_indices>(spin, c, args2dyn_indices(args));
   },
 R"=(
 Make an operator for a general spin :math:`S` corresponding to a single spin
@@ -925,7 +919,7 @@ void register_factories(py::module_ & m) {
   // Fermions
   m
   .def("c_dag", [](py::args args) -> expr_real {
-      return static_indices::c_dag(dyn_indices(args2indices_t(args)));
+      return static_indices::c_dag(args2dyn_indices(args));
     },
 R"=(
 Returns a fermionic creation operator with indices passed as positional
@@ -935,7 +929,7 @@ arguments.
 )="
   )
   .def("c", [](py::args args) -> expr_real {
-      return static_indices::c(dyn_indices(args2indices_t(args)));
+      return static_indices::c(args2dyn_indices(args));
     },
 R"=(
 Returns a fermionic annihilation operator with indices passed as positional
@@ -945,7 +939,7 @@ arguments.
 )="
   )
   .def("n", [](py::args args) -> expr_real {
-      return static_indices::n(dyn_indices(args2indices_t(args)));
+      return static_indices::n(args2dyn_indices(args));
     },
 R"=(
 Returns a fermionic particle number operator with indices passed as positional
@@ -957,7 +951,7 @@ arguments.
   // Bosons
   m
   .def("a_dag", [](py::args args) -> expr_real {
-      return static_indices::a_dag(dyn_indices(args2indices_t(args)));
+      return static_indices::a_dag(args2dyn_indices(args));
     },
 R"=(
 Returns a bosonic creation operator with indices passed as positional arguments.
@@ -966,7 +960,7 @@ Returns a bosonic creation operator with indices passed as positional arguments.
 )="
   )
   .def("a", [](py::args args) -> expr_real {
-      return static_indices::a(dyn_indices(args2indices_t(args)));
+      return static_indices::a(args2dyn_indices(args));
     },
 R"=(
 Returns a bosonic annihilation operator with indices passed as
@@ -979,7 +973,7 @@ positional arguments.
   // Spin 1/2
   m
   .def("S_p", [&](py::args args) -> expr_real {
-      return static_indices::S_p(dyn_indices(args2indices_t(args)));
+      return static_indices::S_p(args2dyn_indices(args));
     },
 R"=(
 Returns a spin-1/2 raising operator :math:`S_+` with indices passed as
@@ -989,7 +983,7 @@ positional arguments.
 )="
   )
   .def("S_m", [](py::args args) -> expr_real {
-      return static_indices::S_m(dyn_indices(args2indices_t(args)));
+      return static_indices::S_m(args2dyn_indices(args));
     },
 R"=(
 Returns a spin-1/2 lowering operator :math:`S_-` with indices passed as
@@ -999,7 +993,7 @@ positional arguments.
 )="
   )
   .def("S_x", [](py::args args) -> expr_complex {
-      return static_indices::S_x(dyn_indices(args2indices_t(args)));
+      return static_indices::S_x(args2dyn_indices(args));
     },
 R"=(
 Returns a spin-1/2 x-projection operator :math:`S_x` with indices passed as
@@ -1009,7 +1003,7 @@ positional arguments.
 )="
   )
   .def("S_y", [](py::args args) -> expr_complex {
-      return static_indices::S_y(dyn_indices(args2indices_t(args)));
+      return static_indices::S_y(args2dyn_indices(args));
     },
 R"=(
 Returns a spin-1/2 y-projection operator :math:`S_y` with indices passed as
@@ -1019,7 +1013,7 @@ positional arguments.
 )="
   )
   .def("S_z", [](py::args args) -> expr_real {
-      return static_indices::S_z(dyn_indices(args2indices_t(args)));
+      return static_indices::S_z(args2dyn_indices(args));
     },
 R"=(
 Returns a spin-1/2 z-projection operator :math:`S_z` with indices passed as
@@ -1055,7 +1049,7 @@ positional arguments.
       return expr_real(1.0, mon_type{
         static_indices::make_spin(spin,
                                   spin_component::plus,
-                                  dyn_indices(args2indices_t(args)))
+                                  dyn_indices(args2dyn_indices(args)))
       });
     },
 R"=(
@@ -1072,7 +1066,7 @@ positional arguments.
       return expr_real(1.0, mon_type{
         static_indices::make_spin(spin,
                                   spin_component::minus,
-                                  dyn_indices(args2indices_t(args)))
+                                  dyn_indices(args2dyn_indices(args)))
       });
     },
 R"=(
@@ -1086,7 +1080,7 @@ positional arguments.
   .def("S_x", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
       validate_spin(spin);
-      auto indices = dyn_indices(args2indices_t(args));
+      auto indices = args2dyn_indices(args);
 
       using spin_component::plus;
       using spin_component::minus;
@@ -1109,7 +1103,7 @@ passed as positional arguments.
   .def("S_y", [=](py::args args, py::kwargs kwargs) -> expr_complex {
       double spin = extract_spin_arg(kwargs);
       validate_spin(spin);
-      auto indices = dyn_indices(args2indices_t(args));
+      auto indices = args2dyn_indices(args);
 
       using spin_component::plus;
       using spin_component::minus;
@@ -1135,7 +1129,7 @@ passed as positional arguments.
       validate_spin(spin);
       return expr_real(1.0, mon_type{
         static_indices::make_spin(spin, spin_component::z,
-                                  dyn_indices(args2indices_t(args)))
+                                  dyn_indices(args2dyn_indices(args)))
       });
     },
 R"=(
