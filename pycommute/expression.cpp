@@ -159,16 +159,7 @@ void register_dyn_indices(py::module_ & m) {
                          &dyn_indices::operator dyn_indices::indices_t const&,
                          "Index sequence as a list of integers and strings"
                         )
-  .def("__repr__", [](dyn_indices const& indices) {
-    auto const& ind = static_cast<dyn_indices::indices_t const&>(indices);
-    const size_t N = ind.size();
-    std::string s;
-    for(size_t i = 0; i < N; ++i) {
-      std::visit([&s](auto const& x) { s += to_string(x); }, ind[i]);
-      if(i + 1 < N) s += ",";
-    }
-    return s;
-  })
+  .def("__repr__", [](dyn_indices const& ind) { return to_string(ind); })
   .def("__getitem__", [](dyn_indices const& indices, std::size_t n)
       -> std::variant<int, std::string> const& {
       if(n >= indices.size())
@@ -295,6 +286,10 @@ class gen_type_trampoline : public gen_type,
   bool greater(gen_type const& g) const override {
     PYBIND11_OVERRIDE(bool, gen_type, greater, g);
   }
+
+  std::string to_string() const override {
+    PYBIND11_OVERRIDE_NAME(std::string, gen_type, "__repr__", to_string, );
+  }
 };
 
 class gen_type_publicist : public gen_type {
@@ -315,7 +310,8 @@ template<typename Gen> void register_generator(Gen & g) {
   // Algebra ID
   .def("algebra_id",
        &gen_type::algebra_id,
-       "ID of the algebra this generator belongs to."
+       "ID of the algebra this generator belongs to. "
+       "This method must be overridden in subclasses."
   )
   // Tuple of indices
   .def_property_readonly("indices", [](gen_type const& g){
@@ -415,14 +411,7 @@ assumes that the generator is Hermitian.)eol",
        py::arg("g2")
   )
   // String representation
-  .def("__repr__",
-       [ss = std::ostringstream()](gen_type const& g) mutable {
-         ss.str(std::string());
-         ss.clear();
-         ss << g;
-         return ss.str();
-       }
-  );
+  .def("__repr__", &gen_type::to_string);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

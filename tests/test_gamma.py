@@ -62,6 +62,9 @@ class GeneratorGamma(Generator):
         f.const_term = 0
         f.terms = [(self, 1 if (self.indices[0] == 0) else -1)]
 
+    def __repr__(self):
+        return f"γ^{self.indices[0]}"
+
 
 class TestIdentities(TestCase):
 
@@ -137,3 +140,7 @@ class TestIdentities(TestCase):
                 rhs += -1j * eps(sigma, mu, nu, rho) \
                     * self.Gammac[sigma] * self.Gamma5
             self.assertEqual(lhs, rhs)
+
+    def test_repr(self):
+        self.assertEqual([str(GeneratorGamma(mu)) for mu in range(4)],
+                         [f"γ^{mu}" for mu in range(4)])

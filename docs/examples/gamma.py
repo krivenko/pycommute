@@ -89,6 +89,11 @@ class GeneratorGamma(Generator):
         mu = self.indices[0]
         f.terms = [(self, 1 if (mu == 0) else -1)]
 
+    # String representation of this generator
+    def __repr__(self):
+        mu = self.indices[0]
+        return f"γ^{mu}"
+
 
 # Convenience function: Make an expression out of one \gamma-matrix.
 def gamma(mu):
@@ -110,15 +115,15 @@ for mu in range(4):
         gamma_mu = gamma(mu)
         gamma_nu = gamma(nu)
 
-        print(f"{{{gamma_mu}, {gamma_nu}}} - 2\\eta({mu}, {nu}) = ",
+        print(f"{{{gamma_mu}, {gamma_nu}}} - 2η({mu}, {nu}) =",
               (gamma_mu * gamma_nu + gamma_nu * gamma_mu - 2 * eta(mu, nu)))
 
 # \gamma^5
 gamma5 = 1j * gamma(0) * gamma(1) * gamma(2) * gamma(3)
 
 # \gamma^5 is Hermitian ...
-print("gamma5 - conj(gamma5) =", gamma5 - conj(gamma5))
+print("γ^5 - conj(γ^5) =", gamma5 - conj(gamma5))
 # ... and anti-commutes with \gamma_\mu.
 for mu in range(4):
     gamma_mu = gamma(mu)
-    print(f"{{gamma5, {gamma_mu}}} =", gamma5 * gamma_mu + gamma_mu * gamma5)
+    print(f"{{γ^5, {gamma_mu}}} =", gamma5 * gamma_mu + gamma_mu * gamma5)
