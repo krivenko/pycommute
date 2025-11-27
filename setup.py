@@ -110,7 +110,7 @@ setup(
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     url="https://krivenko.github.io/pycommute",
-    keywords="libcommute dsl computer algebra quantum",
+    keywords="libcommute dsl algebra quantum qubit",
     license="MPL-2.0",
     project_urls={
         "Bug Tracker": "https://github.com/krivenko/pycommute/issues",
