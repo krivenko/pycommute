@@ -70,6 +70,10 @@
 <li class="toctree-l4"><a class="reference internal" href="#pycommute.expression.make_spin"><code class="docutils literal notranslate"><span class="pre">expression.make_spin()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="#linear-combination-of-algebra-generators">Linear combination of algebra generators</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen"><code class="docutils literal notranslate"><span class="pre">LinearFunctionGen</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l3"><a class="reference internal" href="#monomial-object">Monomial object</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#pycommute.expression.Monomial"><code class="docutils literal notranslate"><span class="pre">Monomial</span></code></a></li>
 </ul>
@@ -253,6 +257,11 @@ for <a class="reference external" href="https://krivenko.github.io/libcommute/ex
 <dd></dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.__init__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.__lt__">
 <span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.__lt__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
@@ -267,16 +276,87 @@ for <a class="reference external" href="https://krivenko.github.io/libcommute/ex
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.__repr__" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<dl class="py property">
+<dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.algebra_id">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">algebra_id</span></span><a class="headerlink" href="#pycommute.expression.Generator.algebra_id" title="Link to this definition"></a></dt>
-<dd><p>ID of the algebra this generator belongs to.</p>
+<span class="sig-name descname"><span class="pre">algebra_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.algebra_id" title="Link to this definition"></a></dt>
+<dd><p>ID of the algebra this generator belongs to. This method must be overridden in subclasses.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.conj">
+<span class="sig-name descname"><span class="pre">conj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.conj" title="Link to this definition"></a></dt>
+<dd><p>Return the Hermitian conjugate of this generator as a linear function of
+generators via ‘f’.</p>
+<p>This method can be overridden in subclasses. The default implementation
+assumes that the generator is Hermitian.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.equal">
+<span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.equal" title="Link to this definition"></a></dt>
+<dd><p>Determine whether two generators ‘self’ and ‘g’ belonging to the same algebra
+are equal.</p>
+<p>This method can be overridden in subclasses. The default implementation
+compares <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> carried by the generators.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.greater">
+<span class="sig-name descname"><span class="pre">greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.greater" title="Link to this definition"></a></dt>
+<dd><p>Determine whether two generators ‘self’ and ‘g’ belonging to the same algebra
+satisfy self &gt; g.</p>
+<p>This method can be overridden in subclasses. The default implementation
+compares <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> carried by the generators.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.indices">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#pycommute.expression.Generator.indices" title="Link to this definition"></a></dt>
 <dd><p>Indices carried by this generator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.less">
+<span class="sig-name descname"><span class="pre">less</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.less" title="Link to this definition"></a></dt>
+<dd><p>Determine whether two generators ‘self’ and ‘g’ belonging to the same algebra
+satisfy self &lt; g.</p>
+<p>This method can be overridden in subclasses. The default implementation
+compares <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> carried by the generators.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.reduce_power">
+<span class="sig-name descname"><span class="pre">reduce_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.reduce_power" title="Link to this definition"></a></dt>
+<dd><p>Given a generator g1 = ‘self’ and a power &gt; 2, optionally apply a simplifying
+transformation g1^power -&gt; f(g). If a simplification is actually possible,
+reduce_power() must return True and write the linear function f(g) into ‘f’.
+Otherwise return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+<p>N.B. Simplifications for power = 2 must be carried out by simplify_prod().</p>
+<p>This method can be overridden in subclasses. The default implementation always
+returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.simplify_prod">
+<span class="sig-name descname"><span class="pre">simplify_prod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.simplify_prod" title="Link to this definition"></a></dt>
+<dd><p>Given a pair of generators g1 = ‘self’ and g2 such that g1 * g2 is in the
+canonical order (g1 &lt;= g2), optionally apply a simplifying transformation
+g1 * g2 -&gt; f(g). If a simplification is actually possible, simplify_prod()
+must return True and write the linear function f(g) into ‘f’.
+Otherwise return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+<p>This method can be overridden in subclasses. The default implementation always
+returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.swap_with">
+<span class="sig-name descname"><span class="pre">swap_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/fractions.html#fractions.Fraction" title="(in Python v3.14)"><span class="pre">fractions.Fraction</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.swap_with" title="Link to this definition"></a></dt>
+<dd><p>Given a pair of generators g1 = ‘self’ and g2 such that g1 &gt; g2, swap_with()
+must signal what transformation g1 * g2 -&gt; c * g2 * g1 + f(g) should be applied
+to the product g1 * g2 to put it into the canonical order.
+swap_with() returns the constant ‘c’ and writes the linear function f(g) into
+‘f’. ‘c’ is allowed to be zero.</p>
+<p>This method must be overridden in subclasses.</p>
 </dd></dl>
 
 </dd></dl>
@@ -468,6 +548,50 @@ values.</p></li>
 </ul>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="linear-combination-of-algebra-generators">
+<h2>Linear combination of algebra generators<a class="headerlink" href="#linear-combination-of-algebra-generators" title="Link to this heading"></a></h2>
+<p><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearFunctionGen</span></code></a> represents a linear combination of algebra
+generators plus a constant term. A new algebra can be defined by extending
+the <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a> class. <a class="reference internal" href="#pycommute.expression.Generator.swap_with" title="pycommute.expression.Generator.swap_with"><code class="xref py py-func docutils literal notranslate"><span class="pre">Generator.swap_with()</span></code></a> and related
+methods overridden in the subclass must update terms of a
+<a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><code class="xref py py-class docutils literal notranslate"><span class="pre">LinearFunctionGen</span></code></a> object passed to them in order to specify the
+commutation relations and simplification rules for the new algebra.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="pycommute.expression.LinearFunctionGen">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">LinearFunctionGen</span></span><a class="headerlink" href="#pycommute.expression.LinearFunctionGen" title="Link to this definition"></a></dt>
+<dd><p>Linear combination of algebra generators <span class="math notranslate nohighlight">\(g_1, \ldots, g_n\)</span> plus a
+constant term,</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[f(g_1, \ldots, g_n) = c + c_1 g_1 + \ldots + c_n g_n.\]</div>
+</div></blockquote>
+<p>The coefficients <span class="math notranslate nohighlight">\(c_1, \ldots, c_n\)</span> can be of the type <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>,
+<a class="reference external" href="https://docs.python.org/3/library/fractions.html#fractions.Fraction" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">fractions.Fraction</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.LinearFunctionGen.const_term">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">const_term</span></span><a class="headerlink" href="#pycommute.expression.LinearFunctionGen.const_term" title="Link to this definition"></a></dt>
+<dd><p>Constant term <span class="math notranslate nohighlight">\(c\)</span>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.LinearFunctionGen.terms">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">terms</span></span><a class="headerlink" href="#pycommute.expression.LinearFunctionGen.terms" title="Link to this definition"></a></dt>
+<dd><p>List of pairs (tuples) of algebra generators and their respective coefficients,</p>
+<blockquote>
+<div><div class="math notranslate nohighlight">
+\[(g_1, c_1), \ldots, (g_n, c_n).\]</div>
+</div></blockquote>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.LinearFunctionGen.vanishing">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">vanishing</span></span><a class="headerlink" href="#pycommute.expression.LinearFunctionGen.vanishing" title="Link to this definition"></a></dt>
+<dd><p>Is this linear function identically zero?</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>

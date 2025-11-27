@@ -6,6 +6,13 @@ All notable changes to this project will be documented in this file.
 
 - Enable support for Python 3.11, 3.12, 3.13 and 3.14.
 - Remove support for Python 3.6 and 3.7.
+- It is now possible to define new algebras by extending the base class
+  ``expression.Generator``. This functionality has been documented in the API
+  reference, and a new example has been added.
+- New auxiliary type ``expression.LinearFunctionGen`` that is used to define
+  commutation relations and simplification rules for user-defined algebras.
+- The property ``expression.Generator.algebra_id`` has been turned into a
+  method.
 - Added methods ``__copy__()`` and ``__deepcopy__()`` to a few mutable objects:
   ``expression.Monomial``, ``expression.Expression[R|C]``,
   ``loperator.HilbertSpace`` and ``loperator.SpacePartition``.

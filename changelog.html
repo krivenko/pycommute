@@ -90,6 +90,13 @@
 <ul class="simple">
 <li><p>Enable support for Python 3.11, 3.12, 3.13 and 3.14.</p></li>
 <li><p>Remove support for Python 3.6 and 3.7.</p></li>
+<li><p>It is now possible to define new algebras by extending the base class
+<code class="docutils literal notranslate"><span class="pre">expression.Generator</span></code>. This functionality has been documented in the API
+reference, and a new example has been added.</p></li>
+<li><p>New auxiliary type <code class="docutils literal notranslate"><span class="pre">expression.LinearFunctionGen</span></code> that is used to define
+commutation relations and simplification rules for user-defined algebras.</p></li>
+<li><p>The property <code class="docutils literal notranslate"><span class="pre">expression.Generator.algebra_id</span></code> has been turned into a
+method.</p></li>
 <li><p>Added methods <code class="docutils literal notranslate"><span class="pre">__copy__()</span></code> and <code class="docutils literal notranslate"><span class="pre">__deepcopy__()</span></code> to a few mutable objects:
 <code class="docutils literal notranslate"><span class="pre">expression.Monomial</span></code>, <code class="docutils literal notranslate"><span class="pre">expression.Expression[R|C]</span></code>,
 <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace</span></code> and <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition</span></code>.</p></li>

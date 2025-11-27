@@ -183,6 +183,23 @@ and a multisector with :math:`N_\uparrow = 1, N_\downarrow = 1`
   :lines: 16-
   :linenos:
 
+
+Advanced: A user-defined algebra
+--------------------------------
+
+It is possible to define generators of a new algebra in addition to the
+fermionic, bosonic and spin operators to be used in
+:ref:`expressions <expression_ref>`. A basic introduction into the topic can be
+found on the :ref:`respective documentation page <generator_gamma>` of
+*libcommute*. Here, we show how to define the algebra of Dirac
+:math:`\gamma`-matrices in a Python script by extending the base class
+:py:class:`pycommute.expression.Generator`.
+
+.. literalinclude:: examples/gamma.py
+  :language: python
+  :lines: 11-
+  :linenos:
+
 References
 ----------
 

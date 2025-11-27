@@ -55,10 +55,9 @@ The following classes wrap *libcommute*'s
 for :ref:`fermionic <generator_fermion>`, :ref:`bosonic <generator_boson>` and
 :ref:`spin <generator_spin>` algebras.
 
-.. autoclass:: Generator
+.. autoclass:: pycommute.expression.Generator
   :members:
   :special-members:
-  :exclude-members: __init__
 
 .. autoclass:: pycommute.expression.GeneratorFermion
   :show-inheritance:
@@ -82,6 +81,22 @@ for :ref:`fermionic <generator_fermion>`, :ref:`bosonic <generator_boson>` and
   :special-members:
 
 .. automethod:: pycommute.expression.make_spin
+
+Linear combination of algebra generators
+----------------------------------------
+
+:py:class:`LinearFunctionGen` represents a linear combination of algebra
+generators plus a constant term. A new algebra can be defined by extending
+the :py:class:`Generator` class. :py:func:`Generator.swap_with()` and related
+methods overridden in the subclass must update terms of a
+:py:class:`LinearFunctionGen` object passed to them in order to specify the
+commutation relations and simplification rules for the new algebra.
+
+.. autoclass:: pycommute.expression.LinearFunctionGen
+  :members:
+  :special-members:
+  :exclude-members: __init__
+
 
 Monomial object
 ---------------
