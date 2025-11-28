@@ -5,6 +5,8 @@
 
 .. automodule:: pycommute.expression
 
+.. pybind11class:: typing.SupportsInt
+.. pybind11class:: typing.SupportsFloat
 .. pybind11class:: pycommute.expression.Indices
 .. pybind11class:: pycommute.expression.SpinComponent
 .. pybind11class:: pycommute.expression.GeneratorFermion
@@ -35,17 +37,17 @@ Index sequence
 Algebra ID constants
 --------------------
 
-Fermionic algebra ID
-
 .. autoattribute:: pycommute.expression.FERMION
 
-Bosonic algebra ID
+Fermionic algebra ID.
 
 .. autoattribute:: pycommute.expression.BOSON
 
-Spin algebra ID
+Bosonic algebra ID.
 
 .. autoattribute:: pycommute.expression.SPIN
+
+Spin algebra ID.
 
 Algebra generator objects
 -------------------------
@@ -75,6 +77,10 @@ for :ref:`fermionic <generator_fermion>`, :ref:`bosonic <generator_boson>` and
 
 .. autoclass:: pycommute.expression.SpinComponent
 
+  .. autoattribute:: PLUS
+  .. autoattribute:: MINUS
+  .. autoattribute:: Z
+
 .. autoclass:: GeneratorSpin
   :show-inheritance:
   :members:
@@ -102,7 +108,8 @@ Monomial object
 ---------------
 
 :py:class:`Monomial` is a wrapper around *libcommute*'s
-:ref:`monomial <monomial>` object.
+:ref:`monomial <monomial>` object, i.e. an ordered product of
+:py:class:`generators <pycommute.expression.Generator>`.
 
 .. autoclass:: pycommute.expression.Monomial
   :members:
@@ -155,4 +162,5 @@ Hermitian conjugate placeholder
 :ref:`Hermitian conjugate placeholder <hc>`.
 
 .. autoclass:: pycommute.expression.HC
+  :special-members: __radd__, __rsub__
 .. autoattribute:: pycommute.expression.hc

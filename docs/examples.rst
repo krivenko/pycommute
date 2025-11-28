@@ -103,8 +103,8 @@ representation of our problem.
 .. note::
 
   Performance of repeated calls to
-  :class:`LOperatorR <pycommute.loperator.LOperatorR>` or to
-  :class:`LOperatorC <pycommute.loperator.LOperatorC>` in order to construct
+  :class:`LOperatorR <pycommute.loperator.LOperatorR>` (or
+  :class:`LOperatorC <pycommute.loperator.LOperatorC>`) in order to construct
   a matrix representation of a linear operator is limited by Python method
   call overhead. For large-scale problems it is advised to call the utility
   function :func:`make_matrix() <pycommute.loperator.make_matrix>`.
@@ -180,7 +180,7 @@ and a multisector with :math:`N_\uparrow = 1, N_\downarrow = 1`
 
 .. literalinclude:: examples/n_fermion_sectors.py
   :language: python
-  :lines: 16-
+  :lines: 11-
   :linenos:
 
 

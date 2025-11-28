@@ -5,7 +5,14 @@
 
 .. automodule:: pycommute.loperator
 
+.. pybind11class:: typing.SupportsInt
+.. pybind11class:: typing.SupportsFloat
+.. pybind11class:: numpy.float64
+.. pybind11class:: numpy.complex128
+.. pybind11class:: numpy.typing.ArrayLike
 .. pybind11class:: pycommute.expression.Indices
+.. pybind11class:: pycommute.expression.ExpressionR
+.. pybind11class:: pycommute.expression.ExpressionC
 .. pybind11class:: pycommute.loperator.ElementarySpace
 .. pybind11class:: pycommute.loperator.ESpaceFermion
 .. pybind11class:: pycommute.loperator.ESpaceBoson
@@ -107,10 +114,12 @@ vectors respectively.
 .. autoclass:: pycommute.loperator.MappedBasisViewR
   :members:
   :special-members:
+  :exclude-members: __init__
 
 .. autoclass:: pycommute.loperator.MappedBasisViewC
   :members:
   :special-members:
+  :exclude-members: __init__
 
 .. autoclass:: pycommute.loperator.BasisMapper
   :members:

@@ -42,7 +42,7 @@ H_op = LOperatorR(H, hs)
 
 # The first value returned by 'make_space_partition()' is a
 # SpacePartition object. It represents a partition of the full Hilbert space
-# into sectors, i.e. subspaces invariant under action of 'H_op'.
+# into sectors, i.e. subspaces invariant under the action of 'H_op'.
 #
 # The second returned value is a dictionary {(i, j): value} of all non-vanishing
 # matrix elements of H_{ij}. By definition, all matrix elements of 'H_op'
@@ -97,7 +97,7 @@ for n, sector in enumerate(sectors):
 
     # Method II (automatic and faster).
     H_mat2 = make_matrix(H_op, sector)
-    print("Max difference between H_mat and H_mat2:",
+    print("Max difference between H_mat1 and H_mat2:",
           np.max(np.abs(H_mat1 - H_mat2)))
 
     # Use NumPy to compute eigenvalues of 'H_mat1'.

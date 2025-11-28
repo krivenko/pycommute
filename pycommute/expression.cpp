@@ -20,6 +20,8 @@
 #include <pybind11/functional.h>
 #include <pybind11/native_enum.h>
 
+#include "util.hpp"
+
 #include <libcommute/expression/expression.hpp>
 #include <libcommute/expression/dyn_indices.hpp>
 #include <libcommute/expression/generator_fermion.hpp>
@@ -139,7 +141,7 @@ inline dyn_indices args2dyn_indices(py::args args) {
 
 void register_dyn_indices(py::module_ & m) {
   py::classh<dyn_indices>(m, "Indices",
-    "Mixed sequence of integer/string indices"
+    "Mixed sequence of integer/string indices."
   )
   .def(py::init([](py::args args) { return args2dyn_indices(args); }),
     "Construct an index sequence from positional integer/string arguments."
@@ -151,7 +153,7 @@ void register_dyn_indices(py::module_ & m) {
   .def(py::self > py::self)
   .def_property_readonly("indices",
                          &dyn_indices::operator dyn_indices::indices_t const&,
-                         "Index sequence as a list of integers and strings"
+                         "Index sequence as a list of integers and strings."
                         )
   .def("__repr__", [](dyn_indices const& ind) { return to_string(ind); })
   .def("__getitem__", [](dyn_indices const& indices, std::size_t n)
@@ -192,7 +194,7 @@ constant term,
 
     f(g_1, \ldots, g_n) = c + c_1 g_1 + \ldots + c_n g_n.
 
-The coefficients :math:`c_1, \ldots, c_n` can be of the type :py:class:`int`,
+The coefficients :math:`c, c_1, \ldots, c_n` can be of the type :py:class:`int`,
 :py:class:`fractions.Fraction` or :py:class:`float`.)eol"
   )
   .def(py::init<>(), "Construct a function that is identically zero.")
@@ -315,21 +317,23 @@ template<typename Gen> void register_generator(Gen & g) {
   )
   // Product transformation methods
   .def("swap_with", &gen_type::swap_with, R"eol(
-Given a pair of generators g1 = 'self' and g2 such that g1 > g2, swap_with()
-must signal what transformation g1 * g2 -> c * g2 * g1 + f(g) should be applied
-to the product g1 * g2 to put it into the canonical order.
-swap_with() returns the constant 'c' and writes the linear function f(g) into
-'f'. 'c' is allowed to be zero.
+Given a pair of generators :math:`g_1` = :py:obj:`self` and :math:`g_2` such
+that :math:`g_1 > g_2`, :py:func:`swap_with()` must signal what transformation
+:math:`g_1 g_2 \mapsto c g_2 g_1 + f(g)` should be applied to the product
+:math:`g_1 g_2` to put it into the canonical order. :py:func:`swap_with()`
+returns the constant :math:`c` and writes the linear function :math:`f(g)` into
+:py:obj:`f`. :math:`c` is allowed to be zero.
 
 This method must be overridden in subclasses.)eol",
     py::arg("g2"),
     py::arg("f")
   )
   .def("simplify_prod", &gen_type::simplify_prod, R"eol(
-Given a pair of generators g1 = 'self' and g2 such that g1 * g2 is in the
-canonical order (g1 <= g2), optionally apply a simplifying transformation
-g1 * g2 -> f(g). If a simplification is actually possible, simplify_prod()
-must return True and write the linear function f(g) into 'f'.
+Given a pair of generators :math:`g_1` = :py:obj:`self` and :math:`g_2` such
+that :math:`g_1 g_2` is in the canonical order (:math:`g_1 \leq g_2`),
+optionally apply a simplifying transformation :math:`g_1 g_2 \mapsto f(g)`.
+If a simplification is actually possible, :py:func:`simplify_prod()` must return
+:py:obj:`True` and write the linear function :math:`f(g)` into :py:obj:`f`.
 Otherwise return :py:obj:`False`.
 
 This method can be overridden in subclasses. The default implementation always
@@ -338,12 +342,14 @@ returns :py:obj:`False`.)eol",
     py::arg("f")
   )
   .def("reduce_power", &gen_type::reduce_power, R"eol(
-Given a generator g1 = 'self' and a power > 2, optionally apply a simplifying
-transformation g1^power -> f(g). If a simplification is actually possible,
-reduce_power() must return True and write the linear function f(g) into 'f'.
-Otherwise return :py:obj:`False`.
+Given a generator :math:`g_1` = :py:obj:`self` and a :py:obj:`power` > 2,
+optionally apply a simplifying transformation
+:math:`g_1^\text{power} \mapsto f(g)`. If a simplification is actually possible,
+:py:func:`reduce_power()` must return :py:obj:`True` and write the linear
+function :math:`f(g)` into :py:obj:`f`. Otherwise return :py:obj:`False`.
 
-N.B. Simplifications for power = 2 must be carried out by simplify_prod().
+**N.B.** Simplifications for :py:obj:`power` = 2 must be carried out by
+:py:func:`simplify_prod()`.
 
 This method can be overridden in subclasses. The default implementation always
 returns :py:obj:`False`.)eol",
@@ -351,24 +357,24 @@ returns :py:obj:`False`.)eol",
   )
   // Comparison methods
   .def("equal", &gen_type_publicist::equal, R"eol(
-Determine whether two generators 'self' and 'g' belonging to the same algebra
-are equal.
+Determine whether two generators :py:obj:`self` and :py:obj:`g` belonging to the
+same algebra are equal.
 
 This method can be overridden in subclasses. The default implementation
 compares :py:class:`Indices` carried by the generators.)eol",
     py::arg("g")
   )
   .def("less", &gen_type_publicist::less, R"eol(
-Determine whether two generators 'self' and 'g' belonging to the same algebra
-satisfy self < g.
+Determine whether two generators :py:obj:`self` and :py:obj:`g` belonging to the
+same algebra satisfy :py:obj:`self` < :py:obj:`g`.
 
 This method can be overridden in subclasses. The default implementation
 compares :py:class:`Indices` carried by the generators.)eol",
     py::arg("g")
   )
   .def("greater", &gen_type_publicist::greater, R"eol(
-Determine whether two generators 'self' and 'g' belonging to the same algebra
-satisfy self > g.
+Determine whether two generators :py:obj:`self` and :py:obj:`g` belonging to the
+same algebra satisfy :py:obj:`self` > :py:obj:`g`.
 
 This method can be overridden in subclasses. The default implementation
 compares :py:class:`Indices` carried by the generators.)eol",
@@ -376,8 +382,8 @@ compares :py:class:`Indices` carried by the generators.)eol",
   )
   // Hermitian conjugate
   .def("conj", &gen_type::conj, R"eol(
-Return the Hermitian conjugate of this generator as a linear function of
-generators via 'f'.
+Return the Hermitian conjugate of :py:obj:`self` as a linear function of
+generators via :py:obj:`f`.
 
 This method can be overridden in subclasses. The default implementation
 assumes that the generator is Hermitian.)eol",
@@ -405,7 +411,10 @@ assumes that the generator is Hermitian.)eol",
        py::arg("g2")
   )
   // String representation
-  .def("__repr__", &gen_type::to_string);
+  .def("__repr__", &gen_type::to_string,
+       "String representation of the generator. "
+       "This method can be overridden in subclasses."
+  );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -417,14 +426,14 @@ assumes that the generator is Hermitian.)eol",
 void register_generator_fermion(py::module_ & m) {
 
   py::classh<generator_fermion<dyn_indices>, gen_type>(m, "GeneratorFermion",
-    "Generator of the fermionic algebra"
+    "Generator of the fermionic algebra."
   )
   .def(py::init<bool, dyn_indices const&>(),
 R"=(
 Construct a creation or annihilation fermionic operator with given indices.
 
-:param dagger: ``True``/``False`` for a creation/annihilation operator
-                respectively.
+:param dagger: :py:obj:`True` / :py:obj:`False` for a creation/annihilation
+               operator respectively.
 :param indices: Index sequence of the creation/annihilation operator.
 )=",
     py::arg("dagger"), py::arg("indices")
@@ -441,8 +450,8 @@ R"=(
 Make a creation or annihilation fermionic operator with indices passed as
 positional arguments.
 
-:param dagger: ``True``/``False`` for a creation/annihilation operator
-                respectively.
+:param dagger: :py:obj:`True` / :py:obj:`False` for a creation/annihilation
+               operator respectively.
 :param *args: Indices of the creation/annihilation operator.
 )=",
     py::arg("dagger")
@@ -458,14 +467,14 @@ positional arguments.
 void register_generator_boson(py::module_ & m) {
 
   py::classh<generator_boson<dyn_indices>, gen_type>(m, "GeneratorBoson",
-    "Generator of the bosonic algebra"
+    "Generator of the bosonic algebra."
   )
   .def(py::init<bool, dyn_indices const&>(),
 R"=(
 Construct a creation or annihilation bosonic operator with given indices.
 
-:param dagger: ``True``/``False`` for a creation/annihilation operator
-                respectively.
+:param dagger: :py:obj:`True` / :py:obj:`False` for a creation/annihilation
+               operator respectively.
 :param indices: Index sequence of the creation/annihilation operator.
 )=",
     py::arg("dagger"), py::arg("indices"))
@@ -480,8 +489,8 @@ R"=(
 Make a creation or annihilation bosonic operator with indices passed as
 positional arguments.
 
-:param dagger: ``True``/``False`` for a creation/annihilation operator
-                respectively.
+:param dagger: :py:obj:`True` / :py:obj:`False` for a creation/annihilation
+               operator respectively.
 :param *args: Indices of the creation/annihilation operator.
 )=",
     py::arg("dagger")
@@ -501,32 +510,32 @@ void register_generator_spin(py::module_ & m) {
     "or :math:`S_z`.")
     .value("PLUS",
            spin_component::plus,
-           "Label for the spin raising operators :math:`S_+ = S_x + i S_y`"
+           "Label for the spin raising operators :math:`S_+ = S_x + i S_y`."
           )
     .value("MINUS",
            spin_component::minus,
-           "Label for the spin lowering operators :math:`S_- = S_x - i S_y`"
+           "Label for the spin lowering operators :math:`S_- = S_x - i S_y`."
           )
     .value("Z",
            spin_component::z,
-           "Label for the 3rd spin projection operators :math:`S_z`"
+           "Label for the 3rd spin projection operators :math:`S_z`."
           )
     .finalize();
 
   py::classh<generator_spin<dyn_indices>, gen_type>(m, "GeneratorSpin",
-    "Generator of the spin algebra"
+    "Generator of the spin algebra."
   )
   .def(py::init<spin_component, dyn_indices const&>(),
 R"=(
 Construct a spin-1/2 operator corresponding to a single spin component and
 carrying given indices.
 
-:param c: Which spin component to construct, one of :py:class:`SpinComponent`
-          values.
+:param comp: Which spin component to construct, one of :py:class:`SpinComponent`
+             values.
 :param indices: Index sequence of the spin component operator.
 
 )=",
-    py::arg("c"), py::arg("indices")
+    py::arg("comp"), py::arg("indices")
   )
   .def(py::init<double, spin_component, dyn_indices const&>(),
 R"=(
@@ -534,11 +543,11 @@ Construct an operator for a general spin :math:`S` corresponding to a single
 spin component and carrying given indices.
 
 :param spin: Integer or half-integer value of spin :math:`S`.
-:param c: Which spin component to construct, one of :py:class:`SpinComponent`
-          values.
+:param comp: Which spin component to construct, one of :py:class:`SpinComponent`
+             values.
 :param indices: Index sequence of the spin component operator.
 )=",
-    py::arg("spin"), py::arg("c"), py::arg("indices")
+    py::arg("spin"), py::arg("comp"), py::arg("indices")
   )
   .def_property_readonly("multiplicity",
                          &generator_spin<dyn_indices>::multiplicity, R"=(
@@ -559,11 +568,11 @@ R"=(
 Make a spin-1/2 operator corresponding to a single spin component and carrying
 indices passed as positional arguments.
 
-:param c: Which spin component to construct, one of :py:class:`SpinComponent`
+:param comp: Which spin component to construct, one of :py:class:`SpinComponent`
           values.
 :param *args: Indices of the operator.
 )=",
-    py::arg("c")
+    py::arg("comp")
 );
   m.def("make_spin", [](double spin, spin_component c, py::args args) {
     return generator_spin<dyn_indices>(spin, c, args2dyn_indices(args));
@@ -573,11 +582,11 @@ Make an operator for a general spin :math:`S` corresponding to a single spin
 component and carrying indices passed as positional arguments.
 
 :param spin: Integer or half-integer value of spin :math:`S`.
-:param c: Which spin component to construct, one of :py:class:`SpinComponent`
-          values.
+:param comp: Which spin component to construct, one of :py:class:`SpinComponent`
+             values.
 :param *args: Indices of the operator.
 )=",
-    py::arg("spin"), py::arg("c")
+    py::arg("spin"), py::arg("comp")
   );
 }
 
@@ -589,7 +598,7 @@ component and carrying indices passed as positional arguments.
 
 void register_monomial(py::module_ & m) {
   py::classh<mon_type>(m, "Monomial",
-                       "Monomial: a product of algebra generators")
+                       "Monomial: A product of algebra generators")
   .def(py::init<>(),
        "Construct an identity monomial (a product of zero generators).")
   .def(py::init<std::vector<std::shared_ptr<const gen_type>> const&>(),
@@ -597,26 +606,30 @@ void register_monomial(py::module_ & m) {
   )
   .def("__len__", &mon_type::size, "Number of generators in this monomial.")
   // Ordering
-  .def(py::self == py::self)
-  .def(py::self != py::self)
-  .def(py::self < py::self)
-  .def(py::self > py::self)
+  .def(py::self == py::self, "Equality of monomials.")
+  .def(py::self != py::self, "Inequality of monomials.")
+  .def(py::self < py::self,
+       "Lexicographical less-comparison to another monomial.")
+  .def(py::self > py::self,
+       "Lexicographical greater-comparison to another monomial.")
   .def_property_readonly("is_ordered", &mon_type::is_ordered,
                          "Is this monomial canonically ordered?")
   // String representation
-  .def("__repr__", [ss = std::ostringstream()](mon_type const& m) mutable {
-    ss.str(std::string());
-    ss.clear();
-    ss << m;
-    return ss.str();
-  })
-  // Copying
-  .def("__copy__",  [](const mon_type &self) {
-    return mon_type(self);
-  })
-  .def("__deepcopy__", [](const mon_type &self, py::dict) {
-      return mon_type(self);
+  .def("__repr__",
+    [ss = std::ostringstream()](mon_type const& m) mutable {
+      ss.str(std::string());
+      ss.clear();
+      ss << m;
+      return ss.str();
     },
+    "String representation of the monomial."
+  )
+  // Copying
+  .def("__copy__",
+    [](const mon_type &self) { return mon_type(self); }
+  )
+  .def("__deepcopy__",
+    [](const mon_type &self, py::dict) { return mon_type(self); },
     py::arg("memo")
   )
   // Individual generator access
@@ -625,7 +638,7 @@ void register_monomial(py::module_ & m) {
         throw py::index_error();
       return m[n];
     },
-    "Get a generator in the monomial by its index.",
+    "Get a generator in the monomial by its position.",
     py::return_value_policy::reference
   )
   .def("__getitem__", [](mon_type const& m, py::slice slice) {
@@ -661,25 +674,33 @@ Swap two generators at given positions within the monomial.
   .def("__iter__", [](mon_type const& m) {
       return py::make_iterator(m.begin(), m.end());
     },
+    "Returns an iterator to the sequence of algebra generators.",
     py::keep_alive<0, 1>()
   )
   .def("__reverse__", [](mon_type const& m) {
       return py::make_iterator(m.rbegin(), m.rend());
     },
+    "Returns a reverse iterator to the sequence of algebra generators.",
     py::keep_alive<0, 1>()
   )
   // Concatenation
   .def("__mul__", [](mon_type const& m, gen_type const& g) {
       return concatenate(m, g);
-    }, py::is_operator()
+    },
+    "Multiplication of the monomial by an algebra generator from the right.",
+    py::is_operator()
   )
   .def("__rmul__", [](mon_type const& m, gen_type const& g) {
       return concatenate(g, m);
-    }, py::is_operator()
+    },
+    "Multiplication of the monomial by an algebra generator from the left.",
+    py::is_operator()
   )
   .def("__mul__", [](mon_type const& m1, mon_type const& m2) {
       return concatenate(m1, m2);
-    }, py::is_operator()
+    },
+    "Multiplication of the monomial by another monomial from the right.",
+    py::is_operator()
   );
 }
 
@@ -690,10 +711,14 @@ Swap two generators at given positions within the monomial.
 //
 
 template<typename ScalarType>
-auto register_expression(py::module_ & m,
-                         std::string const& class_name,
-                         std::string const& docstring) {
+auto register_expression(py::module_ & m, std::string const& class_name) {
   using expr_t = expression<ScalarType, dyn_indices>;
+
+  using namespace std::string_literals;
+  std::string st_text = scalar_type_name<ScalarType>();
+  std::string docstring = "Polynomial in quantum-mechanical operators with "s +
+                          st_text +
+                          " coefficients."s;
   py::classh<expr_t> c(m, class_name.c_str(), docstring.c_str());
 
   // Constructors
@@ -705,7 +730,7 @@ Construct a constant expression equal to :math:`x`.
 
 :param x: Constant :math:`x`.
 )=",
-       py::arg("x"))
+    py::arg("x"))
   .def(py::init<ScalarType const&, mon_type>(),
 R"=(
 Construct an expression with one monomial, :math:`x \cdot m`.
@@ -713,7 +738,7 @@ Construct an expression with one monomial, :math:`x \cdot m`.
 :param x: Coefficient :math:`x`.
 :param m: Monomial :math:`m`.
 )=",
-       py::arg("x"), py::arg("m")
+    py::arg("x"), py::arg("m")
   )
   // Copying
   .def("__copy__",  [](const expr_t &self) {
@@ -728,40 +753,62 @@ Construct an expression with one monomial, :math:`x \cdot m`.
   .def("__len__", &expr_t::size, "Number of monomials in this expression.")
   .def("clear", &expr_t::clear, "Reset expression to zero.")
   // Homogeneous arithmetic
-  .def(py::self == py::self)
-  .def(py::self != py::self)
-  .def(py::self + py::self)
-  .def(py::self - py::self)
-  .def(py::self * py::self)
+  .def(py::self == py::self, "Equality of two polynomial expressions.")
+  .def(py::self != py::self, "Inequality of two polynomial expressions.")
+  .def(py::self + py::self,
+       ("Addition of "s + st_text + " polynomial expressions."s).c_str())
+  .def(py::self - py::self,
+       ("Subtraction of "s + st_text + " polynomial expressions."s).c_str())
+  .def(py::self * py::self,
+       ("Multiplication of "s + st_text + " polynomial expressions."s).c_str())
   // Compound assignments
-  .def(py::self += py::self)
-  .def(py::self -= py::self)
-  .def(py::self *= py::self)
+  .def(py::self += py::self,
+       ("In-place addition of a "s + st_text +
+        " polynomial expression."s).c_str())
+  .def(py::self -= py::self,
+       ("In-place subtraction of a "s + st_text +
+        " polynomial expression."s).c_str())
+  .def(py::self *= py::self,
+       ("In-place multiplication by a "s + st_text +
+        " polynomial expression from the right."s).c_str())
   // Unary minus
-  .def(-py::self)
+  .def(-py::self, "Unary minus.")
   // Arithmetic involving constants
-  .def(py::self + ScalarType{})
-  .def(ScalarType{} + py::self)
-  .def(py::self - ScalarType{})
-  .def(ScalarType{} - py::self)
-  .def(py::self * ScalarType{})
-  .def(ScalarType{} * py::self)
+  .def(py::self + ScalarType{},
+       ("Right addition of a "s + st_text + " constant."s).c_str())
+  .def(ScalarType{} + py::self,
+       ("Left addition of a "s + st_text + " constant."s).c_str())
+  .def(py::self - ScalarType{},
+       ("Subtraction of a "s + st_text + " constant."s).c_str())
+  .def(ScalarType{} - py::self,
+       ("Subtraction from a "s + st_text + " constant."s).c_str())
+  .def(py::self * ScalarType{},
+       ("Right multiplication by a "s + st_text + " constant."s).c_str())
+  .def(ScalarType{} * py::self,
+       ("Left multiplication by a "s + st_text + " constant."s).c_str())
   // Compound assignments from constants
-  .def(py::self += ScalarType{})
-  .def(py::self -= ScalarType{})
-  .def(py::self *= ScalarType{})
+  .def(py::self += ScalarType{},
+       ("In-place addition of a "s + st_text + " constant."s).c_str())
+  .def(py::self -= ScalarType{},
+       ("In-place subtraction of a "s + st_text + " constant."s).c_str())
+  .def(py::self *= ScalarType{},
+       ("In-place multiplication by a "s + st_text + " constant."s).c_str())
   // String representation
-  .def("__repr__", [ss = std::ostringstream()](expr_t const& e) mutable {
-    ss.str(std::string());
-    ss.clear();
-    ss << e;
-    return ss.str();
-  })
+  .def("__repr__",
+    [ss = std::ostringstream()](expr_t const& e) mutable {
+      ss.str(std::string());
+      ss.clear();
+      ss << e;
+      return ss.str();
+    },
+    "String representation of the polynomial expression."
+  )
   // Iterator over monomials
   .def("__iter__", [](const expr_t &e) {
       return py::make_iterator(e.get_monomials().begin(),
                                e.get_monomials().end());
     },
+    "Returns an iterator over monomial-coefficient pairs in the expression.",
     py::keep_alive<0, 1>()
   );
 
@@ -769,7 +816,7 @@ Construct an expression with one monomial, :math:`x \cdot m`.
   m.def("conj",
         [](expr_t const& expr) { return conj(expr); },
 R"=(
-Hermitian conjugate.
+Hermitian conjugate of an expression.
 
 :param expr: Expression to conjugate.
 )=",
@@ -826,56 +873,76 @@ void register_expr_mixed_real_complex(py::module_ & m,
 
   // Heterogeneous arithmetic
   expr_r
-  .def("__add__", [](expr_real const& e1, expr_complex const& e2) {
-    return e1 + e2;
-  }, py::is_operator())
-  .def("__sub__", [](expr_real const& e1, expr_complex const& e2) {
-    return e1 - e2;
-  }, py::is_operator())
-  .def("__mul__", [](expr_real const& e1, expr_complex const& e2) {
-    return e1 * e2;
-  }, py::is_operator());
+  .def("__add__",
+       [](expr_real const& e1, expr_complex const& e2) {
+         return e1 + e2;
+       },
+       "Addition of two polynomial expressions (real + complex).",
+       py::is_operator())
+  .def("__sub__",
+       [](expr_real const& e1, expr_complex const& e2) {
+         return e1 - e2;
+       },
+       "Subtraction of two polynomial expressions (real - complex).",
+       py::is_operator())
+  .def("__mul__",
+       [](expr_real const& e1, expr_complex const& e2) {
+         return e1 * e2;
+       },
+       "Multiplication of two polynomial expressions (real * complex).",
+       py::is_operator());
   expr_c
-  .def("__add__", [](expr_complex const& e1, expr_real const& e2) {
-    return e1 + e2;
-  }, py::is_operator())
-  .def("__sub__", [](expr_complex const& e1, expr_real const& e2) {
-    return e1 - e2;
-  }, py::is_operator())
-  .def("__mul__", [](expr_complex const& e1, expr_real const& e2) {
-    return e1 * e2;
-  }, py::is_operator());
+  .def("__add__",
+       [](expr_complex const& e1, expr_real const& e2) {
+         return e1 + e2;
+       },
+       "Addition of two polynomial expressions (complex + real).",
+       py::is_operator())
+  .def("__sub__",
+       [](expr_complex const& e1, expr_real const& e2) {
+         return e1 - e2;
+       },
+       "Subtraction of two polynomial expressions (complex - real).",
+       py::is_operator())
+  .def("__mul__",
+       [](expr_complex const& e1, expr_real const& e2) {
+         return e1 * e2;
+       },
+       "Multiplication of two polynomial expressions (complex * real).",
+       py::is_operator());
   // Compound assignments real -> complex
   expr_c
-  .def(py::self += dynamic_indices::expr_real{})
-  .def(py::self -= dynamic_indices::expr_real{})
-  .def(py::self *= dynamic_indices::expr_real{});
+  .def(py::self += dynamic_indices::expr_real{},
+       "In-place addition of a real polynomial expression.")
+  .def(py::self -= dynamic_indices::expr_real{},
+       "In-place subtraction of a real polynomial expression.")
+  .def(py::self *= dynamic_indices::expr_real{},
+       "In-place multiplication by a real polynomial expression.");
   // Arithmetic involving constants
   expr_r
-  .def(py::self + std::complex<double>{})
-  .def(std::complex<double>{} + py::self)
-  .def(py::self - std::complex<double>{})
-  .def(std::complex<double>{} - py::self)
-  .def(py::self * std::complex<double>{})
-  .def(std::complex<double>{} * py::self);
+  .def(py::self + dcomplex{}, "Right addition of a complex constant.")
+  .def(dcomplex{} + py::self, "Left addition of a complex constant.")
+  .def(py::self - dcomplex{}, "Subtraction of a complex constant.")
+  .def(dcomplex{} - py::self, "Subtraction from a complex constant.")
+  .def(py::self * dcomplex{}, "Right multiplication by a complex constant.")
+  .def(dcomplex{} * py::self, "Left multiplication by a complex constant.");
   expr_c
-  .def(py::self + double{})
-  .def(double{} + py::self)
-  .def(py::self - double{})
-  .def(double{} - py::self)
-  .def(py::self * double{})
-  .def(double{} * py::self);
+  .def(py::self + double{}, "Right addition of a real constant.")
+  .def(double{} + py::self, "Left addition of a real constant.")
+  .def(py::self - double{}, "Subtraction of a real constant.")
+  .def(double{} - py::self, "Subtraction from a real constant.")
+  .def(py::self * double{}, "Right multiplication by a real constant.")
+  .def(double{} * py::self, "Left multiplication by a real constant.");
   // Compound assignments from real constants
   expr_c
-  .def(py::self += double{})
-  .def(py::self -= double{})
-  .def(py::self *= double{});
+  .def(py::self += double{}, "In-place addition of a real constant.")
+  .def(py::self -= double{}, "In-place subtraction of a real constant.")
+  .def(py::self *= double{}, "In-place multiplication by a real constant.");
 
   // transform() from real to complex and vice versa.
   m.def("transform",
-        [](dynamic_indices::expr_real const& expr, std::function<
-             std::complex<double>(mon_type const& m, double coeff)
-           > const& f)
+        [](dynamic_indices::expr_real const& expr,
+           std::function<dcomplex(mon_type const& m, double coeff)> const& f)
         { return transform(expr, f); },
 R"=(
 Apply a given function to all monomial/coefficient pairs and replace the
@@ -889,9 +956,8 @@ result in respective monomials being discarded.
     py::arg("expr"), py::arg("f")
   );
   m.def("transform",
-        [](dynamic_indices::expr_complex const& expr, std::function<
-            double(mon_type const& m, std::complex<double> coeff)
-           > const& f)
+        [](dynamic_indices::expr_complex const& expr,
+           std::function<double(mon_type const& m, dcomplex coeff)> const& f)
         { return transform(expr, f); },
 R"=(
 Apply a given function to all monomial/coefficient pairs and replace the
@@ -1028,6 +1094,8 @@ positional arguments.
   // It should be replaced by py::arg("spin") = 0.5 preceded by py::kw_only()
   // as soon as https://github.com/pybind/pybind11/issues/5840 is fixed.
   // This would also allow to remove the spin=1/2 overloads of S_p(), S_m(), ...
+  // Also, the "keyword-only" remarks would need to be removed from the
+  // docstrings.
   auto extract_spin_arg = [](py::kwargs const& kwargs) -> double {
     if(kwargs.size() == 1 && kwargs.contains("spin"))
       return kwargs["spin"].cast<double>();
@@ -1056,7 +1124,7 @@ R"=(
 Returns a general spin raising operator :math:`S_+` with indices passed as
 positional arguments.
 
-:param spin: Spin :math:`S`.
+:param spin: Spin :math:`S` (keyword-only).
 :param *args: Indices of the operator.
 )="
   )
@@ -1073,7 +1141,7 @@ R"=(
 Returns a general spin lowering operator :math:`S_-` with indices passed as
 positional arguments.
 
-:param spin: Spin :math:`S`.
+:param spin: Spin :math:`S` (keyword-only).
 :param *args: Indices of the operator.
 )="
   )
@@ -1096,7 +1164,7 @@ R"=(
 Returns a general spin :math:`S` x-projection operator :math:`S_x` with indices
 passed as positional arguments.
 
-:param spin: Spin :math:`S`.
+:param spin: Spin :math:`S` (keyword-only).
 :param *args: Indices of the operator.
 )="
   )
@@ -1120,7 +1188,7 @@ R"=(
 Returns a general spin :math:`S` y-projection operator :math:`S_y` with indices
 passed as positional arguments.
 
-:param spin: Spin :math:`S`.
+:param spin: Spin :math:`S` (keyword-only).
 :param *args: Indices of the operator.
 )="
   )
@@ -1136,7 +1204,7 @@ R"=(
 Returns a general spin :math:`S` z-projection operator :math:`S_z` with indices
 passed as positional arguments.
 
-:param spin: Spin :math:`S`.
+:param spin: Spin :math:`S` (keyword-only).
 :param *args: Indices of the operator.
 )="
   );
@@ -1174,12 +1242,16 @@ expressions.
 )="
   )
   .def("__radd__", [](decltype(hc), expr_real const& e){ return e + hc; },
+       "Add the Hermitian conjugate of a real expression.",
        py::is_operator())
   .def("__radd__", [](decltype(hc), expr_complex const& e){ return e + hc; },
+       "Add the Hermitian conjugate of a complex expression.",
        py::is_operator())
   .def("__rsub__", [](decltype(hc), expr_real const& e){ return e - hc; },
+       "Subtract the Hermitian conjugate of a real expression.",
        py::is_operator())
   .def("__rsub__", [](decltype(hc), expr_complex const& e){ return e - hc; },
+       "Subtract the Hermitian conjugate of a complex expression.",
        py::is_operator());
 
   m.attr("hc") = hc;
@@ -1194,7 +1266,7 @@ expressions.
 PYBIND11_MODULE(expression, m) {
 
   m.doc() = "Polynomial expressions involving quantum-mechanical operators "
-            "and manipulations with them";
+            "and manipulations with them.";
 
   register_dyn_indices(m);
 
@@ -1204,7 +1276,7 @@ PYBIND11_MODULE(expression, m) {
   //
 
   py::classh<gen_type, gen_type_trampoline> g(m, "Generator",
-    "Abstract algebra generator"
+    "Abstract algebra generator."
   );
 
   register_linear_function(m);
@@ -1225,14 +1297,8 @@ PYBIND11_MODULE(expression, m) {
 
   register_monomial(m);
 
-  auto expr_r = register_expression<double>(m,
-    "ExpressionR",
-    "Polynomial in quantum-mechanical operators with real coefficients"
-  );
-  auto expr_c = register_expression<std::complex<double>>(m,
-    "ExpressionC",
-    "Polynomial in quantum-mechanical operators with complex coefficients"
-  );
+  auto expr_r = register_expression<double>(m, "ExpressionR");
+  auto expr_c = register_expression<dcomplex>(m, "ExpressionC");
 
   expr_c.def(py::init<expression<double, dyn_indices> const&>(),
     "Construct from a real expression by complexifying its coefficients.",

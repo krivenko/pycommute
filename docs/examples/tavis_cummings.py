@@ -59,20 +59,20 @@ H_op = LOperatorR(H, hs)
 #
 
 # Method I (manual).
-H_mat1 = np.zeros((hs.dim, hs.dim))
-for i in range(hs.dim):
+H_mat1 = np.zeros((hs.vec_size, hs.vec_size))
+for i in range(hs.vec_size):
     # A column vector psi = {0, 0, ..., 1, ..., 0}
-    psi = np.zeros(hs.dim)
+    psi = np.zeros(hs.vec_size)
     psi[i] = 1.0
     # Act with H_op on psi and store the result the i-th column of H_mat
     H_mat1[:, i] = H_op * psi
 
 # Method II (automatic and faster).
 H_mat2 = make_matrix(H_op, hs)
-print("Max difference between H_mat and H_mat2:",
+print("Max difference between H_mat1 and H_mat2:",
       np.max(np.abs(H_mat1 - H_mat2)))
 
-# Use NumPy to compute eigenvalues of H_mat
+# Use NumPy to compute eigenvalues of H_mat1
 E = np.linalg.eigvals(H_mat1)
 
 print("Energies:", np.sort(E))

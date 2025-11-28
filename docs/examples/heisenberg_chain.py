@@ -44,7 +44,7 @@ H = heisenberg(exchange_matrix)
 # Total spin of the chain.
 S_tot = array(sum(S))
 
-# All three components of S commute with the Hamiltonian.
+# All three components of S_tot commute with the Hamiltonian.
 print("[H, S_x] =", (H * S_tot[0] - S_tot[0] * H))
 print("[H, S_y] =", (H * S_tot[1] - S_tot[1] * H))
 print("[H, S_z] =", (H * S_tot[2] - S_tot[2] * H))

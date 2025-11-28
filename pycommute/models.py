@@ -234,7 +234,7 @@ def zeeman(b: np.ndarray,
                  (\boldsymbol{\tau}_{\sigma\sigma'} \cdot \mathbf{B}_i)
                  \hat c^\dagger_{i,\sigma} \hat c_{i,\sigma'}.
 
-    The pre-factor 2 is the spin Landé factor, while the Bohr magneton and the
+    The prefactor 2 is the spin Landé factor, while the Bohr magneton and the
     Planck constant are set to unity. :math:`\boldsymbol{\tau}` is a vector of
     Pauli matrices, and operators
     :math:`\hat c^\dagger_{i,\sigma}`/:math:`\hat c_{i,\sigma}`
@@ -532,7 +532,8 @@ def kondo_int(
                          the localized spin operators
                          :math:`\hat{\mathbf{S}}_i`. By default, the localized
                          spin operators carry indices ``0, 1, ...``.
-    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
+    :param spin: Spin of the operators :math:`\hat{\mathbf{S}}_i`,
+                 1/2 by default.
     :return: Interaction term :math:`\hat H`.
     """
     assert J.ndim == 1
@@ -574,8 +575,8 @@ def holstein_int(
 
     .. math::
 
-        \hat H = \sum_{i=0}^{N-1}\sum_\sigma
-                g_i \hat n_{i,\sigma} (\hat a^\dagger_i + \hat a_i).
+        \hat H = \sum_{i=0}^{N-1} g_i \sum_\sigma
+                 \hat n_{i,\sigma} (\hat a^\dagger_i + \hat a_i).
 
     :param g: A length-:math:`N` vector of coupling constants :math:`g_i`.
     :param indices_up: An optional list of :math:`N` (multi-)indices to label
@@ -819,7 +820,7 @@ def slater_int(F: np.ndarray,
         \end{multline}
 
     :param F: List of :math:`L+1` radial Slater integrals
-              :math:`F_0, F_2, F_4, \ldots`.
+              :math:`F_0, F_2, F_4, \ldots`
     :param indices_up: An optional list of :math:`2L+1` (multi-)indices to label
                        the spin-up operators. By default, the spin-up operators
                        carry indices
@@ -911,7 +912,7 @@ def ising(J: np.ndarray,
                 fields :math:`h^t_i`. By default, all magnetic fields are zero.
     :param indices: An optional list of :math:`N` (multi-)indices to be used
                     instead of the simple numeric indices :math:`i`.
-    :param spin: Spin of operators :math:`\hat{S}^\alpha_i`, 1/2 by default.
+    :param spin: Spin of the operators :math:`\hat{S}^\alpha_i`, 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
     assert J.ndim == 2
@@ -969,7 +970,8 @@ def heisenberg(J: np.ndarray,
               By default, all magnetic fields are zero.
     :param indices: An optional list of :math:`N` (multi-)indices to be used
                     instead of the simple numeric indices :math:`i`.
-    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
+    :param spin: Spin of the operators :math:`\hat{\mathbf{S}}_i`,
+                 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
     assert J.ndim == 2
@@ -1030,7 +1032,8 @@ def anisotropic_heisenberg(J: Tuple[np.ndarray, np.ndarray, np.ndarray],
               By default, all magnetic fields are zero.
     :param indices: An optional list of :math:`N` (multi-)indices to be used
                     instead of the simple numeric indices :math:`i`.
-    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
+    :param spin: Spin of the operators :math:`\hat{\mathbf{S}}_i`,
+                 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
     assert len(J) == 3
@@ -1087,7 +1090,7 @@ def biquadratic_spin_int(J: np.ndarray,
               :math:`J_{ij}`.
     :param indices: An optional list of :math:`N` (multi-)indices to be used
                     instead of the simple numeric indices :math:`i`.
-    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1 by default.
+    :param spin: Spin of the operators :math:`\hat{\mathbf{S}}_i`, 1 by default.
     :return: Interaction term :math:`\hat H`.
     """
     assert J.ndim == 2
@@ -1130,7 +1133,8 @@ def dzyaloshinskii_moriya(D: np.ndarray,
               ``D[i,j,:]`` are vectors :math:`\mathbf{D}_{ij}`.
     :param indices: An optional list of :math:`N` (multi-)indices to be used
                     instead of the simple numeric indices :math:`i`.
-    :param spin: Spin of operators :math:`\hat{\mathbf{S}}_i`, 1/2 by default.
+    :param spin: Spin of the operators :math:`\hat{\mathbf{S}}_i`,
+                 1/2 by default.
     :return: Hamiltonian :math:`\hat H`.
     """
     assert D.ndim == 3
@@ -1196,7 +1200,7 @@ def spin_boson(eps: np.ndarray,
                           used instead of the simple numeric indices :math:`i`.
     :param indices_boson:  An optional list of :math:`M` (multi-)indices to be
                            used instead of the simple numeric indices :math:`m`.
-    :param spin: Spin of operators :math:`\hat{S}^\alpha_i`, 1/2 by default.
+    :param spin: Spin of the operators :math:`\hat{S}^\alpha_i`, 1/2 by default.
     :return: Spin-boson Hamiltonian :math:`\hat H`.
     """
     assert eps.ndim == 1
@@ -1281,7 +1285,7 @@ def rabi(eps: np.ndarray,
                          used instead of the simple numeric indices :math:`i`.
     :param indices_boson: An optional list of :math:`M` (multi-)indices to be
                           used instead of the simple numeric indices :math:`m`.
-    :param spin: Pseudo-spin of operators :math:`\hat{S}^\alpha_i`,
+    :param spin: Pseudo-spin of the operators :math:`\hat{S}^\alpha_i`,
                  1/2 by default (two-level atoms).
     :return: Spin-boson Hamiltonian :math:`\hat H`.
     """
@@ -1359,7 +1363,7 @@ def jaynes_cummings(eps: np.ndarray,
                          used instead of the simple numeric indices :math:`i`.
     :param indices_boson: An optional list of :math:`M` (multi-)indices to be
                           used instead of the simple numeric indices :math:`m`.
-    :param spin: Pseudo-spin of operators :math:`\hat{S}^\alpha_i`,
+    :param spin: Pseudo-spin of the operators :math:`\hat{S}^\alpha_i`,
                  1/2 by default (two-level atoms).
     :return: Spin-boson Hamiltonian :math:`\hat H`.
     """

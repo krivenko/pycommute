@@ -23,7 +23,7 @@ from networkx.generators.lattice import grid_2d_graph
 from networkx.linalg.graphmatrix import adjacency_matrix
 
 #
-# Let us define Hamiltonian of an electronic tight-binding model
+# Let us define Hamiltonian of the electronic tight-binding model
 # on a square lattice.
 #
 

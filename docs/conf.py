@@ -86,3 +86,6 @@ intersphinx_mapping = {
     'numpy': ('https://numpy.org/doc/stable', None),
     'libcommute': ('https://krivenko.github.io/libcommute/', None)
 }
+
+# Define the order in which automodule and autoclass members are listed
+autodoc_member_order = "groupwise"
