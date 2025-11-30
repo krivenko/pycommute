@@ -124,14 +124,6 @@ template<> struct type_caster<libcommute::var_number> {
 ////////////////////////////////////////////////////////////////////////////////
 
 //
-// Convert Python positional arguments to dyn_indices
-//
-
-inline dyn_indices args2dyn_indices(py::args args) {
-  return dyn_indices(args.cast<dyn_indices::indices_t>());
-}
-
-//
 // Register dynamic_indices::dyn_indices
 //
 // The 'Indices' objects are not the same thing as Python tuples because
@@ -235,20 +227,11 @@ List of pairs (tuples) of algebra generators and their respective coefficients,
 
 class gen_type_trampoline : public gen_type,
                             public py::trampoline_self_life_support {
-
-  dyn_indices init(py::args args) {
-    dyn_indices::indices_t v;
-    v.reserve(args.size());
-    for(auto const& a : args)
-      v.emplace_back(a.cast<std::variant<int, std::string>>());
-    return dyn_indices(std::move(v));
-  }
-
   public:
 
   using gen_type::gen_type;
 
-  gen_type_trampoline(py::args args) : gen_type(init(args)) {}
+  gen_type_trampoline(py::args args) : gen_type(args2dyn_indices(args)) {}
 
   int algebra_id() const override {
     PYBIND11_OVERRIDE_PURE(int, gen_type, algebra_id, );

@@ -55,38 +55,15 @@ using lop_type = loperator<ScalarType, fermion, boson, spin>;
 ////////////////////////////////////////////////////////////////////////////////
 
 //
-// Convert Python positional arguments into dyn_indices::indices_t
-//
-
-dyn_indices::indices_t args2indices_t(py::args args) {
-  dyn_indices::indices_t v;
-  v.reserve(args.size());
-  for(auto const& a : args)
-    v.emplace_back(a.cast<std::variant<int, std::string>>());
-  return v;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-
-//
 // Helper classes for abstract base elementary_space<dyn_indices>
 //
 
 class es_type_trampoline : public es_type {
-
-  dyn_indices init(py::args args) {
-    dyn_indices::indices_t v;
-    v.reserve(args.size());
-    for(auto const& a : args)
-      v.emplace_back(a.cast<std::variant<int, std::string>>());
-    return dyn_indices(std::move(v));
-  }
-
   public:
 
   using es_type::es_type;
 
-  es_type_trampoline(py::args args) : es_type(init(args)) {}
+  es_type_trampoline(py::args args) : es_type(args2dyn_indices(args)) {}
 
   int algebra_id() const override {
     PYBIND11_OVERRIDE_PURE(int, es_type, algebra_id, );
@@ -205,7 +182,7 @@ operator acts in.
   );
 
   m.def("make_space_fermion", [](py::args args) {
-    return elementary_space_fermion<dyn_indices>(args2indices_t(args));
+    return elementary_space_fermion<dyn_indices>(args2dyn_indices(args));
   },
 R"=(
 Make a fermionic elementary space with indices passed as positional arguments.
@@ -243,7 +220,7 @@ Construct an elementary space a bosonic creation/annihilation operator acts in.
   );
 
   m.def("make_space_boson", [](sv_index_type dim, py::args args) {
-    return elementary_space_boson<dyn_indices>(dim, args2indices_t(args));
+    return elementary_space_boson<dyn_indices>(dim, args2dyn_indices(args));
   },
 R"=(
 Make a bosonic elementary space with indices passed as positional arguments.
@@ -283,7 +260,7 @@ Construct an elementary space spin-:math:`S` operators act in.
   );
 
   m.def("make_space_spin", [](double spin, py::args args) {
-    return elementary_space_spin<dyn_indices>(spin, args2indices_t(args));
+    return elementary_space_spin<dyn_indices>(spin, args2dyn_indices(args));
   },
 R"=(
 Make a spin elementary space with indices passed as positional arguments.

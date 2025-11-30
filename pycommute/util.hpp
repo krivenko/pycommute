@@ -14,6 +14,10 @@
 #ifndef PYCOMMUTE_UTIL_HPP_
 #define PYCOMMUTE_UTIL_HPP_
 
+#include <pybind11/pybind11.h>
+
+#include <libcommute/expression/dyn_indices.hpp>
+
 #include <cmath>
 #include <string>
 #include <type_traits>
@@ -32,6 +36,16 @@ template<typename ScalarType> std::string scalar_type_name() {
     return std::string("real");
   else
     return std::string("complex");
+}
+
+//
+// Convert Python positional arguments to dyn_indices
+//
+
+inline libcommute::dynamic_indices::dyn_indices
+args2dyn_indices(pybind11::args args) {
+  using libcommute::dynamic_indices::dyn_indices;
+  return dyn_indices(args.cast<dyn_indices::indices_t>());
 }
 
 #endif
