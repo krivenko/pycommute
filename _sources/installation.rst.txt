@@ -23,7 +23,7 @@ Installing *pycommute* from sources is as easy as running
 
 .. code::
 
-  LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" python setup.py install
+  LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" pip install .
 
 in the unpacked source directory. ``<path_to_libcommute>`` must be either
 installation or source directory of *libcommute*.
@@ -34,8 +34,8 @@ If you need to build documentation locally, you should additionally run
 
   sphinx-build docs/ <path_to_sphinx_output_dir>
 
-Automated installation using ``pip``
-------------------------------------
+Automated installation of the PyPI package
+------------------------------------------
 
 .. code::
 
@@ -45,7 +45,7 @@ Docker images
 -------------
 
 Docker images of tagged releases of *pycommute* are available from
-`Docker Hub <https://hub.docker.com/repository/docker/ikrivenko/pycommute>`_.
+`Docker Hub <https://hub.docker.com/r/ikrivenko/pycommute>`_.
 
 .. code::
 

@@ -7,7 +7,7 @@
 
 Functions in this module return
 :py:class:`real <pycommute.expression.ExpressionR>` or
-:py:class:`complex expression objects <pycommute.expression.ExpressionC>`
+:py:class:`complex <pycommute.expression.ExpressionC>` expression objects
 corresponding to some Hamiltonians widely used in the theory of quantum
 many-body systems, quantum optics and statistical mechanics of interacting
 spins.

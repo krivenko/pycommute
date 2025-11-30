@@ -132,7 +132,7 @@ to easily generate the adjacency matrix of the periodic square lattice.</p>
 <span class="linenos"> 13</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.linalg.graphmatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjacency_matrix</span>
 <span class="linenos"> 14</span>
 <span class="linenos"> 15</span><span class="c1">#</span>
-<span class="linenos"> 16</span><span class="c1"># Let us define Hamiltonian of an electronic tight-binding model</span>
+<span class="linenos"> 16</span><span class="c1"># Let us define Hamiltonian of the electronic tight-binding model</span>
 <span class="linenos"> 17</span><span class="c1"># on a square lattice.</span>
 <span class="linenos"> 18</span><span class="c1">#</span>
 <span class="linenos"> 19</span>
@@ -283,7 +283,7 @@ and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}
 <span class="linenos">34</span><span class="c1"># Total spin of the chain.</span>
 <span class="linenos">35</span><span class="n">S_tot</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
 <span class="linenos">36</span>
-<span class="linenos">37</span><span class="c1"># All three components of S commute with the Hamiltonian.</span>
+<span class="linenos">37</span><span class="c1"># All three components of S_tot commute with the Hamiltonian.</span>
 <span class="linenos">38</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, S_x] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
 <span class="linenos">39</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, S_y] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
 <span class="linenos">40</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H, S_z] =&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">H</span> <span class="o">*</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">S_tot</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">H</span><span class="p">))</span>
@@ -341,8 +341,8 @@ representation of our problem.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Performance of repeated calls to
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorR</span></code></a> or to
-<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorC</span></code></a> in order to construct
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorR" title="pycommute.loperator.LOperatorR"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorR</span></code></a> (or
+<a class="reference internal" href="loperator_ref.html#pycommute.loperator.LOperatorC" title="pycommute.loperator.LOperatorC"><code class="xref py py-class docutils literal notranslate"><span class="pre">LOperatorC</span></code></a>) in order to construct
 a matrix representation of a linear operator is limited by Python method
 call overhead. For large-scale problems it is advised to call the utility
 function <a class="reference internal" href="loperator_ref.html#pycommute.loperator.make_matrix" title="pycommute.loperator.make_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code></a>.</p>
@@ -398,20 +398,20 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">49</span><span class="c1">#</span>
 <span class="linenos">50</span>
 <span class="linenos">51</span><span class="c1"># Method I (manual).</span>
-<span class="linenos">52</span><span class="n">H_mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">))</span>
-<span class="linenos">53</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">):</span>
+<span class="linenos">52</span><span class="n">H_mat1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">hs</span><span class="o">.</span><span class="n">vec_size</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">vec_size</span><span class="p">))</span>
+<span class="linenos">53</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">vec_size</span><span class="p">):</span>
 <span class="linenos">54</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
-<span class="linenos">55</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="linenos">55</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">hs</span><span class="o">.</span><span class="n">vec_size</span><span class="p">)</span>
 <span class="linenos">56</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
 <span class="linenos">57</span>    <span class="c1"># Act with H_op on psi and store the result the i-th column of H_mat</span>
 <span class="linenos">58</span>    <span class="n">H_mat1</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">H_op</span> <span class="o">*</span> <span class="n">psi</span>
 <span class="linenos">59</span>
 <span class="linenos">60</span><span class="c1"># Method II (automatic and faster).</span>
 <span class="linenos">61</span><span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
-<span class="linenos">62</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference between H_mat and H_mat2:&quot;</span><span class="p">,</span>
+<span class="linenos">62</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference between H_mat1 and H_mat2:&quot;</span><span class="p">,</span>
 <span class="linenos">63</span>      <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat1</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
 <span class="linenos">64</span>
-<span class="linenos">65</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat</span>
+<span class="linenos">65</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat1</span>
 <span class="linenos">66</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat1</span><span class="p">)</span>
 <span class="linenos">67</span>
 <span class="linenos">68</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
@@ -466,7 +466,7 @@ to independently diagonalize the Hamiltonian within each sector.</p>
 <span class="linenos">32</span>
 <span class="linenos">33</span><span class="c1"># The first value returned by &#39;make_space_partition()&#39; is a</span>
 <span class="linenos">34</span><span class="c1"># SpacePartition object. It represents a partition of the full Hilbert space</span>
-<span class="linenos">35</span><span class="c1"># into sectors, i.e. subspaces invariant under action of &#39;H_op&#39;.</span>
+<span class="linenos">35</span><span class="c1"># into sectors, i.e. subspaces invariant under the action of &#39;H_op&#39;.</span>
 <span class="linenos">36</span><span class="c1">#</span>
 <span class="linenos">37</span><span class="c1"># The second returned value is a dictionary {(i, j): value} of all non-vanishing</span>
 <span class="linenos">38</span><span class="c1"># matrix elements of H_{ij}. By definition, all matrix elements of &#39;H_op&#39;</span>
@@ -521,7 +521,7 @@ to independently diagonalize the Hamiltonian within each sector.</p>
 <span class="linenos">87</span>
 <span class="linenos">88</span>    <span class="c1"># Method II (automatic and faster).</span>
 <span class="linenos">89</span>    <span class="n">H_mat2</span> <span class="o">=</span> <span class="n">make_matrix</span><span class="p">(</span><span class="n">H_op</span><span class="p">,</span> <span class="n">sector</span><span class="p">)</span>
-<span class="linenos">90</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference between H_mat and H_mat2:&quot;</span><span class="p">,</span>
+<span class="linenos">90</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference between H_mat1 and H_mat2:&quot;</span><span class="p">,</span>
 <span class="linenos">91</span>          <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat1</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
 <span class="linenos">92</span>
 <span class="linenos">93</span>    <span class="c1"># Use NumPy to compute eigenvalues of &#39;H_mat1&#39;.</span>
@@ -565,153 +565,158 @@ and a multisector with <span class="math notranslate nohighlight">\(N_\uparrow =
 a purely fermionic system. The definitions of a sector and a
 multisector stand in presence of bosons or spins.</p>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="linenos">  2</span>
-<span class="linenos">  3</span><span class="c1"># Utility functions used to construct the Fermi-Hubbard Hamiltonian.</span>
-<span class="linenos">  4</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">tight_binding</span><span class="p">,</span> <span class="n">dispersion</span><span class="p">,</span> <span class="n">hubbard_int</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">#</span>
+<span class="linenos">  2</span><span class="c1"># Fermi-Hubbard model on a large square lattice and diagonalization of</span>
+<span class="linenos">  3</span><span class="c1"># its moderately sized sectors.</span>
+<span class="linenos">  4</span><span class="c1">#</span>
 <span class="linenos">  5</span>
-<span class="linenos">  6</span><span class="c1"># Hilbert space.</span>
-<span class="linenos">  7</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">HilbertSpace</span>
-<span class="linenos">  8</span>
-<span class="linenos">  9</span><span class="c1"># Real-valued linear operator object.</span>
-<span class="linenos"> 10</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOperatorR</span>
-<span class="linenos"> 11</span><span class="c1"># Real-valued N-fermion (multi)sector views and related functions</span>
-<span class="linenos"> 12</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<span class="linenos"> 13</span>    <span class="n">NFermionSectorViewR</span><span class="p">,</span>
-<span class="linenos"> 14</span>    <span class="n">NFermionMultiSectorViewR</span><span class="p">,</span>
-<span class="linenos"> 15</span>    <span class="n">n_fermion_sector_size</span><span class="p">,</span>
-<span class="linenos"> 16</span>    <span class="n">n_fermion_multisector_size</span>
-<span class="linenos"> 17</span><span class="p">)</span>
-<span class="linenos"> 18</span>
-<span class="linenos"> 19</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.generators.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">grid_2d_graph</span>
-<span class="linenos"> 20</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.linalg.graphmatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjacency_matrix</span>
-<span class="linenos"> 21</span>
-<span class="linenos"> 22</span><span class="c1">#</span>
-<span class="linenos"> 23</span><span class="c1"># Let us define Hamiltonian of a tight-binding model on a square lattice.</span>
-<span class="linenos"> 24</span><span class="c1">#</span>
-<span class="linenos"> 25</span>
-<span class="linenos"> 26</span><span class="c1"># Number of lattice sites in each direction</span>
-<span class="linenos"> 27</span><span class="c1"># (the total number of sites is Nx * Ny).</span>
-<span class="linenos"> 28</span><span class="n">Nx</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="linenos"> 29</span><span class="n">Ny</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="linenos">  6</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span><span class="c1"># Utility functions used to construct the Fermi-Hubbard Hamiltonian.</span>
+<span class="linenos">  9</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">tight_binding</span><span class="p">,</span> <span class="n">dispersion</span><span class="p">,</span> <span class="n">hubbard_int</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="c1"># Hilbert space.</span>
+<span class="linenos"> 12</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">HilbertSpace</span>
+<span class="linenos"> 13</span>
+<span class="linenos"> 14</span><span class="c1"># Real-valued linear operator object.</span>
+<span class="linenos"> 15</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="n">LOperatorR</span>
+<span class="linenos"> 16</span><span class="c1"># Real-valued N-fermion (multi)sector views and related functions</span>
+<span class="linenos"> 17</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.loperator</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+<span class="linenos"> 18</span>    <span class="n">NFermionSectorViewR</span><span class="p">,</span>
+<span class="linenos"> 19</span>    <span class="n">NFermionMultiSectorViewR</span><span class="p">,</span>
+<span class="linenos"> 20</span>    <span class="n">n_fermion_sector_size</span><span class="p">,</span>
+<span class="linenos"> 21</span>    <span class="n">n_fermion_multisector_size</span>
+<span class="linenos"> 22</span><span class="p">)</span>
+<span class="linenos"> 23</span>
+<span class="linenos"> 24</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.generators.lattice</span><span class="w"> </span><span class="kn">import</span> <span class="n">grid_2d_graph</span>
+<span class="linenos"> 25</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.linalg.graphmatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjacency_matrix</span>
+<span class="linenos"> 26</span>
+<span class="linenos"> 27</span><span class="c1">#</span>
+<span class="linenos"> 28</span><span class="c1"># Let us define Hamiltonian of a tight-binding model on a square lattice.</span>
+<span class="linenos"> 29</span><span class="c1">#</span>
 <span class="linenos"> 30</span>
-<span class="linenos"> 31</span><span class="c1"># Hopping constant</span>
-<span class="linenos"> 32</span><span class="n">t</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="linenos"> 33</span><span class="c1"># Chemical potential</span>
-<span class="linenos"> 34</span><span class="n">mu</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="linenos"> 35</span><span class="c1"># Coulomb repulsion</span>
-<span class="linenos"> 36</span><span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="linenos"> 37</span>
-<span class="linenos"> 38</span><span class="c1"># Use NetworkX to construct the periodic square lattice (graph)</span>
-<span class="linenos"> 39</span><span class="n">lat</span> <span class="o">=</span> <span class="n">grid_2d_graph</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span> <span class="n">Ny</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="linenos"> 40</span>
-<span class="linenos"> 41</span><span class="c1"># Create lists of indices for spin-up and spin-down operators.</span>
-<span class="linenos"> 42</span><span class="c1"># lat.nodes() returns a list of Nx * Ny pairs of site indices (x, y).</span>
-<span class="linenos"> 43</span><span class="n">indices_up</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
-<span class="linenos"> 44</span><span class="n">indices_dn</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+<span class="linenos"> 31</span><span class="c1"># Number of lattice sites in each direction</span>
+<span class="linenos"> 32</span><span class="c1"># (the total number of sites is Nx * Ny).</span>
+<span class="linenos"> 33</span><span class="n">Nx</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="linenos"> 34</span><span class="n">Ny</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="c1"># Hopping constant</span>
+<span class="linenos"> 37</span><span class="n">t</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="linenos"> 38</span><span class="c1"># Chemical potential</span>
+<span class="linenos"> 39</span><span class="n">mu</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="linenos"> 40</span><span class="c1"># Coulomb repulsion</span>
+<span class="linenos"> 41</span><span class="n">U</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="linenos"> 42</span>
+<span class="linenos"> 43</span><span class="c1"># Use NetworkX to construct the periodic square lattice (graph)</span>
+<span class="linenos"> 44</span><span class="n">lat</span> <span class="o">=</span> <span class="n">grid_2d_graph</span><span class="p">(</span><span class="n">Nx</span><span class="p">,</span> <span class="n">Ny</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="linenos"> 45</span>
-<span class="linenos"> 46</span><span class="c1"># A sum of tight-binding Hamiltonians for both spins.</span>
-<span class="linenos"> 47</span><span class="c1"># The hopping matrix passed to tight_binding() is proportional to the</span>
-<span class="linenos"> 48</span><span class="c1"># adjacency matrix of the lattice.</span>
-<span class="linenos"> 49</span><span class="n">hopping_matrix</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">adjacency_matrix</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
-<span class="linenos"> 50</span><span class="n">H</span> <span class="o">=</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_up</span><span class="p">)</span> \
-<span class="linenos"> 51</span>    <span class="o">+</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
-<span class="linenos"> 52</span>
-<span class="linenos"> 53</span><span class="c1"># Add the chemical potential terms</span>
-<span class="linenos"> 54</span><span class="n">H</span> <span class="o">+=</span> <span class="n">dispersion</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_up</span><span class="p">)),</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_up</span><span class="p">)</span>
-<span class="linenos"> 55</span><span class="n">H</span> <span class="o">+=</span> <span class="n">dispersion</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_dn</span><span class="p">)),</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
-<span class="linenos"> 56</span>
-<span class="linenos"> 57</span><span class="c1"># Add the Hubbard interaction term</span>
-<span class="linenos"> 58</span><span class="n">H</span> <span class="o">+=</span> <span class="n">hubbard_int</span><span class="p">(</span><span class="n">U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_up</span><span class="p">)),</span>
-<span class="linenos"> 59</span>                 <span class="n">indices_up</span><span class="o">=</span><span class="n">indices_up</span><span class="p">,</span>
-<span class="linenos"> 60</span>                 <span class="n">indices_dn</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
+<span class="linenos"> 46</span><span class="c1"># Create lists of indices for spin-up and spin-down operators.</span>
+<span class="linenos"> 47</span><span class="c1"># lat.nodes() returns a list of Nx * Ny pairs of site indices (x, y).</span>
+<span class="linenos"> 48</span><span class="n">indices_up</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+<span class="linenos"> 49</span><span class="n">indices_dn</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="c1"># A sum of tight-binding Hamiltonians for both spins.</span>
+<span class="linenos"> 52</span><span class="c1"># The hopping matrix passed to tight_binding() is proportional to the</span>
+<span class="linenos"> 53</span><span class="c1"># adjacency matrix of the lattice.</span>
+<span class="linenos"> 54</span><span class="n">hopping_matrix</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">adjacency_matrix</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+<span class="linenos"> 55</span><span class="n">H</span> <span class="o">=</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_up</span><span class="p">)</span> \
+<span class="linenos"> 56</span>    <span class="o">+</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
+<span class="linenos"> 57</span>
+<span class="linenos"> 58</span><span class="c1"># Add the chemical potential terms</span>
+<span class="linenos"> 59</span><span class="n">H</span> <span class="o">+=</span> <span class="n">dispersion</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_up</span><span class="p">)),</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_up</span><span class="p">)</span>
+<span class="linenos"> 60</span><span class="n">H</span> <span class="o">+=</span> <span class="n">dispersion</span><span class="p">(</span><span class="o">-</span><span class="n">mu</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_dn</span><span class="p">)),</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
 <span class="linenos"> 61</span>
-<span class="linenos"> 62</span><span class="c1"># Analyze structure of H and construct a suitable Hilbert space.</span>
-<span class="linenos"> 63</span><span class="n">hs</span> <span class="o">=</span> <span class="n">HilbertSpace</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
-<span class="linenos"> 64</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Full Hilbert space dimension:&quot;</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
-<span class="linenos"> 65</span>
-<span class="linenos"> 66</span><span class="c1"># Construct a linear operator corresponding to H and acting in the Hilbert</span>
-<span class="linenos"> 67</span><span class="c1"># space &#39;hs&#39;.</span>
-<span class="linenos"> 68</span><span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
-<span class="linenos"> 69</span>
-<span class="linenos"> 70</span><span class="c1">#</span>
-<span class="linenos"> 71</span><span class="c1"># Diagonalize the N = 2 sector of the model using &#39;NFermionSectorViewR&#39;</span>
-<span class="linenos"> 72</span><span class="c1">#</span>
-<span class="linenos"> 73</span>
-<span class="linenos"> 74</span><span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>
-<span class="linenos"> 75</span>
-<span class="linenos"> 76</span><span class="n">sector_size</span> <span class="o">=</span> <span class="n">n_fermion_sector_size</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-<span class="linenos"> 77</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of the N = 2 sector:&quot;</span><span class="p">,</span> <span class="n">sector_size</span><span class="p">)</span>
+<span class="linenos"> 62</span><span class="c1"># Add the Hubbard interaction term</span>
+<span class="linenos"> 63</span><span class="n">H</span> <span class="o">+=</span> <span class="n">hubbard_int</span><span class="p">(</span><span class="n">U</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices_up</span><span class="p">)),</span>
+<span class="linenos"> 64</span>                 <span class="n">indices_up</span><span class="o">=</span><span class="n">indices_up</span><span class="p">,</span>
+<span class="linenos"> 65</span>                 <span class="n">indices_dn</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
+<span class="linenos"> 66</span>
+<span class="linenos"> 67</span><span class="c1"># Analyze structure of H and construct a suitable Hilbert space.</span>
+<span class="linenos"> 68</span><span class="n">hs</span> <span class="o">=</span> <span class="n">HilbertSpace</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+<span class="linenos"> 69</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Full Hilbert space dimension:&quot;</span><span class="p">,</span> <span class="n">hs</span><span class="o">.</span><span class="n">dim</span><span class="p">)</span>
+<span class="linenos"> 70</span>
+<span class="linenos"> 71</span><span class="c1"># Construct a linear operator corresponding to H and acting in the Hilbert</span>
+<span class="linenos"> 72</span><span class="c1"># space &#39;hs&#39;.</span>
+<span class="linenos"> 73</span><span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
+<span class="linenos"> 74</span>
+<span class="linenos"> 75</span><span class="c1">#</span>
+<span class="linenos"> 76</span><span class="c1"># Diagonalize the N = 2 sector of the model using &#39;NFermionSectorViewR&#39;</span>
+<span class="linenos"> 77</span><span class="c1">#</span>
 <span class="linenos"> 78</span>
-<span class="linenos"> 79</span><span class="c1"># Prepare a matrix representation of H_op within the N = 2 sector.</span>
-<span class="linenos"> 80</span><span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sector_size</span><span class="p">,</span> <span class="n">sector_size</span><span class="p">))</span>
-<span class="linenos"> 81</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sector_size</span><span class="p">):</span>
-<span class="linenos"> 82</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
-<span class="linenos"> 83</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_size</span><span class="p">)</span>
-<span class="linenos"> 84</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="linenos"> 85</span>    <span class="c1"># This vector will receive the result of H_op * psi</span>
-<span class="linenos"> 86</span>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_size</span><span class="p">)</span>
-<span class="linenos"> 87</span>
-<span class="linenos"> 88</span>    <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
-<span class="linenos"> 89</span>    <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
-<span class="linenos"> 90</span>    <span class="c1"># size hs.dim.</span>
-<span class="linenos"> 91</span>    <span class="c1"># Instead, we are going to use real-valued 2-fermion sector views of</span>
-<span class="linenos"> 92</span>    <span class="c1"># psi and phi.</span>
-<span class="linenos"> 93</span>    <span class="n">psi_view</span> <span class="o">=</span> <span class="n">NFermionSectorViewR</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-<span class="linenos"> 94</span>    <span class="n">phi_view</span> <span class="o">=</span> <span class="n">NFermionSectorViewR</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
-<span class="linenos"> 95</span>
-<span class="linenos"> 96</span>    <span class="c1"># Now, H_op can act on the mapped views.</span>
-<span class="linenos"> 97</span>    <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
-<span class="linenos"> 98</span>
-<span class="linenos"> 99</span>    <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
-<span class="linenos">100</span>    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
-<span class="linenos">101</span>
-<span class="linenos">102</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
-<span class="linenos">103</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
-<span class="linenos">104</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the N = 2 sector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
-<span class="linenos">105</span>
-<span class="linenos">106</span><span class="c1">#</span>
-<span class="linenos">107</span><span class="c1"># Diagonalize the N_up = 1, N_down = 1 multisector of the model using</span>
-<span class="linenos">108</span><span class="c1"># &#39;NFermionMultiSectorViewR&#39;</span>
-<span class="linenos">109</span><span class="c1">#</span>
+<span class="linenos"> 79</span><span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="linenos"> 80</span>
+<span class="linenos"> 81</span><span class="n">sector_size</span> <span class="o">=</span> <span class="n">n_fermion_sector_size</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="linenos"> 82</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of the N = 2 sector:&quot;</span><span class="p">,</span> <span class="n">sector_size</span><span class="p">)</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="c1"># Prepare a matrix representation of H_op within the N = 2 sector.</span>
+<span class="linenos"> 85</span><span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">sector_size</span><span class="p">,</span> <span class="n">sector_size</span><span class="p">))</span>
+<span class="linenos"> 86</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sector_size</span><span class="p">):</span>
+<span class="linenos"> 87</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
+<span class="linenos"> 88</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_size</span><span class="p">)</span>
+<span class="linenos"> 89</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="linenos"> 90</span>    <span class="c1"># This vector will receive the result of H_op * psi</span>
+<span class="linenos"> 91</span>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">sector_size</span><span class="p">)</span>
+<span class="linenos"> 92</span>
+<span class="linenos"> 93</span>    <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
+<span class="linenos"> 94</span>    <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
+<span class="linenos"> 95</span>    <span class="c1"># size hs.dim.</span>
+<span class="linenos"> 96</span>    <span class="c1"># Instead, we are going to use real-valued 2-fermion sector views of</span>
+<span class="linenos"> 97</span>    <span class="c1"># psi and phi.</span>
+<span class="linenos"> 98</span>    <span class="n">psi_view</span> <span class="o">=</span> <span class="n">NFermionSectorViewR</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="linenos"> 99</span>    <span class="n">phi_view</span> <span class="o">=</span> <span class="n">NFermionSectorViewR</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="linenos">100</span>
+<span class="linenos">101</span>    <span class="c1"># Now, H_op can act on the mapped views.</span>
+<span class="linenos">102</span>    <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
+<span class="linenos">103</span>
+<span class="linenos">104</span>    <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
+<span class="linenos">105</span>    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
+<span class="linenos">108</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+<span class="linenos">109</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the N = 2 sector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
 <span class="linenos">110</span>
-<span class="linenos">111</span><span class="n">N_up</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="linenos">112</span><span class="n">N_dn</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="linenos">113</span>
-<span class="linenos">114</span><span class="c1"># Define sectors contributing to the multisector</span>
-<span class="linenos">115</span><span class="n">sector_up</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_up</span><span class="p">,</span> <span class="n">N_up</span><span class="p">)</span>
-<span class="linenos">116</span><span class="n">sector_dn</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_dn</span><span class="p">,</span> <span class="n">N_dn</span><span class="p">)</span>
-<span class="linenos">117</span>
-<span class="linenos">118</span><span class="n">sectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">sector_up</span><span class="p">,</span> <span class="n">sector_dn</span><span class="p">]</span>
-<span class="linenos">119</span>
-<span class="linenos">120</span><span class="n">multisector_size</span> <span class="o">=</span> <span class="n">n_fermion_multisector_size</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
-<span class="linenos">121</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of the N_up = 1, N_down = 1 multisector:&quot;</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">)</span>
+<span class="linenos">111</span><span class="c1">#</span>
+<span class="linenos">112</span><span class="c1"># Diagonalize the N_up = 1, N_down = 1 multisector of the model using</span>
+<span class="linenos">113</span><span class="c1"># &#39;NFermionMultiSectorViewR&#39;</span>
+<span class="linenos">114</span><span class="c1">#</span>
+<span class="linenos">115</span>
+<span class="linenos">116</span><span class="n">N_up</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">117</span><span class="n">N_dn</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">118</span>
+<span class="linenos">119</span><span class="c1"># Define sectors contributing to the multisector</span>
+<span class="linenos">120</span><span class="n">sector_up</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_up</span><span class="p">,</span> <span class="n">N_up</span><span class="p">)</span>
+<span class="linenos">121</span><span class="n">sector_dn</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_dn</span><span class="p">,</span> <span class="n">N_dn</span><span class="p">)</span>
 <span class="linenos">122</span>
-<span class="linenos">123</span><span class="c1"># Prepare a matrix representation of H_op within the multisector.</span>
-<span class="linenos">124</span><span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">multisector_size</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">))</span>
-<span class="linenos">125</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">):</span>
-<span class="linenos">126</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
-<span class="linenos">127</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
-<span class="linenos">128</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="linenos">129</span>    <span class="c1"># This vector will receive the result of H_op * psi</span>
-<span class="linenos">130</span>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
-<span class="linenos">131</span>
-<span class="linenos">132</span>    <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
-<span class="linenos">133</span>    <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
-<span class="linenos">134</span>    <span class="c1"># size hs.dim.</span>
-<span class="linenos">135</span>    <span class="c1"># Instead, we are going to use real-valued multisector views of psi and phi.</span>
-<span class="linenos">136</span>    <span class="n">psi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
-<span class="linenos">137</span>    <span class="n">phi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
-<span class="linenos">138</span>
-<span class="linenos">139</span>    <span class="c1"># Now, H_op can act on the mapped views.</span>
-<span class="linenos">140</span>    <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
-<span class="linenos">141</span>
-<span class="linenos">142</span>    <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
-<span class="linenos">143</span>    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
-<span class="linenos">144</span>
-<span class="linenos">145</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
-<span class="linenos">146</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
-<span class="linenos">147</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the multisector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="linenos">123</span><span class="n">sectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">sector_up</span><span class="p">,</span> <span class="n">sector_dn</span><span class="p">]</span>
+<span class="linenos">124</span>
+<span class="linenos">125</span><span class="n">multisector_size</span> <span class="o">=</span> <span class="n">n_fermion_multisector_size</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
+<span class="linenos">126</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of the N_up = 1, N_down = 1 multisector:&quot;</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">)</span>
+<span class="linenos">127</span>
+<span class="linenos">128</span><span class="c1"># Prepare a matrix representation of H_op within the multisector.</span>
+<span class="linenos">129</span><span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">multisector_size</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">))</span>
+<span class="linenos">130</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">):</span>
+<span class="linenos">131</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
+<span class="linenos">132</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
+<span class="linenos">133</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="linenos">134</span>    <span class="c1"># This vector will receive the result of H_op * psi</span>
+<span class="linenos">135</span>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
+<span class="linenos">136</span>
+<span class="linenos">137</span>    <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
+<span class="linenos">138</span>    <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
+<span class="linenos">139</span>    <span class="c1"># size hs.dim.</span>
+<span class="linenos">140</span>    <span class="c1"># Instead, we are going to use real-valued multisector views of psi and phi.</span>
+<span class="linenos">141</span>    <span class="n">psi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
+<span class="linenos">142</span>    <span class="n">phi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
+<span class="linenos">143</span>
+<span class="linenos">144</span>    <span class="c1"># Now, H_op can act on the mapped views.</span>
+<span class="linenos">145</span>    <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
+<span class="linenos">146</span>
+<span class="linenos">147</span>    <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
+<span class="linenos">148</span>    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
+<span class="linenos">149</span>
+<span class="linenos">150</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
+<span class="linenos">151</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+<span class="linenos">152</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the multisector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
 </section>

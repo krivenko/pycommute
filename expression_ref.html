@@ -142,7 +142,7 @@
              
   <section id="module-pycommute.expression">
 <span id="pycommute-expression"></span><span id="expression-ref"></span><h1><code class="docutils literal notranslate"><span class="pre">pycommute.expression</span></code><a class="headerlink" href="#module-pycommute.expression" title="Link to this heading"></a></h1>
-<p>Polynomial expressions involving quantum-mechanical operators and manipulations with them</p>
+<p>Polynomial expressions involving quantum-mechanical operators and manipulations with them.</p>
 <section id="index-sequence">
 <h2>Index sequence<a class="headerlink" href="#index-sequence" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> is a wrapper around <em>libcommute</em>’s
@@ -157,7 +157,7 @@ index sequences <code class="docutils literal notranslate"><span class="pre">I1<
 <dl class="py class">
 <dt class="sig sig-object py" id="pycommute.expression.Indices">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">Indices</span></span><a class="headerlink" href="#pycommute.expression.Indices" title="Link to this definition"></a></dt>
-<dd><p>Mixed sequence of integer/string indices</p>
+<dd><p>Mixed sequence of integer/string indices.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Indices.__eq__">
 <span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Indices.__eq__" title="Link to this definition"></a></dt>
@@ -209,7 +209,7 @@ index sequences <code class="docutils literal notranslate"><span class="pre">I1<
 <dl class="py property">
 <dt class="sig sig-object py" id="pycommute.expression.Indices.indices">
 <em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#pycommute.expression.Indices.indices" title="Link to this definition"></a></dt>
-<dd><p>Index sequence as a list of integers and strings</p>
+<dd><p>Index sequence as a list of integers and strings.</p>
 </dd></dl>
 
 </dd></dl>
@@ -217,24 +217,24 @@ index sequences <code class="docutils literal notranslate"><span class="pre">I1<
 </section>
 <section id="algebra-id-constants">
 <h2>Algebra ID constants<a class="headerlink" href="#algebra-id-constants" title="Link to this heading"></a></h2>
-<p>Fermionic algebra ID</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pycommute.expression.FERMION">
 <span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">FERMION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-3</span></em><a class="headerlink" href="#pycommute.expression.FERMION" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<p>Bosonic algebra ID</p>
+<p>Fermionic algebra ID.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pycommute.expression.BOSON">
 <span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">BOSON</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-2</span></em><a class="headerlink" href="#pycommute.expression.BOSON" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
-<p>Spin algebra ID</p>
+<p>Bosonic algebra ID.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="pycommute.expression.SPIN">
 <span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">SPIN</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">-1</span></em><a class="headerlink" href="#pycommute.expression.SPIN" title="Link to this definition"></a></dt>
 <dd></dd></dl>
 
+<p>Spin algebra ID.</p>
 </section>
 <section id="algebra-generator-objects">
 <h2>Algebra generator objects<a class="headerlink" href="#algebra-generator-objects" title="Link to this heading"></a></h2>
@@ -245,7 +245,7 @@ for <a class="reference external" href="https://krivenko.github.io/libcommute/ex
 <dl class="py class">
 <dt class="sig sig-object py" id="pycommute.expression.Generator">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">Generator</span></span><a class="headerlink" href="#pycommute.expression.Generator" title="Link to this definition"></a></dt>
-<dd><p>Abstract algebra generator</p>
+<dd><p>Abstract algebra generator.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.__eq__">
 <span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.__eq__" title="Link to this definition"></a></dt>
@@ -274,7 +274,8 @@ for <a class="reference external" href="https://krivenko.github.io/libcommute/ex
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.__repr__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>String representation of the generator. This method can be overridden in subclasses.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.algebra_id">
@@ -285,8 +286,8 @@ for <a class="reference external" href="https://krivenko.github.io/libcommute/ex
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.conj">
 <span class="sig-name descname"><span class="pre">conj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.conj" title="Link to this definition"></a></dt>
-<dd><p>Return the Hermitian conjugate of this generator as a linear function of
-generators via ‘f’.</p>
+<dd><p>Return the Hermitian conjugate of <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> as a linear function of
+generators via <code class="xref py py-obj docutils literal notranslate"><span class="pre">f</span></code>.</p>
 <p>This method can be overridden in subclasses. The default implementation
 assumes that the generator is Hermitian.</p>
 </dd></dl>
@@ -294,8 +295,8 @@ assumes that the generator is Hermitian.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.equal">
 <span class="sig-name descname"><span class="pre">equal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.equal" title="Link to this definition"></a></dt>
-<dd><p>Determine whether two generators ‘self’ and ‘g’ belonging to the same algebra
-are equal.</p>
+<dd><p>Determine whether two generators <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">g</span></code> belonging to the
+same algebra are equal.</p>
 <p>This method can be overridden in subclasses. The default implementation
 compares <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> carried by the generators.</p>
 </dd></dl>
@@ -303,23 +304,17 @@ compares <a class="reference internal" href="#pycommute.expression.Indices" titl
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.greater">
 <span class="sig-name descname"><span class="pre">greater</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.greater" title="Link to this definition"></a></dt>
-<dd><p>Determine whether two generators ‘self’ and ‘g’ belonging to the same algebra
-satisfy self &gt; g.</p>
+<dd><p>Determine whether two generators <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">g</span></code> belonging to the
+same algebra satisfy <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> &gt; <code class="xref py py-obj docutils literal notranslate"><span class="pre">g</span></code>.</p>
 <p>This method can be overridden in subclasses. The default implementation
 compares <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> carried by the generators.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pycommute.expression.Generator.indices">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#pycommute.expression.Generator.indices" title="Link to this definition"></a></dt>
-<dd><p>Indices carried by this generator.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.less">
 <span class="sig-name descname"><span class="pre">less</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.less" title="Link to this definition"></a></dt>
-<dd><p>Determine whether two generators ‘self’ and ‘g’ belonging to the same algebra
-satisfy self &lt; g.</p>
+<dd><p>Determine whether two generators <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">g</span></code> belonging to the
+same algebra satisfy <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> &lt; <code class="xref py py-obj docutils literal notranslate"><span class="pre">g</span></code>.</p>
 <p>This method can be overridden in subclasses. The default implementation
 compares <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">Indices</span></code></a> carried by the generators.</p>
 </dd></dl>
@@ -327,11 +322,13 @@ compares <a class="reference internal" href="#pycommute.expression.Indices" titl
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.reduce_power">
 <span class="sig-name descname"><span class="pre">reduce_power</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">power</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><span class="pre">SupportsInt</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.reduce_power" title="Link to this definition"></a></dt>
-<dd><p>Given a generator g1 = ‘self’ and a power &gt; 2, optionally apply a simplifying
-transformation g1^power -&gt; f(g). If a simplification is actually possible,
-reduce_power() must return True and write the linear function f(g) into ‘f’.
-Otherwise return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
-<p>N.B. Simplifications for power = 2 must be carried out by simplify_prod().</p>
+<dd><p>Given a generator <span class="math notranslate nohighlight">\(g_1\)</span> = <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> and a <code class="xref py py-obj docutils literal notranslate"><span class="pre">power</span></code> &gt; 2,
+optionally apply a simplifying transformation
+<span class="math notranslate nohighlight">\(g_1^\text{power} \mapsto f(g)\)</span>. If a simplification is actually possible,
+<a class="reference internal" href="#pycommute.expression.Generator.reduce_power" title="pycommute.expression.Generator.reduce_power"><code class="xref py py-func docutils literal notranslate"><span class="pre">reduce_power()</span></code></a> must return <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> and write the linear
+function <span class="math notranslate nohighlight">\(f(g)\)</span> into <code class="xref py py-obj docutils literal notranslate"><span class="pre">f</span></code>. Otherwise return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
+<p><strong>N.B.</strong> Simplifications for <code class="xref py py-obj docutils literal notranslate"><span class="pre">power</span></code> = 2 must be carried out by
+<a class="reference internal" href="#pycommute.expression.Generator.simplify_prod" title="pycommute.expression.Generator.simplify_prod"><code class="xref py py-func docutils literal notranslate"><span class="pre">simplify_prod()</span></code></a>.</p>
 <p>This method can be overridden in subclasses. The default implementation always
 returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
 </dd></dl>
@@ -339,10 +336,11 @@ returns <a class="reference external" href="https://docs.python.org/3/library/co
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.simplify_prod">
 <span class="sig-name descname"><span class="pre">simplify_prod</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.simplify_prod" title="Link to this definition"></a></dt>
-<dd><p>Given a pair of generators g1 = ‘self’ and g2 such that g1 * g2 is in the
-canonical order (g1 &lt;= g2), optionally apply a simplifying transformation
-g1 * g2 -&gt; f(g). If a simplification is actually possible, simplify_prod()
-must return True and write the linear function f(g) into ‘f’.
+<dd><p>Given a pair of generators <span class="math notranslate nohighlight">\(g_1\)</span> = <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> and <span class="math notranslate nohighlight">\(g_2\)</span> such
+that <span class="math notranslate nohighlight">\(g_1 g_2\)</span> is in the canonical order (<span class="math notranslate nohighlight">\(g_1 \leq g_2\)</span>),
+optionally apply a simplifying transformation <span class="math notranslate nohighlight">\(g_1 g_2 \mapsto f(g)\)</span>.
+If a simplification is actually possible, <a class="reference internal" href="#pycommute.expression.Generator.simplify_prod" title="pycommute.expression.Generator.simplify_prod"><code class="xref py py-func docutils literal notranslate"><span class="pre">simplify_prod()</span></code></a> must return
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> and write the linear function <span class="math notranslate nohighlight">\(f(g)\)</span> into <code class="xref py py-obj docutils literal notranslate"><span class="pre">f</span></code>.
 Otherwise return <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
 <p>This method can be overridden in subclasses. The default implementation always
 returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p>
@@ -351,12 +349,19 @@ returns <a class="reference external" href="https://docs.python.org/3/library/co
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Generator.swap_with">
 <span class="sig-name descname"><span class="pre">swap_with</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">g2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">f</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.LinearFunctionGen" title="pycommute.expression.LinearFunctionGen"><span class="pre">pycommute.expression.LinearFunctionGen</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/fractions.html#fractions.Fraction" title="(in Python v3.14)"><span class="pre">fractions.Fraction</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#pycommute.expression.Generator.swap_with" title="Link to this definition"></a></dt>
-<dd><p>Given a pair of generators g1 = ‘self’ and g2 such that g1 &gt; g2, swap_with()
-must signal what transformation g1 * g2 -&gt; c * g2 * g1 + f(g) should be applied
-to the product g1 * g2 to put it into the canonical order.
-swap_with() returns the constant ‘c’ and writes the linear function f(g) into
-‘f’. ‘c’ is allowed to be zero.</p>
+<dd><p>Given a pair of generators <span class="math notranslate nohighlight">\(g_1\)</span> = <code class="xref py py-obj docutils literal notranslate"><span class="pre">self</span></code> and <span class="math notranslate nohighlight">\(g_2\)</span> such
+that <span class="math notranslate nohighlight">\(g_1 &gt; g_2\)</span>, <a class="reference internal" href="#pycommute.expression.Generator.swap_with" title="pycommute.expression.Generator.swap_with"><code class="xref py py-func docutils literal notranslate"><span class="pre">swap_with()</span></code></a> must signal what transformation
+<span class="math notranslate nohighlight">\(g_1 g_2 \mapsto c g_2 g_1 + f(g)\)</span> should be applied to the product
+<span class="math notranslate nohighlight">\(g_1 g_2\)</span> to put it into the canonical order. <a class="reference internal" href="#pycommute.expression.Generator.swap_with" title="pycommute.expression.Generator.swap_with"><code class="xref py py-func docutils literal notranslate"><span class="pre">swap_with()</span></code></a>
+returns the constant <span class="math notranslate nohighlight">\(c\)</span> and writes the linear function <span class="math notranslate nohighlight">\(f(g)\)</span> into
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">f</span></code>. <span class="math notranslate nohighlight">\(c\)</span> is allowed to be zero.</p>
 <p>This method must be overridden in subclasses.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.Generator.indices">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">indices</span></span><a class="headerlink" href="#pycommute.expression.Generator.indices" title="Link to this definition"></a></dt>
+<dd><p>Indices carried by this generator.</p>
 </dd></dl>
 
 </dd></dl>
@@ -365,7 +370,7 @@ swap_with() returns the constant ‘c’ and writes the linear function f(g) int
 <dt class="sig sig-object py" id="pycommute.expression.GeneratorFermion">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">GeneratorFermion</span></span><a class="headerlink" href="#pycommute.expression.GeneratorFermion" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
-<p>Generator of the fermionic algebra</p>
+<p>Generator of the fermionic algebra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.GeneratorFermion.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.GeneratorFermion" title="pycommute.expression.GeneratorFermion"><span class="pre">pycommute.expression.GeneratorFermion</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pycommute.expression.GeneratorFermion.__init__" title="Link to this definition"></a></dt>
@@ -373,8 +378,8 @@ swap_with() returns the constant ‘c’ and writes the linear function f(g) int
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dagger</strong> – <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> for a creation/annihilation operator
-respectively.</p></li>
+<li><p><strong>dagger</strong> – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> / <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for a creation/annihilation
+operator respectively.</p></li>
 <li><p><strong>indices</strong> – Index sequence of the creation/annihilation operator.</p></li>
 </ul>
 </dd>
@@ -397,8 +402,8 @@ positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dagger</strong> – <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> for a creation/annihilation operator
-respectively.</p></li>
+<li><p><strong>dagger</strong> – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> / <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for a creation/annihilation
+operator respectively.</p></li>
 <li><p><strong>*args</strong> – Indices of the creation/annihilation operator.</p></li>
 </ul>
 </dd>
@@ -409,7 +414,7 @@ respectively.</p></li>
 <dt class="sig sig-object py" id="pycommute.expression.GeneratorBoson">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">GeneratorBoson</span></span><a class="headerlink" href="#pycommute.expression.GeneratorBoson" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
-<p>Generator of the bosonic algebra</p>
+<p>Generator of the bosonic algebra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.GeneratorBoson.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.GeneratorBoson" title="pycommute.expression.GeneratorBoson"><span class="pre">pycommute.expression.GeneratorBoson</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">dagger</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><span class="pre">pycommute.expression.Indices</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#pycommute.expression.GeneratorBoson.__init__" title="Link to this definition"></a></dt>
@@ -417,8 +422,8 @@ respectively.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dagger</strong> – <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> for a creation/annihilation operator
-respectively.</p></li>
+<li><p><strong>dagger</strong> – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> / <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for a creation/annihilation
+operator respectively.</p></li>
 <li><p><strong>indices</strong> – Index sequence of the creation/annihilation operator.</p></li>
 </ul>
 </dd>
@@ -441,8 +446,8 @@ positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dagger</strong> – <code class="docutils literal notranslate"><span class="pre">True</span></code>/<code class="docutils literal notranslate"><span class="pre">False</span></code> for a creation/annihilation operator
-respectively.</p></li>
+<li><p><strong>dagger</strong> – <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> / <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> for a creation/annihilation
+operator respectively.</p></li>
 <li><p><strong>*args</strong> – Indices of the creation/annihilation operator.</p></li>
 </ul>
 </dd>
@@ -453,33 +458,48 @@ respectively.</p></li>
 <dt class="sig sig-object py" id="pycommute.expression.SpinComponent">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">SpinComponent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.SpinComponent" title="Link to this definition"></a></dt>
 <dd><p>Enumeration: spin operator component, <span class="math notranslate nohighlight">\(S_+\)</span>, <span class="math notranslate nohighlight">\(S_-\)</span> or <span class="math notranslate nohighlight">\(S_z\)</span>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycommute.expression.SpinComponent.PLUS">
+<span class="sig-name descname"><span class="pre">PLUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#pycommute.expression.SpinComponent.PLUS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycommute.expression.SpinComponent.MINUS">
+<span class="sig-name descname"><span class="pre">MINUS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#pycommute.expression.SpinComponent.MINUS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="pycommute.expression.SpinComponent.Z">
+<span class="sig-name descname"><span class="pre">Z</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#pycommute.expression.SpinComponent.Z" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="pycommute.expression.GeneratorSpin">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">GeneratorSpin</span></span><a class="headerlink" href="#pycommute.expression.GeneratorSpin" title="Link to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
-<p>Generator of the spin algebra</p>
+<p>Generator of the spin algebra.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.GeneratorSpin.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.GeneratorSpin.__init__" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a>, c: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, indices: <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p></li>
+<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a>, comp: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, indices: <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p></li>
 </ol>
 <p>Construct a spin-1/2 operator corresponding to a single spin component and
 carrying given indices.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
+<li><p><strong>comp</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
 values.</p></li>
 <li><p><strong>indices</strong> – Index sequence of the spin component operator.</p></li>
 </ul>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a>, spin: typing.SupportsFloat, c: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, indices: <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p></li>
+<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a>, spin: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>, comp: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, indices: <a class="reference internal" href="#pycommute.expression.Indices" title="pycommute.expression.Indices"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Indices</span></code></a>) -&gt; None</p></li>
 </ol>
 <p>Construct an operator for a general spin <span class="math notranslate nohighlight">\(S\)</span> corresponding to a single
 spin component and carrying given indices.</p>
@@ -487,7 +507,7 @@ spin component and carrying given indices.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spin</strong> – Integer or half-integer value of spin <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
-<li><p><strong>c</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
+<li><p><strong>comp</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
 values.</p></li>
 <li><p><strong>indices</strong> – Index sequence of the spin component operator.</p></li>
 </ul>
@@ -520,21 +540,21 @@ values.</p></li>
 <span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">make_spin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.make_spin" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>make_spin(c: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, *args) -&gt; <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a></p></li>
+<li><p>make_spin(comp: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, *args) -&gt; <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a></p></li>
 </ol>
 <p>Make a spin-1/2 operator corresponding to a single spin component and carrying
 indices passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
+<li><p><strong>comp</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
 values.</p></li>
 <li><p><strong>*args</strong> – Indices of the operator.</p></li>
 </ul>
 </dd>
 </dl>
 <ol class="arabic simple" start="2">
-<li><p>make_spin(spin: typing.SupportsFloat, c: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, *args) -&gt; <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a></p></li>
+<li><p>make_spin(spin: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>, comp: <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.SpinComponent</span></code></a>, *args) -&gt; <a class="reference internal" href="#pycommute.expression.GeneratorSpin" title="pycommute.expression.GeneratorSpin"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.GeneratorSpin</span></code></a></p></li>
 </ol>
 <p>Make an operator for a general spin <span class="math notranslate nohighlight">\(S\)</span> corresponding to a single spin
 component and carrying indices passed as positional arguments.</p>
@@ -542,7 +562,7 @@ component and carrying indices passed as positional arguments.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>spin</strong> – Integer or half-integer value of spin <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
-<li><p><strong>c</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
+<li><p><strong>comp</strong> – Which spin component to construct, one of <a class="reference internal" href="#pycommute.expression.SpinComponent" title="pycommute.expression.SpinComponent"><code class="xref py py-class docutils literal notranslate"><span class="pre">SpinComponent</span></code></a>
 values.</p></li>
 <li><p><strong>*args</strong> – Indices of the operator.</p></li>
 </ul>
@@ -568,7 +588,7 @@ constant term,</p>
 <div><div class="math notranslate nohighlight">
 \[f(g_1, \ldots, g_n) = c + c_1 g_1 + \ldots + c_n g_n.\]</div>
 </div></blockquote>
-<p>The coefficients <span class="math notranslate nohighlight">\(c_1, \ldots, c_n\)</span> can be of the type <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>,
+<p>The coefficients <span class="math notranslate nohighlight">\(c, c_1, \ldots, c_n\)</span> can be of the type <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>,
 <a class="reference external" href="https://docs.python.org/3/library/fractions.html#fractions.Fraction" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">fractions.Fraction</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="pycommute.expression.LinearFunctionGen.const_term">
@@ -598,11 +618,12 @@ constant term,</p>
 <section id="monomial-object">
 <h2>Monomial object<a class="headerlink" href="#monomial-object" title="Link to this heading"></a></h2>
 <p><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">Monomial</span></code></a> is a wrapper around <em>libcommute</em>’s
-<a class="reference external" href="https://krivenko.github.io/libcommute/expression/monomial.html#monomial" title="(in libcommute v1.0.0)"><span class="xref std std-ref">monomial</span></a> object.</p>
+<a class="reference external" href="https://krivenko.github.io/libcommute/expression/monomial.html#monomial" title="(in libcommute v1.0.0)"><span class="xref std std-ref">monomial</span></a> object, i.e. an ordered product of
+<a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">generators</span></code></a>.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">Monomial</span></span><a class="headerlink" href="#pycommute.expression.Monomial" title="Link to this definition"></a></dt>
-<dd><p>Monomial: a product of algebra generators</p>
+<dd><p>Monomial: A product of algebra generators</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__contains__">
 <span class="sig-name descname"><span class="pre">__contains__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__contains__" title="Link to this definition"></a></dt>
@@ -621,16 +642,17 @@ constant term,</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__eq__">
 <span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__eq__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Equality of monomials.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__getitem__">
 <span class="sig-name descname"><span class="pre">__getitem__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.Monomial.__getitem__" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__getitem__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, arg0: typing.SupportsInt) -&gt; <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a></p></li>
+<li><p>__getitem__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsInt" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsInt</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a></p></li>
 </ol>
-<p>Get a generator in the monomial by its index.</p>
+<p>Get a generator in the monomial by its position.</p>
 <ol class="arabic simple" start="2">
 <li><p>__getitem__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, arg0: slice) -&gt; <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a></p></li>
 </ol>
@@ -640,7 +662,8 @@ constant term,</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__gt__">
 <span class="sig-name descname"><span class="pre">__gt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__gt__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Lexicographical greater-comparison to another monomial.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__init__">
@@ -659,7 +682,8 @@ constant term,</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__iter__">
 <span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.14)"><span class="pre">collections.abc.Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__iter__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Returns an iterator to the sequence of algebra generators.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__len__">
@@ -670,7 +694,8 @@ constant term,</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__lt__">
 <span class="sig-name descname"><span class="pre">__lt__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__lt__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Lexicographical less-comparison to another monomial.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__mul__">
@@ -678,34 +703,36 @@ constant term,</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a></p></li>
+</ol>
+<p>Multiplication of the monomial by an algebra generator from the right.</p>
+<ol class="arabic simple" start="2">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a></p></li>
 </ol>
+<p>Multiplication of the monomial by another monomial from the right.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__ne__">
 <span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__ne__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Inequality of monomials.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__repr__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>String representation of the monomial.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__reverse__">
 <span class="sig-name descname"><span class="pre">__reverse__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.14)"><span class="pre">collections.abc.Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__reverse__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Returns a reverse iterator to the sequence of algebra generators.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.Monomial.__rmul__">
 <span class="sig-name descname"><span class="pre">__rmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.Generator" title="pycommute.expression.Generator"><span class="pre">pycommute.expression.Generator</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a></span></span><a class="headerlink" href="#pycommute.expression.Monomial.__rmul__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="pycommute.expression.Monomial.is_ordered">
-<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_ordered</span></span><a class="headerlink" href="#pycommute.expression.Monomial.is_ordered" title="Link to this definition"></a></dt>
-<dd><p>Is this monomial canonically ordered?</p>
+<dd><p>Multiplication of the monomial by an algebra generator from the left.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -722,6 +749,12 @@ constant term,</p>
 </dl>
 </dd></dl>
 
+<dl class="py property">
+<dt class="sig sig-object py" id="pycommute.expression.Monomial.is_ordered">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">is_ordered</span></span><a class="headerlink" href="#pycommute.expression.Monomial.is_ordered" title="Link to this definition"></a></dt>
+<dd><p>Is this monomial canonically ordered?</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -733,17 +766,27 @@ complex scalar types respectively.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">ExpressionR</span></span><a class="headerlink" href="#pycommute.expression.ExpressionR" title="Link to this definition"></a></dt>
-<dd><p>Polynomial in quantum-mechanical operators with real coefficients</p>
+<dd><p>Polynomial in quantum-mechanical operators with real coefficients.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__add__">
 <span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__add__" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
-<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Addition of real polynomial expressions.</p>
+<ol class="arabic simple" start="2">
+<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Right addition of a real constant.</p>
+<ol class="arabic simple" start="3">
 <li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Addition of two polynomial expressions (real + complex).</p>
+<ol class="arabic simple" start="4">
 <li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Right addition of a complex constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -759,7 +802,8 @@ complex scalar types respectively.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__eq__">
 <span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionR.__eq__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Equality of two polynomial expressions.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__iadd__">
@@ -767,8 +811,12 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
-<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
 </ol>
+<p>In-place addition of a real polynomial expression.</p>
+<ol class="arabic simple" start="2">
+<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>In-place addition of a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -777,8 +825,12 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
-<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
 </ol>
+<p>In-place multiplication by a real polynomial expression from the right.</p>
+<ol class="arabic simple" start="2">
+<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>In-place multiplication by a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -790,7 +842,7 @@ complex scalar types respectively.</p>
 </ol>
 <p>Construct a zero expression.</p>
 <ol class="arabic simple" start="2">
-<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, x: typing.SupportsFloat) -&gt; None</p></li>
+<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, x: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; None</p></li>
 </ol>
 <p>Construct a constant expression equal to <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <dl class="field-list simple">
@@ -799,7 +851,7 @@ complex scalar types respectively.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="3">
-<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, x: typing.SupportsFloat, m: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>) -&gt; None</p></li>
+<li><p>__init__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, x: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>, m: <a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>) -&gt; None</p></li>
 </ol>
 <p>Construct an expression with one monomial, <span class="math notranslate nohighlight">\(x \cdot m\)</span>.</p>
 <dl class="field-list simple">
@@ -818,14 +870,19 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
-<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
 </ol>
+<p>In-place subtraction of a real polynomial expression.</p>
+<ol class="arabic simple" start="2">
+<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>In-place subtraction of a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__iter__">
 <span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.14)"><span class="pre">collections.abc.Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.expression.ExpressionR.__iter__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Returns an iterator over monomial-coefficient pairs in the expression.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__len__">
@@ -839,45 +896,66 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
-<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Multiplication of real polynomial expressions.</p>
+<ol class="arabic simple" start="2">
+<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Right multiplication by a real constant.</p>
+<ol class="arabic simple" start="3">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Multiplication of two polynomial expressions (real * complex).</p>
+<ol class="arabic simple" start="4">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Right multiplication by a complex constant.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__ne__">
 <span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionR.__ne__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Inequality of two polynomial expressions.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__neg__">
 <span class="sig-name descname"><span class="pre">__neg__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionR.__neg__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Unary minus.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__radd__">
 <span class="sig-name descname"><span class="pre">__radd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__radd__" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+<li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Left addition of a real constant.</p>
+<ol class="arabic simple" start="2">
 <li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Left addition of a complex constant.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><span class="pre">pycommute.expression.ExpressionR</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionR.__repr__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>String representation of the polynomial expression.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionR.__rmul__">
 <span class="sig-name descname"><span class="pre">__rmul__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__rmul__" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+<li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Left multiplication by a real constant.</p>
+<ol class="arabic simple" start="2">
 <li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Left multiplication by a complex constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -885,9 +963,13 @@ complex scalar types respectively.</p>
 <span class="sig-name descname"><span class="pre">__rsub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionR.__rsub__" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+<li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Subtraction from a real constant.</p>
+<ol class="arabic simple" start="2">
 <li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Subtraction from a complex constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -896,10 +978,20 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
-<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Subtraction of real polynomial expressions.</p>
+<ol class="arabic simple" start="2">
+<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Subtraction of a real constant.</p>
+<ol class="arabic simple" start="3">
 <li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Subtraction of two polynomial expressions (real - complex).</p>
+<ol class="arabic simple" start="4">
 <li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Subtraction of a complex constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -913,17 +1005,27 @@ complex scalar types respectively.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC">
 <em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pycommute.expression.</span></span><span class="sig-name descname"><span class="pre">ExpressionC</span></span><a class="headerlink" href="#pycommute.expression.ExpressionC" title="Link to this definition"></a></dt>
-<dd><p>Polynomial in quantum-mechanical operators with complex coefficients</p>
+<dd><p>Polynomial in quantum-mechanical operators with complex coefficients.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__add__">
 <span class="sig-name descname"><span class="pre">__add__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.ExpressionC.__add__" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Addition of complex polynomial expressions.</p>
+<ol class="arabic simple" start="2">
+<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Right addition of a complex constant.</p>
+<ol class="arabic simple" start="3">
+<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Addition of two polynomial expressions (complex + real).</p>
+<ol class="arabic simple" start="4">
+<li><p>__add__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Right addition of a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -939,7 +1041,8 @@ complex scalar types respectively.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__eq__">
 <span class="sig-name descname"><span class="pre">__eq__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionC.__eq__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Equality of two polynomial expressions.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__iadd__">
@@ -947,10 +1050,20 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>In-place addition of a complex polynomial expression.</p>
+<ol class="arabic simple" start="2">
+<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place addition of a complex constant.</p>
+<ol class="arabic simple" start="3">
+<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place addition of a real polynomial expression.</p>
+<ol class="arabic simple" start="4">
+<li><p>__iadd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place addition of a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -959,10 +1072,20 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>In-place multiplication by a complex polynomial expression from the right.</p>
+<ol class="arabic simple" start="2">
+<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place multiplication by a complex constant.</p>
+<ol class="arabic simple" start="3">
+<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place multiplication by a real polynomial expression.</p>
+<ol class="arabic simple" start="4">
+<li><p>__imul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place multiplication by a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1006,16 +1129,27 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>In-place subtraction of a complex polynomial expression.</p>
+<ol class="arabic simple" start="2">
+<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place subtraction of a complex constant.</p>
+<ol class="arabic simple" start="3">
+<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place subtraction of a real polynomial expression.</p>
+<ol class="arabic simple" start="4">
+<li><p>__isub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>In-place subtraction of a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__iter__">
 <span class="sig-name descname"><span class="pre">__iter__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Iterator" title="(in Python v3.14)"><span class="pre">collections.abc.Iterator</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><span class="pre">pycommute.expression.Monomial</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.14)"><span class="pre">complex</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#pycommute.expression.ExpressionC.__iter__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Returns an iterator over monomial-coefficient pairs in the expression.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__len__">
@@ -1029,21 +1163,33 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Multiplication of complex polynomial expressions.</p>
+<ol class="arabic simple" start="2">
+<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Right multiplication by a complex constant.</p>
+<ol class="arabic simple" start="3">
+<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Multiplication of two polynomial expressions (complex * real).</p>
+<ol class="arabic simple" start="4">
+<li><p>__mul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Right multiplication by a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__ne__">
 <span class="sig-name descname"><span class="pre">__ne__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">arg0</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionC.__ne__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Inequality of two polynomial expressions.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__neg__">
 <span class="sig-name descname"><span class="pre">__neg__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionC.__neg__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>Unary minus.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__radd__">
@@ -1051,14 +1197,19 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Left addition of a complex constant.</p>
+<ol class="arabic simple" start="2">
+<li><p>__radd__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Left addition of a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__repr__">
 <span class="sig-name descname"><span class="pre">__repr__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><span class="pre">pycommute.expression.ExpressionC</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="headerlink" href="#pycommute.expression.ExpressionC.__repr__" title="Link to this definition"></a></dt>
-<dd></dd></dl>
+<dd><p>String representation of the polynomial expression.</p>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="pycommute.expression.ExpressionC.__rmul__">
@@ -1066,8 +1217,12 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Left multiplication by a complex constant.</p>
+<ol class="arabic simple" start="2">
+<li><p>__rmul__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Left multiplication by a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1076,8 +1231,12 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Subtraction from a complex constant.</p>
+<ol class="arabic simple" start="2">
+<li><p>__rsub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Subtraction from a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1086,10 +1245,20 @@ complex scalar types respectively.</p>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
 <li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
-<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: typing.SupportsFloat) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
+<p>Subtraction of complex polynomial expressions.</p>
+<ol class="arabic simple" start="2">
+<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: complex) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Subtraction of a complex constant.</p>
+<ol class="arabic simple" start="3">
+<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Subtraction of two polynomial expressions (complex - real).</p>
+<ol class="arabic simple" start="4">
+<li><p>__sub__(self: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>, arg0: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Subtraction of a real constant.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1107,7 +1276,7 @@ complex scalar types respectively.</p>
 <ol class="arabic simple">
 <li><p>conj(expr: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
 </ol>
-<p>Hermitian conjugate.</p>
+<p>Hermitian conjugate of an expression.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>expr</strong> – Expression to conjugate.</p>
@@ -1116,7 +1285,7 @@ complex scalar types respectively.</p>
 <ol class="arabic simple" start="2">
 <li><p>conj(expr: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
-<p>Hermitian conjugate.</p>
+<p>Hermitian conjugate of an expression.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>expr</strong> – Expression to conjugate.</p>
@@ -1129,7 +1298,7 @@ complex scalar types respectively.</p>
 <span class="sig-prename descclassname"><span class="pre">expression.</span></span><span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.transform" title="Link to this definition"></a></dt>
 <dd><p>Overloaded function.</p>
 <ol class="arabic simple">
-<li><p>transform(expr: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, f: collections.abc.Callable[[<a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, typing.SupportsFloat], float]) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+<li><p>transform(expr: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, f: collections.abc.Callable[[<a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>], float]) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
 </ol>
 <p>Apply a given function to all monomial/coefficient pairs and replace the
 coefficients with values returned by the function. Zero return values will
@@ -1159,7 +1328,7 @@ result in respective monomials being discarded.</p>
 </dd>
 </dl>
 <ol class="arabic simple" start="3">
-<li><p>transform(expr: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, f: collections.abc.Callable[[<a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, typing.SupportsFloat], complex]) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+<li><p>transform(expr: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>, f: collections.abc.Callable[[<a class="reference internal" href="#pycommute.expression.Monomial" title="pycommute.expression.Monomial"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Monomial</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.SupportsFloat" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">typing.SupportsFloat</span></code></a>], complex]) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
 </ol>
 <p>Apply a given function to all monomial/coefficient pairs and replace the
 coefficients with values returned by the function. Zero return values will
@@ -1276,7 +1445,7 @@ positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
+<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span> (keyword-only).</p></li>
 <li><p><strong>*args</strong> – Indices of the operator.</p></li>
 </ul>
 </dd>
@@ -1305,7 +1474,7 @@ positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
+<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span> (keyword-only).</p></li>
 <li><p><strong>*args</strong> – Indices of the operator.</p></li>
 </ul>
 </dd>
@@ -1334,7 +1503,7 @@ passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
+<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span> (keyword-only).</p></li>
 <li><p><strong>*args</strong> – Indices of the operator.</p></li>
 </ul>
 </dd>
@@ -1363,7 +1532,7 @@ passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
+<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span> (keyword-only).</p></li>
 <li><p><strong>*args</strong> – Indices of the operator.</p></li>
 </ul>
 </dd>
@@ -1392,7 +1561,7 @@ passed as positional arguments.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span>.</p></li>
+<li><p><strong>spin</strong> – Spin <span class="math notranslate nohighlight">\(S\)</span> (keyword-only).</p></li>
 <li><p><strong>*args</strong> – Indices of the operator.</p></li>
 </ul>
 </dd>
@@ -1422,6 +1591,34 @@ passed as positional arguments.</p>
 to/from an expression. There is a module-level constant of this type called
 <a class="reference internal" href="#pycommute.expression.hc" title="pycommute.expression.hc"><code class="xref py py-data docutils literal notranslate"><span class="pre">hc</span></code></a>, which allows to mimic the <span class="math notranslate nohighlight">\(\pm H.c.\)</span> notation in
 expressions.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.HC.__radd__">
+<span class="sig-name descname"><span class="pre">__radd__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.HC.__radd__" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__radd__(self: pycommute.expression.HC, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Add the Hermitian conjugate of a real expression.</p>
+<ol class="arabic simple" start="2">
+<li><p>__radd__(self: pycommute.expression.HC, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Add the Hermitian conjugate of a complex expression.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pycommute.expression.HC.__rsub__">
+<span class="sig-name descname"><span class="pre">__rsub__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pycommute.expression.HC.__rsub__" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p>__rsub__(self: pycommute.expression.HC, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionR</span></code></a></p></li>
+</ol>
+<p>Subtract the Hermitian conjugate of a real expression.</p>
+<ol class="arabic simple" start="2">
+<li><p>__rsub__(self: pycommute.expression.HC, arg0: <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a>) -&gt; <a class="reference internal" href="#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.ExpressionC</span></code></a></p></li>
+</ol>
+<p>Subtract the Hermitian conjugate of a complex expression.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py attribute">

@@ -119,7 +119,7 @@
 <span id="pycommute-models"></span><span id="models-ref"></span><h1><code class="docutils literal notranslate"><span class="pre">pycommute.models</span></code><a class="headerlink" href="#module-pycommute.models" title="Link to this heading"></a></h1>
 <p>Functions in this module return
 <a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionR" title="pycommute.expression.ExpressionR"><code class="xref py py-class docutils literal notranslate"><span class="pre">real</span></code></a> or
-<a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span> <span class="pre">expression</span> <span class="pre">objects</span></code></a>
+<a class="reference internal" href="expression_ref.html#pycommute.expression.ExpressionC" title="pycommute.expression.ExpressionC"><code class="xref py py-class docutils literal notranslate"><span class="pre">complex</span></code></a> expression objects
 corresponding to some Hamiltonians widely used in the theory of quantum
 many-body systems, quantum optics and statistical mechanics of interacting
 spins.</p>
@@ -227,7 +227,7 @@ instead of the simple numeric indices <span class="math notranslate nohighlight"
        = \sum_{i=0}^{N-1} \sum_{\sigma,\sigma'=\uparrow,\downarrow}
          (\boldsymbol{\tau}_{\sigma\sigma'} \cdot \mathbf{B}_i)
          \hat c^\dagger_{i,\sigma} \hat c_{i,\sigma'}.\]</div>
-<p>The pre-factor 2 is the spin Landé factor, while the Bohr magneton and the
+<p>The prefactor 2 is the spin Landé factor, while the Bohr magneton and the
 Planck constant are set to unity. <span class="math notranslate nohighlight">\(\boldsymbol{\tau}\)</span> is a vector of
 Pauli matrices, and operators
 <span class="math notranslate nohighlight">\(\hat c^\dagger_{i,\sigma}\)</span>/<span class="math notranslate nohighlight">\(\hat c_{i,\sigma}\)</span>
@@ -406,7 +406,8 @@ operators carry indices <code class="docutils literal notranslate"><span class="
 the localized spin operators
 <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>. By default, the localized
 spin operators carry indices <code class="docutils literal notranslate"><span class="pre">0,</span> <span class="pre">1,</span> <span class="pre">...</span></code>.</p></li>
-<li><p><strong>spin</strong> – Spin of operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>, 1/2 by default.</p></li>
+<li><p><strong>spin</strong> – Spin of the operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>,
+1/2 by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -421,8 +422,8 @@ spin operators carry indices <code class="docutils literal notranslate"><span cl
 <dd><p>Constructs an electron-phonon coupling term of the Holstein model defined on
 a finite collection of sites <span class="math notranslate nohighlight">\(i = 0, \ldots, N-1\)</span>,</p>
 <div class="math notranslate nohighlight">
-\[\hat H = \sum_{i=0}^{N-1}\sum_\sigma
-        g_i \hat n_{i,\sigma} (\hat a^\dagger_i + \hat a_i).\]</div>
+\[\hat H = \sum_{i=0}^{N-1} g_i \sum_\sigma
+         \hat n_{i,\sigma} (\hat a^\dagger_i + \hat a_i).\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -564,7 +565,7 @@ A_k(m_1, m_2, m_3, m_4) =\\= (2l+1)^2
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>F</strong> – List of <span class="math notranslate nohighlight">\(L+1\)</span> radial Slater integrals
-<span class="math notranslate nohighlight">\(F_0, F_2, F_4, \ldots\)</span>.</p></li>
+<span class="math notranslate nohighlight">\(F_0, F_2, F_4, \ldots\)</span></p></li>
 <li><p><strong>indices_up</strong> – An optional list of <span class="math notranslate nohighlight">\(2L+1\)</span> (multi-)indices to label
 the spin-up operators. By default, the spin-up operators
 carry indices
@@ -603,7 +604,7 @@ fields <span class="math notranslate nohighlight">\(h^l_i\)</span>. By default, 
 fields <span class="math notranslate nohighlight">\(h^t_i\)</span>. By default, all magnetic fields are zero.</p></li>
 <li><p><strong>indices</strong> – An optional list of <span class="math notranslate nohighlight">\(N\)</span> (multi-)indices to be used
 instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
-<li><p><strong>spin</strong> – Spin of operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>, 1/2 by default.</p></li>
+<li><p><strong>spin</strong> – Spin of the operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>, 1/2 by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -631,7 +632,8 @@ field vectors <span class="math notranslate nohighlight">\(\mathbf{h}_i = \{h^x_
 By default, all magnetic fields are zero.</p></li>
 <li><p><strong>indices</strong> – An optional list of <span class="math notranslate nohighlight">\(N\)</span> (multi-)indices to be used
 instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
-<li><p><strong>spin</strong> – Spin of operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>, 1/2 by default.</p></li>
+<li><p><strong>spin</strong> – Spin of the operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>,
+1/2 by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -662,7 +664,8 @@ field vectors <span class="math notranslate nohighlight">\(\mathbf{h}_i = \{h^x_
 By default, all magnetic fields are zero.</p></li>
 <li><p><strong>indices</strong> – An optional list of <span class="math notranslate nohighlight">\(N\)</span> (multi-)indices to be used
 instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
-<li><p><strong>spin</strong> – Spin of operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>, 1/2 by default.</p></li>
+<li><p><strong>spin</strong> – Spin of the operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>,
+1/2 by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -686,7 +689,7 @@ instead of the simple numeric indices <span class="math notranslate nohighlight"
 <span class="math notranslate nohighlight">\(J_{ij}\)</span>.</p></li>
 <li><p><strong>indices</strong> – An optional list of <span class="math notranslate nohighlight">\(N\)</span> (multi-)indices to be used
 instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
-<li><p><strong>spin</strong> – Spin of operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>, 1 by default.</p></li>
+<li><p><strong>spin</strong> – Spin of the operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>, 1 by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -710,7 +713,8 @@ a finite lattice (collection of sites <span class="math notranslate nohighlight"
 <code class="docutils literal notranslate"><span class="pre">D[i,j,:]</span></code> are vectors <span class="math notranslate nohighlight">\(\mathbf{D}_{ij}\)</span>.</p></li>
 <li><p><strong>indices</strong> – An optional list of <span class="math notranslate nohighlight">\(N\)</span> (multi-)indices to be used
 instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
-<li><p><strong>spin</strong> – Spin of operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>, 1/2 by default.</p></li>
+<li><p><strong>spin</strong> – Spin of the operators <span class="math notranslate nohighlight">\(\hat{\mathbf{S}}_i\)</span>,
+1/2 by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -751,7 +755,7 @@ constants <span class="math notranslate nohighlight">\(\lambda_{im}\)</span>.</p
 used instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
 <li><p><strong>indices_boson</strong> – An optional list of <span class="math notranslate nohighlight">\(M\)</span> (multi-)indices to be
 used instead of the simple numeric indices <span class="math notranslate nohighlight">\(m\)</span>.</p></li>
-<li><p><strong>spin</strong> – Spin of operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>, 1/2 by default.</p></li>
+<li><p><strong>spin</strong> – Spin of the operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>, 1/2 by default.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -785,7 +789,7 @@ constants <span class="math notranslate nohighlight">\(g_{im}\)</span>.</p></li>
 used instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
 <li><p><strong>indices_boson</strong> – An optional list of <span class="math notranslate nohighlight">\(M\)</span> (multi-)indices to be
 used instead of the simple numeric indices <span class="math notranslate nohighlight">\(m\)</span>.</p></li>
-<li><p><strong>spin</strong> – Pseudo-spin of operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>,
+<li><p><strong>spin</strong> – Pseudo-spin of the operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>,
 1/2 by default (two-level atoms).</p></li>
 </ul>
 </dd>
@@ -821,7 +825,7 @@ constants <span class="math notranslate nohighlight">\(g_{im}\)</span>.</p></li>
 used instead of the simple numeric indices <span class="math notranslate nohighlight">\(i\)</span>.</p></li>
 <li><p><strong>indices_boson</strong> – An optional list of <span class="math notranslate nohighlight">\(M\)</span> (multi-)indices to be
 used instead of the simple numeric indices <span class="math notranslate nohighlight">\(m\)</span>.</p></li>
-<li><p><strong>spin</strong> – Pseudo-spin of operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>,
+<li><p><strong>spin</strong> – Pseudo-spin of the operators <span class="math notranslate nohighlight">\(\hat{S}^\alpha_i\)</span>,
 1/2 by default (two-level atoms).</p></li>
 </ul>
 </dd>

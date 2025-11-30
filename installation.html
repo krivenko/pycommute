@@ -47,7 +47,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#installation-from-sources">Installation from sources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#automated-installation-using-pip">Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#automated-installation-of-the-pypi-package">Automated installation of the PyPI package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#docker-images">Docker images</a></li>
 </ul>
 </li>
@@ -101,7 +101,7 @@ installed or as a directory with unpacked source code)</p></li>
 <section id="installation-from-sources">
 <h2>Installation from sources<a class="headerlink" href="#installation-from-sources" title="Link to this heading"></a></h2>
 <p>Installing <em>pycommute</em> from sources is as easy as running</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">pip</span> <span class="n">install</span> <span class="o">.</span>
 </pre></div>
 </div>
 <p>in the unpacked source directory. <code class="docutils literal notranslate"><span class="pre">&lt;path_to_libcommute&gt;</span></code> must be either
@@ -111,8 +111,8 @@ installation or source directory of <em>libcommute</em>.</p>
 </pre></div>
 </div>
 </section>
-<section id="automated-installation-using-pip">
-<h2>Automated installation using <code class="docutils literal notranslate"><span class="pre">pip</span></code><a class="headerlink" href="#automated-installation-using-pip" title="Link to this heading"></a></h2>
+<section id="automated-installation-of-the-pypi-package">
+<h2>Automated installation of the PyPI package<a class="headerlink" href="#automated-installation-of-the-pypi-package" title="Link to this heading"></a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIBCOMMUTE_INCLUDEDIR</span><span class="o">=</span><span class="s2">&quot;&lt;path_to_libcommute&gt;/include&quot;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pycommute</span>
 </pre></div>
 </div>
@@ -120,7 +120,7 @@ installation or source directory of <em>libcommute</em>.</p>
 <section id="docker-images">
 <h2>Docker images<a class="headerlink" href="#docker-images" title="Link to this heading"></a></h2>
 <p>Docker images of tagged releases of <em>pycommute</em> are available from
-<a class="reference external" href="https://hub.docker.com/repository/docker/ikrivenko/pycommute">Docker Hub</a>.</p>
+<a class="reference external" href="https://hub.docker.com/r/ikrivenko/pycommute">Docker Hub</a>.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">--</span><span class="n">rm</span> <span class="o">-</span><span class="n">p</span> <span class="mi">8888</span><span class="p">:</span><span class="mi">8888</span> <span class="n">ikrivenko</span><span class="o">/</span><span class="n">pycommute</span><span class="p">:</span><span class="n">latest</span>
 </pre></div>
 </div>
