@@ -23,8 +23,8 @@ __version__ = "1.0.0"
 comp_libcommute_versions = ">=1.0.0"
 
 ext_modules = [
-    Pybind11Extension("pycommute/expression", ["pycommute/expression.cpp"]),
-    Pybind11Extension("pycommute/loperator", ["pycommute/loperator.cpp"])
+    Pybind11Extension("pycommute/expression", ["src/pycommute/expression.cpp"]),
+    Pybind11Extension("pycommute/loperator", ["src/pycommute/loperator.cpp"])
 ]
 
 
@@ -133,6 +133,7 @@ setup(
     python_requires=">=3.8",
     install_requires=["numpy>=1.12.0"],
     packages=['pycommute'],
+    package_dir={'pycommute': 'src/pycommute'},
     ext_modules=ext_modules,
     include_package_data=True,
     cmdclass=cmdclass,
