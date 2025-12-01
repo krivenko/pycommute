@@ -130,6 +130,10 @@ range <code class="docutils literal notranslate"><span class="pre">[0;</span> <s
 <code class="docutils literal notranslate"><span class="pre">loperator.SpacePartition.find_connections()</span></code> no longer accept the <code class="docutils literal notranslate"><span class="pre">hs</span></code>
 argument and instead use the <code class="docutils literal notranslate"><span class="pre">loperator.HilbertSpace</span></code> object provided upon
 construction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">setup.py</span></code> has been updated to look for the libcommute header files in the
+<code class="docutils literal notranslate"><span class="pre">src/libcommute</span></code> subdirectory of pycommute’s source tree in addition to the
+location specified via the <code class="docutils literal notranslate"><span class="pre">LIBCOMMUTE_INCLUDEDIR</span></code> environment variable.
+This change makes it easier to distribute both libraries in one archive.</p></li>
 </ul>
 </section>
 <section id="id1">
