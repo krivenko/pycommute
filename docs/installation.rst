@@ -6,8 +6,6 @@ Installation
 Prerequisites
 -------------
 
-- `libcommute <https://github.com/krivenko/libcommute>`_ 1.0.0 or newer (either
-  installed or as a directory with unpacked source code)
 - Python >= 3.8
 - packaging >= 17.0
 - pybind11 >= 3.0.0
@@ -26,7 +24,8 @@ Installing *pycommute* from sources is as easy as running
   LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" pip install .
 
 in the unpacked source directory. ``<path_to_libcommute>`` must be either
-installation or source directory of *libcommute*.
+installation or source directory of
+`libcommute <https://github.com/krivenko/libcommute>`_ 1.0.0 or newer.
 
 If you need to build documentation locally, you should additionally run
 
@@ -39,7 +38,7 @@ Automated installation of the PyPI package
 
 .. code::
 
-  LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" pip install pycommute
+  pip install pycommute
 
 Docker images
 -------------

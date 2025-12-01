@@ -32,60 +32,91 @@ class pycommute_build_ext(build_ext):
     """A custom build extension for adding libcommute-specific options."""
 
     def find_libcommute(self):
+        from os import environ, path
+
+        # 1. Try to find libcommute sources at $LIBCOMMUTE_INCLUDEDIR
+        if 'LIBCOMMUTE_INCLUDEDIR' in environ:
+            inc = environ['LIBCOMMUTE_INCLUDEDIR']
+            version = self.detect_libcommute_version(inc)
+            if version is not None:
+                self.libcommute_includedir = inc
+                return version
+
+        # 2. Try to find the bundled sources
+        inc = path.dirname(path.realpath(__file__))
+        inc = path.join(inc, "src", "libcommute")
+        if path.exists(path.join(inc, "libcommute", "version.hpp")):
+            version = self.detect_libcommute_version(inc)
+            if version is not None:
+                self.libcommute_includedir = inc
+                return version
+
+        # 3. Let the C++ compiler find the headers
+        version = self.detect_libcommute_version()
+        self.libcommute_includedir = None
+        return version
+
+    def detect_libcommute_version(self, include_dir=None):
         import os
-        import tempfile
-        import subprocess
         import distutils.errors
-        from os import environ
+        from tempfile import TemporaryDirectory
+        from subprocess import run, PIPE
 
-        self.libcommute_includedir = environ.get('LIBCOMMUTE_INCLUDEDIR', None)
-        inc = [self.libcommute_includedir] if self.libcommute_includedir else []
+        test_prog = """
+        #include <iostream>
+        #include <libcommute/version.hpp>
+        int main () { std::cout << LIBCOMMUTE_VERSION; return 0; }
+        """
 
-        with tempfile.TemporaryDirectory() as d:
+        with TemporaryDirectory() as d:
             cwd = os.getcwd()
             os.chdir(d)
-            open("libcommute_version.cpp", 'w').write("""
-                  #include <iostream>
-                  #include <libcommute/version.hpp>
-                  int main () { std::cout << LIBCOMMUTE_VERSION; return 0; }
-            """)
+            include_dirs = [] if (include_dir is None) else [include_dir]
+            open("libcommute_version.cpp", 'w').write(test_prog)
             try:
-                objs = self.compiler.compile(["libcommute_version.cpp"],
-                                             include_dirs=inc)
-                self.compiler.link_executable(objs,
-                                              "libcommute_version",
-                                              target_lang='c++')
-                v = subprocess.run(["./libcommute_version"],
-                                   stdout=subprocess.PIPE).stdout
-                v = str(v, 'utf-8', 'ignore')
+                objs = self.compiler.compile(
+                    ["libcommute_version.cpp"], include_dirs=include_dirs
+                )
+                self.compiler.link_executable(
+                    objs, "libcommute_version", target_lang='c++'
+                )
+                version = run(["./libcommute_version"], stdout=PIPE).stdout
+                version = str(version, 'utf-8', 'ignore')
             except distutils.errors.CompileError:
-                return False
+                return None
             finally:
                 os.chdir(cwd)
-
-        return v
+        return version
 
     def build_extensions(self):
         libcommute_version = self.find_libcommute()
+        libcommute_loc = self.libcommute_includedir if \
+            (self.libcommute_includedir is not None) else "a system location"
+
         if libcommute_version:
-            print("Found libcommute version " + libcommute_version)
+            print(f"Found libcommute version {libcommute_version} "
+                  f"at {libcommute_loc}")
         else:
             raise RuntimeError(
-                "Could not find libcommute headers. "
-                "Use the LIBCOMMUTE_INCLUDEDIR environment variable "
-                "to specify location of libcommute include directory."
+                "Could not find libcommute headers. pycommute inspects the "
+                "following locations while looking for the headers "
+                "(in order):\n"
+                "- Value of the environment variable $LIBCOMMUTE_INCLUDEDIR.\n"
+                "- Subdirectory `src/libcommute` in pycommute's sources.\n"
+                "- Standard system locations used by the C++ compiler."
             )
 
         if Version(libcommute_version) not in \
            SpecifierSet(comp_libcommute_versions):
             raise RuntimeError(
-                "Incompatible libcommute version %s (required %s)." % (
-                    libcommute_version, comp_libcommute_versions
-                )
+                f"Found an incompatible libcommute version {libcommute_version}"
+                f" (required {comp_libcommute_versions})"
+                f" at {libcommute_loc}."
             )
 
         for ext in self.extensions:
-            ext.include_dirs.append(self.libcommute_includedir)
+            if self.libcommute_includedir:
+                ext.include_dirs.append(self.libcommute_includedir)
             ext.cxx_std = 17
             ext.extra_compile_args.append("-O3")
             if not sys.platform.startswith("darwin"):

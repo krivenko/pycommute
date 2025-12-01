@@ -42,7 +42,7 @@ Automated installation of the PyPI package
 ------------------------------------------
 
 ```
-LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" pip install pycommute
+pip install pycommute
 ```
 
 Docker images

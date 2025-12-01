@@ -46,6 +46,10 @@ All notable changes to this project will be documented in this file.
   ``loperator.SpacePartition.find_connections()`` no longer accept the ``hs``
   argument and instead use the ``loperator.HilbertSpace`` object provided upon
   construction.
+- ``setup.py`` has been updated to look for the libcommute header files in the
+  ``src/libcommute`` subdirectory of pycommute's source tree in addition to the
+  location specified via the ``LIBCOMMUTE_INCLUDEDIR`` environment variable.
+  This change makes it easier to distribute both libraries in one archive.
 
 ## [0.7.1] - 2021-12-17
 
