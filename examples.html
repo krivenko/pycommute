@@ -47,6 +47,7 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Usage examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#kanamori-interaction-hamiltonian-basic-usage-of-expressions">Kanamori interaction Hamiltonian: Basic usage of expressions</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#holstein-model">Holstein model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spin-1-2-heisenberg-chain">Spin-1/2 Heisenberg chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spectrum-of-tavis-cummings-model">Spectrum of Tavis-Cummings model</a></li>
@@ -88,6 +89,156 @@
              
   <section id="usage-examples">
 <span id="examples"></span><h1>Usage examples<a class="headerlink" href="#usage-examples" title="Link to this heading"></a></h1>
+<section id="kanamori-interaction-hamiltonian-basic-usage-of-expressions">
+<h2>Kanamori interaction Hamiltonian: Basic usage of expressions<a class="headerlink" href="#kanamori-interaction-hamiltonian-basic-usage-of-expressions" title="Link to this heading"></a></h2>
+<p>The Kanamori multiorbital Hamiltonian describes Coulomb repulsion of
+<span class="math notranslate nohighlight">\(t_{2g}\)</span> electronic states as relevant to a transition-metal ion
+in a cubic crystal field with an octahedral environment <a class="reference internal" href="#gdmm2013" id="id1"><span>[GdMM2013]</span></a>.
+In its rotationally invariant form, the Hamiltonian reads</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{multline}
+\hat H_K = U \sum_{m} n_{m\uparrow} n_{m\downarrow} +
+           (U-2J)\sum_{m\neq m'} n_{m\uparrow} n_{m'\downarrow} +\\+
+           (U-3J)\sum_{m&lt;m',\sigma} n_{m\sigma} n_{m'\sigma}
+           -J\sum_{m\neq m'} c^\dagger_{m\uparrow} c_{m\downarrow}
+                             c^\dagger_{m'\uparrow} c_{m'\uparrow}
+           +J\sum_{m\neq m'} c^\dagger_{m\uparrow} c^\dagger_{m\downarrow}
+                             c_{m'\downarrow} c_{m'\uparrow}.
+\end{multline}\end{split}\]</div>
+<p>The orbital indices <span class="math notranslate nohighlight">\(m\)</span>, <span class="math notranslate nohighlight">\(m'\)</span> run over the <span class="math notranslate nohighlight">\(t_{2g}\)</span> triplet
+<span class="math notranslate nohighlight">\(p_x, p_y, p_z\)</span>. <span class="math notranslate nohighlight">\(U\)</span> and <span class="math notranslate nohighlight">\(J\)</span> are Coulomb integrals
+(independent parameters of the model). The rotationally invariant Hamiltonian
+can be expressed in terms of a few integrals of motion,</p>
+<div class="math notranslate nohighlight">
+\[\hat H_{t_{2g}} = (U-3J)\frac{\hat N (\hat N-1)}{2}
+                - 2J\mathbf{S}^2 - \frac{J}{2}\mathbf{L}^2
+                + \frac{5}{2}J \hat N,\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat N\)</span> is the total number of electrons on the shell,</p>
+<div class="math notranslate nohighlight">
+\[\hat N = \sum_{m\sigma} n_{m\sigma},\]</div>
+<p><span class="math notranslate nohighlight">\(\mathbf{S}\)</span> is the total spin vector,</p>
+<div class="math notranslate nohighlight">
+\[\mathbf{S} = \frac{1}{2} \sum_m \sum_{\sigma\sigma'}
+  c^\dagger_{m\sigma} \boldsymbol{\tau}_{\sigma\sigma'} c_{m\sigma'},\]</div>
+<p>and <span class="math notranslate nohighlight">\(\mathbf{L}\)</span> is the total orbital isospin,</p>
+<div class="math notranslate nohighlight">
+\[L_m = i \sum_{mm'} \sum_{\sigma} \epsilon_{mm'm''}
+  c^\dagger_{m'\sigma} c_{m''\sigma}.\]</div>
+<p>The following script verifies that <span class="math notranslate nohighlight">\(\hat H_K = \hat H_{t_{2g}}\)</span> indeed.</p>
+<div class="highlight-py notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">#</span>
+<span class="linenos">  2</span><span class="c1"># ## Kanamori interaction Hamiltonian</span>
+<span class="linenos">  3</span><span class="c1"># ### and its expression in terms of integrals of motion N, S^2 and L^2.</span>
+<span class="linenos">  4</span><span class="c1">#</span>
+<span class="linenos">  5</span><span class="c1">#   &quot;Strong Correlations from Hund&#39;s Coupling&quot;,</span>
+<span class="linenos">  6</span><span class="c1">#   A. Georges, L. de&#39; Medici and J. Mravlje,</span>
+<span class="linenos">  7</span><span class="c1">#   Annu. Rev. Condens. Matter Phys. 2013. 4:137–78,</span>
+<span class="linenos">  8</span><span class="c1">#   https://doi.org/10.1146/annurev-conmatphys-020911-125045</span>
+<span class="linenos">  9</span><span class="c1">#</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="c1"># Polynomial expression with real and complex coefficients</span>
+<span class="linenos"> 14</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.expression</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExpressionR</span><span class="p">,</span> <span class="n">ExpressionC</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="c1"># Factory functions returning expressions for fermionic creation, annihilation</span>
+<span class="linenos"> 17</span><span class="c1"># and occupation number operators.</span>
+<span class="linenos"> 18</span><span class="kn">from</span><span class="w"> </span><span class="nn">pycommute.expression</span><span class="w"> </span><span class="kn">import</span> <span class="n">c_dag</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">n</span>
+<span class="linenos"> 19</span>
+<span class="linenos"> 20</span><span class="c1"># Orbital degeneracy of the shell (t_{2g} triplet)</span>
+<span class="linenos"> 21</span><span class="n">n_orbs</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="linenos"> 22</span><span class="c1"># Coulomb integrals U and J</span>
+<span class="linenos"> 23</span><span class="n">U</span> <span class="o">=</span> <span class="mf">4.0</span>
+<span class="linenos"> 24</span><span class="n">J</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span><span class="c1"># Kanamori Hamiltonian (Eq. (2))</span>
+<span class="linenos"> 27</span><span class="n">H_K</span> <span class="o">=</span> <span class="n">ExpressionR</span><span class="p">()</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="c1"># Intraorbital density-density interaction terms</span>
+<span class="linenos"> 30</span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">):</span>
+<span class="linenos"> 31</span>    <span class="n">H_K</span> <span class="o">+=</span> <span class="n">U</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span>
+<span class="linenos"> 32</span>
+<span class="linenos"> 33</span><span class="c1"># Interorbital density-density interaction terms (different spins)</span>
+<span class="linenos"> 34</span><span class="k">for</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">)):</span>
+<span class="linenos"> 35</span>    <span class="k">if</span> <span class="n">m1</span> <span class="o">==</span> <span class="n">m2</span><span class="p">:</span>
+<span class="linenos"> 36</span>        <span class="k">continue</span>
+<span class="linenos"> 37</span>    <span class="n">H_K</span> <span class="o">+=</span> <span class="p">(</span><span class="n">U</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span><span class="c1"># Interorbital density-density interaction terms (same spin)</span>
+<span class="linenos"> 40</span><span class="k">for</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">)):</span>
+<span class="linenos"> 41</span>    <span class="k">if</span> <span class="n">m1</span> <span class="o">&gt;=</span> <span class="n">m2</span><span class="p">:</span>
+<span class="linenos"> 42</span>        <span class="k">continue</span>
+<span class="linenos"> 43</span>    <span class="n">H_K</span> <span class="o">+=</span> <span class="p">(</span><span class="n">U</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span>
+<span class="linenos"> 44</span>    <span class="n">H_K</span> <span class="o">+=</span> <span class="p">(</span><span class="n">U</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">J</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span>
+<span class="linenos"> 45</span>
+<span class="linenos"> 46</span><span class="c1"># Spin-flip terms</span>
+<span class="linenos"> 47</span><span class="k">for</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">)):</span>
+<span class="linenos"> 48</span>    <span class="k">if</span> <span class="n">m1</span> <span class="o">==</span> <span class="n">m2</span><span class="p">:</span>
+<span class="linenos"> 49</span>        <span class="k">continue</span>
+<span class="linenos"> 50</span>    <span class="n">H_K</span> <span class="o">+=</span> \
+<span class="linenos"> 51</span>        <span class="o">-</span><span class="n">J</span> <span class="o">*</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span>
+<span class="linenos"> 52</span>
+<span class="linenos"> 53</span><span class="c1"># Pair-hopping terms</span>
+<span class="linenos"> 54</span><span class="k">for</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">)):</span>
+<span class="linenos"> 55</span>    <span class="k">if</span> <span class="n">m1</span> <span class="o">==</span> <span class="n">m2</span><span class="p">:</span>
+<span class="linenos"> 56</span>        <span class="k">continue</span>
+<span class="linenos"> 57</span>    <span class="n">H_K</span> <span class="o">+=</span> <span class="n">J</span> <span class="o">*</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="c1"># Print the Hamiltonian</span>
+<span class="linenos"> 60</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;H_K =&quot;</span><span class="p">,</span> <span class="n">H_K</span><span class="p">)</span>
+<span class="linenos"> 61</span>
+<span class="linenos"> 62</span><span class="c1">#</span>
+<span class="linenos"> 63</span><span class="c1"># ### Integrals of motion N, S^2 and L^2 (Eq. (4))</span>
+<span class="linenos"> 64</span><span class="c1">#</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span><span class="c1"># Total number of particles.</span>
+<span class="linenos"> 67</span><span class="n">N</span> <span class="o">=</span> <span class="n">ExpressionR</span><span class="p">()</span>
+<span class="linenos"> 68</span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">):</span>
+<span class="linenos"> 69</span>    <span class="n">N</span> <span class="o">+=</span> <span class="n">n</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span>
+<span class="linenos"> 70</span>
+<span class="linenos"> 71</span><span class="c1"># Total spin operators S_x, S_y, S_z.</span>
+<span class="linenos"> 72</span><span class="n">Sx</span> <span class="o">=</span> <span class="n">ExpressionC</span><span class="p">()</span>
+<span class="linenos"> 73</span><span class="n">Sy</span> <span class="o">=</span> <span class="n">ExpressionC</span><span class="p">()</span>
+<span class="linenos"> 74</span><span class="n">Sz</span> <span class="o">=</span> <span class="n">ExpressionC</span><span class="p">()</span>
+<span class="linenos"> 75</span><span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">):</span>
+<span class="linenos"> 76</span>    <span class="n">Sx</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">c_dag</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">))</span>
+<span class="linenos"> 77</span>    <span class="n">Sy</span> <span class="o">+=</span> <span class="mf">0.5</span><span class="n">j</span> <span class="o">*</span> <span class="p">(</span><span class="n">c_dag</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">))</span>
+<span class="linenos"> 78</span>    <span class="n">Sz</span> <span class="o">+=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">n</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">))</span>
+<span class="linenos"> 79</span>
+<span class="linenos"> 80</span><span class="c1"># Operator S^2 = S_x S_x + S_y S_y + S_z S_z.</span>
+<span class="linenos"> 81</span><span class="n">S2</span> <span class="o">=</span> <span class="n">Sx</span> <span class="o">*</span> <span class="n">Sx</span> <span class="o">+</span> <span class="n">Sy</span> <span class="o">*</span> <span class="n">Sy</span> <span class="o">+</span> <span class="n">Sz</span> <span class="o">*</span> <span class="n">Sz</span>
+<span class="linenos"> 82</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="c1"># Levi-Civita symbol \epsilon_{ijk}.</span>
+<span class="linenos"> 85</span><span class="k">def</span><span class="w"> </span><span class="nf">eps</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+<span class="linenos"> 86</span>    <span class="k">return</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span>
+<span class="linenos"> 89</span><span class="c1"># Orbital isospin generators L_x, L_y, L_z.</span>
+<span class="linenos"> 90</span><span class="n">Lx</span> <span class="o">=</span> <span class="n">ExpressionC</span><span class="p">()</span>
+<span class="linenos"> 91</span><span class="n">Ly</span> <span class="o">=</span> <span class="n">ExpressionC</span><span class="p">()</span>
+<span class="linenos"> 92</span><span class="n">Lz</span> <span class="o">=</span> <span class="n">ExpressionC</span><span class="p">()</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;up&quot;</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">):</span>
+<span class="linenos"> 95</span>    <span class="k">for</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_orbs</span><span class="p">)):</span>
+<span class="linenos"> 96</span>        <span class="n">Lx</span> <span class="o">+=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+<span class="linenos"> 97</span>        <span class="n">Ly</span> <span class="o">+=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+<span class="linenos"> 98</span>        <span class="n">Lz</span> <span class="o">+=</span> <span class="mi">1</span><span class="n">j</span> <span class="o">*</span> <span class="n">eps</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">)</span> <span class="o">*</span> <span class="n">c_dag</span><span class="p">(</span><span class="n">m1</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span> <span class="o">*</span> <span class="n">c</span><span class="p">(</span><span class="n">m2</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+<span class="linenos"> 99</span>
+<span class="linenos">100</span><span class="c1"># Operator L^2 = L_x L_x + L_y L_y + L_z L_z.</span>
+<span class="linenos">101</span><span class="n">L2</span> <span class="o">=</span> <span class="n">Lx</span> <span class="o">*</span> <span class="n">Lx</span> <span class="o">+</span> <span class="n">Ly</span> <span class="o">*</span> <span class="n">Ly</span> <span class="o">+</span> <span class="n">Lz</span> <span class="o">*</span> <span class="n">Lz</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span><span class="c1">#</span>
+<span class="linenos">104</span><span class="c1"># ### Hamiltonian as a function of N, S^2 and L^2 (Eq. (7))</span>
+<span class="linenos">105</span><span class="c1">#</span>
+<span class="linenos">106</span>
+<span class="linenos">107</span><span class="n">H_t2g</span> <span class="o">=</span> <span class="p">(</span><span class="n">U</span> <span class="o">-</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">J</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">N</span> <span class="o">*</span> <span class="p">(</span><span class="n">N</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">J</span> <span class="o">*</span> <span class="n">S2</span> <span class="o">-</span> <span class="n">J</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">L2</span> \
+<span class="linenos">108</span>    <span class="o">+</span> <span class="p">(</span><span class="mf">5.0</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">J</span> <span class="o">*</span> <span class="n">N</span>
+<span class="linenos">109</span>
+<span class="linenos">110</span><span class="c1"># Must be zero</span>
+<span class="linenos">111</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;H_K - H_t2g =&quot;</span><span class="p">,</span> <span class="n">H_K</span> <span class="o">-</span> <span class="n">H_t2g</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <section id="holstein-model">
 <h2>Holstein model<a class="headerlink" href="#holstein-model" title="Link to this heading"></a></h2>
 <p>This example shows how to construct Hamiltonian of the
@@ -118,7 +269,7 @@ functions <a class="reference internal" href="models_ref.html#pycommute.models.t
 We also make use of the <a class="reference external" href="https://networkx.org/">NetworkX</a> package
 to easily generate the adjacency matrix of the periodic square lattice.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">#</span>
-<span class="linenos">  2</span><span class="c1"># Holstein model on a square lattice with periodic boundary conditions.</span>
+<span class="linenos">  2</span><span class="c1"># ## Holstein model on a square lattice with periodic boundary conditions</span>
 <span class="linenos">  3</span><span class="c1">#</span>
 <span class="linenos">  4</span>
 <span class="linenos">  5</span><span class="kn">from</span><span class="w"> </span><span class="nn">itertools</span><span class="w"> </span><span class="kn">import</span> <span class="n">product</span>
@@ -132,102 +283,101 @@ to easily generate the adjacency matrix of the periodic square lattice.</p>
 <span class="linenos"> 13</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.linalg.graphmatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjacency_matrix</span>
 <span class="linenos"> 14</span>
 <span class="linenos"> 15</span><span class="c1">#</span>
-<span class="linenos"> 16</span><span class="c1"># Let us define Hamiltonian of the electronic tight-binding model</span>
-<span class="linenos"> 17</span><span class="c1"># on a square lattice.</span>
-<span class="linenos"> 18</span><span class="c1">#</span>
-<span class="linenos"> 19</span>
-<span class="linenos"> 20</span><span class="c1"># Number of lattice sites in each direction</span>
-<span class="linenos"> 21</span><span class="c1"># (the total number of sites is N*N).</span>
-<span class="linenos"> 22</span><span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
-<span class="linenos"> 23</span>
-<span class="linenos"> 24</span><span class="c1"># Electron hopping constant - energy parameter of the TB model.</span>
-<span class="linenos"> 25</span><span class="n">t</span> <span class="o">=</span> <span class="mf">2.0</span>
-<span class="linenos"> 26</span>
-<span class="linenos"> 27</span><span class="c1"># Use NetworkX to construct the periodic square lattice (graph)</span>
-<span class="linenos"> 28</span><span class="n">lat</span> <span class="o">=</span> <span class="n">grid_2d_graph</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="linenos"> 29</span>
-<span class="linenos"> 30</span><span class="c1"># Create lists of indices for electronic spin-up and spin-down operators.</span>
-<span class="linenos"> 31</span><span class="c1"># lat.nodes() returns a list of N^2 pairs of site indices (x, y).</span>
-<span class="linenos"> 32</span><span class="n">indices_up</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
-<span class="linenos"> 33</span><span class="n">indices_dn</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
-<span class="linenos"> 34</span>
-<span class="linenos"> 35</span><span class="c1"># A sum of tight-binding Hamiltonians for both spins.</span>
-<span class="linenos"> 36</span><span class="c1"># The hopping matrix passed to tight_binding() is proportional to the</span>
-<span class="linenos"> 37</span><span class="c1"># adjacency matrix of the lattice.</span>
-<span class="linenos"> 38</span><span class="n">hopping_matrix</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">adjacency_matrix</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
-<span class="linenos"> 39</span><span class="n">H_e</span> <span class="o">=</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_up</span><span class="p">)</span> \
-<span class="linenos"> 40</span>    <span class="o">+</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
-<span class="linenos"> 41</span>
-<span class="linenos"> 42</span><span class="c1">#</span>
-<span class="linenos"> 43</span><span class="c1"># Hamiltonian of phonons localized at lattice sites.</span>
-<span class="linenos"> 44</span><span class="c1">#</span>
-<span class="linenos"> 45</span>
-<span class="linenos"> 46</span><span class="c1"># Frequency of the localized phonon.</span>
-<span class="linenos"> 47</span><span class="n">w0</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="linenos"> 48</span>
-<span class="linenos"> 49</span><span class="c1"># A lists of indices for bosonic operators, simply the (x, y) pairs</span>
-<span class="linenos"> 50</span><span class="n">indices_phonon</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
-<span class="linenos"> 51</span>
-<span class="linenos"> 52</span><span class="c1"># All N^2 phonons have the same frequency</span>
-<span class="linenos"> 53</span><span class="n">phonon_freqs</span> <span class="o">=</span> <span class="n">w0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-<span class="linenos"> 54</span><span class="n">H_ph</span> <span class="o">=</span> <span class="n">dispersion</span><span class="p">(</span><span class="n">phonon_freqs</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_phonon</span><span class="p">,</span> <span class="n">statistics</span><span class="o">=</span><span class="n">BOSON</span><span class="p">)</span>
-<span class="linenos"> 55</span>
-<span class="linenos"> 56</span><span class="c1">#</span>
-<span class="linenos"> 57</span><span class="c1"># Hamiltonian of electron-phonon coupling.</span>
-<span class="linenos"> 58</span><span class="c1">#</span>
-<span class="linenos"> 59</span>
-<span class="linenos"> 60</span><span class="c1"># Electron-phonon coupling constant.</span>
-<span class="linenos"> 61</span><span class="n">g</span> <span class="o">=</span> <span class="mf">0.1</span>
-<span class="linenos"> 62</span>
-<span class="linenos"> 63</span><span class="n">H_e_ph</span> <span class="o">=</span> <span class="n">holstein_int</span><span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
-<span class="linenos"> 64</span>                      <span class="n">indices_up</span><span class="o">=</span><span class="n">indices_up</span><span class="p">,</span>
-<span class="linenos"> 65</span>                      <span class="n">indices_dn</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">,</span>
-<span class="linenos"> 66</span>                      <span class="n">indices_boson</span><span class="o">=</span><span class="n">indices_phonon</span><span class="p">)</span>
-<span class="linenos"> 67</span>
-<span class="linenos"> 68</span><span class="c1"># Complete Holstein Hamiltonian.</span>
-<span class="linenos"> 69</span><span class="n">H_H</span> <span class="o">=</span> <span class="n">H_e</span> <span class="o">+</span> <span class="n">H_ph</span> <span class="o">+</span> <span class="n">H_e_ph</span>
-<span class="linenos"> 70</span>
-<span class="linenos"> 71</span><span class="c1"># Print H_H. There will be quite a lot of terms for the 100-site lattice!</span>
-<span class="linenos"> 72</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;H_H =&quot;</span><span class="p">,</span> <span class="n">H_H</span><span class="p">)</span>
-<span class="linenos"> 73</span>
-<span class="linenos"> 74</span><span class="c1"># Check hermiticity of H_H.</span>
-<span class="linenos"> 75</span><span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;H_H - H_H^\dagger =&quot;</span><span class="p">,</span> <span class="n">H_H</span> <span class="o">-</span> <span class="n">conj</span><span class="p">(</span><span class="n">H_H</span><span class="p">))</span>
-<span class="linenos"> 76</span>
-<span class="linenos"> 77</span><span class="c1"># Check that H_H commutes with the total number of electrons N_e.</span>
-<span class="linenos"> 78</span><span class="n">N_e</span> <span class="o">=</span> <span class="n">ExpressionR</span><span class="p">()</span>
-<span class="linenos"> 79</span><span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;up&quot;</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">):</span>
-<span class="linenos"> 80</span>    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)):</span>
-<span class="linenos"> 81</span>        <span class="n">N_e</span> <span class="o">+=</span> <span class="n">n</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
-<span class="linenos"> 82</span>
-<span class="linenos"> 83</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H_H, N_e] =&quot;</span><span class="p">,</span> <span class="n">H_H</span> <span class="o">*</span> <span class="n">N_e</span> <span class="o">-</span> <span class="n">N_e</span> <span class="o">*</span> <span class="n">H_H</span><span class="p">)</span>
-<span class="linenos"> 84</span>
-<span class="linenos"> 85</span><span class="c1">#</span>
-<span class="linenos"> 86</span><span class="c1"># Iteration interface</span>
-<span class="linenos"> 87</span><span class="c1">#</span>
-<span class="linenos"> 88</span>
-<span class="linenos"> 89</span><span class="c1"># Iterate over monomial-coefficient pairs in polynomial expression H_H</span>
-<span class="linenos"> 90</span><span class="k">for</span> <span class="n">monomial</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="n">H_H</span><span class="p">:</span>
-<span class="linenos"> 91</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coefficient:&quot;</span><span class="p">,</span> <span class="n">coeff</span><span class="p">)</span>
-<span class="linenos"> 92</span>    <span class="c1"># Iterate over algebra generators (creation/annihilation operators)</span>
-<span class="linenos"> 93</span>    <span class="c1"># in the monomial</span>
-<span class="linenos"> 94</span>    <span class="k">for</span> <span class="n">generator</span> <span class="ow">in</span> <span class="n">monomial</span><span class="p">:</span>
-<span class="linenos"> 95</span>        <span class="c1"># Detect what algebra this generator belongs to</span>
-<span class="linenos"> 96</span>        <span class="k">if</span> <span class="n">generator</span><span class="o">.</span><span class="n">algebra_id</span> <span class="o">==</span> <span class="n">FERMION</span><span class="p">:</span>
-<span class="linenos"> 97</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Fermionic&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-<span class="linenos"> 98</span>        <span class="k">elif</span> <span class="n">generator</span><span class="o">.</span><span class="n">algebra_id</span> <span class="o">==</span> <span class="n">BOSON</span><span class="p">:</span>
-<span class="linenos"> 99</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Bosonic&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-<span class="linenos">100</span>        <span class="c1"># Creation or annihilation operator?</span>
-<span class="linenos">101</span>        <span class="k">if</span> <span class="n">generator</span><span class="o">.</span><span class="n">dagger</span><span class="p">:</span>
-<span class="linenos">102</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;creation operator&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-<span class="linenos">103</span>        <span class="k">else</span><span class="p">:</span>
-<span class="linenos">104</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;annihilation operator&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
-<span class="linenos">105</span>        <span class="c1"># Extract indices carried by the generator</span>
-<span class="linenos">106</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;with indices&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">generator</span><span class="o">.</span><span class="n">indices</span><span class="p">))</span>
-<span class="linenos">107</span>        <span class="c1"># N.B. generator.indices is an instance of a special tuple-like type</span>
-<span class="linenos">108</span>        <span class="c1"># `pycommute.expression.Indices`. Types of its elements are restricted</span>
-<span class="linenos">109</span>        <span class="c1"># to integer and string, and its comparison operators behave differently</span>
-<span class="linenos">110</span>        <span class="c1"># from those of the Python tuple. Otherwise, it supports `len()`,</span>
-<span class="linenos">111</span>        <span class="c1"># indexed element access and iteration protocol.</span>
+<span class="linenos"> 16</span><span class="c1"># ### Hamiltonian of the electronic tight-binding model on a square lattice</span>
+<span class="linenos"> 17</span><span class="c1">#</span>
+<span class="linenos"> 18</span>
+<span class="linenos"> 19</span><span class="c1"># Number of lattice sites in each direction</span>
+<span class="linenos"> 20</span><span class="c1"># (the total number of sites is N*N).</span>
+<span class="linenos"> 21</span><span class="n">N</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="linenos"> 22</span>
+<span class="linenos"> 23</span><span class="c1"># Electron hopping constant - energy parameter of the TB model.</span>
+<span class="linenos"> 24</span><span class="n">t</span> <span class="o">=</span> <span class="mf">2.0</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span><span class="c1"># Use NetworkX to construct the periodic square lattice (graph)</span>
+<span class="linenos"> 27</span><span class="n">lat</span> <span class="o">=</span> <span class="n">grid_2d_graph</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">periodic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span><span class="c1"># Create lists of indices for electronic spin-up and spin-down operators.</span>
+<span class="linenos"> 30</span><span class="c1"># lat.nodes() returns a list of N^2 pairs of site indices (x, y).</span>
+<span class="linenos"> 31</span><span class="n">indices_up</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;up&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+<span class="linenos"> 32</span><span class="n">indices_dn</span> <span class="o">=</span> <span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()]</span>
+<span class="linenos"> 33</span>
+<span class="linenos"> 34</span><span class="c1"># A sum of tight-binding Hamiltonians for both spins.</span>
+<span class="linenos"> 35</span><span class="c1"># The hopping matrix passed to tight_binding() is proportional to the</span>
+<span class="linenos"> 36</span><span class="c1"># adjacency matrix of the lattice.</span>
+<span class="linenos"> 37</span><span class="n">hopping_matrix</span> <span class="o">=</span> <span class="o">-</span><span class="n">t</span> <span class="o">*</span> <span class="n">adjacency_matrix</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span><span class="o">.</span><span class="n">todense</span><span class="p">()</span>
+<span class="linenos"> 38</span><span class="n">H_e</span> <span class="o">=</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_up</span><span class="p">)</span> \
+<span class="linenos"> 39</span>    <span class="o">+</span> <span class="n">tight_binding</span><span class="p">(</span><span class="n">hopping_matrix</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">)</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span><span class="c1">#</span>
+<span class="linenos"> 42</span><span class="c1"># ### Hamiltonian of phonons localized at lattice sites</span>
+<span class="linenos"> 43</span><span class="c1">#</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="c1"># Frequency of the localized phonon.</span>
+<span class="linenos"> 46</span><span class="n">w0</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="linenos"> 47</span>
+<span class="linenos"> 48</span><span class="c1"># A lists of indices for bosonic operators, simply the (x, y) pairs</span>
+<span class="linenos"> 49</span><span class="n">indices_phonon</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span><span class="c1"># All N^2 phonons have the same frequency</span>
+<span class="linenos"> 52</span><span class="n">phonon_freqs</span> <span class="o">=</span> <span class="n">w0</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos"> 53</span><span class="n">H_ph</span> <span class="o">=</span> <span class="n">dispersion</span><span class="p">(</span><span class="n">phonon_freqs</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices_phonon</span><span class="p">,</span> <span class="n">statistics</span><span class="o">=</span><span class="n">BOSON</span><span class="p">)</span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span><span class="c1">#</span>
+<span class="linenos"> 56</span><span class="c1"># ### Hamiltonian of electron-phonon coupling</span>
+<span class="linenos"> 57</span><span class="c1">#</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="c1"># Electron-phonon coupling constant.</span>
+<span class="linenos"> 60</span><span class="n">g</span> <span class="o">=</span> <span class="mf">0.1</span>
+<span class="linenos"> 61</span>
+<span class="linenos"> 62</span><span class="n">H_e_ph</span> <span class="o">=</span> <span class="n">holstein_int</span><span class="p">(</span><span class="n">g</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span> <span class="o">**</span> <span class="mi">2</span><span class="p">),</span>
+<span class="linenos"> 63</span>                      <span class="n">indices_up</span><span class="o">=</span><span class="n">indices_up</span><span class="p">,</span>
+<span class="linenos"> 64</span>                      <span class="n">indices_dn</span><span class="o">=</span><span class="n">indices_dn</span><span class="p">,</span>
+<span class="linenos"> 65</span>                      <span class="n">indices_boson</span><span class="o">=</span><span class="n">indices_phonon</span><span class="p">)</span>
+<span class="linenos"> 66</span>
+<span class="linenos"> 67</span><span class="c1"># Complete Holstein Hamiltonian.</span>
+<span class="linenos"> 68</span><span class="n">H_H</span> <span class="o">=</span> <span class="n">H_e</span> <span class="o">+</span> <span class="n">H_ph</span> <span class="o">+</span> <span class="n">H_e_ph</span>
+<span class="linenos"> 69</span>
+<span class="linenos"> 70</span><span class="c1"># Print H_H. There will be quite a lot of terms for the 100-site lattice!</span>
+<span class="linenos"> 71</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;H_H =&quot;</span><span class="p">,</span> <span class="n">H_H</span><span class="p">)</span>
+<span class="linenos"> 72</span>
+<span class="linenos"> 73</span><span class="c1"># Check hermiticity of H_H.</span>
+<span class="linenos"> 74</span><span class="nb">print</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;H_H - H_H^\dagger =&quot;</span><span class="p">,</span> <span class="n">H_H</span> <span class="o">-</span> <span class="n">conj</span><span class="p">(</span><span class="n">H_H</span><span class="p">))</span>
+<span class="linenos"> 75</span>
+<span class="linenos"> 76</span><span class="c1"># Check that H_H commutes with the total number of electrons N_e.</span>
+<span class="linenos"> 77</span><span class="n">N_e</span> <span class="o">=</span> <span class="n">ExpressionR</span><span class="p">()</span>
+<span class="linenos"> 78</span><span class="k">for</span> <span class="n">spin</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;up&quot;</span><span class="p">,</span> <span class="s2">&quot;down&quot;</span><span class="p">):</span>
+<span class="linenos"> 79</span>    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)):</span>
+<span class="linenos"> 80</span>        <span class="n">N_e</span> <span class="o">+=</span> <span class="n">n</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">spin</span><span class="p">)</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[H_H, N_e] =&quot;</span><span class="p">,</span> <span class="n">H_H</span> <span class="o">*</span> <span class="n">N_e</span> <span class="o">-</span> <span class="n">N_e</span> <span class="o">*</span> <span class="n">H_H</span><span class="p">)</span>
+<span class="linenos"> 83</span>
+<span class="linenos"> 84</span><span class="c1">#</span>
+<span class="linenos"> 85</span><span class="c1"># ### Iteration interface</span>
+<span class="linenos"> 86</span><span class="c1">#</span>
+<span class="linenos"> 87</span>
+<span class="linenos"> 88</span><span class="c1"># Iterate over monomial-coefficient pairs in polynomial expression H_H</span>
+<span class="linenos"> 89</span><span class="k">for</span> <span class="n">monomial</span><span class="p">,</span> <span class="n">coeff</span> <span class="ow">in</span> <span class="n">H_H</span><span class="p">:</span>
+<span class="linenos"> 90</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Coefficient:&quot;</span><span class="p">,</span> <span class="n">coeff</span><span class="p">)</span>
+<span class="linenos"> 91</span>    <span class="c1"># Iterate over algebra generators (creation/annihilation operators)</span>
+<span class="linenos"> 92</span>    <span class="c1"># in the monomial</span>
+<span class="linenos"> 93</span>    <span class="k">for</span> <span class="n">generator</span> <span class="ow">in</span> <span class="n">monomial</span><span class="p">:</span>
+<span class="linenos"> 94</span>        <span class="c1"># Detect what algebra this generator belongs to</span>
+<span class="linenos"> 95</span>        <span class="k">if</span> <span class="n">generator</span><span class="o">.</span><span class="n">algebra_id</span> <span class="o">==</span> <span class="n">FERMION</span><span class="p">:</span>
+<span class="linenos"> 96</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Fermionic&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="linenos"> 97</span>        <span class="k">elif</span> <span class="n">generator</span><span class="o">.</span><span class="n">algebra_id</span> <span class="o">==</span> <span class="n">BOSON</span><span class="p">:</span>
+<span class="linenos"> 98</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Bosonic&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="linenos"> 99</span>        <span class="c1"># Creation or annihilation operator?</span>
+<span class="linenos">100</span>        <span class="k">if</span> <span class="n">generator</span><span class="o">.</span><span class="n">dagger</span><span class="p">:</span>
+<span class="linenos">101</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;creation operator&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="linenos">102</span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos">103</span>            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;annihilation operator&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+<span class="linenos">104</span>        <span class="c1"># Extract indices carried by the generator</span>
+<span class="linenos">105</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;with indices&quot;</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">generator</span><span class="o">.</span><span class="n">indices</span><span class="p">))</span>
+<span class="linenos">106</span>        <span class="c1"># N.B. generator.indices is an instance of a special tuple-like type</span>
+<span class="linenos">107</span>        <span class="c1"># `pycommute.expression.Indices`. Types of its elements are restricted</span>
+<span class="linenos">108</span>        <span class="c1"># to integer and string, and its comparison operators behave differently</span>
+<span class="linenos">109</span>        <span class="c1"># from those of the Python tuple. Otherwise, it supports `len()`,</span>
+<span class="linenos">110</span>        <span class="c1"># indexed element access and iteration protocol.</span>
 </pre></div>
 </div>
 </section>
@@ -242,13 +392,13 @@ system. Its Hamiltonian</p>
 \[\mathbf{S} = \sum_i \mathbf{S}_i\]</div>
 <p>as well as a series of higher order charges <span class="math notranslate nohighlight">\(Q_n\)</span>. Existence of these
 charges can be derived from the transfer matrix theory. Explicit expressions
-for <span class="math notranslate nohighlight">\(Q_n\)</span> were obtained in <a class="reference internal" href="#gm94" id="id2"><span>[GM94]</span></a>. The following script constructs
+for <span class="math notranslate nohighlight">\(Q_n\)</span> were obtained in <a class="reference internal" href="#gm94" id="id3"><span>[GM94]</span></a>. The following script constructs
 Hamiltonian of the Heisenberg chain with periodic boundary conditions
 (see <a class="reference internal" href="models_ref.html#pycommute.models.heisenberg" title="pycommute.models.heisenberg"><code class="xref py py-func docutils literal notranslate"><span class="pre">heisenberg()</span></code></a>)
 and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}] = 0\)</span>, <span class="math notranslate nohighlight">\([\hat H, Q_n] = 0\)</span> and
 <span class="math notranslate nohighlight">\([Q_n, Q_m] = 0\)</span> for <span class="math notranslate nohighlight">\(m,n = 3,4,5\)</span>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#</span>
-<span class="linenos"> 2</span><span class="c1"># Periodic spin-1/2 Heisenberg chain and its integrals of motion</span>
+<span class="linenos"> 2</span><span class="c1"># ## Periodic spin-1/2 Heisenberg chain and its integrals of motion</span>
 <span class="linenos"> 3</span><span class="c1">#</span>
 <span class="linenos"> 4</span><span class="c1"># Expressions for the integrals of motion are taken from</span>
 <span class="linenos"> 5</span><span class="c1">#</span>
@@ -325,7 +475,7 @@ and checks that <span class="math notranslate nohighlight">\([\hat H, \mathbf{S}
 <a class="reference internal" href="loperator_ref.html#module-pycommute.loperator" title="pycommute.loperator"><code class="xref py py-mod docutils literal notranslate"><span class="pre">loperator</span></code></a> module along with NumPy’s eigensolvers to
 diagonalize Hamiltonians of simple quantum models.</p>
 <p>We will consider a two-atom Jaynes-Cummings (Tavis-Cummings) Hamiltonian
-<a class="reference internal" href="#tc68" id="id3"><span>[TC68]</span></a>, which models a system of two qubits coherently coupled via a bosonic
+<a class="reference internal" href="#tc68" id="id4"><span>[TC68]</span></a>, which models a system of two qubits coherently coupled via a bosonic
 degree of freedom (quantum oscillator),</p>
 <div class="math notranslate nohighlight">
 \[\hat H = \epsilon (\hat S_{z,0} + \hat S_{z,1}) +
@@ -348,7 +498,7 @@ call overhead. For large-scale problems it is advised to call the utility
 function <a class="reference internal" href="loperator_ref.html#pycommute.loperator.make_matrix" title="pycommute.loperator.make_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code></a>.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#</span>
-<span class="linenos"> 2</span><span class="c1"># Diagonalization of a two-qubit Tavis-Cummings model.</span>
+<span class="linenos"> 2</span><span class="c1"># ## Diagonalization of a two-qubit Tavis-Cummings model</span>
 <span class="linenos"> 3</span><span class="c1">#</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -394,7 +544,7 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">45</span><span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
 <span class="linenos">46</span>
 <span class="linenos">47</span><span class="c1">#</span>
-<span class="linenos">48</span><span class="c1"># Prepare a matrix representation of &#39;H_op&#39;</span>
+<span class="linenos">48</span><span class="c1"># ### Prepare a matrix representation of `H_op`</span>
 <span class="linenos">49</span><span class="c1">#</span>
 <span class="linenos">50</span>
 <span class="linenos">51</span><span class="c1"># Method I (manual).</span>
@@ -411,10 +561,13 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 <span class="linenos">62</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max difference between H_mat1 and H_mat2:&quot;</span><span class="p">,</span>
 <span class="linenos">63</span>      <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">H_mat1</span> <span class="o">-</span> <span class="n">H_mat2</span><span class="p">)))</span>
 <span class="linenos">64</span>
-<span class="linenos">65</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat1</span>
-<span class="linenos">66</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat1</span><span class="p">)</span>
-<span class="linenos">67</span>
-<span class="linenos">68</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
+<span class="linenos">65</span><span class="c1">#</span>
+<span class="linenos">66</span><span class="c1"># ### Use NumPy to compute eigenvalues of `H_mat1`</span>
+<span class="linenos">67</span><span class="c1">#</span>
+<span class="linenos">68</span>
+<span class="linenos">69</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat1</span><span class="p">)</span>
+<span class="linenos">70</span>
+<span class="linenos">71</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Energies:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">))</span>
 </pre></div>
 </div>
 </section>
@@ -424,7 +577,7 @@ function <a class="reference internal" href="loperator_ref.html#pycommute.lopera
 to take an extra preparatory step and split the Hilbert space of the problem
 into subspaces (sectors) characterized by a set of quantum numbers.
 In many situations, it is possible to find the sectors even without knowing
-the quantities conserved by the Hamiltonian (see, for instance, <a class="reference internal" href="#skfp16" id="id4"><span>[SKFP16]</span></a>).</p>
+the quantities conserved by the Hamiltonian (see, for instance, <a class="reference internal" href="#skfp16" id="id5"><span>[SKFP16]</span></a>).</p>
 <p>In the script shown below we construct an electron-electron interaction
 Hamiltonian of an atomic <span class="math notranslate nohighlight">\(d\)</span>-shell using
 <a class="reference internal" href="models_ref.html#pycommute.models.slater_int" title="pycommute.models.slater_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">Slater</span></code></a> parameterization. Then, we employ
@@ -433,7 +586,7 @@ the <a class="reference internal" href="loperator_ref.html#pycommute.loperator.S
 optionally the <a class="reference internal" href="loperator_ref.html#pycommute.loperator.make_matrix" title="pycommute.loperator.make_matrix"><code class="xref py py-func docutils literal notranslate"><span class="pre">make_matrix()</span></code></a> function)
 to independently diagonalize the Hamiltonian within each sector.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">#</span>
-<span class="linenos"> 2</span><span class="c1"># Sector-wise diagonalization of the Slater interaction Hamiltonian.</span>
+<span class="linenos"> 2</span><span class="c1"># ## Sector-wise diagonalization of the Slater interaction Hamiltonian</span>
 <span class="linenos"> 3</span><span class="c1">#</span>
 <span class="linenos"> 4</span>
 <span class="linenos"> 5</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -493,7 +646,7 @@ to independently diagonalize the Hamiltonian within each sector.</p>
 <span class="linenos">59</span>    <span class="n">basis_mapper</span> <span class="o">=</span> <span class="n">BasisMapper</span><span class="p">(</span><span class="n">sector</span><span class="p">)</span>
 <span class="linenos">60</span>
 <span class="linenos">61</span>    <span class="c1">#</span>
-<span class="linenos">62</span>    <span class="c1"># Prepare a matrix representation of &#39;H_op&#39; within current sector.</span>
+<span class="linenos">62</span>    <span class="c1"># Prepare a matrix representation of `H_op` within current sector</span>
 <span class="linenos">63</span>    <span class="c1">#</span>
 <span class="linenos">64</span>
 <span class="linenos">65</span>    <span class="c1"># Method I (manual).</span>
@@ -566,8 +719,8 @@ a purely fermionic system. The definitions of a sector and a
 multisector stand in presence of bosons or spins.</p>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">#</span>
-<span class="linenos">  2</span><span class="c1"># Fermi-Hubbard model on a large square lattice and diagonalization of</span>
-<span class="linenos">  3</span><span class="c1"># its moderately sized sectors.</span>
+<span class="linenos">  2</span><span class="c1"># ## Fermi-Hubbard model on a large square lattice</span>
+<span class="linenos">  3</span><span class="c1"># ### and diagonalization of its moderately sized sectors</span>
 <span class="linenos">  4</span><span class="c1">#</span>
 <span class="linenos">  5</span>
 <span class="linenos">  6</span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -592,7 +745,7 @@ multisector stand in presence of bosons or spins.</p>
 <span class="linenos"> 25</span><span class="kn">from</span><span class="w"> </span><span class="nn">networkx.linalg.graphmatrix</span><span class="w"> </span><span class="kn">import</span> <span class="n">adjacency_matrix</span>
 <span class="linenos"> 26</span>
 <span class="linenos"> 27</span><span class="c1">#</span>
-<span class="linenos"> 28</span><span class="c1"># Let us define Hamiltonian of a tight-binding model on a square lattice.</span>
+<span class="linenos"> 28</span><span class="c1"># ### Hamiltonian of a tight-binding model on a square lattice</span>
 <span class="linenos"> 29</span><span class="c1">#</span>
 <span class="linenos"> 30</span>
 <span class="linenos"> 31</span><span class="c1"># Number of lattice sites in each direction</span>
@@ -640,7 +793,7 @@ multisector stand in presence of bosons or spins.</p>
 <span class="linenos"> 73</span><span class="n">H_op</span> <span class="o">=</span> <span class="n">LOperatorR</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">hs</span><span class="p">)</span>
 <span class="linenos"> 74</span>
 <span class="linenos"> 75</span><span class="c1">#</span>
-<span class="linenos"> 76</span><span class="c1"># Diagonalize the N = 2 sector of the model using &#39;NFermionSectorViewR&#39;</span>
+<span class="linenos"> 76</span><span class="c1"># ### Diagonalize the N = 2 sector of the model</span>
 <span class="linenos"> 77</span><span class="c1">#</span>
 <span class="linenos"> 78</span>
 <span class="linenos"> 79</span><span class="n">N</span> <span class="o">=</span> <span class="mi">2</span>
@@ -676,47 +829,46 @@ multisector stand in presence of bosons or spins.</p>
 <span class="linenos">109</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the N = 2 sector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
 <span class="linenos">110</span>
 <span class="linenos">111</span><span class="c1">#</span>
-<span class="linenos">112</span><span class="c1"># Diagonalize the N_up = 1, N_down = 1 multisector of the model using</span>
-<span class="linenos">113</span><span class="c1"># &#39;NFermionMultiSectorViewR&#39;</span>
-<span class="linenos">114</span><span class="c1">#</span>
-<span class="linenos">115</span>
-<span class="linenos">116</span><span class="n">N_up</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="linenos">117</span><span class="n">N_dn</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="linenos">118</span>
-<span class="linenos">119</span><span class="c1"># Define sectors contributing to the multisector</span>
-<span class="linenos">120</span><span class="n">sector_up</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_up</span><span class="p">,</span> <span class="n">N_up</span><span class="p">)</span>
-<span class="linenos">121</span><span class="n">sector_dn</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_dn</span><span class="p">,</span> <span class="n">N_dn</span><span class="p">)</span>
-<span class="linenos">122</span>
-<span class="linenos">123</span><span class="n">sectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">sector_up</span><span class="p">,</span> <span class="n">sector_dn</span><span class="p">]</span>
-<span class="linenos">124</span>
-<span class="linenos">125</span><span class="n">multisector_size</span> <span class="o">=</span> <span class="n">n_fermion_multisector_size</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
-<span class="linenos">126</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of the N_up = 1, N_down = 1 multisector:&quot;</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">)</span>
-<span class="linenos">127</span>
-<span class="linenos">128</span><span class="c1"># Prepare a matrix representation of H_op within the multisector.</span>
-<span class="linenos">129</span><span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">multisector_size</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">))</span>
-<span class="linenos">130</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">):</span>
-<span class="linenos">131</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
-<span class="linenos">132</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
-<span class="linenos">133</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
-<span class="linenos">134</span>    <span class="c1"># This vector will receive the result of H_op * psi</span>
-<span class="linenos">135</span>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
-<span class="linenos">136</span>
-<span class="linenos">137</span>    <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
-<span class="linenos">138</span>    <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
-<span class="linenos">139</span>    <span class="c1"># size hs.dim.</span>
-<span class="linenos">140</span>    <span class="c1"># Instead, we are going to use real-valued multisector views of psi and phi.</span>
-<span class="linenos">141</span>    <span class="n">psi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
-<span class="linenos">142</span>    <span class="n">phi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
-<span class="linenos">143</span>
-<span class="linenos">144</span>    <span class="c1"># Now, H_op can act on the mapped views.</span>
-<span class="linenos">145</span>    <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
-<span class="linenos">146</span>
-<span class="linenos">147</span>    <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
-<span class="linenos">148</span>    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
-<span class="linenos">149</span>
-<span class="linenos">150</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
-<span class="linenos">151</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
-<span class="linenos">152</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the multisector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
+<span class="linenos">112</span><span class="c1"># ### Diagonalize the N_up = 1, N_down = 1 multisector of the model</span>
+<span class="linenos">113</span><span class="c1">#</span>
+<span class="linenos">114</span>
+<span class="linenos">115</span><span class="n">N_up</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">116</span><span class="n">N_dn</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span><span class="c1"># Define sectors contributing to the multisector</span>
+<span class="linenos">119</span><span class="n">sector_up</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_up</span><span class="p">,</span> <span class="n">N_up</span><span class="p">)</span>
+<span class="linenos">120</span><span class="n">sector_dn</span> <span class="o">=</span> <span class="p">(</span><span class="n">indices_dn</span><span class="p">,</span> <span class="n">N_dn</span><span class="p">)</span>
+<span class="linenos">121</span>
+<span class="linenos">122</span><span class="n">sectors</span> <span class="o">=</span> <span class="p">[</span><span class="n">sector_up</span><span class="p">,</span> <span class="n">sector_dn</span><span class="p">]</span>
+<span class="linenos">123</span>
+<span class="linenos">124</span><span class="n">multisector_size</span> <span class="o">=</span> <span class="n">n_fermion_multisector_size</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
+<span class="linenos">125</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of the N_up = 1, N_down = 1 multisector:&quot;</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">)</span>
+<span class="linenos">126</span>
+<span class="linenos">127</span><span class="c1"># Prepare a matrix representation of H_op within the multisector.</span>
+<span class="linenos">128</span><span class="n">H_mat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">multisector_size</span><span class="p">,</span> <span class="n">multisector_size</span><span class="p">))</span>
+<span class="linenos">129</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">):</span>
+<span class="linenos">130</span>    <span class="c1"># A column vector psi = {0, 0, ..., 1, ..., 0}</span>
+<span class="linenos">131</span>    <span class="n">psi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
+<span class="linenos">132</span>    <span class="n">psi</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="linenos">133</span>    <span class="c1"># This vector will receive the result of H_op * psi</span>
+<span class="linenos">134</span>    <span class="n">phi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">multisector_size</span><span class="p">)</span>
+<span class="linenos">135</span>
+<span class="linenos">136</span>    <span class="c1"># Since both psi and phi are 1D NumPy arrays with size of the chosen</span>
+<span class="linenos">137</span>    <span class="c1"># sector, H_op cannot act on them directly as it expects vectors of</span>
+<span class="linenos">138</span>    <span class="c1"># size hs.dim.</span>
+<span class="linenos">139</span>    <span class="c1"># Instead, we are going to use real-valued multisector views of psi and phi.</span>
+<span class="linenos">140</span>    <span class="n">psi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">psi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
+<span class="linenos">141</span>    <span class="n">phi_view</span> <span class="o">=</span> <span class="n">NFermionMultiSectorViewR</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">hs</span><span class="p">,</span> <span class="n">sectors</span><span class="p">)</span>
+<span class="linenos">142</span>
+<span class="linenos">143</span>    <span class="c1"># Now, H_op can act on the mapped views.</span>
+<span class="linenos">144</span>    <span class="n">H_op</span><span class="p">(</span><span class="n">psi_view</span><span class="p">,</span> <span class="n">phi_view</span><span class="p">)</span>
+<span class="linenos">145</span>
+<span class="linenos">146</span>    <span class="c1"># Store H_op * psi in the i-th column of H_mat.</span>
+<span class="linenos">147</span>    <span class="n">H_mat</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">phi</span>
+<span class="linenos">148</span>
+<span class="linenos">149</span><span class="c1"># Use NumPy to compute eigenvalues of H_mat.</span>
+<span class="linenos">150</span><span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigvals</span><span class="p">(</span><span class="n">H_mat</span><span class="p">)</span><span class="o">.</span><span class="n">real</span>
+<span class="linenos">151</span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;10 lowest eigenvalues of the multisector:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">E</span><span class="p">)[:</span><span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
 </section>
@@ -730,7 +882,7 @@ found on the <a class="reference external" href="https://krivenko.github.io/libc
 <span class="math notranslate nohighlight">\(\gamma\)</span>-matrices in a Python script by extending the base class
 <a class="reference internal" href="expression_ref.html#pycommute.expression.Generator" title="pycommute.expression.Generator"><code class="xref py py-class docutils literal notranslate"><span class="pre">pycommute.expression.Generator</span></code></a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">#</span>
-<span class="linenos">  2</span><span class="c1"># User-defined algebra of Dirac \gamma-matrices</span>
+<span class="linenos">  2</span><span class="c1"># ## User-defined algebra of Dirac gamma matrices</span>
 <span class="linenos">  3</span><span class="c1">#</span>
 <span class="linenos">  4</span>
 <span class="linenos">  5</span><span class="c1"># Algebra generators and expressions</span>
@@ -743,7 +895,7 @@ found on the <a class="reference external" href="https://krivenko.github.io/libc
 <span class="linenos"> 12</span>
 <span class="linenos"> 13</span>
 <span class="linenos"> 14</span><span class="c1">#</span>
-<span class="linenos"> 15</span><span class="c1"># Our generator type: a \gamma-matrix with one integer index \mu = 0, ..., 3</span>
+<span class="linenos"> 15</span><span class="c1"># Our generator type: a gamma matrix with one integer index \mu = 0, ..., 3</span>
 <span class="linenos"> 16</span><span class="c1">#</span>
 <span class="linenos"> 17</span><span class="k">class</span><span class="w"> </span><span class="nc">GeneratorGamma</span><span class="p">(</span><span class="n">Generator</span><span class="p">):</span>
 <span class="linenos"> 18</span>
@@ -777,7 +929,7 @@ found on the <a class="reference external" href="https://krivenko.github.io/libc
 <span class="linenos"> 46</span>    <span class="c1"># This method will be called for g1 = self and g2 that are already</span>
 <span class="linenos"> 47</span>    <span class="c1"># canonically ordered, g1 &lt;= g2.</span>
 <span class="linenos"> 48</span>    <span class="c1">#</span>
-<span class="linenos"> 49</span>    <span class="c1"># It tries to simplify squares of \gamma-matrices,</span>
+<span class="linenos"> 49</span>    <span class="c1"># It tries to simplify squares of gamma matrices,</span>
 <span class="linenos"> 50</span>    <span class="c1"># f = (\gamma^0)^2 = I_4</span>
 <span class="linenos"> 51</span>    <span class="c1"># f = (\gamma^k)^2 = -I_4 for k = 1,2,3.</span>
 <span class="linenos"> 52</span>    <span class="k">def</span><span class="w"> </span><span class="nf">simplify_prod</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g2</span><span class="p">,</span> <span class="n">f</span><span class="p">):</span>
@@ -785,16 +937,16 @@ found on the <a class="reference external" href="https://krivenko.github.io/libc
 <span class="linenos"> 54</span>            <span class="c1"># Update the LinearFunctionGen object &#39;f&#39;.</span>
 <span class="linenos"> 55</span>            <span class="c1">#</span>
 <span class="linenos"> 56</span>            <span class="c1"># The constant term of &#39;f&#39; is equal to either 1 or -1, depending</span>
-<span class="linenos"> 57</span>            <span class="c1"># on which \gamma-matrix is being squared.</span>
+<span class="linenos"> 57</span>            <span class="c1"># on which gamma matrix is being squared.</span>
 <span class="linenos"> 58</span>            <span class="n">mu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 <span class="linenos"> 59</span>            <span class="n">f</span><span class="o">.</span><span class="n">const_term</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="p">(</span><span class="n">mu</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span>
 <span class="linenos"> 60</span>            <span class="c1"># &#39;f&#39; gets no contributions linear in the generators.</span>
 <span class="linenos"> 61</span>            <span class="n">f</span><span class="o">.</span><span class="n">terms</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="linenos"> 62</span>            <span class="k">return</span> <span class="kc">True</span>   <span class="c1"># A square of a \gamma-matrix has been simplified.</span>
+<span class="linenos"> 62</span>            <span class="k">return</span> <span class="kc">True</span>   <span class="c1"># A square of a gamma matrix has been simplified.</span>
 <span class="linenos"> 63</span>        <span class="k">else</span><span class="p">:</span>
 <span class="linenos"> 64</span>            <span class="k">return</span> <span class="kc">False</span>  <span class="c1"># No simplification has been applied.</span>
 <span class="linenos"> 65</span>
-<span class="linenos"> 66</span>    <span class="c1"># Compute Hermitian conjugate of a \gamma-matrix g = self,</span>
+<span class="linenos"> 66</span>    <span class="c1"># Compute Hermitian conjugate of a gamma matrix g = self,</span>
 <span class="linenos"> 67</span>    <span class="c1"># f = (\gamma_0)^+ = \gamma_0</span>
 <span class="linenos"> 68</span>    <span class="c1"># f = (\gamma_k)^+ = -\gamma_k, k=1,2,3.</span>
 <span class="linenos"> 69</span>    <span class="c1">#</span>
@@ -816,13 +968,13 @@ found on the <a class="reference external" href="https://krivenko.github.io/libc
 <span class="linenos"> 85</span>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;γ^</span><span class="si">{</span><span class="n">mu</span><span class="si">}</span><span class="s2">&quot;</span>
 <span class="linenos"> 86</span>
 <span class="linenos"> 87</span>
-<span class="linenos"> 88</span><span class="c1"># Convenience function: Make an expression out of one \gamma-matrix.</span>
+<span class="linenos"> 88</span><span class="c1"># Convenience function: Make an expression out of one gamma matrix.</span>
 <span class="linenos"> 89</span><span class="k">def</span><span class="w"> </span><span class="nf">gamma</span><span class="p">(</span><span class="n">mu</span><span class="p">):</span>
 <span class="linenos"> 90</span>    <span class="k">return</span> <span class="n">ExpressionC</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Monomial</span><span class="p">([</span><span class="n">GeneratorGamma</span><span class="p">(</span><span class="n">mu</span><span class="p">)]))</span>
 <span class="linenos"> 91</span>
 <span class="linenos"> 92</span>
 <span class="linenos"> 93</span><span class="c1">#</span>
-<span class="linenos"> 94</span><span class="c1"># Check that expressions with \gamma-matrices behave as expected</span>
+<span class="linenos"> 94</span><span class="c1"># ### Check that expressions with gamma matrices behave as expected</span>
 <span class="linenos"> 95</span><span class="c1">#</span>
 <span class="linenos"> 96</span>
 <span class="linenos"> 97</span><span class="c1"># Minkowski metric tensor</span>
@@ -854,22 +1006,29 @@ found on the <a class="reference external" href="https://krivenko.github.io/libc
 <section id="references">
 <h2>References<a class="headerlink" href="#references" title="Link to this heading"></a></h2>
 <div role="list" class="citation-list">
+<div class="citation" id="gdmm2013" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">GdMM2013</a><span class="fn-bracket">]</span></span>
+<p>“Strong Correlations from Hund’s Coupling”,
+A. Georges, L. de’ Medici and J. Mravlje,
+Annu. Rev. Condens. Matter Phys. 2013. 4:137–78,
+<a class="reference external" href="https://doi.org/10.1146/annurev-conmatphys-020911-125045">https://doi.org/10.1146/annurev-conmatphys-020911-125045</a></p>
+</div>
 <div class="citation" id="gm94" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">GM94</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">GM94</a><span class="fn-bracket">]</span></span>
 <p>“Quantum Integrals of Motion for the Heisenberg Spin Chain”,
 M. P. Grabowski and P. Mathieu,
 Mod. Phys. Lett. A, Vol. 09, No. 24, pp. 2197-2206 (1994),
 <a class="reference external" href="https://doi.org/10.1142/S0217732394002057">https://doi.org/10.1142/S0217732394002057</a></p>
 </div>
 <div class="citation" id="tc68" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">TC68</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">TC68</a><span class="fn-bracket">]</span></span>
 <p>“Exact Solution for an N-Molecule-Radiation-Field Hamiltonian”,
 M. Tavis and F. W. Cummings
 Phys. Rev. 170, 379 (1968)
 <a class="reference external" href="https://doi.org/10.1103/PhysRev.170.379">https://doi.org/10.1103/PhysRev.170.379</a></p>
 </div>
 <div class="citation" id="skfp16" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">SKFP16</a><span class="fn-bracket">]</span></span>
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">SKFP16</a><span class="fn-bracket">]</span></span>
 <p>“TRIQS/CTHYB: A continuous-time quantum Monte Carlo
 hybridisation expansion solver for quantum impurity problems”,
 P. Seth, I. Krivenko, M. Ferrero and O. Parcollet,
