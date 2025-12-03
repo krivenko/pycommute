@@ -9,7 +9,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #
-# Diagonalization of a two-qubit Tavis-Cummings model.
+# ## Diagonalization of a two-qubit Tavis-Cummings model
 #
 
 import numpy as np
@@ -55,7 +55,7 @@ hs = HilbertSpace([
 H_op = LOperatorR(H, hs)
 
 #
-# Prepare a matrix representation of 'H_op'
+# ### Prepare a matrix representation of `H_op`
 #
 
 # Method I (manual).
@@ -72,7 +72,10 @@ H_mat2 = make_matrix(H_op, hs)
 print("Max difference between H_mat1 and H_mat2:",
       np.max(np.abs(H_mat1 - H_mat2)))
 
-# Use NumPy to compute eigenvalues of H_mat1
+#
+# ### Use NumPy to compute eigenvalues of `H_mat1`
+#
+
 E = np.linalg.eigvals(H_mat1)
 
 print("Energies:", np.sort(E))

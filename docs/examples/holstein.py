@@ -9,7 +9,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #
-# Holstein model on a square lattice with periodic boundary conditions.
+# ## Holstein model on a square lattice with periodic boundary conditions
 #
 
 from itertools import product
@@ -23,8 +23,7 @@ from networkx.generators.lattice import grid_2d_graph
 from networkx.linalg.graphmatrix import adjacency_matrix
 
 #
-# Let us define Hamiltonian of the electronic tight-binding model
-# on a square lattice.
+# ### Hamiltonian of the electronic tight-binding model on a square lattice
 #
 
 # Number of lattice sites in each direction
@@ -50,7 +49,7 @@ H_e = tight_binding(hopping_matrix, indices=indices_up) \
     + tight_binding(hopping_matrix, indices=indices_dn)
 
 #
-# Hamiltonian of phonons localized at lattice sites.
+# ### Hamiltonian of phonons localized at lattice sites
 #
 
 # Frequency of the localized phonon.
@@ -64,7 +63,7 @@ phonon_freqs = w0 * np.ones(N ** 2)
 H_ph = dispersion(phonon_freqs, indices=indices_phonon, statistics=BOSON)
 
 #
-# Hamiltonian of electron-phonon coupling.
+# ### Hamiltonian of electron-phonon coupling
 #
 
 # Electron-phonon coupling constant.
@@ -93,7 +92,7 @@ for spin in ("up", "down"):
 print("[H_H, N_e] =", H_H * N_e - N_e * H_H)
 
 #
-# Iteration interface
+# ### Iteration interface
 #
 
 # Iterate over monomial-coefficient pairs in polynomial expression H_H

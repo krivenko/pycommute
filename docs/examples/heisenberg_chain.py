@@ -9,7 +9,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #
-# Periodic spin-1/2 Heisenberg chain and its integrals of motion
+# ## Periodic spin-1/2 Heisenberg chain and its integrals of motion
 #
 # Expressions for the integrals of motion are taken from
 #

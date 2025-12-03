@@ -9,8 +9,8 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #
-# Fermi-Hubbard model on a large square lattice and diagonalization of
-# its moderately sized sectors.
+# ## Fermi-Hubbard model on a large square lattice
+# ### and diagonalization of its moderately sized sectors
 #
 
 import numpy as np
@@ -35,7 +35,7 @@ from networkx.generators.lattice import grid_2d_graph
 from networkx.linalg.graphmatrix import adjacency_matrix
 
 #
-# Let us define Hamiltonian of a tight-binding model on a square lattice.
+# ### Hamiltonian of a tight-binding model on a square lattice
 #
 
 # Number of lattice sites in each direction
@@ -83,7 +83,7 @@ print("Full Hilbert space dimension:", hs.dim)
 H_op = LOperatorR(H, hs)
 
 #
-# Diagonalize the N = 2 sector of the model using 'NFermionSectorViewR'
+# ### Diagonalize the N = 2 sector of the model
 #
 
 N = 2
@@ -119,8 +119,7 @@ E = np.linalg.eigvals(H_mat).real
 print("10 lowest eigenvalues of the N = 2 sector:", np.sort(E)[:10])
 
 #
-# Diagonalize the N_up = 1, N_down = 1 multisector of the model using
-# 'NFermionMultiSectorViewR'
+# ### Diagonalize the N_up = 1, N_down = 1 multisector of the model
 #
 
 N_up = 1

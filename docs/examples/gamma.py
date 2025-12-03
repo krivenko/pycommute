@@ -9,7 +9,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #
-# User-defined algebra of Dirac \gamma-matrices
+# ## User-defined algebra of Dirac gamma matrices
 #
 
 # Algebra generators and expressions
@@ -22,7 +22,7 @@ from pycommute.expression import (Indices,
 
 
 #
-# Our generator type: a \gamma-matrix with one integer index \mu = 0, ..., 3
+# Our generator type: a gamma matrix with one integer index \mu = 0, ..., 3
 #
 class GeneratorGamma(Generator):
 
@@ -56,7 +56,7 @@ class GeneratorGamma(Generator):
     # This method will be called for g1 = self and g2 that are already
     # canonically ordered, g1 <= g2.
     #
-    # It tries to simplify squares of \gamma-matrices,
+    # It tries to simplify squares of gamma matrices,
     # f = (\gamma^0)^2 = I_4
     # f = (\gamma^k)^2 = -I_4 for k = 1,2,3.
     def simplify_prod(self, g2, f):
@@ -64,16 +64,16 @@ class GeneratorGamma(Generator):
             # Update the LinearFunctionGen object 'f'.
             #
             # The constant term of 'f' is equal to either 1 or -1, depending
-            # on which \gamma-matrix is being squared.
+            # on which gamma matrix is being squared.
             mu = self.indices[0]
             f.const_term = 1 if (mu == 0) else -1
             # 'f' gets no contributions linear in the generators.
             f.terms = []
-            return True   # A square of a \gamma-matrix has been simplified.
+            return True   # A square of a gamma matrix has been simplified.
         else:
             return False  # No simplification has been applied.
 
-    # Compute Hermitian conjugate of a \gamma-matrix g = self,
+    # Compute Hermitian conjugate of a gamma matrix g = self,
     # f = (\gamma_0)^+ = \gamma_0
     # f = (\gamma_k)^+ = -\gamma_k, k=1,2,3.
     #
@@ -95,13 +95,13 @@ class GeneratorGamma(Generator):
         return f"γ^{mu}"
 
 
-# Convenience function: Make an expression out of one \gamma-matrix.
+# Convenience function: Make an expression out of one gamma matrix.
 def gamma(mu):
     return ExpressionC(1.0, Monomial([GeneratorGamma(mu)]))
 
 
 #
-# Check that expressions with \gamma-matrices behave as expected
+# ### Check that expressions with gamma matrices behave as expected
 #
 
 # Minkowski metric tensor

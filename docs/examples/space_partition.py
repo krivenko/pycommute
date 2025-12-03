@@ -9,7 +9,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 #
-# Sector-wise diagonalization of the Slater interaction Hamiltonian.
+# ## Sector-wise diagonalization of the Slater interaction Hamiltonian
 #
 
 import numpy as np
@@ -69,7 +69,7 @@ for n, sector in enumerate(sectors):
     basis_mapper = BasisMapper(sector)
 
     #
-    # Prepare a matrix representation of 'H_op' within current sector.
+    # Prepare a matrix representation of `H_op` within current sector
     #
 
     # Method I (manual).
