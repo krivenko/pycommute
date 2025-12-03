@@ -1,71 +1,88 @@
-FROM ubuntu:20.04 as base
+FROM ubuntu:24.04 AS base
 LABEL maintainer="Igor Krivenko <iskrivenko@proton.me>"
 LABEL description="libcommute/pycommute demonstration image"
 
-# Git branch/tag name
-ARG GIT_REF_NAME=master
+# libcommute Git branch/tag name
+ARG LIBCOMMUTE_GIT_REF_NAME=master
 
 # Suppress all confirmation dialogs from apt-get
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Create docker user
-RUN useradd -m -s /bin/bash -u 999 docker && echo "docker:docker" | chpasswd
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+RUN useradd -m -s /bin/bash -u 9999 docker && echo "docker:docker" | chpasswd
 
 # Install dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    build-essential \
-    coreutils \
-    cmake \
-    python3 \
-    libpython3-dev \
-    python3-setuptools \
-    python3-wheel \
-    python3-pip
+# hadolint ignore=DL3008
+RUN <<EOT
+apt-get update
+apt-get install -y --no-install-recommends \
+    git build-essential coreutils cmake \
+    libeigen3-dev libboost-dev libgmp-dev \
+    python3 libpython3-dev python3-venv
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+EOT
 
-FROM base as builder
+#
+# Build libcommute & pycommute
+#
+
+FROM base AS builder
 USER docker
 WORKDIR /home/docker
 
-# Build and install libcommute
-RUN git clone --branch ${GIT_REF_NAME} \
-        https://github.com/krivenko/libcommute libcommute.git && \
-    mkdir libcommute.build && \
-    cd libcommute.build && \
-    cmake ../libcommute.git -DCMAKE_INSTALL_PREFIX=${HOME}/.local \
+# Clone libcommute sources
+RUN git clone --branch "${LIBCOMMUTE_GIT_REF_NAME}" \
+        https://github.com/krivenko/libcommute libcommute.git
+
+# Configure libcommute build
+WORKDIR /home/docker/libcommute.build
+RUN cmake ../libcommute.git -DCMAKE_INSTALL_PREFIX=/home/docker/libcommute \
           -DCMAKE_BUILD_TYPE=Release \
           -DTESTS=ON \
-          -DEXAMPLES=ON && \
-    make -j3 && \
-    make test && \
-    make install
+          -DEXAMPLES=ON
+
+# Build, test and install libcommute
+RUN make -j4 VERBOSE=1 && ctest --output-on-failure && make install
+
+# Create and activate virtual environment
+RUN python3 -m venv /home/docker/venv
+ENV PATH="/home/docker/venv/bin:$PATH"
+
+# Copy pycommute sources into the builder
+COPY --chown=docker:docker . /home/docker/pycommute
 
 # Install Python dependencies
-COPY requirements.txt requirements.txt
-RUN export PATH=${HOME}/.local/bin:${PATH} && \
-    pip3 install --user -r requirements.txt && \
-    pip3 install --user scipy jupyter p2j
+WORKDIR /home/docker/pycommute
+RUN <<EOT
+pip install --no-cache-dir -r requirements.txt
+pip install --no-cache-dir scipy==1.16.* jupyter==1.1.* jupytext==1.18.*
+EOT
 
 # Build and install pycommute
-COPY --chown=docker:docker . pycommute
-WORKDIR /home/docker/pycommute
-RUN LIBCOMMUTE_INCLUDEDIR=/home/docker/.local/include \
-    python3 setup.py install --user
+ENV LIBCOMMUTE_INCLUDEDIR=/home/docker/libcommute/include
+RUN pip install --no-cache-dir --verbose .
 
-# Prepare and run Jupyter
-FROM base as app
+# Convert pycommute examples to Jupyter notebooks
+WORKDIR /home/docker/pycommute/docs/examples
+RUN jupytext --to notebook --set-kernel python3 -- *.py && rm -- *.py
+
+#
+# Create application image with Jupyter setup
+#
+
+FROM base AS app
 USER docker
 WORKDIR /home/docker
+ENV PATH="/home/docker/venv/bin:$PATH"
 
-COPY --from=builder --chown=docker:docker /home/docker/.local .local
+# Copy files from the builder to the app image
+COPY --from=builder --chown=docker:docker /home/docker/venv venv
 COPY --from=builder --chown=docker:docker /home/docker/pycommute/docs/examples \
      pycommute_examples
-# Convert examples to Jupyter notebooks
-RUN cd pycommute_examples && \
-    for f in *.py; do /home/docker/.local/bin/p2j ${f}; done && \
-    rm *.py
 
 # Run Jupyter notebook
 WORKDIR /home/docker/pycommute_examples
 EXPOSE 8888
-CMD ["/home/docker/.local/bin/jupyter","notebook","--ip","0.0.0.0"]
+CMD ["jupyter","notebook","--ip","0.0.0.0"]
