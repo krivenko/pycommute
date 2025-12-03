@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
 
     - name: Set up QEMU
@@ -24,13 +24,13 @@ jobs:
 
     - name: Build and push
       id: docker_build
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v6
       with:
         push: true
         tags: |
               ikrivenko/pycommute:${{ github.ref_name }}
               ikrivenko/pycommute:latest
-        build-args: GIT_REF_NAME=${{ github.ref_name }}
+        build-args: LIBCOMMUTE_GIT_REF_NAME=${{ github.ref_name }}
 
     - name: Image digest
       run: echo ${{ steps.docker_build.outputs.digest }}
