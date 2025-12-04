@@ -42,7 +42,14 @@ Automated installation of the PyPI package
 ------------------------------------------
 
 ```
-pip install pycommute
+$ pip install pycommute
+```
+
+Automated installation of the conda package
+-------------------------------------------
+
+```
+$ conda install krivenko::pycommute
 ```
 
 Docker images
@@ -52,7 +59,7 @@ Docker images of tagged releases of *pycommute* are available from
 [Docker Hub](https://hub.docker.com/repository/docker/ikrivenko/pycommute).
 
 ```
-docker run --rm -p 8888:8888 ikrivenko/pycommute:latest
+$ docker run --rm -p 8888:8888 ikrivenko/pycommute:latest
 ```
 
 This command will pull the most recent image and launch a

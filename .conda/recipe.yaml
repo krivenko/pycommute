@@ -1,0 +1,72 @@
+context:
+  name: pycommute
+  version: ${{ env.get("PYCOMMUTE_VERSION") }}
+  libcommute_version: ${{ env.get("LIBCOMMUTE_VERSION") }}
+  python: ${{ env.get('PYTHON_VERSION') }}
+  number: 0
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+about:
+  homepage: https://krivenko.github.io/pycommute/
+  license: MPL-2.0
+  license_file: LICENSE
+  summary: >
+    Python bindings for the libcommute quantum operator algebra DSL
+    and exact diagonalization toolkit for C++
+  description: >
+    These bindings inherit a subset of functionality supported by the
+    C++ template library: They expose polynomial expression and linear operator
+    types with real and complex coefficients built out of fermionic, bosonic
+    and spin operators (user-defined operator algebras are also supported).
+    As a bonus, pycommute features a handful of Python functions that help
+    construct Hamiltonians of some models widely used in the theory of quantum
+    many-body systems, quantum optics and the theory of spin lattices.
+
+  repository: https://github.com/krivenko/pycommute
+  documentation: https://krivenko.github.io/pycommute/
+
+source:
+  git: https://github.com/krivenko/pycommute.git
+  tag: v${{ version }}
+
+build:
+  number: ${{ number }}
+  string: py${{ python | replace(".", "") }}h${{ hash }}_${{ number }}
+  script: |
+          $PYTHON -m build --wheel --no-isolation --skip-dependency-check
+          $PYTHON -m pip install dist/pycommute*.whl
+  files:
+    exclude:  # Remove C++ source files from the final package
+      - "**/*.hpp"
+      - "**/*.cpp"
+
+requirements:
+  build:
+    - ${{ compiler('cxx') }}
+  host:
+    - libcommute ==${{ libcommute_version }}
+    - python ${{ python }}.*
+    - pip
+    - python-build
+    - setuptools >=42.0.0
+    - packaging >=17.0
+    - pybind11 >=3.0.0
+  run:
+    - python ${{ python }}.*
+    - numpy >=1.12.0
+
+tests:
+  - python:
+      imports:
+        - pycommute
+        - pycommute.expression
+        - pycommute.loperator
+        - pycommute.models
+  - script:
+      interpreter: python
+      content: |
+        import pycommute
+        assert pycommute.__version__ == "${{ version }}"
