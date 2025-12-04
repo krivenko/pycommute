@@ -19,8 +19,8 @@ from packaging.specifiers import SpecifierSet
 from packaging.version import Version
 from pybind11.setup_helpers import Pybind11Extension, build_ext
 
-__version__ = "1.0.0"
-comp_libcommute_versions = ">=1.0.0"
+__version__ = '1.0.0'
+comp_libcommute_versions = '>=1.0.0'
 
 ext_modules = [
     Pybind11Extension("pycommute/expression", ["src/pycommute/expression.cpp"]),

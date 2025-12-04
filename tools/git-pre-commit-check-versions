@@ -9,13 +9,18 @@ if ! flake8 . ; then
 fi
 
 # Check consistency of versions in setup.py and in docs/conf.py
-SETUP_PY_VERSION=$(sed -n "s/^__version__ = \"\([0-9.]*\)\"/\1/p" setup.py)
+SETUP_PY_VERSION=$(sed -n "s/^__version__ = '\([0-9.]*\)'/\1/p" setup.py)
 CONF_PY_VERSION=$(sed -n "s/^version = '\([0-9.]*\)'/\1/p" docs/conf.py)
+PACKAGE_VERSION=$(
+    sed -n "s/^__version__ = '\([0-9.]*\)'/\1/p" src/pycommute/__init__.py
+)
 
 echo "SETUP_PY_VERSION=${SETUP_PY_VERSION}"
 echo "CONF_PY_VERSION=${CONF_PY_VERSION}"
+echo "PACKAGE_VERSION=${PACKAGE_VERSION}"
 
-if [ "$SETUP_PY_VERSION" != "$CONF_PY_VERSION" ]; then
+if [ "$SETUP_PY_VERSION" != "$CONF_PY_VERSION" ] ||
+   [ "$SETUP_PY_VERSION" != "$PACKAGE_VERSION" ]; then
     echo "Versions don't match"
     exit 1
 fi
