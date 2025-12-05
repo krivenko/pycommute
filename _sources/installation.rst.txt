@@ -40,6 +40,21 @@ Automated installation of the PyPI package
 
   pip install pycommute
 
+Automated installation of the conda package (Anaconda.org)
+----------------------------------------------------------
+
+Installation via '`conda <https://www.anaconda.com/>`_' or
+'`mamba <https://mamba.readthedocs.io/en/latest/>`_' package manager:
+
+.. code-block:: shell
+
+  $ conda install krivenko::pycommute
+  $ mamba install krivenko::pycommute
+
+The packages have been provided through the
+`'krivenko' Anaconda.org channel <https://anaconda.org/krivenko/pycommute>`_
+since version 1.0.0.
+
 Docker images
 -------------
 
