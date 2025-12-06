@@ -16,6 +16,20 @@ You can find a few
 [API reference](https://krivenko.github.io/pycommute/reference.html) at
 *pycommute*'s [documentation website](https://krivenko.github.io/pycommute/).
 
+Automated installation of the PyPI package
+------------------------------------------
+
+```
+$ pip install pycommute
+```
+
+Automated installation of the conda package
+-------------------------------------------
+
+```
+$ conda install krivenko::pycommute
+```
+
 Installation from sources
 -------------------------
 
@@ -37,20 +51,6 @@ LIBCOMMUTE_INCLUDEDIR="<path_to_libcommute>/include" pip install .
 
 ``<path_to_libcommute>`` must be either installation or source directory of
 *libcommute*.
-
-Automated installation of the PyPI package
-------------------------------------------
-
-```
-$ pip install pycommute
-```
-
-Automated installation of the conda package
--------------------------------------------
-
-```
-$ conda install krivenko::pycommute
-```
 
 Docker images
 -------------
