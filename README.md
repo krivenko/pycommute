@@ -2,6 +2,8 @@
 
 [![Package on PyPI](https://img.shields.io/pypi/v/pycommute.svg)](
 https://pypi.org/project/pycommute)
+[![Package on Anaconda.org](https://anaconda.org/krivenko/pycommute/badges/version.svg)](
+https://anaconda.org/channels/krivenko/packages/pycommute/overview)
 [![Build and test](https://github.com/krivenko/pycommute/actions/workflows/build-and-test.yml/badge.svg)](
 https://github.com/krivenko/pycommute/actions/workflows/build-and-test.yml)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-red)](
