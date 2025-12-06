@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.0.0] - Unreleased
+## [1.0.0] - 2025-12-06
 
 - Enable support for Python 3.11, 3.12, 3.13 and 3.14.
 - Drop support for Python 3.6 and 3.7.
