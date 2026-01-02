@@ -13,7 +13,6 @@ jobs:
   build-and-test:
     strategy:
       matrix:
-        os: [ubuntu-22.04, macos-14]
         python-version:
           - "3.8"
           - "3.9"
@@ -22,10 +21,20 @@ jobs:
           - "3.12"
           - "3.13"
           - "3.14"
-        cxx_compiler:
-          - { name: "gcc", cc: "gcc", cxx: "g++" }
-          - { name: "clang", cc: "clang", cxx: "clang++" }
-    runs-on: ${{ matrix.os }}
+        os-compiler:
+          # Ubuntu
+          - {os: "ubuntu-latest", cc: "gcc-14", cxx: "g++-14"}
+          - {os: "ubuntu-latest", cc: "clang", cxx: "clang++"}
+          # macOS aarch64
+          - {os: "macos-latest", cc: "gcc-15", cxx: "g++-15"}
+          - {os: "macos-latest", cc: "clang", cxx: "clang++"}
+          # macOS x86-64
+          # macos-15-intel is probably the last supported macOS x86-64 runner
+          # https://github.com/actions/runner-images/issues/13074
+          - {os: "macos-15-intel", cc: "gcc-15", cxx: "g++-15"}
+          - {os: "macos-15-intel", cc: "clang", cxx: "clang++"}
+
+    runs-on: ${{ matrix.os-compiler.os }}
 
     steps:
     - uses: actions/checkout@v4
@@ -55,8 +64,8 @@ jobs:
       run: |
            export LIBCOMMUTE_DIR=${GITHUB_WORKSPACE}/libcommute.installed
            export LIBCOMMUTE_INCLUDEDIR=${LIBCOMMUTE_DIR}/include
-           export CC="${{ matrix.cxx_compiler.cc }}"
-           export CXX="${{ matrix.cxx_compiler.cxx }}"
+           export CC="${{ matrix.os-compiler.cc }}"
+           export CXX="${{ matrix.os-compiler.cxx }}"
            tox -e py
 
     - name: Lint with flake8
