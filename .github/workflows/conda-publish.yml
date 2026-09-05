@@ -9,6 +9,7 @@ jobs:
   build-upload:
 
     strategy:
+      fail-fast: false
       matrix:
         # macos-15-intel is probably the last supported macOS x86-64 runner
         # https://github.com/actions/runner-images/issues/13074
@@ -25,11 +26,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Set up micromamba (Linux)
         if: runner.os == 'Linux'
-        uses: mamba-org/setup-micromamba@v2
+        uses: mamba-org/setup-micromamba@v3
         with:
           environment-name: build-env
           condarc: |
@@ -44,7 +45,7 @@ jobs:
 
       - name: Set up micromamba (macOS)
         if: runner.os == 'macOS'
-        uses: mamba-org/setup-micromamba@v2
+        uses: mamba-org/setup-micromamba@v3
         with:
           environment-name: build-env
           condarc: |

@@ -9,9 +9,15 @@ on:
     branches:
       - master
 
+# Cancel existing runs when a new commit is pushed to the same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build-and-test:
     strategy:
+      fail-fast: false
       matrix:
         python-version:
           - "3.8"
@@ -35,9 +41,10 @@ jobs:
           - {os: "macos-15-intel", cc: "clang", cxx: "clang++"}
 
     runs-on: ${{ matrix.os-compiler.os }}
+    timeout-minutes: 60
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v7
 
     - name: Install libcommute
       run: |
@@ -51,7 +58,7 @@ jobs:
            popd
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v7
       with:
         python-version: ${{ matrix.python-version }}
 
