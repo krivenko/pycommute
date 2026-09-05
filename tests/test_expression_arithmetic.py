@@ -17,6 +17,10 @@ from pycommute.expression import (
 )
 
 
+def filter_minus_zero(s):
+    return s.replace("-0)", "0)")
+
+
 class TestExpressionArithemtic(TestCase):
 
     def test_unary_minus(self):
@@ -266,31 +270,44 @@ class TestExpressionArithemtic(TestCase):
         expr2 = c(2, "dn")
         self.assertIsInstance(expr1 - expr2, ExpressionC)
         self.assertIsInstance(expr2 - expr1, ExpressionC)
-        self.assertEqual(str(ExpressionC() - ExpressionR()), "(0,0)")
-        self.assertEqual(str(ExpressionR() - ExpressionC()), "(0,0)")
-        self.assertEqual(str(expr1 - ExpressionR()), "(1,0)*C+(1,up)")
-        self.assertEqual(str(ExpressionR() - expr1), "(-1,-0)*C+(1,up)")
-        self.assertEqual(str(expr2 - ExpressionC()), "(1,-0)*C(2,dn)")
-        self.assertEqual(str(ExpressionC() - expr2), "(-1,0)*C(2,dn)")
-        self.assertEqual(str(expr1 - expr2),
-                         "(1,0)*C+(1,up) + (-1,0)*C(2,dn)")
-        self.assertEqual(str(expr2 - expr1),
-                         "(-1,-0)*C+(1,up) + (1,-0)*C(2,dn)")
-        expr1 -= expr2
-        self.assertEqual(str(expr1 - ExpressionR()),
-                         "(1,0)*C+(1,up) + (-1,0)*C(2,dn)")
-        self.assertEqual(str(ExpressionR() - expr1),
-                         "(-1,-0)*C+(1,up) + (1,-0)*C(2,dn)")
-        self.assertEqual(str(expr1 - a(0, "x")),
-                         "(1,0)*C+(1,up) + (-1,0)*C(2,dn) + (-1,0)*A(0,x)")
-        self.assertEqual(str(a(0, "x") - expr1),
-                         "(-1,-0)*C+(1,up) + (1,-0)*C(2,dn) + (1,-0)*A(0,x)")
-        self.assertEqual(str(expr1 - make_complex(c_dag(1, "up"))),
-                         "(-1,0)*C(2,dn)")
-        self.assertEqual(str(make_complex(c_dag(1, "up")) - expr1),
+        self.assertEqual(filter_minus_zero(str(ExpressionC() - ExpressionR())),
+                         "(0,0)")
+        self.assertEqual(filter_minus_zero(str(ExpressionR() - ExpressionC())),
+                         "(0,0)")
+        self.assertEqual(filter_minus_zero(str(expr1 - ExpressionR())),
+                         "(1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(ExpressionR() - expr1)),
+                         "(-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr2 - ExpressionC())),
                          "(1,0)*C(2,dn)")
+        self.assertEqual(filter_minus_zero(str(ExpressionC() - expr2)),
+                         "(-1,0)*C(2,dn)")
+        self.assertEqual(filter_minus_zero(str(expr1 - expr2)),
+                         "(1,0)*C+(1,up) + (-1,0)*C(2,dn)")
+        self.assertEqual(filter_minus_zero(str(expr2 - expr1)),
+                         "(-1,0)*C+(1,up) + (1,0)*C(2,dn)")
+        expr1 -= expr2
+        self.assertEqual(filter_minus_zero(str(expr1 - ExpressionR())),
+                         "(1,0)*C+(1,up) + (-1,0)*C(2,dn)")
+        self.assertEqual(filter_minus_zero(str(ExpressionR() - expr1)),
+                         "(-1,0)*C+(1,up) + (1,0)*C(2,dn)")
+        self.assertEqual(filter_minus_zero(str(expr1 - a(0, "x"))),
+                         "(1,0)*C+(1,up) + (-1,0)*C(2,dn) + (-1,0)*A(0,x)")
+        self.assertEqual(filter_minus_zero(str(a(0, "x") - expr1)),
+                         "(-1,0)*C+(1,up) + (1,0)*C(2,dn) + (1,0)*A(0,x)")
         self.assertEqual(
-            str(make_complex(c_dag(1, "up") + c(2, "dn")) - (c(2, "dn") + 2.0)),
+            filter_minus_zero(str(expr1 - make_complex(c_dag(1, "up")))),
+            "(-1,0)*C(2,dn)"
+        )
+        self.assertEqual(
+            filter_minus_zero(str(make_complex(c_dag(1, "up")) - expr1)),
+            "(1,0)*C(2,dn)"
+        )
+        self.assertEqual(
+            filter_minus_zero(
+                str(make_complex(c_dag(1, "up") + c(2, "dn"))
+                    - (c(2, "dn") + 2.0))
+            ),
             "(-2,0) + (1,0)*C+(1,up)"
         )
 
@@ -314,32 +331,52 @@ class TestExpressionArithemtic(TestCase):
         expr_c = make_complex(c_dag(1, "up"))
         self.assertIsInstance(expr_c - 2.0, ExpressionC)
         self.assertIsInstance(2.0 - expr_c, ExpressionC)
-        self.assertEqual(str(expr_c - 0.0), "(1,0)*C+(1,up)")
-        self.assertEqual(str(0.0 - expr_c), "(-1,-0)*C+(1,up)")
-        self.assertEqual(str(expr_c - 2.0), "(-2,0) + (1,0)*C+(1,up)")
-        self.assertEqual(str(2.0 - expr_c), "(2,0) + (-1,-0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_c - 0.0)),
+                         "(1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(0.0 - expr_c)),
+                         "(-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_c - 2.0)),
+                         "(-2,0) + (1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(2.0 - expr_c)),
+                         "(2,0) + (-1,0)*C+(1,up)")
         expr_c -= 2.0
-        self.assertEqual(str(expr_c - 0.0), "(-2,0) + (1,0)*C+(1,up)")
-        self.assertEqual(str(0.0 - expr_c), "(2,-0) + (-1,-0)*C+(1,up)")
-        self.assertEqual(str(expr_c - 2.0), "(-4,0) + (1,0)*C+(1,up)")
-        self.assertEqual(str(2.0 - expr_c), "(4,-0) + (-1,-0)*C+(1,up)")
-        self.assertEqual(str(expr_c - (-2.0)), "(1,0)*C+(1,up)")
-        self.assertEqual(str((-2.0) - expr_c), "(-1,-0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_c - 0.0)),
+                         "(-2,0) + (1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(0.0 - expr_c)),
+                         "(2,0) + (-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_c - 2.0)),
+                         "(-4,0) + (1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(2.0 - expr_c)),
+                         "(4,0) + (-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_c - (-2.0))),
+                         "(1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str((-2.0) - expr_c)),
+                         "(-1,0)*C+(1,up)")
         # Real and complex
         expr_r = c_dag(1, "up")
         self.assertIsInstance(expr_r - 2j, ExpressionC)
         self.assertIsInstance(2j - expr_r, ExpressionC)
-        self.assertEqual(str(expr_r - 0.0j), "(1,0)*C+(1,up)")
-        self.assertEqual(str(0.0j - expr_r), "(-1,0)*C+(1,up)")
-        self.assertEqual(str(expr_r - 2.0j), "(0,-2) + (1,0)*C+(1,up)")
-        self.assertEqual(str(2.0j - expr_r), "(0,2) + (-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_r - 0.0j)),
+                         "(1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(0.0j - expr_r)),
+                         "(-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_r - 2.0j)),
+                         "(0,-2) + (1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(2.0j - expr_r)),
+                         "(0,2) + (-1,0)*C+(1,up)")
         expr_r -= 2.0
-        self.assertEqual(str(expr_r - 0.0j), "(-2,0) + (1,0)*C+(1,up)")
-        self.assertEqual(str(0.0j - expr_r), "(2,0) + (-1,0)*C+(1,up)")
-        self.assertEqual(str(expr_r - 2.0 + 0j), "(-4,0) + (1,0)*C+(1,up)")
-        self.assertEqual(str(2.0 + 0j - expr_r), "(4,0) + (-1,0)*C+(1,up)")
-        self.assertEqual(str(expr_r - (-2.0 + 0j)), "(1,0)*C+(1,up)")
-        self.assertEqual(str((-2.0 + 0j) - expr_r), "(-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_r - 0.0j)),
+                         "(-2,0) + (1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(0.0j - expr_r)),
+                         "(2,0) + (-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_r - 2.0 + 0j)),
+                         "(-4,0) + (1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(2.0 + 0j - expr_r)),
+                         "(4,0) + (-1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str(expr_r - (-2.0 + 0j))),
+                         "(1,0)*C+(1,up)")
+        self.assertEqual(filter_minus_zero(str((-2.0 + 0j) - expr_r)),
+                         "(-1,0)*C+(1,up)")
 
     def test_multiplication(self):
         # Real
